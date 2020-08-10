@@ -1,5 +1,7 @@
 <template>
-  <p>Hello world!!</p>
+  <div>
+    <pre>{{ $store.state.rooms.data }}</pre>
+  </div>
 </template>
 
 <script>
@@ -9,8 +11,3 @@ export default {
   },
 };
 </script>
-
-<style lang="sass" scoped>
-p
-  font-size: 20px
-</style>

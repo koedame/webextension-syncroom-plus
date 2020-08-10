@@ -8,5 +8,5 @@ setInterval(() => {
       // String型である必要があるので変換
       text: String(store.state.rooms.data.total_published_rooms),
     });
-  })
-}, 5000);
+  });
+}, 30000);
