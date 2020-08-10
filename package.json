@@ -1,7 +1,7 @@
 {
-  "name": "sync-room-plus",
+  "name": "syncroom-plus",
   "version": "1.0.0",
-  "description": "\"SyncRoom Extension\"",
+  "description": "SYNCROOM Extension",
   "author": "",
   "engines": {
     "node": ">=10"
