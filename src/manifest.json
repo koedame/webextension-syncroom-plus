@@ -12,10 +12,12 @@
     "default_popup": "popup/popup.html"
   },
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "scripts": ["background.js"]
   },
+  "content_scripts": [{
+    "matches": ["https://syncroom.yamaha.com/play/"],
+    "js": ["content_script/content_script.js"]
+  }],
   "options_ui": {
     "page": "options/options.html",
     "chrome_style": false
