@@ -21,6 +21,7 @@
     "chrome_style": false
   },
   "permissions": [
-    "https://*.yamaha.com/*"
+    "https://*.yamaha.com/*",
+    "storage"
   ]
 }

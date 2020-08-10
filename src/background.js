@@ -4,10 +4,10 @@ import axios from 'axios';
 global.browser = require('webextension-polyfill');
 
 setInterval(() => {
-  axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
+  store.dispatch('rooms/fetch').then(() => {
     browser.browserAction.setBadgeText({
       // String型である必要があるので変換
-      text: String(res.data.total_published_rooms),
+      text: String(store.state.rooms.data.total_published_rooms),
     });
-  });
+  })
 }, 5000);

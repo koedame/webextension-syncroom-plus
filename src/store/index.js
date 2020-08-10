@@ -1,17 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import * as getters from './getters';
-import mutations from './mutations';
-import * as actions from './actions';
+import VuexWebExtensions from 'vuex-webextensions';
 
 Vue.use(Vuex);
 
+import rooms from './rooms.js'
+
 export default new Vuex.Store({
-  state: {
-    foo: 'bar',
+  plugins: [VuexWebExtensions({
+    // persistentStates: ['currentTabUrl'],
+  })],
+  // state: {
+  //   currentTabUrl: '',
+  // },
+  modules: {
+    rooms: rooms,
   },
-  getters,
-  mutations,
-  actions,
-});
+})
