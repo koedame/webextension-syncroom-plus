@@ -1,6 +1,5 @@
 import store from './store';
 
-import axios from 'axios';
 global.browser = require('webextension-polyfill');
 
 setInterval(() => {
