@@ -1,20 +1,31 @@
 <template>
   <div class="card">
     <div class="card__header">
-      <span>{{ numMembers }}</span>
-      <span>{{ createTime }}</span>
-      <span>☆</span>
+      <span class="card__header__item">{{ numMembers }}</span>
+      <span class="card__header__item card__header__item--timer">{{ remainingTime }}</span>
+      <span class="card__header__item">☆</span>
     </div>
     <div class="card__body">
-      <h3>{{ roomName }}</h3>
+      <h3 class="room_name">{{ roomName }}</h3>
 
-      <button type="button" @click="onOpenTentativeSyncroom">仮入室</button>
-      <button type="button" @click="onOpenSyncroom">ルームに入る</button>
+      <p class="room_desc">{{ roomDesc }}</p>
+
+      <p class="members">
+        <span>{{ members.join(' / ') }}</span>
+      </p>
+
+      <div class="card__body__buttons">
+        <button class="card__body__buttons__button card__body__buttons__button--tentative" type="button" @click="onOpenTentativeSyncroom">仮入室</button>
+        <button class="card__body__buttons__button" type="button" @click="onOpenSyncroom">ルームに入る</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import moment from "moment"
+require("moment-timezone")
+
 export default {
   props: {
     realm: {
@@ -65,6 +76,9 @@ export default {
       type: Boolean,
       required: true,
     },
+  },
+  data(){
+    return { timer: null, remainingTime: '' }
   },
   methods: {
     onOpenSyncroom() {
@@ -129,13 +143,38 @@ export default {
 
       return uri;
     },
+
+    updateRemainingTime(){
+      let currentTime = moment()
+
+      // 終る時間(5時間後)
+      let endAt = moment(this.createTime).add(5, 'h')
+
+      // // 残り時間
+      let remainingTime = endAt.diff(currentTime)
+
+      this.remainingTime = moment.tz(remainingTime, "UTC").format('hh:mm:ss')
+    }
   },
+
+  created() {
+    this.timer = setInterval(() => {
+      this.updateRemainingTime()
+    }, 500)
+  },
+
+  beforeDestroy () {
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
+  },
+
 };
 </script>
 
 <style lang="sass" scoped>
 .card
-  margin: 5px
+  margin: 5px 5px 15px 5px
   width: 275px
   border: solid 2px #000074
   background: #D9E2FE
@@ -144,9 +183,67 @@ export default {
     background: #000074
     color: #fff
     font-weight: normal
-    font-size: 16px
+    font-size: 14px
+    display: flex
+    justify-content: space-between
+
+    &__item
+      &--timer
+        background: #3E3E3E
+        padding: 0 1em
 
   &__body
     padding: 10px
     font-size: 12px
+
+    .room_name
+      font-size: 15px
+      font-weight: bold
+      margin-bottom: 0.5em
+
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+    .room_desc
+      font-size: 12px
+      background: #F9FCFF
+      padding: 0em 0.5em
+      margin-bottom: 1em
+
+      display: -webkit-box
+      overflow: hidden
+      -webkit-line-clamp: 3
+      -webkit-box-orient: vertical
+
+      height: calc( 1.8em * 3 )
+      line-height: 1.8em
+
+    .members
+      margin-bottom: 1em
+
+    &__buttons
+      display: flex
+      justify-content: space-between
+
+      &__button
+        display: inline-block
+        width: calc(70% - 5px)
+        background: #1300C3
+        border: none
+        color: #fff
+        cursor: pointer
+
+        &:hover
+          opacity: 0.7
+
+        &:focus
+          outline: none
+
+        &--tentative
+          display: inline-block
+          width: calc(30% - 5px)
+          border: none
+          background: #D2D3DD
+          color: #3E3E3E
 </style>
