@@ -9,10 +9,10 @@
 
     p.room_desc {{ roomDesc }}
 
-    .members(:style="`background-image: url(${getBackgroundLogoLink()})`")
+    .members(:style="`background-image: url(${backgroundLogoLink})`")
       .members__item(v-for="(member, i) in members", :key="member")
         .members__item__left
-          img.members__item__left__icon(:src="iconlist[i].iconurl || getMemberIconLink(iconlist[i].icon)")
+          img.members__item__left__icon(:src="iconlist[i].iconurl || memberIconLinks[iconlist[i].icon]")
         .members__item__right
           .members__item__right__name
             | {{ member }}
@@ -35,7 +35,7 @@
       button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom")
         | 仮入室
       button.card__body__buttons__button(type="button" @click="onOpenSyncroom")
-        img.card__body__buttons__button__icon(v-if="needPasswd", :src="getIconLockLink()")
+        img.card__body__buttons__button__icon(v-if="needPasswd", :src="iconLockLink")
         | ルームに入る
 </template>
 
@@ -99,18 +99,30 @@ export default {
     VolumeMeter,
   },
   data() {
-    return { timer: null, remainingTime: '' };
+    return {
+      timer: null,
+      remainingTime: '',
+      memberIconLinks: [
+        browser.extension.getURL('/icons/member-icon-0.png'),
+        browser.extension.getURL('/icons/member-icon-1.png'),
+        browser.extension.getURL('/icons/member-icon-2.png'),
+        browser.extension.getURL('/icons/member-icon-3.png'),
+        browser.extension.getURL('/icons/member-icon-4.png'),
+        browser.extension.getURL('/icons/member-icon-5.png'),
+        browser.extension.getURL('/icons/member-icon-6.png'),
+        browser.extension.getURL('/icons/member-icon-7.png'),
+        browser.extension.getURL('/icons/member-icon-8.png'),
+        browser.extension.getURL('/icons/member-icon-9.png'),
+        browser.extension.getURL('/icons/member-icon-10.png'),
+        browser.extension.getURL('/icons/member-icon-11.png'),
+        browser.extension.getURL('/icons/member-icon-12.png'),
+        browser.extension.getURL('/icons/member-icon-13.png'),
+      ],
+      backgroundLogoLink: browser.extension.getURL('/icons/icon-background-logo.png'),
+      iconLockLink: browser.extension.getURL('/icons/icon-lock.png'),
+    };
   },
   methods: {
-    getBackgroundLogoLink() {
-      return browser.extension.getURL('/icons/icon-background-logo.png');
-    },
-    getMemberIconLink(i) {
-      return browser.extension.getURL('/icons/member-icon-' + i + '.png');
-    },
-    getIconLockLink() {
-      return browser.extension.getURL('/icons/icon-lock.png');
-    },
     onOpenSyncroom() {
       if (this.needPasswd) {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');

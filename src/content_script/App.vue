@@ -1,10 +1,10 @@
 <template lang="pug">
-#SYNCROOM_PLUS-main
+#SYNCROOM_PLUS-main(v-if="rooms")
   h2.SYNCROOM_PLUS-main__subtitle ルーム一覧
 
   .SYNCROOM_PLUS-main__rooms
     RoomCard(
-      v-for="room in $store.state.rooms.data.rooms",
+      v-for="room in rooms",
       :key="room.creator_nick",
       :createTime="room.create_time",
       :creatorIcon="room.creator_icon",
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import RoomCard from './components/RoomCard';
 
 export default {
@@ -29,10 +30,30 @@ export default {
     RoomCard,
   },
   data() {
-    return {};
+    return {
+      timer: null,
+      rooms: null,
+    };
   },
-  async beforeCreate() {
-    await this.$store.dispatch('rooms/fetch');
+  mounted() {
+    this.fetchRooms();
+    this.timer = setInterval(() => {
+      this.fetchRooms();
+    }, 5000);
+  },
+
+  methods: {
+    fetchRooms() {
+      axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
+        this.rooms = res.data.rooms;
+      });
+    },
+  },
+
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   },
 };
 </script>
