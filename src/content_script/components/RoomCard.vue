@@ -1,9 +1,9 @@
 <template lang="pug">
 .card(:class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }")
   .card__header
-    span.card__header__item {{ numMembers }}
+    span.card__header__item
     span.card__header__item.card__header__item--timer {{ remainingTime }}
-    span.card__header__item ☆
+    span.card__header__item
   .card__body
     h3.room_name {{ roomName }}
 
@@ -32,8 +32,11 @@
       button.card__body__buttons__button(type="button") 満室
 
     .card__body__buttons(v-else)
-      button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom") 仮入室
-      button.card__body__buttons__button(type="button" @click="onOpenSyncroom") ルームに入る
+      button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom")
+        | 仮入室
+      button.card__body__buttons__button(type="button" @click="onOpenSyncroom")
+        img.card__body__buttons__button__icon(v-if="needPasswd", :src="getIconLockLink()")
+        | ルームに入る
 </template>
 
 <script>
@@ -101,6 +104,9 @@ export default {
   methods: {
     getMemberIconLink(i) {
       return browser.extension.getURL('/icons/member-icon-' + i + '.png');
+    },
+    getIconLockLink() {
+      return browser.extension.getURL('/icons/icon-lock.png');
     },
     onOpenSyncroom() {
       if (this.needPasswd) {
@@ -293,6 +299,12 @@ export default {
 
         &:focus
           outline: none
+
+        &__icon
+          width: 13px
+          height: 13px
+          vertical-align: text-top
+          margin-right: 0.5em
 
         &--tentative
           display: inline-block
