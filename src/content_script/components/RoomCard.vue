@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="{ 'card--no_vacancy': isNoVacancy }">
+  <div class="card" :class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }">
     <div class="card__header">
       <span class="card__header__item">{{ numMembers }}</span>
       <span class="card__header__item card__header__item--timer">{{ remainingTime }}</span>
@@ -198,7 +198,6 @@ export default {
 
     &__item
       &--timer
-        background: #3E3E3E
         padding: 0 1em
 
   &__body
@@ -258,6 +257,24 @@ export default {
           background: #D2D3DD
           color: #3E3E3E
 
+.card.card--need_passwd
+  border: solid 2px #272727
+  background: #eaeaea
+
+  .card__header
+    background: #272727
+    &__item
+      &--timer
+
+  .card__body
+    &__buttons
+      &__button
+        background: #272727
+        &--tentative
+          background: #D2D3DD
+          color: #3E3E3E
+        &:hover
+
 .card.card--no_vacancy
   border: solid 2px #A3A3A3
   background: #E6E6E6
@@ -279,5 +296,4 @@ export default {
 
         &:hover
           opacity: 1
-
 </style>
