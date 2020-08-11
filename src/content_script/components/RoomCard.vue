@@ -17,16 +17,16 @@
           .members__item__right__name
             | {{ member }}
           .members__item__right__volumes
-
-      .members__item(v-for="i in (unknownMemberNum)", :key="i")
+            VolumeMeter
+      .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
         .members__item__left
           img.members__item__left__icon(:src="getMemberIconLink(0)")
         .members__item__right
           .members__item__right__name
-            | （取得できませんでした）
+            | ?????
           .members__item__right__volumes
-
-      .members__item(v-for="i in (emptyNum)", :key="i")
+            VolumeMeter
+      .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
 
     .card__body__buttons--no_vacancy(v-if="isNoVacancy")
       button.card__body__buttons__button(type="button") 満室
@@ -39,6 +39,7 @@
 <script>
 import moment from 'moment';
 require('moment-timezone');
+import VolumeMeter from '../components/VolumeMeter';
 
 export default {
   props: {
@@ -91,13 +92,16 @@ export default {
       required: true,
     },
   },
+  components: {
+    VolumeMeter,
+  },
   data() {
     return { timer: null, remainingTime: '' };
   },
   methods: {
     getMemberIconLink(i) {
       // FIXME: Firefox対応
-      return chrome.extension.getURL('/icons/member-icon-' + i + '.png');
+      return browser.extension.getURL('/icons/member-icon-' + i + '.png');
     },
     onOpenSyncroom() {
       if (this.needPasswd) {
