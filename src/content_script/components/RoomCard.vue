@@ -20,7 +20,7 @@
             VolumeMeter
       .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
         .members__item__left
-          img.members__item__left__icon(:src="getMemberIconLink(0)")
+          .members__item__left__icon.members__item__left__icon--unknown
         .members__item__right
           .members__item__right__name
             | ?????
@@ -268,10 +268,13 @@ export default {
           border-bottom: none
 
         &__left
-          width: 35px
+          width: 40px
           &__icon
             width: 35px
             height: 35px
+            &--unknown
+              background: #888
+
         &__right
           margin-left: 5px
           width: calc(100% - 10px)
