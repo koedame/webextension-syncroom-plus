@@ -1,28 +1,23 @@
-<template>
-  <div class="card" :class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }">
-    <div class="card__header">
-      <span class="card__header__item">{{ numMembers }}</span>
-      <span class="card__header__item card__header__item--timer">{{ remainingTime }}</span>
-      <span class="card__header__item">☆</span>
-    </div>
-    <div class="card__body">
-      <h3 class="room_name">{{ roomName }}</h3>
+<template lang="pug">
+.card(:class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }")
+  .card__header
+    span.card__header__item {{ numMembers }}
+    span.card__header__item.card__header__item--timer {{ remainingTime }}
+    span.card__header__item ☆
+  .card__body
+    h3.room_name {{ roomName }}
 
-      <p class="room_desc">{{ roomDesc }}</p>
+    p.room_desc {{ roomDesc }}
 
-      <p class="members">
-        <span>{{ members.join(' / ') }}</span>
-      </p>
+    p.members
+      span {{ members.join(' / ') }}
 
-      <div v-if="isNoVacancy" class="card__body__buttons--no_vacancy">
-        <button class="card__body__buttons__button" type="button">満室</button>
-      </div>
-      <div v-else class="card__body__buttons">
-        <button class="card__body__buttons__button card__body__buttons__button--tentative" type="button" @click="onOpenTentativeSyncroom">仮入室</button>
-        <button class="card__body__buttons__button" type="button" @click="onOpenSyncroom">ルームに入る</button>
-      </div>
-    </div>
-  </div>
+    .card__body__buttons--no_vacancy(v-if="isNoVacancy")
+      button.card__body__buttons__button(type="button") 満室
+
+    .card__body__buttons(v-else)
+      button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom") 仮入室
+      button.card__body__buttons__button(type="button" @click="onOpenSyncroom") ルームに入る
 </template>
 
 <script>

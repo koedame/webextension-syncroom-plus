@@ -65,6 +65,10 @@ const config = {
           esModule: false,
         },
       },
+      {
+        test: /\.pug$/,
+        loader: 'pug-plain-loader'
+      }
     ],
   },
   plugins: [

@@ -1,7 +1,6 @@
-<template>
-  <div>
-    <pre>{{ $store.state.rooms.data }}</pre>
-  </div>
+<template lang="pug">
+div
+  pre {{ $store.state.rooms.data }}
 </template>
 
 <script>
