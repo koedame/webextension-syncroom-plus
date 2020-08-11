@@ -1,12 +1,11 @@
 <template lang="pug">
 div
-  pre {{ $store.state.rooms.data }}
 </template>
 
 <script>
 export default {
-  data() {
-    return {};
+  mounted() {
+    window.open('https://syncroom.yamaha.com/play/');
   },
 };
 </script>
