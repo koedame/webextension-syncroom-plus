@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="{ 'card--no_vacancy': isNoVacancy }">
     <div class="card__header">
       <span class="card__header__item">{{ numMembers }}</span>
       <span class="card__header__item card__header__item--timer">{{ remainingTime }}</span>
@@ -14,7 +14,10 @@
         <span>{{ members.join(' / ') }}</span>
       </p>
 
-      <div class="card__body__buttons">
+      <div v-if="isNoVacancy" class="card__body__buttons--no_vacancy">
+        <button class="card__body__buttons__button" type="button">満室</button>
+      </div>
+      <div v-else class="card__body__buttons">
         <button class="card__body__buttons__button card__body__buttons__button--tentative" type="button" @click="onOpenTentativeSyncroom">仮入室</button>
         <button class="card__body__buttons__button" type="button" @click="onOpenSyncroom">ルームに入る</button>
       </div>
@@ -163,6 +166,12 @@ export default {
     }, 500)
   },
 
+  computed: {
+    isNoVacancy(){
+      return this.numMembers === 5
+    }
+  },
+
   beforeDestroy () {
     if (this.timer) {
       clearInterval(this.timer)
@@ -248,4 +257,27 @@ export default {
           border: none
           background: #D2D3DD
           color: #3E3E3E
+
+.card.card--no_vacancy
+  border: solid 2px #A3A3A3
+  background: #E6E6E6
+
+  .card__header
+    background: #A3A3A3
+    &__item
+      &--timer
+        background: none
+
+  .card__body
+    color: #808080
+    &__buttons
+      &__button
+        display: block
+        width: 100%
+        background: #818181
+        cursor: not-allowed
+
+        &:hover
+          opacity: 1
+
 </style>
