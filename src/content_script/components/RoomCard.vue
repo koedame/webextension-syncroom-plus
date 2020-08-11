@@ -100,7 +100,6 @@ export default {
   },
   methods: {
     getMemberIconLink(i) {
-      // FIXME: Firefox対応
       return browser.extension.getURL('/icons/member-icon-' + i + '.png');
     },
     onOpenSyncroom() {
