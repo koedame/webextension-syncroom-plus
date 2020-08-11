@@ -13,6 +13,7 @@ const config = {
     'background': './background.js',
     'popup/popup': './popup/popup.js',
     'options/options': './options/options.js',
+    'content_script/content_script': './content_script/content_script.js'
   },
   output: {
     path: __dirname + '/dist',
@@ -34,15 +35,15 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: ['vue-style-loader', 'css-loader'],
       },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: ['vue-style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.sass$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader?indentedSyntax'],
+        use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax'],
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg|ico)$/,
