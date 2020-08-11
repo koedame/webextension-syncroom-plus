@@ -38,8 +38,8 @@
 
 <script>
 import moment from 'moment';
-require('moment-timezone');
 import VolumeMeter from '../components/VolumeMeter';
+require('moment-timezone');
 
 export default {
   props: {
