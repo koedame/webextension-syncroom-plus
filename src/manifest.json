@@ -14,16 +14,16 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "content_scripts": [{
-    "matches": ["https://syncroom.yamaha.com/play/"],
-    "js": ["content_script/content_script.js"]
-  }],
+  "content_scripts": [
+    {
+      "matches": ["https://syncroom.yamaha.com/play/"],
+      "js": ["content_script/content_script.js"]
+    }
+  ],
   "options_ui": {
     "page": "options/options.html",
     "chrome_style": false
   },
-  "permissions": [
-    "https://*.yamaha.com/*",
-    "storage"
-  ]
+  "permissions": ["https://*.yamaha.com/*", "storage"],
+  "web_accessible_resources": ["icons/*.png"]
 }
