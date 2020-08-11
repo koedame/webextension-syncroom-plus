@@ -9,8 +9,24 @@
 
     p.room_desc {{ roomDesc }}
 
-    p.members
-      span {{ members.join(' / ') }}
+    .members
+      .members__item(v-for="(member, i) in members", :key="member")
+        .members__item__left
+          img.members__item__left__icon(:src="iconlist[i].iconurl || getMemberIconLink(iconlist[i].icon)")
+        .members__item__right
+          .members__item__right__name
+            | {{ member }}
+          .members__item__right__volumes
+            VolumeMeter
+      .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
+        .members__item__left
+          img.members__item__left__icon(:src="getMemberIconLink(0)")
+        .members__item__right
+          .members__item__right__name
+            | ?????
+          .members__item__right__volumes
+            VolumeMeter
+      .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
 
     .card__body__buttons--no_vacancy(v-if="isNoVacancy")
       button.card__body__buttons__button(type="button") 満室
@@ -22,6 +38,7 @@
 
 <script>
 import moment from 'moment';
+import VolumeMeter from '../components/VolumeMeter';
 require('moment-timezone');
 
 export default {
@@ -75,10 +92,16 @@ export default {
       required: true,
     },
   },
+  components: {
+    VolumeMeter,
+  },
   data() {
     return { timer: null, remainingTime: '' };
   },
   methods: {
+    getMemberIconLink(i) {
+      return browser.extension.getURL('/icons/member-icon-' + i + '.png');
+    },
     onOpenSyncroom() {
       if (this.needPasswd) {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
@@ -161,6 +184,12 @@ export default {
     isNoVacancy() {
       return this.numMembers === 5;
     },
+    unknownMemberNum() {
+      return this.numMembers - this.members.length;
+    },
+    emptyNum() {
+      return 5 - this.numMembers;
+    },
   },
 
   beforeDestroy() {
@@ -219,6 +248,31 @@ export default {
 
     .members
       margin-bottom: 1em
+      background: #fff
+      overflow: hidden
+
+      &__item
+        display: flex
+        justify-content: space-between
+        padding: 5px
+        border-bottom: solid 2px #9090B0
+        height: 47px
+
+        &:last-child
+          border-bottom: none
+
+        &__left
+          width: 35px
+          &__icon
+            width: 35px
+            height: 35px
+        &__right
+          margin-left: 5px
+          width: calc(100% - 10px)
+          &__name
+
+          &__volumes
+
 
     &__buttons
       display: flex
