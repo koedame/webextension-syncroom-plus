@@ -9,7 +9,7 @@
 
     p.room_desc {{ roomDesc }}
 
-    .members
+    .members(:style="`background-image: url(${getBackgroundLogoLink()})`")
       .members__item(v-for="(member, i) in members", :key="member")
         .members__item__left
           img.members__item__left__icon(:src="iconlist[i].iconurl || getMemberIconLink(iconlist[i].icon)")
@@ -102,6 +102,9 @@ export default {
     return { timer: null, remainingTime: '' };
   },
   methods: {
+    getBackgroundLogoLink() {
+      return browser.extension.getURL('/icons/icon-background-logo.png');
+    },
     getMemberIconLink(i) {
       return browser.extension.getURL('/icons/member-icon-' + i + '.png');
     },
@@ -255,6 +258,9 @@ export default {
     .members
       margin-bottom: 1em
       background: #F9FCFF
+      background-color: #F9FCFF
+      background-repeat: no-repeat
+      background-size: contain
       overflow: hidden
 
       &__item
