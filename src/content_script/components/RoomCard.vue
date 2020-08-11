@@ -144,11 +144,7 @@ export default {
 
     updateRemainingTime() {
       const currentTime = moment();
-
-      // 終る時間(5時間後)
       const endAt = moment(this.createTime).add(6, 'h');
-
-      // // 残り時間
       const remainingTime = endAt.diff(currentTime);
 
       this.remainingTime = moment.tz(remainingTime, 'UTC').format('hh:mm:ss');
