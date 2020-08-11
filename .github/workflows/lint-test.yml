@@ -1,0 +1,26 @@
+name: Check code using lint and test, when push a commit
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  run_lint_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ '14.7.0' ]
+    timeout-minutes: 300
+    steps:
+      - name: checkout pushed commit
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: run lint and test
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: npm install
+
+      - run: npm run lint
