@@ -19,8 +19,6 @@
       :roomDesc="room.room_desc || ''",
       :roomName="room.room_name"
     )
-  pre
-    | {{ $store.state.rooms.data }}
 </template>
 
 <script>
