@@ -188,10 +188,9 @@ export default {
 
     updateRemainingTime() {
       const currentTime = moment();
-      const endAt = moment(this.createTime).add(6, 'h');
+      const endAt = moment(this.createTime, 'YYYY-MM-DD hh:mm:ss zz').add(6, 'h');
       const remainingTime = endAt.diff(currentTime);
-
-      this.remainingTime = moment.tz(remainingTime, 'UTC').format('hh:mm:ss');
+      this.remainingTime = moment(remainingTime).format('hh:mm:ss');
     },
   },
 
