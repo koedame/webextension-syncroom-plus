@@ -22,7 +22,7 @@
   ],
   "options_ui": {
     "page": "options/options.html",
-    "chrome_style": false
+    "open_in_tab": false
   },
   "permissions": ["https://*.yamaha.com/*", "storage"],
   "web_accessible_resources": ["icons/*.png"]
