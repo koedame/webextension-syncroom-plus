@@ -1,14 +1,14 @@
 name: 静的解析
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, push, pull_request]
 
 jobs:
   run_lint_and_test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '14.7.0' ]
+        node: ['14.7.0']
     timeout-minutes: 300
     steps:
       - name: checkout pushed commit
