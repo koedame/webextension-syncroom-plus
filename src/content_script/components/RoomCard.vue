@@ -1,15 +1,15 @@
 <template lang="pug">
 .card(:class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }")
   .card__header
-    span.card__header__item {{ numMembers }}
+    span.card__header__item
     span.card__header__item.card__header__item--timer {{ remainingTime }}
-    span.card__header__item ☆
+    span.card__header__item
   .card__body
     h3.room_name {{ roomName }}
 
     p.room_desc {{ roomDesc }}
 
-    .members
+    .members(:style="`background-image: url(${getBackgroundLogoLink()})`")
       .members__item(v-for="(member, i) in members", :key="member")
         .members__item__left
           img.members__item__left__icon(:src="iconlist[i].iconurl || getMemberIconLink(iconlist[i].icon)")
@@ -20,7 +20,7 @@
             VolumeMeter
       .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
         .members__item__left
-          img.members__item__left__icon(:src="getMemberIconLink(0)")
+          .members__item__left__icon.members__item__left__icon--unknown
         .members__item__right
           .members__item__right__name
             | ?????
@@ -32,8 +32,11 @@
       button.card__body__buttons__button(type="button") 満室
 
     .card__body__buttons(v-else)
-      button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom") 仮入室
-      button.card__body__buttons__button(type="button" @click="onOpenSyncroom") ルームに入る
+      button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom")
+        | 仮入室
+      button.card__body__buttons__button(type="button" @click="onOpenSyncroom")
+        img.card__body__buttons__button__icon(v-if="needPasswd", :src="getIconLockLink()")
+        | ルームに入る
 </template>
 
 <script>
@@ -99,8 +102,14 @@ export default {
     return { timer: null, remainingTime: '' };
   },
   methods: {
+    getBackgroundLogoLink() {
+      return browser.extension.getURL('/icons/icon-background-logo.png');
+    },
     getMemberIconLink(i) {
       return browser.extension.getURL('/icons/member-icon-' + i + '.png');
+    },
+    getIconLockLink() {
+      return browser.extension.getURL('/icons/icon-lock.png');
     },
     onOpenSyncroom() {
       if (this.needPasswd) {
@@ -248,7 +257,10 @@ export default {
 
     .members
       margin-bottom: 1em
-      background: #fff
+      background: #F9FCFF
+      background-color: #F9FCFF
+      background-repeat: no-repeat
+      background-size: contain
       overflow: hidden
 
       &__item
@@ -262,10 +274,13 @@ export default {
           border-bottom: none
 
         &__left
-          width: 35px
+          width: 40px
           &__icon
             width: 35px
             height: 35px
+            &--unknown
+              background: #888
+
         &__right
           margin-left: 5px
           width: calc(100% - 10px)
@@ -293,6 +308,12 @@ export default {
 
         &:focus
           outline: none
+
+        &__icon
+          width: 13px
+          height: 13px
+          vertical-align: text-top
+          margin-right: 0.5em
 
         &--tentative
           display: inline-block
