@@ -254,7 +254,7 @@ export default {
 
     .members
       margin-bottom: 1em
-      background: #fff
+      background: #F9FCFF
       overflow: hidden
 
       &__item
