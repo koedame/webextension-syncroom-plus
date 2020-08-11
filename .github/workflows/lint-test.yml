@@ -1,4 +1,4 @@
-name: Check code using lint and test, when push a commit
+name: 静的解析
 on:
   pull_request:
     types: [opened, synchronize]
