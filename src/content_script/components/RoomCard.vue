@@ -41,7 +41,7 @@
 
 <script>
 import moment from 'moment';
-import VolumeMeter from '../components/VolumeMeter';
+import VolumeMeter from './VolumeMeter';
 require('moment-timezone');
 
 export default {
