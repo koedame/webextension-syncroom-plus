@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import moment from "moment"
-require("moment-timezone")
+import moment from 'moment';
+require('moment-timezone');
 
 export default {
   props: {
@@ -80,30 +80,30 @@ export default {
       required: true,
     },
   },
-  data(){
-    return { timer: null, remainingTime: '' }
+  data() {
+    return { timer: null, remainingTime: '' };
   },
   methods: {
     onOpenSyncroom() {
-      if (this.needPasswd){
+      if (this.needPasswd) {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
 
         if (pwPrompt) {
           location.href = this.makeJoinUri(this.roomName, pwPrompt, 4, 2);
         }
-      }else{
+      } else {
         location.href = this.makeJoinUri(this.roomName, '', 4, 2);
       }
     },
 
     onOpenTentativeSyncroom() {
-      if (this.needPasswd){
+      if (this.needPasswd) {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
 
         if (pwPrompt) {
           location.href = this.makeJoinUri(this.roomName, pwPrompt, 4, 3);
         }
-      }else{
+      } else {
         location.href = this.makeJoinUri(this.roomName, '', 4, 3);
       }
     },
@@ -147,37 +147,36 @@ export default {
       return uri;
     },
 
-    updateRemainingTime(){
-      let currentTime = moment()
+    updateRemainingTime() {
+      const currentTime = moment();
 
       // 終る時間(5時間後)
-      let endAt = moment(this.createTime).add(6, 'h')
+      const endAt = moment(this.createTime).add(6, 'h');
 
       // // 残り時間
-      let remainingTime = endAt.diff(currentTime)
+      const remainingTime = endAt.diff(currentTime);
 
-      this.remainingTime = moment.tz(remainingTime, "UTC").format('hh:mm:ss')
-    }
+      this.remainingTime = moment.tz(remainingTime, 'UTC').format('hh:mm:ss');
+    },
   },
 
   created() {
     this.timer = setInterval(() => {
-      this.updateRemainingTime()
-    }, 500)
+      this.updateRemainingTime();
+    }, 500);
   },
 
   computed: {
-    isNoVacancy(){
-      return this.numMembers === 5
-    }
+    isNoVacancy() {
+      return this.numMembers === 5;
+    },
   },
 
-  beforeDestroy () {
+  beforeDestroy() {
     if (this.timer) {
-      clearInterval(this.timer)
+      clearInterval(this.timer);
     }
   },
-
 };
 </script>
 
