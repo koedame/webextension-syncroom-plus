@@ -148,7 +148,7 @@ export default {
       let currentTime = moment()
 
       // 終る時間(5時間後)
-      let endAt = moment(this.createTime).add(5, 'h')
+      let endAt = moment(this.createTime).add(6, 'h')
 
       // // 残り時間
       let remainingTime = endAt.diff(currentTime)
