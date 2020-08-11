@@ -175,7 +175,7 @@ export default {
 <style lang="sass" scoped>
 .card
   margin: 5px 5px 15px 5px
-  width: 275px
+  width: 300px
   border: solid 2px #000074
   background: #D9E2FE
 
@@ -183,7 +183,7 @@ export default {
     background: #000074
     color: #fff
     font-weight: normal
-    font-size: 14px
+    font-size: 15px
     display: flex
     justify-content: space-between
 
@@ -233,6 +233,8 @@ export default {
         border: none
         color: #fff
         cursor: pointer
+        line-height: 3em
+        font-size: 13px
 
         &:hover
           opacity: 0.7
