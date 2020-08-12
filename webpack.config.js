@@ -10,10 +10,10 @@ const config = {
   mode: process.env.NODE_ENV,
   context: __dirname + '/src',
   entry: {
-    'background': './background.js',
-    'popup/popup': './popup/popup.js',
+    background: './background.js',
+    // 'popup/popup': './popup/popup.js',
     'options/options': './options/options.js',
-    'content_script/content_script': './content_script/content_script.js'
+    'content_script/content_script': './content_script/content_script.js',
   },
   output: {
     path: __dirname + '/dist',
@@ -67,8 +67,8 @@ const config = {
       },
       {
         test: /\.pug$/,
-        loader: 'pug-plain-loader'
-      }
+        loader: 'pug-plain-loader',
+      },
     ],
   },
   plugins: [
@@ -81,12 +81,12 @@ const config = {
     }),
     new CopyPlugin([
       { from: 'icons', to: 'icons', ignore: ['icon.xcf'] },
-      { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
+      // { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
       { from: 'options/options.html', to: 'options/options.html', transform: transformHtml },
       {
         from: 'manifest.json',
         to: 'manifest.json',
-        transform: (content) => {
+        transform: content => {
           const jsonContent = JSON.parse(content);
           jsonContent.version = version;
 
