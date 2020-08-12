@@ -78,9 +78,6 @@ export default {
 .room-list-enter-active, .room-list-leave-active
   transition: all 500ms
 
-.room-list-enter, .room-list-leave-to
-  opacity: 0
-
 .room-list-leave-active
   // 移動のトランジションをさせる場合は非表示アニメーション中は position: absoluteを指定しないと正しく動作しない
   position: absolute
