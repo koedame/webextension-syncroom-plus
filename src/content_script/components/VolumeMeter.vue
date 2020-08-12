@@ -1,6 +1,7 @@
 <template lang="pug">
 .volume_meter
-  span.volume_meter__block(v-for="i in num")
+  span.volume_meter__block(v-for="i in 15")
+  span.volume_meter__mask(:style="`width: ${num}px`")
 </template>
 
 <script>
@@ -10,8 +11,8 @@ export default {
   },
   created() {
     this.timer = setInterval(() => {
-      this.num = Math.floor(Math.random() * (10 - 1) + 1);
-    }, 200);
+      this.num = Math.floor(Math.random() * 15) * 5 + 180;
+    }, 250);
   },
   beforeDestroy() {
     if (this.timer) {
@@ -28,6 +29,7 @@ export default {
   height: 9px
   padding: 3px
   overflow: hidden
+  position: relative
 
   &__block
     vertical-align: top
@@ -36,4 +38,10 @@ export default {
     height: 3px
     background: #24E332
     margin-right: 2px
+  &__mask
+    height: 9px
+    background: #000
+    position: absolute
+    top: 0
+    right: 0
 </style>
