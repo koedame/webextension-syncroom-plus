@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style lang="sass" scope>
+<style lang="sass" scoped>
 #SYNCROOM_PLUS-main
   background: #F9FBFF !important
 
