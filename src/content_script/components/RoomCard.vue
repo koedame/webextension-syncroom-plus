@@ -195,6 +195,7 @@ export default {
   },
 
   created() {
+    this.updateRemainingTime();
     this.timer = setInterval(() => {
       this.updateRemainingTime();
     }, 500);
