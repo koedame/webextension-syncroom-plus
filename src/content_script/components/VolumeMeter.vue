@@ -6,18 +6,11 @@
 
 <script>
 export default {
-  data() {
-    return { num: 5, timer: null };
-  },
-  created() {
-    this.timer = setInterval(() => {
-      this.num = Math.floor(Math.random() * 15) * 5 + 180;
-    }, 250);
-  },
-  beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
+  computed: {
+    num() {
+      this.$store.state.clock.queue;
+      return Math.floor(Math.random() * 15) * 5 + 180;
+    },
   },
 };
 </script>
