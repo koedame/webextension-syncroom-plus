@@ -9,7 +9,7 @@ export default {
   computed: {
     num() {
       this.$store.state.clock.queue;
-      return Math.floor(Math.random() * 15) * 5 + 180;
+      return Math.floor(Math.random() * 7) * 5 + 180;
     },
   },
 };

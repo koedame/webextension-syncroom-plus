@@ -53,7 +53,7 @@ export default {
     this.$store.dispatch('clock/updateQueue');
     this.timer3 = setInterval(() => {
       this.$store.dispatch('clock/updateQueue');
-    }, 200);
+    }, 250);
   },
 
   methods: {
