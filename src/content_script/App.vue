@@ -33,7 +33,6 @@ export default {
     return {
       timer1: null,
       timer2: null,
-      timer3: null,
       rooms: null,
       totalPublishedRooms: null,
     };
@@ -47,13 +46,7 @@ export default {
     this.$store.dispatch('clock/fetch');
     this.timer2 = setInterval(() => {
       this.$store.dispatch('clock/fetch');
-      this.$store.dispatch('clock/updateQueue');
     }, 1000);
-
-    this.$store.dispatch('clock/updateQueue');
-    this.timer3 = setInterval(() => {
-      this.$store.dispatch('clock/updateQueue');
-    }, 250);
   },
 
   methods: {
@@ -71,9 +64,6 @@ export default {
     }
     if (this.timer2) {
       clearInterval(this.timer2);
-    }
-    if (this.timer3) {
-      clearInterval(this.timer3);
     }
   },
 };
