@@ -2,7 +2,7 @@
 #SYNCROOM_PLUS-main(v-if="rooms")
   h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧（{{totalPublishedRooms}}）
 
-  transition-group.SYNCROOM_PLUS-main__rooms(name="room-list")
+  .SYNCROOM_PLUS-main__rooms
     RoomCard(
       v-for="room in rooms",
       :key="`room-${room.creator_mid}`",
@@ -93,14 +93,4 @@ export default {
   display: flex
   justify-content: center
   flex-wrap: wrap
-
-.room-list-enter-active, .room-list-leave-active
-  transition: all 500ms
-
-.room-list-leave-active
-  // 移動のトランジションをさせる場合は非表示アニメーション中は position: absoluteを指定しないと正しく動作しない
-  position: absolute
-
-.room-list-move
-  transition: all 500ms
 </style>
