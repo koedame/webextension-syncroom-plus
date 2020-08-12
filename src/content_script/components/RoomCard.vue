@@ -270,6 +270,8 @@ export default {
         border-bottom: solid 2px #9090B0
         height: 47px
 
+
+
         &:last-child
           border-bottom: none
 
@@ -283,9 +285,13 @@ export default {
 
         &__right
           margin-left: 5px
-          width: calc(100% - 10px)
+          width: 225px
           &__name
             min-height: 22px
+
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
           &__volumes
 
 
