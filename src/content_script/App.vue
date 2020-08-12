@@ -1,6 +1,6 @@
 <template lang="pug">
 #SYNCROOM_PLUS-main(v-if="rooms")
-  h2.SYNCROOM_PLUS-main__subtitle ルーム一覧
+  h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧（{{totalPublishedRooms}}）
 
   .SYNCROOM_PLUS-main__rooms
     RoomCard(
@@ -33,6 +33,7 @@ export default {
     return {
       timer: null,
       rooms: null,
+      totalPublishedRooms: null,
     };
   },
   mounted() {
@@ -46,6 +47,7 @@ export default {
     fetchRooms() {
       axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
         this.rooms = res.data.rooms;
+        this.totalPublishedRooms = res.data.total_published_rooms;
       });
     },
   },
@@ -61,14 +63,15 @@ export default {
 <style lang="sass" scope>
 #SYNCROOM_PLUS-main
   background: #F9FBFF !important
-  padding: 20px
 
 .SYNCROOM_PLUS-main__subtitle
-  font-size: 1em
+  font-size: 20px
   font-weight: bold
+  text-align: center
+  margin: 1em 0
 
 .SYNCROOM_PLUS-main__rooms
   display: flex
-  justify-content: flex-start
+  justify-content: center
   flex-wrap: wrap
 </style>
