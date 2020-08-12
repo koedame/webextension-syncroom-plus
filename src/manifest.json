@@ -24,5 +24,5 @@
     "open_in_tab": false
   },
   "permissions": ["https://*.yamaha.com/*", "storage", "tabs"],
-  "web_accessible_resources": ["icons/*.png"]
+  "web_accessible_resources": ["icons/*.png", "images/*.gif"]
 }
