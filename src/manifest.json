@@ -8,8 +8,7 @@
     "128": "icons/icon_128.png"
   },
   "browser_action": {
-    "default_title": "sync-room-plus",
-    "default_popup": "popup/popup.html"
+    "default_title": "sync-room-plus"
   },
   "background": {
     "scripts": ["background.js"]
@@ -24,6 +23,6 @@
     "page": "options/options.html",
     "open_in_tab": false
   },
-  "permissions": ["https://*.yamaha.com/*", "storage"],
+  "permissions": ["https://*.yamaha.com/*", "storage", "tabs"],
   "web_accessible_resources": ["icons/*.png"]
 }
