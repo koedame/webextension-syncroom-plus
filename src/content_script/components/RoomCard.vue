@@ -296,7 +296,7 @@ export default {
           margin-left: 5px
           width: calc(100% - 10px)
           &__name
-
+            min-height: 22px
           &__volumes
 
 
