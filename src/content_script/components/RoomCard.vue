@@ -12,7 +12,7 @@
     .members(:style="`background-image: url(${backgroundLogoLink})`")
       .members__item(v-for="(member, i) in members", :key="member")
         .members__item__left
-          img.members__item__left__icon(:src="iconlist[i].iconurl || memberIconLinks[iconlist[i].icon]")
+          img.members__item__left__icon(:src="iconlist[i].iconurl.replace('http:', 'https:') || memberIconLinks[iconlist[i].icon]")
         .members__item__right
           .members__item__right__name
             | {{ member }}
