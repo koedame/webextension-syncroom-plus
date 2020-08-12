@@ -5,6 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ExtensionReloader = require('webpack-extension-reloader');
 const { VueLoaderPlugin } = require('vue-loader');
 const { version } = require('./package.json');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const config = {
   mode: process.env.NODE_ENV,
@@ -72,6 +73,7 @@ const config = {
     ],
   },
   plugins: [
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       global: 'window',
     }),
@@ -100,6 +102,17 @@ const config = {
       },
     ]),
   ],
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            comments: false,
+          },
+        },
+      }),
+    ],
+  },
 };
 
 if (config.mode === 'production') {
