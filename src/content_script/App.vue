@@ -31,16 +31,22 @@ export default {
   },
   data() {
     return {
-      timer: null,
+      timer1: null,
+      timer2: null,
       rooms: null,
       totalPublishedRooms: null,
     };
   },
   mounted() {
     this.fetchRooms();
-    this.timer = setInterval(() => {
+    this.timer1 = setInterval(() => {
       this.fetchRooms();
     }, 5000);
+
+    this.$store.dispatch('clock/fetch');
+    this.timer2 = setInterval(() => {
+      this.$store.dispatch('clock/fetch');
+    }, 1000);
   },
 
   methods: {
@@ -53,8 +59,11 @@ export default {
   },
 
   beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer);
+    if (this.timer1) {
+      clearInterval(this.timer1);
+    }
+    if (this.timer2) {
+      clearInterval(this.timer2);
     }
   },
 };

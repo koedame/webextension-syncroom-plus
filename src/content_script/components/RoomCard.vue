@@ -101,7 +101,7 @@ export default {
   data() {
     return {
       timer: null,
-      remainingTime: '',
+      endAt: null,
       memberIconLinks: [
         browser.extension.getURL('/icons/member-icon-0.png'),
         browser.extension.getURL('/icons/member-icon-1.png'),
@@ -185,23 +185,17 @@ export default {
 
       return uri;
     },
-
-    updateRemainingTime() {
-      const currentTime = moment();
-      const endAt = moment(this.createTime, 'YYYY-MM-DD hh:mm:ss zz').add(6, 'h');
-      const remainingTime = endAt.diff(currentTime);
-      this.remainingTime = moment(remainingTime).format('hh:mm:ss');
-    },
   },
 
   created() {
-    this.updateRemainingTime();
-    this.timer = setInterval(() => {
-      this.updateRemainingTime();
-    }, 1000);
+    this.endAt = moment(this.createTime, 'YYYY-MM-DD hh:mm:ss zz').add(6, 'h');
   },
 
   computed: {
+    remainingTime() {
+      const remainingTime = this.endAt.diff(this.$store.state.clock.currentTime);
+      return moment(remainingTime).format('hh:mm:ss');
+    },
     isNoVacancy() {
       return this.numMembers === 5;
     },
@@ -211,12 +205,6 @@ export default {
     emptyNum() {
       return 5 - this.numMembers;
     },
-  },
-
-  beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
   },
 };
 </script>
