@@ -24,4 +24,6 @@ export default {
 
   &__image
     vertical-align: top
+    width: 220px
+    height: 9px
 </style>
