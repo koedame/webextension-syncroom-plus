@@ -127,7 +127,7 @@ export default {
   transition: all 0.5s
 
 .room-list-enter, .room-list-leave-to, .list-leave-active
-  opacity: 0;
+  opacity: 0
 
 .room-list-move
   transition: transform 0.5s
