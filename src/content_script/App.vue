@@ -2,6 +2,9 @@
 #SYNCROOM_PLUS-main(v-if="rooms")
   h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧（{{totalPublishedRooms}}）
 
+  .test_room_link
+    a.test_room_link__item(href="#testroom") 接続テストルームはこちら
+
   transition-group.SYNCROOM_PLUS-main__rooms(name="room-list", tag="div")
     RoomCard(
       v-for="room in rooms",
@@ -21,7 +24,7 @@
       :roomTags="room | tagConvert"
     )
 
-  h2.SYNCROOM_PLUS-main__subtitle 接続テストルーム
+  h2#testroom.SYNCROOM_PLUS-main__subtitle 接続テストルーム
 
   .SYNCROOM_PLUS-main__rooms
     RoomCard(
@@ -143,6 +146,18 @@ export default {
   display: flex
   justify-content: center
   flex-wrap: wrap
+
+.test_room_link
+  text-align: center
+  margin-bottom: 1em
+
+  .test_room_link__item
+    background: #5072f5
+    color: #fff
+    padding: 7px 19px
+    display: inline-block
+    border-radius: 5px
+    font-size: 14px
 
 .room-list-enter-active, .room-list-leave-active
   transition: all 0.5s
