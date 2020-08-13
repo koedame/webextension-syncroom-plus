@@ -213,10 +213,10 @@ export default {
 .card
   margin: 5px 5px 15px 5px
   width: 300px
-  border: solid 2px #000074
   background: #D9E2FE
   border-radius: 5px
   overflow: hidden
+  box-shadow: 0px 1px 8px -5px #20293a
 
   &__header
     background: #000074
@@ -334,7 +334,6 @@ export default {
           color: #3E3E3E
 
 .card.card--need_passwd
-  border: solid 2px #272727
   background: #eaeaea
 
   .card__header
@@ -352,7 +351,6 @@ export default {
         &:hover
 
 .card.card--no_vacancy
-  border: solid 2px #A3A3A3
   background: #E6E6E6
 
   .card__header
