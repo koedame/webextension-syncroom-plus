@@ -215,6 +215,8 @@ export default {
   width: 300px
   border: solid 2px #000074
   background: #D9E2FE
+  border-radius: 5px
+  overflow: hidden
 
   &__header
     background: #000074
@@ -254,6 +256,7 @@ export default {
 
       height: calc( 1.8em * 3 )
       line-height: 1.8em
+      border-radius: 5px
 
     .members
       margin-bottom: 1em
@@ -262,6 +265,7 @@ export default {
       background-repeat: no-repeat
       background-size: contain
       overflow: hidden
+      border-radius: 5px
 
       &__item
         display: flex
@@ -270,30 +274,30 @@ export default {
         border-bottom: solid 2px #9090B0
         height: 47px
 
-
-
         &:last-child
           border-bottom: none
 
         &__left
-          width: 40px
+          width: 35px
           &__icon
             width: 35px
             height: 35px
+            border-radius: 4px
             &--unknown
               background: #888
 
         &__right
           margin-left: 5px
           width: 225px
+          height: 35px
           &__name
-            min-height: 22px
-
+            height: 26px
             white-space: nowrap
             overflow: hidden
             text-overflow: ellipsis
           &__volumes
-
+            border-radius: 2px
+            overflow: hidden
 
     &__buttons
       display: flex
@@ -308,6 +312,7 @@ export default {
         cursor: pointer
         line-height: 3em
         font-size: 13px
+        border-radius: 5px
 
         &:hover
           opacity: 0.7
