@@ -36,6 +36,7 @@
 
   .SYNCROOM_PLUS-main__rooms
     RoomCard(
+      v-if="testRoom",
       :createTime="testRoom.create_time",
       :creatorIcon="testRoom.creator_icon",
       :creatorMid="testRoom.creator_mid",

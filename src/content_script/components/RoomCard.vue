@@ -16,7 +16,11 @@
     .members(:style="`background-image: url(${backgroundLogoLink})`")
       .members__item(v-for="(member, i) in members", :key="`${member}-${i}`")
         .members__item__left
-          img.members__item__left__icon(:src="iconlist[i].iconurl.replace('http:', 'https:') || memberIconLinks[iconlist[i].icon]")
+          img.members__item__left__icon(
+            v-if="iconlist && iconlist[i] && (iconlist[i].iconurl || iconlist[i].icon)",
+            :src="iconlist[i].iconurl.replace('http:', 'https:') || memberIconLinks[iconlist[i].icon]"
+          )
+          .members__item__left__icon(v-else)
         .members__item__right
           .members__item__right__name
             | {{ member }}
@@ -303,8 +307,7 @@ export default {
             width: 35px
             height: 35px
             border-radius: 4px
-            &--unknown
-              background: #888
+            background: #888
 
         &__right
           width: 230px
