@@ -95,6 +95,10 @@ export default {
         'World',
       ];
 
+      if (room.tag_orig) {
+        result.push(room.tag_orig);
+      }
+
       if (room.tag_mask) {
         m = (room.tag_mask ^ 0xffffffff) >>> 0;
         for (i = 0; i < tags.length; i++) {
@@ -103,10 +107,6 @@ export default {
             result.push(tags[i]);
           }
         }
-      }
-
-      if (room.tag_orig) {
-        result.push(room.tag_orig);
       }
 
       return result;
