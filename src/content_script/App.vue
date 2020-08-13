@@ -18,6 +18,7 @@
       :realm="room.realm",
       :roomDesc="room.room_desc || ''",
       :roomName="room.room_name"
+      :roomTags="room | tagConvert"
     )
 </template>
 
@@ -65,6 +66,51 @@ export default {
     if (this.timer2) {
       clearInterval(this.timer2);
     }
+  },
+  filters: {
+    tagConvert(room) {
+      var m;
+      var i;
+      var result = [];
+
+      const tags = [
+        '練習中',
+        'おしゃべり',
+        '初心者OK',
+        '配信中',
+        '録音中',
+        'Classic',
+        'Country / Folk',
+        'Club Music / EDM',
+        'Hip Hop / Rap',
+        'R&B / Soul',
+        'Jazz',
+        'Fusion',
+        'Rock',
+        'HR / HM',
+        '洋楽',
+        'J-Pop',
+        'アイドル',
+        'アニメ・ゲーム・ボカロ',
+        'World',
+      ];
+
+      if (room.tag_mask) {
+        m = (room.tag_mask ^ 0xffffffff) >>> 0;
+        for (i = 0; i < tags.length; i++) {
+          var tm = Math.pow(2, i);
+          if (((m ^ 0xffffffff) & tm) === tm) {
+            result.push(tags[i]);
+          }
+        }
+      }
+
+      if (room.tag_orig) {
+        result.push(room.tag_orig);
+      }
+
+      return result;
+    },
   },
 };
 </script>

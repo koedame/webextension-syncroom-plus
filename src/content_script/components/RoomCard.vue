@@ -7,6 +7,10 @@
   .card__body
     h3.room_name {{ roomName }}
 
+    p.room_tags
+      span.room_tags__item(v-for="tag in roomTags", :key="tag")
+        | {{tag}}
+
     p.room_desc(:title="roomDesc") {{ roomDesc }}
 
     .members(:style="`background-image: url(${backgroundLogoLink})`")
@@ -92,6 +96,10 @@ export default {
     },
     needPasswd: {
       type: Boolean,
+      required: true,
+    },
+    roomTags: {
+      type: Array,
       required: true,
     },
   },
@@ -242,6 +250,18 @@ export default {
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
+
+    .room_tags
+      margin-bottom: 10px
+      overflow: hidden
+      height: 22px
+      &__item
+        background: #ccc
+        padding: 0px 6px
+        display: inline-block
+        font-size: 11px
+        border-radius: 3px
+        margin-right: 5px
 
     .room_desc
       font-size: 12px
