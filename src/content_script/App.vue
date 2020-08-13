@@ -2,7 +2,7 @@
 #SYNCROOM_PLUS-main(v-if="rooms")
   h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧（{{totalPublishedRooms}}）
 
-  .SYNCROOM_PLUS-main__rooms
+  transition-group.SYNCROOM_PLUS-main__rooms(name="room-list", tag="div")
     RoomCard(
       v-for="room in rooms",
       :key="`room-${room.creator_mid}`",
@@ -122,4 +122,13 @@ export default {
   display: flex
   justify-content: center
   flex-wrap: wrap
+
+.room-list-enter-active, .room-list-leave-active
+  transition: all 0.5s
+
+.room-list-enter, .room-list-leave-to, .list-leave-active
+  opacity: 0;
+
+.room-list-move
+  transition: transform 0.5s
 </style>
