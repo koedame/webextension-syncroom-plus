@@ -32,21 +32,17 @@ export default {
   },
   data() {
     return {
-      timer1: null,
-      timer2: null,
+      timer: null,
       rooms: null,
       totalPublishedRooms: null,
     };
   },
   mounted() {
-    this.fetchRooms();
-    this.timer1 = setInterval(() => {
-      this.fetchRooms();
-    }, 5000);
-
     this.$store.dispatch('clock/fetch');
-    this.timer2 = setInterval(() => {
+    this.fetchRooms();
+    this.timer = setInterval(() => {
       this.$store.dispatch('clock/fetch');
+      this.fetchRooms();
     }, 1000);
   },
 
@@ -60,11 +56,8 @@ export default {
   },
 
   beforeDestroy() {
-    if (this.timer1) {
-      clearInterval(this.timer1);
-    }
-    if (this.timer2) {
-      clearInterval(this.timer2);
+    if (this.timer) {
+      clearInterval(this.timer);
     }
   },
   filters: {
