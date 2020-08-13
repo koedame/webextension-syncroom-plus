@@ -35,7 +35,7 @@
       :needPasswd="testRoom.need_passwd",
       :numMembers="testRoom.num_members",
       :realm="testRoom.realm",
-      :roomDesc="testRoom.room_desc || ''",
+      roomDesc="SYNCROOMの公式テストルームです。入室すると、音声が3秒後に返ってきますので、通信の確認をすることができます。",
       :roomName="testRoom.room_name"
       :roomTags="testRoom | tagConvert"
     )
