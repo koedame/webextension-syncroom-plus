@@ -137,7 +137,7 @@ export default {
   font-size: 20px
   font-weight: bold
   text-align: center
-  margin: 1em 0
+  margin: 2em 0 1em 0
 
 .SYNCROOM_PLUS-main__rooms
   display: flex
