@@ -307,11 +307,10 @@ export default {
               background: #888
 
         &__right
-          margin-left: 5px
-          width: 225px
+          width: 230px
           height: 35px
           &__name
-            height: 26px
+            height: 24px
             white-space: nowrap
             overflow: hidden
             text-overflow: ellipsis

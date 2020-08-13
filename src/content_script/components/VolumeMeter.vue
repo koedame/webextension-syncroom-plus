@@ -20,10 +20,10 @@ export default {
 .volume_meter
   background: #000
   width: 100%
-  height: 9px
+  height: 11px
 
   &__image
     vertical-align: top
     width: 220px
-    height: 9px
+    height: 11px
 </style>
