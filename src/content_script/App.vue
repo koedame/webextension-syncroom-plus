@@ -20,6 +20,25 @@
       :roomName="room.room_name"
       :roomTags="room | tagConvert"
     )
+
+  h2.SYNCROOM_PLUS-main__subtitle 接続テストルーム
+
+  .SYNCROOM_PLUS-main__rooms
+    RoomCard(
+      :createTime="testRoom.create_time",
+      :creatorIcon="testRoom.creator_icon",
+      :creatorMid="testRoom.creator_mid",
+      :creatorNick="testRoom.creator_nick",
+      :iconlist="testRoom.iconlist",
+      :index="testRoom.index",
+      :members="testRoom.members",
+      :needPasswd="testRoom.need_passwd",
+      :numMembers="testRoom.num_members",
+      :realm="testRoom.realm",
+      :roomDesc="testRoom.room_desc || ''",
+      :roomName="testRoom.room_name"
+      :roomTags="testRoom | tagConvert"
+    )
 </template>
 
 <script>
@@ -35,6 +54,7 @@ export default {
       timer: null,
       rooms: null,
       totalPublishedRooms: null,
+      testRoom: null,
     };
   },
   mounted() {
@@ -49,7 +69,8 @@ export default {
   methods: {
     fetchRooms() {
       axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
-        this.rooms = res.data.rooms;
+        this.rooms = res.data.rooms.filter(room => room.room_name !== '接続テストルーム');
+        this.testRoom = res.data.rooms.find(room => room.room_name === '接続テストルーム');
         this.totalPublishedRooms = res.data.total_published_rooms;
       });
     },
