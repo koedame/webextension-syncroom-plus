@@ -14,7 +14,7 @@
     p.room_desc(:title="roomDesc") {{ roomDesc }}
 
     .members(:style="`background-image: url(${backgroundLogoLink})`")
-      .members__item(v-for="(member, i) in members", :key="member")
+      .members__item(v-for="(member, i) in members", :key="`${member}-${i}`")
         .members__item__left
           img.members__item__left__icon(:src="iconlist[i].iconurl.replace('http:', 'https:') || memberIconLinks[iconlist[i].icon]")
         .members__item__right
