@@ -7,7 +7,7 @@
   .card__body
     h3.room_name {{ roomName }}
 
-    p.room_desc {{ roomDesc }}
+    p.room_desc(:title="roomDesc") {{ roomDesc }}
 
     .members(:style="`background-image: url(${backgroundLogoLink})`")
       .members__item(v-for="(member, i) in members", :key="member")
