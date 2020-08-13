@@ -202,7 +202,7 @@ export default {
   computed: {
     remainingTime() {
       const remainingTime = this.endAt.diff(this.$store.state.clock.currentTime);
-      return moment(remainingTime).format('hh:mm:ss');
+      return moment(remainingTime).format('HH:mm:ss');
     },
     isNoVacancy() {
       return this.numMembers === 5;
