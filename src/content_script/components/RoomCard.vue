@@ -219,7 +219,7 @@ export default {
   box-shadow: 0px 1px 8px -5px #20293a
 
   &__header
-    background: #000074
+    background: #5073f5
     color: #fff
     font-weight: normal
     font-size: 15px
