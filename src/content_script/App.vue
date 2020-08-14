@@ -102,6 +102,8 @@ export default {
         return this.unlockedRooms;
       } else if (this.roomFilter === 'only_locked') {
         return this.lockedRooms;
+      } else {
+        return this.rooms;
       }
     },
   },
