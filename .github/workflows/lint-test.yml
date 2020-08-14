@@ -1,7 +1,6 @@
 name: 静的解析
 on:
-  pull_request:
-    types: [opened, synchronize, push, pull_request]
+  push:
 
 jobs:
   run_lint_and_test:
