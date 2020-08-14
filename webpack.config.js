@@ -82,8 +82,8 @@ const config = {
       filename: '[name].css',
     }),
     new CopyPlugin([
-      { from: 'icons', to: 'icons' },
-      { from: 'images', to: 'images' },
+      { from: 'icons', to: 'icons', ignores: ['.DS_Store'] },
+      { from: 'images', to: 'images', ignores: ['.DS_Store'] },
       // { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
       // { from: 'options/options.html', to: 'options/options.html', transform: transformHtml },
       {
