@@ -6,27 +6,23 @@ export default {
   },
 
   mutations: {
-    setFavorite(state, member) {
-      state.members.push(member);
-      state.members = state.members.filter((value, index, self) => {
-        return self.indexOf(value) === index;
-      });
+    setFavorite(state, memberName) {
+      if (!state.members.some(member => member.memberName === memberName)) {
+        state.members.push({ memberName: memberName, favoritedAt: new Date() });
+      }
     },
-    removeFavorite(state, removeMember) {
-      state.members = state.members.filter(member => member !== removeMember);
+    removeFavorite(state, memberName) {
+      state.members = state.members.filter(member => member.memberName !== memberName);
     },
   },
 
   actions: {
-    toggleFavorite({ commit, state }, { member }) {
-      if (state.members.includes(member)) {
-        commit('removeFavorite', member);
+    toggleFavorite({ commit, state }, memberName) {
+      if (state.members.some(member => member.memberName === memberName)) {
+        commit('removeFavorite', memberName);
       } else {
-        commit('setFavorite', member);
+        commit('setFavorite', memberName);
       }
-    },
-    isFavorite({ state }, { member }) {
-      return state.members.includes(member);
     },
   },
 };
