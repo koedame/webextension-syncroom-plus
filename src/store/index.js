@@ -15,8 +15,6 @@ const vuexLocal = new VuexPersistence({
 
 Vue.use(Vuex);
 
-console.log(favoriteMembers.mutations);
-
 export default new Vuex.Store({
   modules: {
     clock: clock,
