@@ -29,6 +29,7 @@
     "vue": "^2.6.10",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
+    "vuex-persist": "^2.2.0",
     "vuex-webextensions": "^1.3.0",
     "webextension-polyfill": "^0.3.1"
   },

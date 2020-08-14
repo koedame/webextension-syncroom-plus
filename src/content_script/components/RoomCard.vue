@@ -22,8 +22,9 @@
           )
           .members__item__left__icon(v-else)
         .members__item__right
-          .members__item__right__name
+          .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.includes(member)}")
             | {{ member }}
+            button.members__item__right__name__add-favorite(type="button", @click="$store.dispatch('favoriteMembers/toggleFavorite', { member })") ☆
           .members__item__right__volumes
             VolumeMeter
       .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
@@ -317,6 +318,15 @@ export default {
             white-space: nowrap
             overflow: hidden
             text-overflow: ellipsis
+            &--favorite
+              background: yellow
+
+            &__add-favorite
+              float: right
+              border: none
+              outline: none
+              cursor: pointer
+
           &__volumes
             border-radius: 2px
             overflow: hidden
