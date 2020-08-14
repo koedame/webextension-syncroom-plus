@@ -53,6 +53,11 @@ const main = () => {
   buildZip(DEST_DIR, DEST_ZIP_DIR, `MozillaFirefox-${name}-v${version}.xpi`)
     .then(() => console.info('OK'))
     .catch(console.err);
+
+  // Opera
+  buildZip(DEST_DIR, DEST_ZIP_DIR, `Opera-${name}-v${version}.crx`)
+    .then(() => console.info('OK'))
+    .catch(console.err);
 };
 
 main();
