@@ -1,4 +1,4 @@
-![SYNCROOM-Plus](https://github.com/[username]/[reponame]/blob/[branch]/docs/screenshot.gif?raw=true)
+![SYNCROOM-Plus](/docs/screenshot.gif)
 
 # SYNCROOM-PLUS
 
