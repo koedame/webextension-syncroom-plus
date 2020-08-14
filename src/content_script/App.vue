@@ -5,11 +5,11 @@
   .filter-form
     .filter-form__filter-switchs
       button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'all')}", @click="roomFilter = 'all'")
-        | すべて（{{ this.rooms.length }}）
+        | すべて ({{ this.rooms.length }})
       button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_unlocked')}", @click="roomFilter = 'only_unlocked'")
-        | 鍵なし（{{ this.unlockedRooms.length }}）
+        | 鍵なし ({{ this.unlockedRooms.length }})
       button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_locked')}", @click="roomFilter = 'only_locked'")
-        | 鍵あり（{{ this.lockedRooms.length }}）
+        | 鍵あり ({{ this.lockedRooms.length }})
 
     a.filter-form__testroom-link(href="#testroom") 接続テストルームはこちら
 
