@@ -1,8 +1,8 @@
-![SYNCROOM-Plus](/docs/screenshot.gif)
-
 # SYNCROOM-PLUS
 
 [SYNCROOM のプレイヤーズサイト](https://syncroom.yamaha.com/play/)に情報を追加する拡張機能です。
+
+![SYNCROOM-Plus](/docs/screenshot.gif)
 
 ## 機能
 
