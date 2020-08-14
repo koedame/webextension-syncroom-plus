@@ -1,6 +1,6 @@
 {
   "name": "SYNCROOM-Plus",
-  "description": "SYNCROOM Extension",
+  "description": "SYNCROOMのプレイヤーズサイトに情報を追加する拡張機能です。",
   "version": null,
   "manifest_version": 2,
   "icons": {
