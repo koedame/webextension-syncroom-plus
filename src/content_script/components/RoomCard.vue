@@ -319,7 +319,7 @@ export default {
             overflow: hidden
             text-overflow: ellipsis
             &--favorite
-              background: yellow
+              background: #ffff80
 
             &__add-favorite
               float: right
