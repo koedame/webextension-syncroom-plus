@@ -63,10 +63,6 @@ export default {
       type: Array,
       required: true,
     },
-    creatorIcon: {
-      type: Object,
-      required: true,
-    },
     index: {
       type: Number,
       required: true,
