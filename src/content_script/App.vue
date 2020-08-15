@@ -162,6 +162,7 @@ export default {
 <style lang="sass" scoped>
 #SYNCROOM_PLUS-main
   background: #F9FBFF !important
+  overflow: hidden
 
 .SYNCROOM_PLUS-main__subtitle
   font-size: 20px
