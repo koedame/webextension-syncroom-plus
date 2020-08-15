@@ -1,4 +1,4 @@
-# SYNCROOM-PLUS
+# SYNCROOM Plus
 
 [SYNCROOM のプレイヤーズサイト](https://syncroom.yamaha.com/play/)に情報を追加する拡張機能です。
 

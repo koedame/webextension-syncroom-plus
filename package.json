@@ -1,7 +1,6 @@
 {
   "name": "syncroom-plus",
   "version": "1.0.0",
-  "description": "SYNCROOMのプレイヤーズサイトに情報を追加する拡張機能です。",
   "author": "",
   "engines": {
     "node": ">=10"
