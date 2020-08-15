@@ -5,6 +5,9 @@ import store from '../store';
 global.browser = require('webextension-polyfill');
 Vue.prototype.$browser = global.browser;
 
+// stateを復元
+store.dispatch('favoriteMembers/restoreFromLocalStorage');
+
 /* eslint-disable no-new */
 new Vue({
   el: 'main > article',

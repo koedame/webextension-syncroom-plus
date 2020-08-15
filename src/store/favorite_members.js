@@ -6,9 +6,26 @@ export default {
   },
 
   mutations: {
+    // storage.localからstateを復元
+    restoreFromLocalStorage(state) {
+      browser.storage.local.get('favoriteMembers').then(({ favoriteMembers }) => {
+        Object.assign(state, favoriteMembers);
+      });
+    },
+
+    // storage.localにstateを保存
+    dumpToLocalStorage(state) {
+      browser.storage.local.set({
+        favoriteMembers: JSON.parse(JSON.stringify(state)),
+      });
+    },
+
     setFavorite(state, memberName) {
       if (!state.members.some(member => member.memberName === memberName)) {
-        state.members.push({ memberName: memberName, favoritedAt: new Date() });
+        state.members.push({
+          memberName: memberName,
+          favoritedAt: new Date(),
+        });
       }
     },
     removeFavorite(state, memberName) {
@@ -23,6 +40,11 @@ export default {
       } else {
         commit('setFavorite', memberName);
       }
+      commit('dumpToLocalStorage');
+    },
+
+    restoreFromLocalStorage({ commit }) {
+      commit('restoreFromLocalStorage');
     },
   },
 };
