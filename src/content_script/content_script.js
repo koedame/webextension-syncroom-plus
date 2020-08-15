@@ -11,3 +11,7 @@ new Vue({
   store: store,
   render: h => h(App),
 });
+
+// ファビコン追加
+const faviconTag = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
+document.head.insertAdjacentHTML('beforeend', faviconTag);
