@@ -8,15 +8,15 @@ export default {
   mutations: {
     // storage.localからstateを復元
     restoreFromLocalStorage(state) {
-      browser.storage.local.get('favoriteMembers').then(({ favoriteMembers }) => {
-        Object.assign(state, favoriteMembers);
+      browser.storage.local.get('favoriteMembers__members').then(({ favoriteMembers__members }) => {
+        Object.assign(state.members, favoriteMembers__members);
       });
     },
 
     // storage.localにstateを保存
     dumpToLocalStorage(state) {
       browser.storage.local.set({
-        favoriteMembers: JSON.parse(JSON.stringify(state)),
+        favoriteMembers__members: JSON.parse(JSON.stringify(state.members)),
       });
     },
 
