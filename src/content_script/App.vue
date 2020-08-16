@@ -162,6 +162,11 @@ export default {
     convertSearchKeyword(keyword) {
       let result = keyword;
 
+      // 英数字をすべて半角に統一
+      result = result.replace(/[Ａ-Ｚａ-ｚ０-９]/g, s => {
+        return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+      });
+
       // アルファベットをすべて小文字に統一
       result = result.toLowerCase();
       return result;
