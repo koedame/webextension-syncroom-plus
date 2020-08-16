@@ -3,17 +3,22 @@
   h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧
 
   .filter-form
+    .filter-form__filter-keyword
+      label
+        fa.filter-form__filter-keyword__search-icon(:icon="['fas', 'search']")
+        input.filter-form__filter-keyword__input(v-model="keyword", placeholder="キーワードを入力")
+      fa.filter-form__filter-keyword__clear-icon(:icon="['fas', 'times-circle']", v-if="keyword", @click="keyword = ''")
     .filter-form__filter-switchs
       button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'all')}", @click="roomFilter = 'all'")
         | すべて ({{ this.rooms.length }})
       button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_unlocked')}", @click="roomFilter = 'only_unlocked'")
         fa(:icon="['fas', 'unlock']")
         |
-        | 鍵なし ({{ this.unlockedRooms.length }})
+        | 鍵なし ({{ this.unlockedRoomCount }})
       button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_locked')}", @click="roomFilter = 'only_locked'")
         fa(:icon="['fas', 'lock']")
         |
-        | 鍵あり ({{ this.lockedRooms.length }})
+        | 鍵あり ({{ this.lockedRoomCount }})
 
     a.filter-form__testroom-link(href="#testroom")
       fa(:icon="['fas', 'headphones-alt']")
@@ -75,6 +80,9 @@ export default {
       totalPublishedRooms: null,
       testRoom: null,
       roomFilter: 'all',
+      keyword: '',
+      unlockedRoomCount: 0,
+      lockedRoomCount: 0,
     };
   },
 
@@ -91,8 +99,8 @@ export default {
     fetchRooms() {
       axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
         this.rooms = res.data.rooms.filter(room => room.room_name !== '接続テストルーム');
-        this.lockedRooms = this.rooms.filter(room => room.need_passwd);
-        this.unlockedRooms = this.rooms.filter(room => !room.need_passwd);
+        this.lockedRoomCount = this.rooms.filter(room => room.need_passwd).length;
+        this.unlockedRoomCount = this.rooms.filter(room => !room.need_passwd).length;
         this.testRoom = res.data.rooms.find(room => room.room_name === '接続テストルーム');
         this.totalPublishedRooms = res.data.total_published_rooms;
       });
@@ -101,15 +109,19 @@ export default {
 
   computed: {
     filteredRooms() {
+      let displayRooms = this.rooms;
       if (this.roomFilter === 'all') {
-        return this.rooms;
       } else if (this.roomFilter === 'only_unlocked') {
-        return this.unlockedRooms;
+        displayRooms = displayRooms.filter(room => !room.need_passwd);
       } else if (this.roomFilter === 'only_locked') {
-        return this.lockedRooms;
-      } else {
-        return this.rooms;
+        displayRooms = displayRooms.filter(room => room.need_passwd);
       }
+
+      if (this.keyword.length !== 0) {
+        displayRooms = displayRooms.filter(room => room.room_name.match(this.keyword));
+      }
+
+      return displayRooms;
     },
   },
 
@@ -185,6 +197,25 @@ export default {
 .filter-form
   text-align: center
   margin-bottom: 1em
+
+  &__filter-keyword
+    display: inline-block
+    margin-right: 10px
+    position: relative
+    &__search-icon
+      position: absolute
+      left: 7px
+      top: 7px
+      color: #949494
+    &__input
+      border: solid 1px #ccc
+      border-radius: 5px
+      padding: 0 26px
+    &__clear-icon
+      position: absolute
+      right: 8px
+      top: 8px
+      cursor: pointer
 
   &__filter-switchs
     display: inline-block
