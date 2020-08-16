@@ -17,6 +17,7 @@ Vue.prototype.$browser = global.browser;
 
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
+store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 
 /* eslint-disable no-new */
 new Vue({
