@@ -25,9 +25,9 @@
           .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
             | {{ member }}
             button.members__item__right__name__add-favorite(type="button", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
-              temolate(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
+              template(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
                 fa(:icon="['fas', 'star']")
-              temolate(v-else)
+              template(v-else)
                 fa(:icon="['far', 'star']")
           .members__item__right__volumes
             VolumeMeter
