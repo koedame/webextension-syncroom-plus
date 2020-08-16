@@ -12,7 +12,7 @@
       button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'all')}", @click="roomFilter = 'all'")
         | すべて ({{ this.rooms.length }})
       button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_unlocked')}", @click="roomFilter = 'only_unlocked'")
-        fa(:icon="['fas', 'unlock']")
+        fa(:icon="['fas', 'lock-open']")
         |
         | 鍵なし ({{ this.unlockedRoomCount }})
       button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_locked')}", @click="roomFilter = 'only_locked'")
