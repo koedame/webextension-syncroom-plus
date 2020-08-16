@@ -19,28 +19,31 @@ setInterval(() => {
   // 他のscriptから変更されたものはreactiveにならないので、最初にfetchしておく
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 
-  axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
-    const rooms = res.data.rooms;
+  // 通知登録がある場合のみ実行
+  if (store.getters['notificationVacancyRooms/rooms'].length !== 0) {
+    axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
+      const rooms = res.data.rooms;
 
-    for (let i = 0; i < rooms.length; i++) {
-      const room = rooms[i];
+      for (let i = 0; i < rooms.length; i++) {
+        const room = rooms[i];
 
-      // 空き通知
-      if (room.num_members < 5) {
-        const uid = `${room.create_time}-${room.room_name}`;
-        const isExistNotificationVacancyRooms = store.getters['notificationVacancyRooms/rooms'].find(r => r.uid === uid);
-        if (isExistNotificationVacancyRooms) {
-          browser.notifications.create(`vacancy::${uid}`, {
-            type: 'basic',
-            iconUrl: 'icons/icon_128.png',
-            title: `ルーム名：${room.room_name}`,
-            message: '空きがでました',
-            requireInteraction: true,
-          });
+        // 空き通知
+        if (room.num_members < 5) {
+          const uid = `${room.create_time}-${room.room_name}`;
+          const isExistNotificationVacancyRooms = store.getters['notificationVacancyRooms/rooms'].find(r => r.uid === uid);
+          if (isExistNotificationVacancyRooms) {
+            browser.notifications.create(`vacancy::${uid}`, {
+              type: 'basic',
+              iconUrl: 'icons/icon_128.png',
+              title: `ルーム名：${room.room_name}`,
+              message: '空きがでました',
+              requireInteraction: true,
+            });
+          }
         }
       }
-    }
-  });
+    });
+  }
 
   // TODO: 通知のクリーニング
 }, 1000);
