@@ -160,7 +160,11 @@ export default {
       return result;
     },
     convertSearchKeyword(keyword) {
-      return keyword;
+      let result = keyword;
+
+      // アルファベットをすべて小文字に統一
+      result = result.toLowerCase();
+      return result;
     },
   },
 
