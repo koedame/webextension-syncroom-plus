@@ -40,7 +40,7 @@
       :realm="room.realm",
       :roomDesc="room.room_desc || ''",
       :roomName="room.room_name"
-      :roomTags="room | tagConvert"
+      :roomTags="room.room_tags || []"
     )
 
   h2#testroom.SYNCROOM_PLUS-main__subtitle 接続テストルーム
@@ -59,7 +59,7 @@
       :realm="testRoom.realm",
       roomDesc="SYNCROOMの公式テストルームです。入室すると、音声が3秒後に返ってきますので、通信の確認をすることができます。",
       :roomName="testRoom.room_name"
-      :roomTags="testRoom | tagConvert"
+      :roomTags="testRoom.room_tags || []"
     )
 </template>
 
@@ -77,7 +77,6 @@ export default {
       rooms: [],
       unlockedRooms: [],
       lockedRooms: [],
-      totalPublishedRooms: null,
       testRoom: null,
       roomFilter: 'all',
       keyword: '',
@@ -99,38 +98,24 @@ export default {
     fetchRooms() {
       axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
         this.rooms = res.data.rooms.filter(room => room.room_name !== '接続テストルーム');
+        // タグを復号
+        for (let i = 0; i < this.rooms.length; i++) {
+          this.rooms[i]['room_tags'] = this.tagConvert(this.rooms[i]);
+        }
+
+        // 検索用文字列を追加
+        for (let i = 0; i < this.rooms.length; i++) {
+          this.rooms[i]['for_search'] = this.convertSearchKeyword(
+            `${this.rooms[i].room_name}|${this.rooms[i].members.join('|')}|${this.rooms[i].room_tags.join('|')}|${this.rooms[i].room_desc}`
+          );
+        }
+
         this.lockedRoomCount = this.rooms.filter(room => room.need_passwd).length;
         this.unlockedRoomCount = this.rooms.filter(room => !room.need_passwd).length;
+
         this.testRoom = res.data.rooms.find(room => room.room_name === '接続テストルーム');
-        this.totalPublishedRooms = res.data.total_published_rooms;
       });
     },
-  },
-
-  computed: {
-    filteredRooms() {
-      let displayRooms = this.rooms;
-      if (this.roomFilter === 'all') {
-      } else if (this.roomFilter === 'only_unlocked') {
-        displayRooms = displayRooms.filter(room => !room.need_passwd);
-      } else if (this.roomFilter === 'only_locked') {
-        displayRooms = displayRooms.filter(room => room.need_passwd);
-      }
-
-      if (this.keyword.length !== 0) {
-        displayRooms = displayRooms.filter(room => room.room_name.match(this.keyword));
-      }
-
-      return displayRooms;
-    },
-  },
-
-  beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
-  },
-  filters: {
     tagConvert(room) {
       var m;
       var i;
@@ -174,6 +159,34 @@ export default {
 
       return result;
     },
+    convertSearchKeyword(keyword) {
+      return keyword;
+    },
+  },
+
+  computed: {
+    filteredRooms() {
+      let displayRooms = this.rooms;
+      if (this.roomFilter === 'all') {
+      } else if (this.roomFilter === 'only_unlocked') {
+        displayRooms = displayRooms.filter(room => !room.need_passwd);
+      } else if (this.roomFilter === 'only_locked') {
+        displayRooms = displayRooms.filter(room => room.need_passwd);
+      }
+
+      if (this.keyword.length !== 0) {
+        let keyword = this.convertSearchKeyword(this.keyword);
+        displayRooms = displayRooms.filter(room => room.for_search.match(keyword));
+      }
+
+      return displayRooms;
+    },
+  },
+
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   },
 };
 </script>
