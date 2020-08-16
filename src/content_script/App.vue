@@ -167,6 +167,11 @@ export default {
         return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
       });
 
+      // ひらがなをカタカナに統一
+      result = result.replace(/[\u3041-\u3096]/g, ch => {
+        return String.fromCharCode(ch.charCodeAt(0) + 0x60);
+      });
+
       // アルファベットをすべて小文字に統一
       result = result.toLowerCase();
       return result;
