@@ -18,7 +18,6 @@ store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 setInterval(() => {
   // 他のscriptから変更されたものはreactiveにならないので、最初にfetchしておく
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
-  // console.log(store.getters['notificationVacancyRooms/rooms']);
 
   axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
     const rooms = res.data.rooms;
