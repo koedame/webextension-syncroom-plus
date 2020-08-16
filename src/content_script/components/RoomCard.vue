@@ -42,7 +42,16 @@
       .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
 
     .card__body__buttons--no_vacancy(v-if="isNoVacancy")
-      button.card__body__buttons__button(type="button") 満室
+      template(v-if="isNotificationVacancyRoom")
+        button.card__body__buttons__button(type="button", @click="onRemoveNotificationVacancyRoom")
+          fa(:icon="['fas', 'bell-slash']")
+          |
+          | 通知を解除
+      template(v-else)
+        button.card__body__buttons__button(type="button", @click="onSetNotificationVacancyRoom")
+          fa(:icon="['fas', 'bell']")
+          |
+          | 空きが出たら通知を受け取る
 
     .card__body__buttons(v-else)
       button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom")
@@ -136,6 +145,14 @@ export default {
     };
   },
   methods: {
+    onSetNotificationVacancyRoom() {
+      this.$store.dispatch('notificationVacancyRooms/setNotificationByUID', `${this.createTime}-${this.roomName}`);
+    },
+
+    onRemoveNotificationVacancyRoom() {
+      this.$store.dispatch('notificationVacancyRooms/removeNotificationByUID', `${this.createTime}-${this.roomName}`);
+    },
+
     onOpenSyncroom() {
       if (this.needPasswd) {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
@@ -211,6 +228,9 @@ export default {
     },
     isNoVacancy() {
       return this.numMembers === 5;
+    },
+    isNotificationVacancyRoom() {
+      return this.$store.getters['notificationVacancyRooms/rooms'].find(r => r.uid === `${this.createTime}-${this.roomName}`);
     },
     unknownMemberNum() {
       return this.numMembers - this.members.length;
@@ -395,7 +415,6 @@ export default {
         display: block
         width: 100%
         background: #818181
-        cursor: not-allowed
 
         &:hover
           opacity: 1

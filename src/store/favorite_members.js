@@ -9,7 +9,7 @@ export default {
     // storage.localからstateを復元
     restoreFromLocalStorage(state) {
       browser.storage.local.get('favoriteMembers').then(({ favoriteMembers }) => {
-        Object.assign(state.members, favoriteMembers);
+        Object.assign(state.members, favoriteMembers || []);
       });
     },
 
