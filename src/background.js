@@ -20,7 +20,9 @@ setInterval(() => {
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 
   // 通知登録がある場合のみ実行
-  if (store.getters['notificationVacancyRooms/rooms'].length !== 0) {
+  const notificationVacancyRooms = store.getters['notificationVacancyRooms/rooms'];
+
+  if (notificationVacancyRooms.length !== 0) {
     axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
       const rooms = res.data.rooms;
 
@@ -30,7 +32,7 @@ setInterval(() => {
         // 空き通知
         if (room.num_members < 5) {
           const uid = `${room.create_time}-${room.room_name}`;
-          const isExistNotificationVacancyRooms = store.getters['notificationVacancyRooms/rooms'].find(r => r.uid === uid);
+          const isExistNotificationVacancyRooms = notificationVacancyRooms.find(r => r.uid === uid);
           if (isExistNotificationVacancyRooms) {
             browser.notifications.create(`vacancy::${uid}`, {
               type: 'basic',
@@ -42,10 +44,18 @@ setInterval(() => {
           }
         }
       }
+
+      // roomがなくなっていれば通知を削除
+      for (let i = 0; i < notificationVacancyRooms.length; i++) {
+        if (!rooms.find(r => `${r.create_time}-${r.room_name}` === notificationVacancyRooms[i].uid)) {
+        } else {
+          store.dispatch('notificationVacancyRooms/removeNotificationByUID', notificationVacancyRooms[i].uid);
+          // 通知が残っていれば消しておく
+          browser.notifications.clear(notificationVacancyRooms[i].uid);
+        }
+      }
     });
   }
-
-  // TODO: 通知のクリーニング
 }, 1000);
 
 browser.notifications.onClicked.addListener(notificationId => {
