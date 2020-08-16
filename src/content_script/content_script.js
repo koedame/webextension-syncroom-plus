@@ -19,6 +19,12 @@ Vue.prototype.$browser = global.browser;
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
 store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 
+// background.js側で更新されたデータは反映されないので定期的に読み込みを行う
+setInterval(() => {
+  store.dispatch('favoriteMembers/restoreFromLocalStorage');
+  store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
+}, 1000);
+
 /* eslint-disable no-new */
 new Vue({
   el: 'main > article',

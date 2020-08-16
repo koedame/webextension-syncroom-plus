@@ -17,40 +17,55 @@ export default {
     // storage.localからstateを復元
     restoreFromLocalStorage(state) {
       browser.storage.local.get('notificationVacancyRooms').then(({ notificationVacancyRooms }) => {
-        Object.assign(state.rooms, notificationVacancyRooms || []);
-      });
-    },
-
-    // storage.localにstateを保存
-    dumpToLocalStorage(state) {
-      browser.storage.local.set({
-        notificationVacancyRooms: JSON.parse(JSON.stringify(state.rooms)),
+        state.rooms = notificationVacancyRooms || [];
       });
     },
 
     setNotification(state, uid) {
-      if (!state.rooms.find(room => room.uid === uid)) {
-        state.rooms.push({
-          uid: uid,
-          createdAt: new Date(),
+      browser.storage.local
+        .get('notificationVacancyRooms')
+        .then(({ notificationVacancyRooms }) => {
+          state.rooms = notificationVacancyRooms || [];
+        })
+        .then(() => {
+          if (!state.rooms.find(room => room.uid === uid)) {
+            state.rooms.push({
+              uid: uid,
+              createdAt: new Date(),
+            });
+          }
+        })
+        .then(() => {
+          browser.storage.local.set({
+            notificationVacancyRooms: JSON.parse(JSON.stringify(state.rooms)),
+          });
         });
-      }
     },
 
     removeNotification(state, uid) {
-      state.rooms = state.rooms.filter(room => room.uid !== uid);
+      browser.storage.local
+        .get('notificationVacancyRooms')
+        .then(({ notificationVacancyRooms }) => {
+          state.rooms = notificationVacancyRooms || [];
+        })
+        .then(() => {
+          state.rooms = state.rooms.filter(room => room.uid !== uid);
+        })
+        .then(() => {
+          browser.storage.local.set({
+            notificationVacancyRooms: JSON.parse(JSON.stringify(state.rooms)),
+          });
+        });
     },
   },
 
   actions: {
-    removeNotificationByUID({ commit, state }, uid) {
+    removeNotificationByUID({ commit }, uid) {
       commit('removeNotification', uid);
-      commit('dumpToLocalStorage');
     },
 
-    setNotificationByUID({ commit, state }, uid) {
+    setNotificationByUID({ commit }, uid) {
       commit('setNotification', uid);
-      commit('dumpToLocalStorage');
     },
 
     restoreFromLocalStorage({ commit }) {
