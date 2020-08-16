@@ -24,7 +24,11 @@
         .members__item__right
           .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
             | {{ member }}
-            button.members__item__right__name__add-favorite(type="button", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)") ☆
+            button.members__item__right__name__add-favorite(type="button", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
+              temolate(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
+                fa(:icon="['fas', 'star']")
+              temolate(v-else)
+                fa(:icon="['far', 'star']")
           .members__item__right__volumes
             VolumeMeter
       .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
@@ -44,7 +48,7 @@
       button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom")
         | 仮入室
       button.card__body__buttons__button(type="button" @click="onOpenSyncroom")
-        img.card__body__buttons__button__icon(v-if="needPasswd", :src="iconLockLink")
+        fa.card__body__buttons__button__icon(icon="lock", v-if="needPasswd")
         | ルームに入る
 </template>
 
@@ -349,9 +353,6 @@ export default {
           outline: none
 
         &__icon
-          width: 13px
-          height: 13px
-          vertical-align: text-top
           margin-right: 0.5em
 
         &--tentative
