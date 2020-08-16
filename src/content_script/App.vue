@@ -100,12 +100,12 @@ export default {
         this.rooms = res.data.rooms.filter(room => room.room_name !== '接続テストルーム');
         // タグを復号
         for (let i = 0; i < this.rooms.length; i++) {
-          this.rooms[i]['room_tags'] = this.tagConvert(this.rooms[i]);
+          this.rooms[i].room_tags = this.tagConvert(this.rooms[i]);
         }
 
         // 検索用文字列を追加
         for (let i = 0; i < this.rooms.length; i++) {
-          this.rooms[i]['for_search'] = this.convertSearchKeyword(
+          this.rooms[i].for_search = this.convertSearchKeyword(
             `${this.rooms[i].room_name}|${this.rooms[i].members.join('|')}|${this.rooms[i].room_tags.join('|')}|${this.rooms[i].room_desc}`
           );
         }
@@ -189,7 +189,7 @@ export default {
       }
 
       if (this.keyword.length !== 0) {
-        let keyword = this.convertSearchKeyword(this.keyword);
+        const keyword = this.convertSearchKeyword(this.keyword);
         displayRooms = displayRooms.filter(room => room.for_search.match(keyword));
       }
 
