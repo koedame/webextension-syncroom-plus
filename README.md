@@ -15,6 +15,6 @@
 ## 対応ブラウザ
 
 - ✅ Google Chrome
-- ✅ Mozilla Firefox
+- ✅ Mozilla Firefox （[SYNCROOM Plus をインストール](https://addons.mozilla.org/ja/firefox/addon/syncroom-plus/)）
 - ✅ Opera
 - ✅ Microsoft Edge
