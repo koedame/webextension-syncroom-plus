@@ -103,13 +103,6 @@ export default {
           this.rooms[i].room_tags = this.tagConvert(this.rooms[i]);
         }
 
-        // 検索用文字列を追加
-        for (let i = 0; i < this.rooms.length; i++) {
-          this.rooms[i].for_search = this.convertSearchKeyword(
-            `${this.rooms[i].room_name}|${this.rooms[i].members.join('|')}|${this.rooms[i].room_tags.join('|')}|${this.rooms[i].room_desc}`
-          );
-        }
-
         this.lockedRoomCount = this.rooms.filter(room => room.need_passwd).length;
         this.unlockedRoomCount = this.rooms.filter(room => !room.need_passwd).length;
 
@@ -181,6 +174,8 @@ export default {
   computed: {
     filteredRooms() {
       let displayRooms = this.rooms;
+
+      // すべて/鍵あり/鍵なし
       if (this.roomFilter === 'all') {
       } else if (this.roomFilter === 'only_unlocked') {
         displayRooms = displayRooms.filter(room => !room.need_passwd);
@@ -190,7 +185,10 @@ export default {
 
       if (this.keyword.length !== 0) {
         const keyword = this.convertSearchKeyword(this.keyword);
-        displayRooms = displayRooms.filter(room => room.for_search.match(keyword));
+
+        displayRooms = displayRooms.filter(room => {
+          return this.convertSearchKeyword(`${room.room_name}|${room.members.join('|')}|${room.room_tags.join('|')}|${room.room_desc}`).match(keyword);
+        });
       }
 
       return displayRooms;
