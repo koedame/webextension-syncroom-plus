@@ -1,6 +1,6 @@
 {
-  "name": "SYNCROOM-Plus",
-  "description": "SYNCROOMのプレイヤーズサイトに情報を追加する拡張機能です。",
+  "name": "SYNCROOM Plus - ルーム一覧が便利に！",
+  "description": "SYNCROOMのルーム情報がより使いやすくなります。",
   "version": null,
   "manifest_version": 2,
   "icons": {
@@ -8,7 +8,7 @@
     "128": "icons/icon_128.png"
   },
   "browser_action": {
-    "default_title": "sync-room-plus"
+    "default_title": "syncroom-plus"
   },
   "background": {
     "scripts": ["background.js"]
@@ -19,6 +19,6 @@
       "js": ["content_script/content_script.js"]
     }
   ],
-  "permissions": ["https://*.yamaha.com/*", "storage", "tabs"],
-  "web_accessible_resources": ["icons/*.png", "images/*.gif"]
+  "permissions": ["https://*.yamaha.com/*", "storage", "tabs", "notifications"],
+  "web_accessible_resources": ["icons/*.png", "icons/*.ico", "images/*.gif"]
 }

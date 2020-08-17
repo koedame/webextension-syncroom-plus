@@ -2,7 +2,8 @@
 .card(:class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }")
   .card__header
     span.card__header__item
-    span.card__header__item.card__header__item--timer {{ remainingTime }}
+    span.card__header__item.card__header__item--timer
+      RemainingTime(:create-time="createTime")
     span.card__header__item
   .card__body
     h3.room_name {{ roomName }}
@@ -13,66 +14,36 @@
 
     p.room_desc(:title="roomDesc") {{ roomDesc }}
 
-    .members(:style="`background-image: url(${backgroundLogoLink})`")
-      .members__item(v-for="(member, i) in members", :key="`${member}-${i}`")
-        .members__item__left
-          img.members__item__left__icon(
-            v-if="iconlist && iconlist[i] && (iconlist[i].iconurl || iconlist[i].icon)",
-            :src="iconlist[i].iconurl.replace('http:', 'https:') || memberIconLinks[iconlist[i].icon]"
-          )
-          .members__item__left__icon(v-else)
-        .members__item__right
-          .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
-            | {{ member }}
-            button.members__item__right__name__add-favorite(type="button", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)") ☆
-          .members__item__right__volumes
-            VolumeMeter
-      .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
-        .members__item__left
-          .members__item__left__icon.members__item__left__icon--unknown
-        .members__item__right
-          .members__item__right__name
-            | ?????
-          .members__item__right__volumes
-            VolumeMeter
-      .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
+    Members(:num-members="numMembers", :members="members", :iconlist="iconlist")
 
     .card__body__buttons--no_vacancy(v-if="isNoVacancy")
-      button.card__body__buttons__button(type="button") 満室
+      template(v-if="isNotificationVacancyRoom")
+        button.card__body__buttons__button(type="button", @click="onRemoveNotificationVacancyRoom")
+          fa(:icon="['fas', 'bell-slash']")
+          |
+          | 通知を解除
+      template(v-else)
+        button.card__body__buttons__button(type="button", @click="onSetNotificationVacancyRoom")
+          fa(:icon="['fas', 'bell']")
+          |
+          | 空きが出たら通知を受け取る
 
     .card__body__buttons(v-else)
       button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom")
         | 仮入室
       button.card__body__buttons__button(type="button" @click="onOpenSyncroom")
-        img.card__body__buttons__button__icon(v-if="needPasswd", :src="iconLockLink")
+        fa.card__body__buttons__button__icon(icon="lock", v-if="needPasswd")
         | ルームに入る
 </template>
 
 <script>
-import moment from 'moment';
-import VolumeMeter from './VolumeMeter';
-require('moment-timezone');
+import RemainingTime from './RemainingTime';
+import Members from './Members';
 
 export default {
   props: {
-    realm: {
-      type: Number,
-      required: true,
-    },
     iconlist: {
       type: Array,
-      required: true,
-    },
-    creatorIcon: {
-      type: Object,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-    creatorMid: {
-      type: String,
       required: true,
     },
     createTime: {
@@ -95,10 +66,6 @@ export default {
       type: Array,
       required: true,
     },
-    creatorNick: {
-      type: String,
-      required: true,
-    },
     needPasswd: {
       type: Boolean,
       required: true,
@@ -109,33 +76,18 @@ export default {
     },
   },
   components: {
-    VolumeMeter,
-  },
-  data() {
-    return {
-      timer: null,
-      endAt: null,
-      memberIconLinks: [
-        browser.extension.getURL('/icons/member-icon-0.png'),
-        browser.extension.getURL('/icons/member-icon-1.png'),
-        browser.extension.getURL('/icons/member-icon-2.png'),
-        browser.extension.getURL('/icons/member-icon-3.png'),
-        browser.extension.getURL('/icons/member-icon-4.png'),
-        browser.extension.getURL('/icons/member-icon-5.png'),
-        browser.extension.getURL('/icons/member-icon-6.png'),
-        browser.extension.getURL('/icons/member-icon-7.png'),
-        browser.extension.getURL('/icons/member-icon-8.png'),
-        browser.extension.getURL('/icons/member-icon-9.png'),
-        browser.extension.getURL('/icons/member-icon-10.png'),
-        browser.extension.getURL('/icons/member-icon-11.png'),
-        browser.extension.getURL('/icons/member-icon-12.png'),
-        browser.extension.getURL('/icons/member-icon-13.png'),
-      ],
-      backgroundLogoLink: browser.extension.getURL('/icons/icon-background-logo.png'),
-      iconLockLink: browser.extension.getURL('/icons/icon-lock.png'),
-    };
+    RemainingTime,
+    Members,
   },
   methods: {
+    onSetNotificationVacancyRoom() {
+      this.$store.dispatch('notificationVacancyRooms/setNotificationByUID', `${this.createTime}||${this.roomName}`);
+    },
+
+    onRemoveNotificationVacancyRoom() {
+      this.$store.dispatch('notificationVacancyRooms/removeNotificationByUID', `${this.createTime}||${this.roomName}`);
+    },
+
     onOpenSyncroom() {
       if (this.needPasswd) {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
@@ -161,8 +113,8 @@ export default {
     },
 
     makeJoinUri(room, pass, pid, mode) {
-      var urienc = function(str) {
-        return encodeURIComponent(str).replace(/[!*'()]/g, function(c) {
+      var urienc = function (str) {
+        return encodeURIComponent(str).replace(/[!*'()]/g, function (c) {
           return '%' + c.charCodeAt(0).toString(16);
         });
       };
@@ -200,23 +152,12 @@ export default {
     },
   },
 
-  created() {
-    this.endAt = moment(this.createTime, 'YYYY-MM-DD hh:mm:ss zz').add(6, 'h');
-  },
-
   computed: {
-    remainingTime() {
-      const remainingTime = this.endAt.diff(this.$store.state.clock.currentTime);
-      return moment(remainingTime).format('HH:mm:ss');
-    },
     isNoVacancy() {
       return this.numMembers === 5;
     },
-    unknownMemberNum() {
-      return this.numMembers - this.members.length;
-    },
-    emptyNum() {
-      return 5 - this.numMembers;
+    isNotificationVacancyRoom() {
+      return this.$store.getters['notificationVacancyRooms/rooms'].find((r) => r.uid === `${this.createTime}||${this.roomName}`);
     },
   },
 };
@@ -283,54 +224,6 @@ export default {
       line-height: 1.8em
       border-radius: 5px
 
-    .members
-      margin-bottom: 1em
-      background: #F9FCFF
-      background-color: #F9FCFF
-      background-repeat: no-repeat
-      background-size: contain
-      overflow: hidden
-      border-radius: 5px
-
-      &__item
-        display: flex
-        justify-content: space-between
-        padding: 5px
-        border-bottom: solid 2px #9090B0
-        height: 47px
-
-        &:last-child
-          border-bottom: none
-
-        &__left
-          width: 35px
-          &__icon
-            width: 35px
-            height: 35px
-            border-radius: 4px
-            background: #888
-
-        &__right
-          width: 230px
-          height: 35px
-          &__name
-            height: 24px
-            white-space: nowrap
-            overflow: hidden
-            text-overflow: ellipsis
-            &--favorite
-              background: #ffff80
-
-            &__add-favorite
-              float: right
-              border: none
-              outline: none
-              cursor: pointer
-
-          &__volumes
-            border-radius: 2px
-            overflow: hidden
-
     &__buttons
       display: flex
       justify-content: space-between
@@ -353,9 +246,6 @@ export default {
           outline: none
 
         &__icon
-          width: 13px
-          height: 13px
-          vertical-align: text-top
           margin-right: 0.5em
 
         &--tentative
@@ -398,7 +288,6 @@ export default {
         display: block
         width: 100%
         background: #818181
-        cursor: not-allowed
 
         &:hover
           opacity: 1

@@ -36,15 +36,35 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'vue-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+            },
+          },
+        ],
       },
       {
         test: /\.sass$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax'],
+        use: [
+          'vue-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                indentedSyntax: true,
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg|ico)$/,
@@ -81,26 +101,40 @@ const config = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    new CopyPlugin([
-      { from: 'icons', to: 'icons', ignores: ['.DS_Store'] },
-      { from: 'images', to: 'images', ignores: ['.DS_Store'] },
-      // { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
-      // { from: 'options/options.html', to: 'options/options.html', transform: transformHtml },
-      {
-        from: 'manifest.json',
-        to: 'manifest.json',
-        transform: content => {
-          const jsonContent = JSON.parse(content);
-          jsonContent.version = version;
-
-          if (config.mode === 'development') {
-            jsonContent['content_security_policy'] = "script-src 'self' 'unsafe-eval'; object-src 'self'";
-          }
-
-          return JSON.stringify(jsonContent, null, 2);
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'icons',
+          to: 'icons',
+          globOptions: {
+            ignore: ['.DS_Store'],
+          },
         },
-      },
-    ]),
+        {
+          from: 'images',
+          to: 'images',
+          globOptions: {
+            ignore: ['.DS_Store'],
+          },
+        },
+        // { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
+        // { from: 'options/options.html', to: 'options/options.html', transform: transformHtml },
+        {
+          from: 'manifest.json',
+          to: 'manifest.json',
+          transform: (content, absoluteFrom) => {
+            const jsonContent = JSON.parse(content);
+            jsonContent.version = version;
+
+            if (config.mode === 'development') {
+              jsonContent['content_security_policy'] = "script-src 'self' 'unsafe-eval'; object-src 'self'";
+            }
+
+            return JSON.stringify(jsonContent, null, 2);
+          },
+        },
+      ],
+    }),
   ],
   optimization: {
     minimizer: [
