@@ -21,7 +21,7 @@ export default {
     },
 
     setFavorite(state, memberName) {
-      if (!state.members.some(member => member.memberName === memberName)) {
+      if (!state.members.some((member) => member.memberName === memberName)) {
         state.members.push({
           memberName: memberName,
           favoritedAt: new Date(),
@@ -29,13 +29,13 @@ export default {
       }
     },
     removeFavorite(state, memberName) {
-      state.members = state.members.filter(member => member.memberName !== memberName);
+      state.members = state.members.filter((member) => member.memberName !== memberName);
     },
   },
 
   actions: {
     toggleFavorite({ commit, state }, memberName) {
-      if (state.members.some(member => member.memberName === memberName)) {
+      if (state.members.some((member) => member.memberName === memberName)) {
         commit('removeFavorite', memberName);
       } else {
         commit('setFavorite', memberName);

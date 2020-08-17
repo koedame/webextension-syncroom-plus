@@ -8,7 +8,7 @@ export default {
   },
 
   getters: {
-    rooms: state => {
+    rooms: (state) => {
       return [].concat(state.rooms);
     },
   },
@@ -28,7 +28,7 @@ export default {
           state.rooms = notificationVacancyRooms || [];
         })
         .then(() => {
-          if (!state.rooms.find(room => room.uid === uid)) {
+          if (!state.rooms.find((room) => room.uid === uid)) {
             state.rooms.push({
               uid: uid,
               createdAt: new Date(),
@@ -49,7 +49,7 @@ export default {
           state.rooms = notificationVacancyRooms || [];
         })
         .then(() => {
-          state.rooms = state.rooms.filter(room => room.uid !== uid);
+          state.rooms = state.rooms.filter((room) => room.uid !== uid);
         })
         .then(() => {
           browser.storage.local.set({

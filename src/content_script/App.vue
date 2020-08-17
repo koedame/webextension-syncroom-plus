@@ -88,17 +88,17 @@ export default {
 
   methods: {
     fetchRooms() {
-      axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
-        this.rooms = res.data.rooms.filter(room => room.room_name !== '接続テストルーム');
+      axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
+        this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
         // タグを復号
         for (let i = 0; i < this.rooms.length; i++) {
           this.rooms[i].room_tags = this.tagConvert(this.rooms[i]);
         }
 
-        this.lockedRoomCount = this.rooms.filter(room => room.need_passwd).length;
-        this.unlockedRoomCount = this.rooms.filter(room => !room.need_passwd).length;
+        this.lockedRoomCount = this.rooms.filter((room) => room.need_passwd).length;
+        this.unlockedRoomCount = this.rooms.filter((room) => !room.need_passwd).length;
 
-        this.testRoom = res.data.rooms.find(room => room.room_name === '接続テストルーム');
+        this.testRoom = res.data.rooms.find((room) => room.room_name === '接続テストルーム');
       });
     },
     tagConvert(room) {
@@ -148,12 +148,12 @@ export default {
       let result = keyword;
 
       // 英数字をすべて半角に統一
-      result = result.replace(/[Ａ-Ｚａ-ｚ０-９]/g, s => {
+      result = result.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => {
         return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
       });
 
       // ひらがなをカタカナに統一
-      result = result.replace(/[\u3041-\u3096]/g, ch => {
+      result = result.replace(/[\u3041-\u3096]/g, (ch) => {
         return String.fromCharCode(ch.charCodeAt(0) + 0x60);
       });
 
@@ -170,15 +170,15 @@ export default {
       // すべて/鍵あり/鍵なし
       if (this.roomFilter === 'all') {
       } else if (this.roomFilter === 'only_unlocked') {
-        displayRooms = displayRooms.filter(room => !room.need_passwd);
+        displayRooms = displayRooms.filter((room) => !room.need_passwd);
       } else if (this.roomFilter === 'only_locked') {
-        displayRooms = displayRooms.filter(room => room.need_passwd);
+        displayRooms = displayRooms.filter((room) => room.need_passwd);
       }
 
       if (this.keyword.length !== 0) {
         const keyword = this.convertSearchKeyword(this.keyword);
 
-        displayRooms = displayRooms.filter(room => {
+        displayRooms = displayRooms.filter((room) => {
           return this.convertSearchKeyword(`${room.room_name}|${room.members.join('|')}|${room.room_tags.join('|')}|${room.room_desc}`).match(keyword);
         });
       }

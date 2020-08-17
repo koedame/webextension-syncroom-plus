@@ -113,8 +113,8 @@ export default {
     },
 
     makeJoinUri(room, pass, pid, mode) {
-      var urienc = function(str) {
-        return encodeURIComponent(str).replace(/[!*'()]/g, function(c) {
+      var urienc = function (str) {
+        return encodeURIComponent(str).replace(/[!*'()]/g, function (c) {
           return '%' + c.charCodeAt(0).toString(16);
         });
       };
@@ -157,7 +157,7 @@ export default {
       return this.numMembers === 5;
     },
     isNotificationVacancyRoom() {
-      return this.$store.getters['notificationVacancyRooms/rooms'].find(r => r.uid === `${this.createTime}||${this.roomName}`);
+      return this.$store.getters['notificationVacancyRooms/rooms'].find((r) => r.uid === `${this.createTime}||${this.roomName}`);
     },
   },
 };

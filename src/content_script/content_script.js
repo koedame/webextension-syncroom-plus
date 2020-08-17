@@ -29,7 +29,7 @@ setInterval(() => {
 new Vue({
   el: 'main > article',
   store: store,
-  render: h => h(App),
+  render: (h) => h(App),
 });
 
 // ファビコン追加
