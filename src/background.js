@@ -15,6 +15,25 @@ browser.browserAction.onClicked.addListener(function() {
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
 store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 
+// 参考: https://qiita.com/sakuraya/items/33f93e19438d0694a91d
+const userAgent = window.navigator.userAgent.toLowerCase();
+let currentBrowser;
+if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
+  currentBrowser = 'InternetExplorer';
+} else if (userAgent.indexOf('edge') !== -1) {
+  currentBrowser = 'Edge';
+} else if (userAgent.indexOf('chrome') !== -1) {
+  currentBrowser = 'GoogleChrome';
+} else if (userAgent.indexOf('safari') !== -1) {
+  currentBrowser = 'Safari';
+} else if (userAgent.indexOf('firefox') !== -1) {
+  currentBrowser = 'FireFox';
+} else if (userAgent.indexOf('opera') !== -1) {
+  currentBrowser = 'Opera';
+} else {
+  currentBrowser = 'unknown';
+}
+
 setInterval(() => {
   // 他のscriptから変更されたものはreactiveにならないので、最初にfetchしておく
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
@@ -34,13 +53,20 @@ setInterval(() => {
           const uid = `${room.create_time}||${room.room_name}`;
           const isExistNotificationVacancyRooms = notificationVacancyRooms.find(r => r.uid === uid);
           if (isExistNotificationVacancyRooms) {
-            browser.notifications.create(`vacancy::${uid}`, {
+            const options = {
               type: 'basic',
               iconUrl: 'icons/icon_128.png',
               title: `ルーム名：${room.room_name}`,
               message: '空きがでました',
-              requireInteraction: true,
-            });
+              isClickable: true,
+            };
+
+            if (currentBrowser === 'GoogleChrome') {
+              // このオプションはGoogleChromeしか対応していないので判定して追加する
+              // 参考: https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/API/notifications/NotificationOptions
+              options.requireInteraction = true;
+            }
+            browser.notifications.create(`vacancy::${uid}`, options);
           }
         }
       }
