@@ -44,7 +44,18 @@ const config = {
       },
       {
         test: /\.sass$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax'],
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                indentedSyntax: true,
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg|ico)$/,
@@ -89,7 +100,7 @@ const config = {
       {
         from: 'manifest.json',
         to: 'manifest.json',
-        transform: content => {
+        transform: (content) => {
           const jsonContent = JSON.parse(content);
           jsonContent.version = version;
 
