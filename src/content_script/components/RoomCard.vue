@@ -14,34 +14,7 @@
 
     p.room_desc(:title="roomDesc") {{ roomDesc }}
 
-    .members(:style="`background-image: url(${backgroundLogoLink})`")
-      .members__item(v-for="(member, i) in members", :key="`${member}-${i}`")
-        .members__item__left
-          img.members__item__left__icon(
-            v-if="iconlist && iconlist[i] && (iconlist[i].iconurl || iconlist[i].icon)",
-            :src="iconlist[i].iconurl.replace('http:', 'https:') || memberIconLinks[iconlist[i].icon]"
-          )
-          .members__item__left__icon(v-else)
-        .members__item__right
-          .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
-            //- FIXME: メンバー名が長いとお気に入りボタンが表示されないのでスタイルを修正する
-            | {{ member }}
-            button.members__item__right__name__add-favorite(type="button", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
-              template(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
-                fa(:icon="['fas', 'star']")
-              template(v-else)
-                fa(:icon="['far', 'star']")
-          .members__item__right__volumes
-            VolumeMeter
-      .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
-        .members__item__left
-          .members__item__left__icon.members__item__left__icon--unknown
-        .members__item__right
-          .members__item__right__name
-            | ?????
-          .members__item__right__volumes
-            VolumeMeter
-      .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
+    Members(:num-members="numMembers", :members="members", :iconlist="iconlist")
 
     .card__body__buttons--no_vacancy(v-if="isNoVacancy")
       template(v-if="isNotificationVacancyRoom")
@@ -64,8 +37,8 @@
 </template>
 
 <script>
-import VolumeMeter from './VolumeMeter';
 import RemainingTime from './RemainingTime';
+import Members from './Members';
 
 export default {
   props: {
@@ -103,30 +76,8 @@ export default {
     },
   },
   components: {
-    VolumeMeter,
     RemainingTime,
-  },
-  data() {
-    return {
-      memberIconLinks: [
-        browser.extension.getURL('/icons/member-icon-0.png'),
-        browser.extension.getURL('/icons/member-icon-1.png'),
-        browser.extension.getURL('/icons/member-icon-2.png'),
-        browser.extension.getURL('/icons/member-icon-3.png'),
-        browser.extension.getURL('/icons/member-icon-4.png'),
-        browser.extension.getURL('/icons/member-icon-5.png'),
-        browser.extension.getURL('/icons/member-icon-6.png'),
-        browser.extension.getURL('/icons/member-icon-7.png'),
-        browser.extension.getURL('/icons/member-icon-8.png'),
-        browser.extension.getURL('/icons/member-icon-9.png'),
-        browser.extension.getURL('/icons/member-icon-10.png'),
-        browser.extension.getURL('/icons/member-icon-11.png'),
-        browser.extension.getURL('/icons/member-icon-12.png'),
-        browser.extension.getURL('/icons/member-icon-13.png'),
-      ],
-      backgroundLogoLink: browser.extension.getURL('/icons/icon-background-logo.png'),
-      iconLockLink: browser.extension.getURL('/icons/icon-lock.png'),
-    };
+    Members,
   },
   methods: {
     onSetNotificationVacancyRoom() {
@@ -208,12 +159,6 @@ export default {
     isNotificationVacancyRoom() {
       return this.$store.getters['notificationVacancyRooms/rooms'].find(r => r.uid === `${this.createTime}||${this.roomName}`);
     },
-    unknownMemberNum() {
-      return this.numMembers - this.members.length;
-    },
-    emptyNum() {
-      return 5 - this.numMembers;
-    },
   },
 };
 </script>
@@ -278,54 +223,6 @@ export default {
       height: calc( 1.8em * 3 )
       line-height: 1.8em
       border-radius: 5px
-
-    .members
-      margin-bottom: 1em
-      background: #F9FCFF
-      background-color: #F9FCFF
-      background-repeat: no-repeat
-      background-size: contain
-      overflow: hidden
-      border-radius: 5px
-
-      &__item
-        display: flex
-        justify-content: space-between
-        padding: 5px
-        border-bottom: solid 2px #9090B0
-        height: 47px
-
-        &:last-child
-          border-bottom: none
-
-        &__left
-          width: 35px
-          &__icon
-            width: 35px
-            height: 35px
-            border-radius: 4px
-            background: #888
-
-        &__right
-          width: 230px
-          height: 35px
-          &__name
-            height: 24px
-            white-space: nowrap
-            overflow: hidden
-            text-overflow: ellipsis
-            &--favorite
-              background: #ffff80
-
-            &__add-favorite
-              float: right
-              border: none
-              outline: none
-              cursor: pointer
-
-          &__volumes
-            border-radius: 2px
-            overflow: hidden
 
     &__buttons
       display: flex
