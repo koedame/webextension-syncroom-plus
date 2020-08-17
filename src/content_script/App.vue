@@ -1,5 +1,5 @@
 <template lang="pug">
-#SYNCROOM_PLUS-main(v-if="rooms")
+#SYNCROOM_PLUS-main(v-if="rooms.length !== 0")
   h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧
 
   .filter-form
@@ -39,6 +39,12 @@
       :roomTags="room.room_tags || []"
     )
 
+    .SYNCROOM_PLUS-main__rooms__empty(v-if="filteredRooms.length === 0")
+      span(v-if="keyword.length === 0")
+        | ルームがありません😔
+      span(v-else)
+        | ルームが見つかりませんでした😔
+
   h2#testroom.SYNCROOM_PLUS-main__subtitle 接続テストルーム
 
   .SYNCROOM_PLUS-main__rooms
@@ -65,10 +71,7 @@ export default {
   },
   data() {
     return {
-      timer: null,
       rooms: [],
-      unlockedRooms: [],
-      lockedRooms: [],
       testRoom: null,
       roomFilter: 'all',
       keyword: '',
@@ -315,6 +318,15 @@ export default {
   display: flex
   justify-content: center
   flex-wrap: wrap
+
+  &__empty
+    background: #d9e3fe
+    width: 100%
+    text-align: center
+    margin: 20px 20px
+    font-size: 32px
+    padding: 50px 0
+    border-radius: 5px
 
 .filter-form
   text-align: center
