@@ -108,8 +108,6 @@ export default {
   },
   data() {
     return {
-      timer: null,
-      endAt: null,
       memberIconLinks: [
         browser.extension.getURL('/icons/member-icon-0.png'),
         browser.extension.getURL('/icons/member-icon-1.png'),
