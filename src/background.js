@@ -47,8 +47,7 @@ setInterval(() => {
 
       // roomがなくなっていれば通知を削除
       for (let i = 0; i < notificationVacancyRooms.length; i++) {
-        if (!rooms.find(r => `${r.create_time}-${r.room_name}` === notificationVacancyRooms[i].uid)) {
-        } else {
+        if (!rooms.find(r => `${r.create_time}||${r.room_name}` === notificationVacancyRooms[i].uid)) {
           store.dispatch('notificationVacancyRooms/removeNotificationByUID', notificationVacancyRooms[i].uid);
           // 通知が残っていれば消しておく
           browser.notifications.clear(notificationVacancyRooms[i].uid);
