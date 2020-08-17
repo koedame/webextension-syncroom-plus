@@ -7,11 +7,8 @@
 export default {
   data() {
     return {
-      volumeMeterImageLink: null,
+      volumeMeterImageLink: browser.extension.getURL(`/images/volume-meter-${Math.floor(Math.random() * Math.floor(20))}.gif`),
     };
-  },
-  mounted() {
-    this.volumeMeterImageLink = browser.extension.getURL(`/images/volume-meter-${Math.floor(Math.random() * Math.floor(20))}.gif`);
   },
 };
 </script>

@@ -30,14 +30,10 @@
       v-for="room in filteredRooms",
       :key="`room-${room.creator_mid}`",
       :createTime="room.create_time",
-      :creatorMid="room.creator_mid",
-      :creatorNick="room.creator_nick",
       :iconlist="room.iconlist || []",
-      :index="room.index",
       :members="room.members",
       :needPasswd="room.need_passwd",
       :numMembers="room.num_members",
-      :realm="room.realm",
       :roomDesc="room.room_desc || ''",
       :roomName="room.room_name"
       :roomTags="room.room_tags || []"
@@ -49,14 +45,10 @@
     RoomCard(
       v-if="testRoom",
       :createTime="testRoom.create_time",
-      :creatorMid="testRoom.creator_mid",
-      :creatorNick="testRoom.creator_nick",
       :iconlist="testRoom.iconlist || []",
-      :index="testRoom.index",
       :members="testRoom.members",
       :needPasswd="testRoom.need_passwd",
       :numMembers="testRoom.num_members",
-      :realm="testRoom.realm",
       roomDesc="SYNCROOMの公式テストルームです。入室すると、音声が3秒後に返ってきますので、通信の確認をすることができます。",
       :roomName="testRoom.room_name"
       :roomTags="testRoom.room_tags || []"
