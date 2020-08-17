@@ -2,7 +2,8 @@
 .card(:class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }")
   .card__header
     span.card__header__item
-    span.card__header__item.card__header__item--timer {{ remainingTime }}
+    span.card__header__item.card__header__item--timer
+      RemainingTime(:create-time="createTime")
     span.card__header__item
   .card__body
     h3.room_name {{ roomName }}
@@ -62,9 +63,8 @@
 </template>
 
 <script>
-import moment from 'moment';
 import VolumeMeter from './VolumeMeter';
-require('moment-timezone');
+import RemainingTime from './RemainingTime';
 
 export default {
   props: {
@@ -119,6 +119,7 @@ export default {
   },
   components: {
     VolumeMeter,
+    RemainingTime,
   },
   data() {
     return {
@@ -217,15 +218,7 @@ export default {
     },
   },
 
-  created() {
-    this.endAt = moment(this.createTime, 'YYYY-MM-DD hh:mm:ss zz').add(6, 'h');
-  },
-
   computed: {
-    remainingTime() {
-      const remainingTime = this.endAt.diff(this.$store.state.clock.currentTime);
-      return moment(remainingTime).format('HH:mm:ss');
-    },
     isNoVacancy() {
       return this.numMembers === 5;
     },
