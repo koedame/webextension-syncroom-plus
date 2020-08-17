@@ -58,7 +58,6 @@ setInterval(() => {
               iconUrl: 'icons/icon_128.png',
               title: `ルーム名：${room.room_name}`,
               message: '空きがでました',
-              isClickable: true,
             };
 
             if (currentBrowser === 'GoogleChrome') {
