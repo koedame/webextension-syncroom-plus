@@ -1,16 +1,18 @@
 # SYNCROOM Plus
 
-[SYNCROOM のプレイヤーズサイト](https://syncroom.yamaha.com/play/)に情報を追加する拡張機能です。
+[SYNCROOM のプレイヤーズサイト](https://syncroom.yamaha.com/play/)に機能を追加する拡張機能です。
 
 ![SYNCROOM-Plus](/docs/screenshot.gif)
 
 ## 機能
 
-- 👤 メンバー表示機能
-- ⏳ 残り時間表示機能
-- ⭐ お気に入り機能
-- 🔍 絞り込み機能
-- 🚫 満室表示
+- 👤 各ルームのメンバー表示
+- ⭐ メンバーお気に入り
+- ⏳ ルームの残り時間表示
+- 🔍 高度な検索
+- 🚫 満室表示切り替え
+- 🔔 満室空き通知
+- 🍎 ファビコン
 
 ## 対応ブラウザ
 
@@ -18,3 +20,15 @@
 - ✅ Mozilla Firefox （[SYNCROOM Plus をインストール](https://addons.mozilla.org/ja/firefox/addon/syncroom-plus/)）
 - ✅ Opera
 - ✅ Microsoft Edge
+
+## 開発
+
+### ビルド手順
+
+```
+npm install
+npm run build
+npm run build-zip
+```
+
+`dist-zip` ディレクトリに各ブラウザ用のパッケージがビルドされます。
