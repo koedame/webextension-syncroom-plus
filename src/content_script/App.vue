@@ -147,6 +147,10 @@ export default {
     convertSearchKeyword(keyword) {
       let result = keyword;
 
+      // 記号を削除
+      /* eslint-disable no-useless-escape */
+      result = result.replace(/[\~\!\@\#\$\%\^\&\*\(\)\_\+\`\-\=\[\]\\\{\}\|\;\'\:\"\,\.\/\<\>\?\']/g, '');
+
       // 英数字をすべて半角に統一
       result = result.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => {
         return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
