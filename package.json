@@ -65,7 +65,7 @@
     "husky": "^4.2.5",
     "mini-css-extract-plugin": "^0.10.0",
     "node-sass": "^4.9.3",
-    "prettier": "^1.17.1",
+    "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.0.0",
