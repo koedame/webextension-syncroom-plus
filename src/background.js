@@ -4,7 +4,7 @@ import axios from 'axios';
 global.browser = require('webextension-polyfill');
 
 // アイコンクリック時のアクション
-browser.browserAction.onClicked.addListener(function () {
+browser.browserAction.onClicked.addListener(() => {
   browser.tabs.create({
     url: 'https://syncroom.yamaha.com/play/',
     active: true,

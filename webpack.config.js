@@ -36,17 +36,26 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'vue-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+            },
+          },
+        ],
       },
       {
         test: /\.sass$/,
         use: [
           'vue-style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+            },
+          },
           {
             loader: 'sass-loader',
             options: {
