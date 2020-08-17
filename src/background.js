@@ -4,7 +4,7 @@ import axios from 'axios';
 global.browser = require('webextension-polyfill');
 
 // アイコンクリック時のアクション
-browser.browserAction.onClicked.addListener(function() {
+browser.browserAction.onClicked.addListener(function () {
   browser.tabs.create({
     url: 'https://syncroom.yamaha.com/play/',
     active: true,
@@ -42,7 +42,7 @@ setInterval(() => {
   const notificationVacancyRooms = store.getters['notificationVacancyRooms/rooms'];
 
   if (notificationVacancyRooms.length !== 0) {
-    axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
+    axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
       const rooms = res.data.rooms;
 
       for (let i = 0; i < rooms.length; i++) {
@@ -51,7 +51,7 @@ setInterval(() => {
         // 空き通知
         if (room.num_members < 5) {
           const uid = `${room.create_time}||${room.room_name}`;
-          const isExistNotificationVacancyRooms = notificationVacancyRooms.find(r => r.uid === uid);
+          const isExistNotificationVacancyRooms = notificationVacancyRooms.find((r) => r.uid === uid);
           if (isExistNotificationVacancyRooms) {
             const options = {
               type: 'basic',
@@ -72,7 +72,7 @@ setInterval(() => {
 
       // roomがなくなっていれば通知を削除
       for (let i = 0; i < notificationVacancyRooms.length; i++) {
-        if (!rooms.find(r => `${r.create_time}||${r.room_name}` === notificationVacancyRooms[i].uid)) {
+        if (!rooms.find((r) => `${r.create_time}||${r.room_name}` === notificationVacancyRooms[i].uid)) {
           store.dispatch('notificationVacancyRooms/removeNotificationByUID', notificationVacancyRooms[i].uid);
           // 通知が残っていれば消しておく
           browser.notifications.clear(notificationVacancyRooms[i].uid);
@@ -83,8 +83,8 @@ setInterval(() => {
 }, 1000);
 
 const makeJoinUri = (roomName, pass, pid, mode) => {
-  var urienc = function(str) {
-    return encodeURIComponent(str).replace(/[!*'()]/g, function(c) {
+  var urienc = function (str) {
+    return encodeURIComponent(str).replace(/[!*'()]/g, function (c) {
       return '%' + c.charCodeAt(0).toString(16);
     });
   };
@@ -121,15 +121,15 @@ const makeJoinUri = (roomName, pass, pid, mode) => {
   return uri;
 };
 
-browser.notifications.onClicked.addListener(notificationId => {
+browser.notifications.onClicked.addListener((notificationId) => {
   const splittedNotificationId = notificationId.split('::');
   const actionType = splittedNotificationId[0];
   const uid = splittedNotificationId[1];
 
   if (actionType === 'vacancy') {
     const roomName = uid.split('||')[1];
-    axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
-      const room = res.data.rooms.find(room => room.room_name === roomName);
+    axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
+      const room = res.data.rooms.find((room) => room.room_name === roomName);
 
       if (room.need_passwd) {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
@@ -153,7 +153,7 @@ browser.notifications.onClicked.addListener(notificationId => {
   browser.notifications.clear(notificationId);
 });
 
-browser.notifications.onClosed.addListener(notificationId => {
+browser.notifications.onClosed.addListener((notificationId) => {
   const splittedNotificationId = notificationId.split('::');
   const actionType = splittedNotificationId[0];
   const uid = splittedNotificationId[1];

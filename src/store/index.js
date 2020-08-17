@@ -22,8 +22,8 @@ export default new Vuex.Store({
     createMutationsSharer({
       predicate: (mutation, state) => {
         const predicate = []
-          .concat(Object.keys(favoriteMembers.mutations).map(name => `favoriteMembers/${name}`))
-          .concat(Object.keys(notificationVacancyRooms.mutations).map(name => `notificationVacancyRooms/${name}`));
+          .concat(Object.keys(favoriteMembers.mutations).map((name) => `favoriteMembers/${name}`))
+          .concat(Object.keys(notificationVacancyRooms.mutations).map((name) => `notificationVacancyRooms/${name}`));
         // Conditionally trigger other plugins subscription event here to
         // have them called only once (in the tab where the commit happened)
         // ie. save certain values to localStorage
