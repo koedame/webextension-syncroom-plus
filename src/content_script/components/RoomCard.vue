@@ -69,20 +69,8 @@ import RemainingTime from './RemainingTime';
 
 export default {
   props: {
-    realm: {
-      type: Number,
-      required: true,
-    },
     iconlist: {
       type: Array,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-    creatorMid: {
-      type: String,
       required: true,
     },
     createTime: {
@@ -103,10 +91,6 @@ export default {
     },
     members: {
       type: Array,
-      required: true,
-    },
-    creatorNick: {
-      type: String,
       required: true,
     },
     needPasswd: {
