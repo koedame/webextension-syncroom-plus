@@ -1,6 +1,6 @@
 # SYNCROOM Plus
 
-[SYNCROOM のプレイヤーズサイト](https://syncroom.yamaha.com/play/)に機能を追加する拡張機能です。
+[SYNCROOM のプレイヤーズサイト](https://syncroom.yamaha.com/play/)に機能を追加します。
 
 ![SYNCROOM-Plus](/docs/screenshot.gif)
 
