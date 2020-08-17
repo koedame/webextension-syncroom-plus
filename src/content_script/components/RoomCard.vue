@@ -146,11 +146,11 @@ export default {
   },
   methods: {
     onSetNotificationVacancyRoom() {
-      this.$store.dispatch('notificationVacancyRooms/setNotificationByUID', `${this.createTime}-${this.roomName}`);
+      this.$store.dispatch('notificationVacancyRooms/setNotificationByUID', `${this.createTime}||${this.roomName}`);
     },
 
     onRemoveNotificationVacancyRoom() {
-      this.$store.dispatch('notificationVacancyRooms/removeNotificationByUID', `${this.createTime}-${this.roomName}`);
+      this.$store.dispatch('notificationVacancyRooms/removeNotificationByUID', `${this.createTime}||${this.roomName}`);
     },
 
     onOpenSyncroom() {
@@ -230,7 +230,7 @@ export default {
       return this.numMembers === 5;
     },
     isNotificationVacancyRoom() {
-      return this.$store.getters['notificationVacancyRooms/rooms'].find(r => r.uid === `${this.createTime}-${this.roomName}`);
+      return this.$store.getters['notificationVacancyRooms/rooms'].find(r => r.uid === `${this.createTime}||${this.roomName}`);
     },
     unknownMemberNum() {
       return this.numMembers - this.members.length;
