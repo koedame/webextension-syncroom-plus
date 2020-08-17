@@ -31,7 +31,7 @@ setInterval(() => {
 
         // 空き通知
         if (room.num_members < 5) {
-          const uid = `${room.create_time}-${room.room_name}`;
+          const uid = `${room.create_time}||${room.room_name}`;
           const isExistNotificationVacancyRooms = notificationVacancyRooms.find(r => r.uid === uid);
           if (isExistNotificationVacancyRooms) {
             browser.notifications.create(`vacancy::${uid}`, {
@@ -57,14 +57,71 @@ setInterval(() => {
   }
 }, 1000);
 
+const makeJoinUri = (roomName, pass, pid, mode) => {
+  var urienc = function(str) {
+    return encodeURIComponent(str).replace(/[!*'()]/g, function(c) {
+      return '%' + c.charCodeAt(0).toString(16);
+    });
+  };
+
+  var str = 'joingroup?mode=' + urienc(mode) + '&pid=' + urienc(pid) + '&nickname=&groupname=' + urienc(roomName) + '&password=' + urienc(pass);
+  var uri = 'syncroom:';
+  var tbl = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  var len = str.length;
+  var mod = len % 3;
+  if (mod > 0) len -= mod;
+
+  var i, t;
+  for (i = 0; i < len; i += 3) {
+    t = (str.charCodeAt(i + 0) << 16) | (str.charCodeAt(i + 1) << 8) | str.charCodeAt(i + 2);
+    uri += tbl.charAt((t >> 18) & 0x3f);
+    uri += tbl.charAt((t >> 12) & 0x3f);
+    uri += tbl.charAt((t >> 6) & 0x3f);
+    uri += tbl.charAt(t & 0x3f);
+  }
+  if (mod === 2) {
+    t = (str.charCodeAt(i + 0) << 16) | (str.charCodeAt(i + 1) << 8);
+    uri += tbl.charAt((t >> 18) & 0x3f);
+    uri += tbl.charAt((t >> 12) & 0x3f);
+    uri += tbl.charAt((t >> 6) & 0x3f);
+    uri += '=';
+  } else if (mod === 1) {
+    t = str.charCodeAt(i + 0) << 16;
+    uri += tbl.charAt((t >> 18) & 0x3f);
+    uri += tbl.charAt((t >> 12) & 0x3f);
+    uri += '=';
+    uri += '=';
+  }
+
+  return uri;
+};
+
 browser.notifications.onClicked.addListener(notificationId => {
   const splittedNotificationId = notificationId.split('::');
   const actionType = splittedNotificationId[0];
   const uid = splittedNotificationId[1];
 
   if (actionType === 'vacancy') {
-    // TODO: 自動でSYNCROOMを開くように
-    // TODO: パスワードつきのものはブラウザを経由して開くように
+    const roomName = uid.split('||')[1];
+    axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then(res => {
+      const room = res.data.rooms.find(room => room.room_name === roomName);
+
+      if (room.need_passwd) {
+        const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
+        if (pwPrompt) {
+          browser.tabs.create({
+            url: makeJoinUri(roomName, pwPrompt, 4, 2),
+            active: true,
+          });
+        }
+      } else {
+        browser.tabs.create({
+          url: makeJoinUri(roomName, '', 4, 2),
+          active: true,
+        });
+      }
+    });
+
     store.dispatch('notificationVacancyRooms/removeNotificationByUID', uid);
   }
 
