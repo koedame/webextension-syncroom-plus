@@ -1,3 +1,16 @@
+/* eslint-disable import/first */
+// コンフリクトしないように既存のscriptを削除
+const scriptTags = window.document.querySelectorAll('script');
+for (let i = 0; i < scriptTags.length; i++) {
+  scriptTags[i].remove();
+}
+
+// 不要なのでTwitter領域を削除
+const iframeTags = window.document.querySelectorAll('iframe');
+for (let i = 0; i < iframeTags.length; i++) {
+  iframeTags[i].remove();
+}
+
 import Vue from 'vue';
 import App from './App';
 import store from '../store';
