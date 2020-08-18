@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 // コンフリクトしないように既存のscriptを削除
 const scriptTags = window.document.querySelectorAll('script');
 for (let i = 0; i < scriptTags.length; i++) {
