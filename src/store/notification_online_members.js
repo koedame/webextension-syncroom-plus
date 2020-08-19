@@ -19,7 +19,7 @@ export default {
       });
     },
 
-    setNotification(state, memberName) {
+    setNotification(state, { memberName, roomCreateTime }) {
       browser.storage.local
         .get('notificationOnlineMembers')
         .then(({ notificationOnlineMembers }) => {
@@ -30,7 +30,36 @@ export default {
             state.members.push({
               memberName: memberName,
               createdAt: new Date(),
+              lastNotificationRoomCreatedTime: roomCreateTime,
             });
+          }
+        })
+        .then(() => {
+          browser.storage.local.set({
+            notificationOnlineMembers: JSON.parse(JSON.stringify(state.members)),
+          });
+        });
+    },
+
+    updateNotification(state, { memberName, roomCreateTime }) {
+      browser.storage.local
+        .get('notificationOnlineMembers')
+        .then(({ notificationOnlineMembers }) => {
+          state.members = notificationOnlineMembers || [];
+        })
+        .then(() => {
+          if (state.members.some((m) => m.memberName === memberName)) {
+            const members = state.members.filter((m) => m.memberName !== memberName);
+
+            const member = state.members.some((m) => m.memberName === memberName);
+
+            members.push({
+              memberName: memberName,
+              createdAt: member.createdAt,
+              lastNotificationRoomCreatedTime: roomCreateTime,
+            });
+
+            state.members = members;
           }
         })
         .then(() => {
@@ -62,15 +91,19 @@ export default {
       commit('removeNotification', memberName);
     },
 
-    setNotification({ commit }, memberName) {
-      commit('setNotification', memberName);
+    setNotification({ commit }, { memberName, roomCreateTime }) {
+      commit('setNotification', { memberName, roomCreateTime });
     },
 
-    toggle({ commit, state }, memberName) {
+    updateNotification({ commit }, { memberName, roomCreateTime }) {
+      commit('updateNotification', { memberName, roomCreateTime });
+    },
+
+    toggle({ commit, state }, { memberName, roomCreateTime }) {
       if (state.members.some((member) => member.memberName === memberName)) {
         commit('removeNotification', memberName);
       } else {
-        commit('setNotification', memberName);
+        commit('setNotification', { memberName, roomCreateTime });
       }
     },
 

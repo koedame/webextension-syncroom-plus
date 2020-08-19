@@ -11,7 +11,7 @@
       .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
         span.members__item__right__name__text
           | {{ member }}
-        button.members__item__right__name__add-notification(type="button", @click="$store.dispatch('notificationOnlineMembers/toggle', member)")
+        button.members__item__right__name__add-notification(type="button", @click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
           template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
             fa.members__item__right__name__add-notification__on(:icon="['fas', 'bell']")
           template(v-else)
@@ -49,6 +49,10 @@ export default {
     },
     members: {
       type: Array,
+      required: true,
+    },
+    roomCreateTime: {
+      type: String,
       required: true,
     },
   },
