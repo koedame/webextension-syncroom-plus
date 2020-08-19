@@ -14,7 +14,7 @@
 
     p.room_desc(:title="roomDesc") {{ roomDesc }}
 
-    Members(:num-members="numMembers", :members="members", :iconlist="iconlist")
+    Members(:num-members="numMembers", :members="members", :iconlist="iconlist", :room-create-time="createTime")
 
     .card__body__buttons--no_vacancy(v-if="isNoVacancy")
       template(v-if="isNotificationVacancyRoom")
