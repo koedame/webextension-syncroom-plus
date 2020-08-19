@@ -31,11 +31,13 @@ Vue.prototype.$browser = global.browser;
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
 store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
+store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 
 // background.js側で更新されたデータは反映されないので定期的に読み込みを行う
 setInterval(() => {
   store.dispatch('favoriteMembers/restoreFromLocalStorage');
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
+  store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 }, 1000);
 
 /* eslint-disable no-new */

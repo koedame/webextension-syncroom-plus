@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import clock from './clock.js';
 import favoriteMembers from './favorite_members.js';
 import notificationVacancyRooms from './notification_vacancy_rooms.js';
+import notificationOnlineMembers from './notification_online_members.js';
 
 import createMutationsSharer from 'vuex-shared-mutations';
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     clock: clock,
     favoriteMembers: favoriteMembers,
     notificationVacancyRooms: notificationVacancyRooms,
+    notificationOnlineMembers: notificationOnlineMembers,
   },
   plugins: [
     // 複数Tab/Windowでのstateの共有
@@ -23,7 +25,8 @@ export default new Vuex.Store({
       predicate: (mutation, state) => {
         const predicate = []
           .concat(Object.keys(favoriteMembers.mutations).map((name) => `favoriteMembers/${name}`))
-          .concat(Object.keys(notificationVacancyRooms.mutations).map((name) => `notificationVacancyRooms/${name}`));
+          .concat(Object.keys(notificationVacancyRooms.mutations).map((name) => `notificationVacancyRooms/${name}`))
+          .concat(Object.keys(notificationOnlineMembers.mutations).map((name) => `notificationOnlineMembers/${name}`));
         // Conditionally trigger other plugins subscription event here to
         // have them called only once (in the tab where the commit happened)
         // ie. save certain values to localStorage

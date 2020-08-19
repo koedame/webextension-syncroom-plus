@@ -11,9 +11,14 @@
       .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
         span.members__item__right__name__text
           | {{ member }}
+        button.members__item__right__name__add-notification(type="button", @click="$store.dispatch('notificationOnlineMembers/toggle', member)")
+          template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
+            fa.members__item__right__name__add-notification__on(:icon="['fas', 'bell']")
+          template(v-else)
+            fa(:icon="['far', 'bell-slash']")
         button.members__item__right__name__add-favorite(type="button", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
           template(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
-            fa(:icon="['fas', 'star']")
+            fa.members__item__right__name__add-favorite__on(:icon="['fas', 'star']")
           template(v-else)
             fa(:icon="['far', 'star']")
       .members__item__right__volumes
@@ -116,12 +121,9 @@ export default {
       height: 35px
       &__name
         height: 24px
-        white-space: nowrap
-        overflow: hidden
-        text-overflow: ellipsis
         &__text
           display: inline-block
-          width: 200px
+          width: 170px
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
@@ -129,10 +131,26 @@ export default {
           background: #ffff80
 
         &__add-favorite
-          float: right
           border: none
           outline: none
           cursor: pointer
+          display: inline-block
+          vertical-align: super
+          color: #949494
+
+          &__on
+            color: #ffa90a
+
+        &__add-notification
+          border: none
+          outline: none
+          cursor: pointer
+          display: inline-block
+          vertical-align: super
+          color: #949494
+
+          &__on
+            color: #ffa90a
 
       &__volumes
         border-radius: 2px
