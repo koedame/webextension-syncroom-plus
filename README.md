@@ -17,14 +17,12 @@
 
 ## 対応ブラウザ
 
-- ✅ Google Chrome
+- ✅ Google Chrome（申請中）
 - ✅ Mozilla Firefox （[SYNCROOM Plus をインストール](https://addons.mozilla.org/ja/firefox/addon/syncroom-plus/)）
-- ✅ Opera
-- ✅ Microsoft Edge
+- ✅ Opera（申請中）
+- ✅ Microsoft Edge（申請中）
 
-## 開発
-
-### ビルド手順
+## ビルド手順
 
 ```
 npm install
