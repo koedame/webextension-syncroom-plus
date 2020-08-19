@@ -15,7 +15,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://syncroom.yamaha.com/play/"],
+      "matches": ["https://syncroom.yamaha.com/play/", "https://syncroom.yamaha.com/play/*=*"],
       "js": ["content_script/content_script.js"]
     }
   ],

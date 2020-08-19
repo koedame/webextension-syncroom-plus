@@ -1,5 +1,21 @@
 # CHANGELOGS
 
+## v1.2.0
+
+### 新規
+
+- メンバーオンライン通知機能
+- 既存の script を無効化
+- 対象ページを追加
+
+### 変更
+
+- 軽微な UI 変更
+
+### 依存パッケージ
+
+- ejs from 3.1.3 to 3.1.5 dependencies javascript
+
 ## v1.1.0
 
 ### 新規

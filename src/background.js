@@ -14,6 +14,7 @@ browser.browserAction.onClicked.addListener(() => {
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
 store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
+store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 
 // 参考: https://qiita.com/sakuraya/items/33f93e19438d0694a91d
 const userAgent = window.navigator.userAgent.toLowerCase();
@@ -37,16 +38,43 @@ if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
 setInterval(() => {
   // 他のscriptから変更されたものはreactiveにならないので、最初にfetchしておく
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
+  store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 
   // 通知登録がある場合のみ実行
   const notificationVacancyRooms = store.getters['notificationVacancyRooms/rooms'];
+  const notificationOnlineMembers = store.getters['notificationOnlineMembers/members'];
 
-  if (notificationVacancyRooms.length !== 0) {
+  if (notificationVacancyRooms.length !== 0 || notificationOnlineMembers.length !== 0) {
     axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
       const rooms = res.data.rooms;
 
       for (let i = 0; i < rooms.length; i++) {
         const room = rooms[i];
+
+        // オンライン通知
+        for (let ii = 0; ii < room.members.length; ii++) {
+          const notificationOnlineMember = notificationOnlineMembers.find((r) => r.memberName === room.members[ii]);
+          // 最後の部屋作成日時と違う場合は通知
+          if (notificationOnlineMember && notificationOnlineMember.lastNotificationRoomCreatedTime !== room.create_time) {
+            const options = {
+              type: 'basic',
+              // TODO: iconをわかりやすいものに変える
+              iconUrl: 'icons/icon_128.png',
+              title: `ルーム名：${room.room_name}`,
+              message: `「${notificationOnlineMember.memberName}」さんがオンラインになりました`,
+            };
+
+            if (currentBrowser === 'GoogleChrome') {
+              // このオプションはGoogleChromeしか対応していないので判定して追加する
+              // 参考: https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/API/notifications/NotificationOptions
+              options.requireInteraction = true;
+            }
+            browser.notifications.create(`online_member::${notificationOnlineMember.memberName}`, options);
+
+            // 更新
+            store.dispatch('notificationOnlineMembers/updateNotification', { memberName: notificationOnlineMember.memberName, roomCreateTime: room.create_time });
+          }
+        }
 
         // 空き通知
         if (room.num_members < 5) {
@@ -55,6 +83,7 @@ setInterval(() => {
           if (isExistNotificationVacancyRooms) {
             const options = {
               type: 'basic',
+              // TODO: iconをわかりやすいものに変える
               iconUrl: 'icons/icon_128.png',
               title: `ルーム名：${room.room_name}`,
               message: '空きがでました',
@@ -124,9 +153,9 @@ const makeJoinUri = (roomName, pass, pid, mode) => {
 browser.notifications.onClicked.addListener((notificationId) => {
   const splittedNotificationId = notificationId.split('::');
   const actionType = splittedNotificationId[0];
-  const uid = splittedNotificationId[1];
 
   if (actionType === 'vacancy') {
+    const uid = splittedNotificationId[1];
     const roomName = uid.split('||')[1];
     axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
       const room = res.data.rooms.find((room) => room.room_name === roomName);
@@ -148,6 +177,13 @@ browser.notifications.onClicked.addListener((notificationId) => {
     });
 
     store.dispatch('notificationVacancyRooms/removeNotificationByUID', uid);
+  }
+
+  if (actionType === 'online_member') {
+    browser.tabs.create({
+      url: 'https://syncroom.yamaha.com/play/',
+      active: true,
+    });
   }
 
   browser.notifications.clear(notificationId);

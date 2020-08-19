@@ -2,17 +2,18 @@
 
 [SYNCROOM のプレイヤーズサイト](https://syncroom.yamaha.com/play/)に機能を追加します。
 
-![SYNCROOM-Plus](/docs/screenshot.jpg)
+![SYNCROOM-Plus](/docs/screenshot_2400x1800.jpg)
 
 ## 機能
 
 - 👤 各ルームのメンバー表示
-- ⭐ メンバーお気に入り
+- ⭐ メンバーお気に入り登録
+- 🔔 メンバーオンライン通知登録
 - ⏳ ルームの残り時間表示
 - 🔍 高度な検索
 - 🚫 満室表示切り替え
-- 🔔 満室空き通知
-- 🍎 ファビコン
+- 🔔 満室空き通知登録
+- 🍎 ファビコン表示
 
 ## 対応ブラウザ
 
