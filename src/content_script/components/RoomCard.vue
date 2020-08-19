@@ -18,13 +18,13 @@
 
     .card__body__buttons--no_vacancy(v-if="isNoVacancy")
       template(v-if="isNotificationVacancyRoom")
-        button.card__body__buttons__button(type="button", @click="onRemoveNotificationVacancyRoom")
-          fa(:icon="['fas', 'bell-slash']")
+        button.card__body__buttons__button.card__body__buttons__button--on(type="button", @click="onRemoveNotificationVacancyRoom")
+          fa(:icon="['fas', 'bell']")
           |
           | 通知を解除
       template(v-else)
         button.card__body__buttons__button(type="button", @click="onSetNotificationVacancyRoom")
-          fa(:icon="['fas', 'bell']")
+          fa(:icon="['far', 'bell-slash']")
           |
           | 空きが出たら通知を受け取る
 
