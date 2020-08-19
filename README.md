@@ -2,7 +2,7 @@
 
 [SYNCROOM のプレイヤーズサイト](https://syncroom.yamaha.com/play/)に機能を追加します。
 
-![SYNCROOM-Plus](/docs/screenshot.jpg)
+![SYNCROOM-Plus](/docs/screenshot_2400x1800.jpg)
 
 ## 機能
 
