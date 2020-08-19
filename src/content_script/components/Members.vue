@@ -11,12 +11,12 @@
       .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
         span.members__item__right__name__text
           | {{ member }}
-        button.members__item__right__name__add-notification(type="button", @click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
+        a.members__item__right__name__add-notification(title="オンライン時に通知を受け取れます", @click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
           template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
             fa.members__item__right__name__add-notification__on(:icon="['fas', 'bell']")
           template(v-else)
             fa(:icon="['far', 'bell-slash']")
-        button.members__item__right__name__add-favorite(type="button", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
+        a.members__item__right__name__add-favorite(title="見つけやすいように表示を目立たせます", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
           template(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
             fa.members__item__right__name__add-favorite__on(:icon="['fas', 'star']")
           template(v-else)
@@ -127,7 +127,7 @@ export default {
         height: 24px
         &__text
           display: inline-block
-          width: 170px
+          width: 175px
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
@@ -141,11 +141,13 @@ export default {
           display: inline-block
           vertical-align: super
           color: #949494
+          padding: 0 6px
 
           &__on
             color: #ffa90a
 
         &__add-notification
+          padding: 0 6px
           border: none
           outline: none
           cursor: pointer
