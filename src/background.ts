@@ -1,10 +1,11 @@
+//@ts-ignore
 import store from './store';
 import axios from 'axios';
 
-global.browser = require('webextension-polyfill');
+const browser = require('webextension-polyfill');
 
 // アイコンクリック時のアクション
-browser.browserAction.onClicked.addListener(() => {
+browser.browserAction.onClicked.addListener((): void => {
   browser.tabs.create({
     url: 'https://syncroom.yamaha.com/play/',
     active: true,
@@ -17,8 +18,8 @@ store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 
 // 参考: https://qiita.com/sakuraya/items/33f93e19438d0694a91d
-const userAgent = window.navigator.userAgent.toLowerCase();
-let currentBrowser;
+const userAgent: string = window.navigator.userAgent.toLowerCase();
+let currentBrowser: string;
 if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
   currentBrowser = 'InternetExplorer';
 } else if (userAgent.indexOf('edge') !== -1) {
@@ -46,17 +47,17 @@ setInterval(() => {
 
   if (notificationVacancyRooms.length !== 0 || notificationOnlineMembers.length !== 0) {
     axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
-      const rooms = res.data.rooms;
+      const rooms: any = res.data.rooms;
 
       for (let i = 0; i < rooms.length; i++) {
-        const room = rooms[i];
+        const room: any = rooms[i];
 
         // オンライン通知
         for (let ii = 0; ii < room.members.length; ii++) {
-          const notificationOnlineMember = notificationOnlineMembers.find((r) => r.memberName === room.members[ii]);
+          const notificationOnlineMember = notificationOnlineMembers.find((r: any) => r.memberName === room.members[ii]);
           // 最後の部屋作成日時と違う場合は通知
           if (notificationOnlineMember && notificationOnlineMember.lastNotificationRoomCreatedTime !== room.create_time) {
-            const options = {
+            const options: any = {
               type: 'basic',
               // TODO: iconをわかりやすいものに変える
               iconUrl: 'icons/icon_128.png',
@@ -78,10 +79,10 @@ setInterval(() => {
 
         // 空き通知
         if (room.num_members < 5) {
-          const uid = `${room.create_time}||${room.room_name}`;
-          const isExistNotificationVacancyRooms = notificationVacancyRooms.find((r) => r.uid === uid);
+          const uid: string = `${room.create_time}||${room.room_name}`;
+          const isExistNotificationVacancyRooms: boolean = notificationVacancyRooms.some((r: any) => r.uid === uid);
           if (isExistNotificationVacancyRooms) {
-            const options = {
+            const options: any = {
               type: 'basic',
               // TODO: iconをわかりやすいものに変える
               iconUrl: 'icons/icon_128.png',
@@ -101,7 +102,7 @@ setInterval(() => {
 
       // roomがなくなっていれば通知を削除
       for (let i = 0; i < notificationVacancyRooms.length; i++) {
-        if (!rooms.find((r) => `${r.create_time}||${r.room_name}` === notificationVacancyRooms[i].uid)) {
+        if (!rooms.find((r: any) => `${r.create_time}||${r.room_name}` === notificationVacancyRooms[i].uid)) {
           store.dispatch('notificationVacancyRooms/removeNotificationByUID', notificationVacancyRooms[i].uid);
           // 通知が残っていれば消しておく
           browser.notifications.clear(notificationVacancyRooms[i].uid);
@@ -111,8 +112,8 @@ setInterval(() => {
   }
 }, 1000);
 
-const makeJoinUri = (roomName, pass, pid, mode) => {
-  var urienc = function (str) {
+const makeJoinUri = (roomName: string, pass: any, pid: number, mode: number) => {
+  var urienc = function (str: string | number): string {
     return encodeURIComponent(str).replace(/[!*'()]/g, function (c) {
       return '%' + c.charCodeAt(0).toString(16);
     });
@@ -150,18 +151,18 @@ const makeJoinUri = (roomName, pass, pid, mode) => {
   return uri;
 };
 
-browser.notifications.onClicked.addListener((notificationId) => {
-  const splittedNotificationId = notificationId.split('::');
-  const actionType = splittedNotificationId[0];
+browser.notifications.onClicked.addListener((notificationId: string): void => {
+  const splittedNotificationId: any = notificationId.split('::');
+  const actionType: string = splittedNotificationId[0];
 
   if (actionType === 'vacancy') {
-    const uid = splittedNotificationId[1];
-    const roomName = uid.split('||')[1];
+    const uid: string = splittedNotificationId[1];
+    const roomName: string = uid.split('||')[1];
     axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
-      const room = res.data.rooms.find((room) => room.room_name === roomName);
+      const room: any = res.data.rooms.find((room: any) => room.room_name === roomName);
 
       if (room.need_passwd) {
-        const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
+        const pwPrompt: any = window.prompt('ルームパスワードを入力してください', '');
         if (pwPrompt) {
           browser.tabs.create({
             url: makeJoinUri(roomName, pwPrompt, 4, 2),
@@ -189,10 +190,10 @@ browser.notifications.onClicked.addListener((notificationId) => {
   browser.notifications.clear(notificationId);
 });
 
-browser.notifications.onClosed.addListener((notificationId) => {
-  const splittedNotificationId = notificationId.split('::');
-  const actionType = splittedNotificationId[0];
-  const uid = splittedNotificationId[1];
+browser.notifications.onClosed.addListener((notificationId: string): void => {
+  const splittedNotificationId: any = notificationId.split('::');
+  const actionType: string = splittedNotificationId[0];
+  const uid: string = splittedNotificationId[1];
 
   if (actionType === 'vacancy') {
     store.dispatch('notificationVacancyRooms/removeNotificationByUID', uid);
