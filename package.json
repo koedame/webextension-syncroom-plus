@@ -70,6 +70,8 @@
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.0.0",
     "sass-loader": "^9.0.3",
+    "ts-loader": "^8.0.2",
+    "typescript": "^3.9.7",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.6.10",
     "web-ext-types": "^3.2.1",
