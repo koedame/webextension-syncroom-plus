@@ -36,7 +36,7 @@ if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
   currentBrowser = 'unknown';
 }
 
-setInterval(() => {
+setInterval((): void => {
   // 他のscriptから変更されたものはreactiveにならないので、最初にfetchしておく
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
   store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
@@ -49,12 +49,10 @@ setInterval(() => {
     axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
       const rooms: any = res.data.rooms;
 
-      for (let i = 0; i < rooms.length; i++) {
-        const room: any = rooms[i];
-
+      for (let room of rooms) {
         // オンライン通知
-        for (let ii = 0; ii < room.members.length; ii++) {
-          const notificationOnlineMember = notificationOnlineMembers.find((r: any) => r.memberName === room.members[ii]);
+        for (let member of room.members) {
+          const notificationOnlineMember = notificationOnlineMembers.find((r: any) => r.memberName === member);
           // 最後の部屋作成日時と違う場合は通知
           if (notificationOnlineMember && notificationOnlineMember.lastNotificationRoomCreatedTime !== room.create_time) {
             const options: any = {
@@ -101,32 +99,32 @@ setInterval(() => {
       }
 
       // roomがなくなっていれば通知を削除
-      for (let i = 0; i < notificationVacancyRooms.length; i++) {
-        if (!rooms.find((r: any) => `${r.create_time}||${r.room_name}` === notificationVacancyRooms[i].uid)) {
-          store.dispatch('notificationVacancyRooms/removeNotificationByUID', notificationVacancyRooms[i].uid);
+      for (let notificationVacancyRoom of notificationVacancyRooms) {
+        if (!rooms.some((r: any) => `${r.create_time}||${r.room_name}` === notificationVacancyRoom.uid)) {
+          store.dispatch('notificationVacancyRooms/removeNotificationByUID', notificationVacancyRoom.uid);
           // 通知が残っていれば消しておく
-          browser.notifications.clear(notificationVacancyRooms[i].uid);
+          browser.notifications.clear(notificationVacancyRoom.uid);
         }
       }
     });
   }
 }, 1000);
 
-const makeJoinUri = (roomName: string, pass: any, pid: number, mode: number) => {
-  var urienc = function (str: string | number): string {
-    return encodeURIComponent(str).replace(/[!*'()]/g, function (c) {
+const makeJoinUri = (roomName: string, pass: any, pid: number, mode: number): string => {
+  let urienc = (str: string | number): string => {
+    return encodeURIComponent(str).replace(/[!*'()]/g, (c) => {
       return '%' + c.charCodeAt(0).toString(16);
     });
   };
 
-  var str = 'joingroup?mode=' + urienc(mode) + '&pid=' + urienc(pid) + '&nickname=&groupname=' + urienc(roomName) + '&password=' + urienc(pass);
-  var uri = 'syncroom:';
-  var tbl = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-  var len = str.length;
-  var mod = len % 3;
+  let str: string = 'joingroup?mode=' + urienc(mode) + '&pid=' + urienc(pid) + '&nickname=&groupname=' + urienc(roomName) + '&password=' + urienc(pass);
+  let uri: string = 'syncroom:';
+  let tbl: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  let len: number = str.length;
+  let mod: number = len % 3;
   if (mod > 0) len -= mod;
 
-  var i, t;
+  let i, t;
   for (i = 0; i < len; i += 3) {
     t = (str.charCodeAt(i + 0) << 16) | (str.charCodeAt(i + 1) << 8) | str.charCodeAt(i + 2);
     uri += tbl.charAt((t >> 18) & 0x3f);
@@ -152,7 +150,7 @@ const makeJoinUri = (roomName: string, pass: any, pid: number, mode: number) => 
 };
 
 browser.notifications.onClicked.addListener((notificationId: string): void => {
-  const splittedNotificationId: any = notificationId.split('::');
+  const splittedNotificationId: Array<string> = notificationId.split('::');
   const actionType: string = splittedNotificationId[0];
 
   if (actionType === 'vacancy') {
@@ -162,7 +160,7 @@ browser.notifications.onClicked.addListener((notificationId: string): void => {
       const room: any = res.data.rooms.find((room: any) => room.room_name === roomName);
 
       if (room.need_passwd) {
-        const pwPrompt: any = window.prompt('ルームパスワードを入力してください', '');
+        const pwPrompt: string = window.prompt('ルームパスワードを入力してください', '');
         if (pwPrompt) {
           browser.tabs.create({
             url: makeJoinUri(roomName, pwPrompt, 4, 2),
@@ -191,7 +189,7 @@ browser.notifications.onClicked.addListener((notificationId: string): void => {
 });
 
 browser.notifications.onClosed.addListener((notificationId: string): void => {
-  const splittedNotificationId: any = notificationId.split('::');
+  const splittedNotificationId: Array<string> = notificationId.split('::');
   const actionType: string = splittedNotificationId[0];
   const uid: string = splittedNotificationId[1];
 
