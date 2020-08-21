@@ -10,7 +10,10 @@
     .members__item__right
       .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
         span.members__item__right__name__text
-          | {{ member }}
+          template(v-if="member.length === 0")
+            | [仮入室]
+          template(v-else)
+            | {{ member }}
         a.members__item__right__name__add-notification(title="オンライン時に通知を受け取れます", @click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
           template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
             fa.members__item__right__name__add-notification__on(:icon="['fas', 'bell']")
@@ -28,7 +31,7 @@
       .members__item__left__icon.members__item__left__icon--unknown
     .members__item__right
       .members__item__right__name
-        | ?????
+        | [非公開入室]
       .members__item__right__volumes
         VolumeMeter
   .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
