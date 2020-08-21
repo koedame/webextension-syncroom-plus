@@ -62,17 +62,21 @@
         :roomName="testRoom.room_name"
         :roomTags="testRoom.room_tags || []"
       )
+
+  Footer
 </template>
 
 <script>
 import axios from 'axios';
 import RoomCard from './components/RoomCard';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 export default {
   components: {
     RoomCard,
     Navbar,
+    Footer,
   },
   data() {
     return {
