@@ -31,7 +31,7 @@ const buildZip = (src, dist, zipFilename) => {
   return new Promise((resolve, reject) => {
     archive
       .directory(src, false)
-      .on('error', err => reject(err))
+      .on('error', (err) => reject(err))
       .pipe(stream);
 
     stream.on('close', () => resolve());
@@ -56,6 +56,11 @@ const main = () => {
 
   // Opera
   buildZip(DEST_DIR, DEST_ZIP_DIR, `Opera-${name}-v${version}.crx`)
+    .then(() => console.info('OK'))
+    .catch(console.err);
+
+  // Microsoft Edge
+  buildZip(DEST_DIR, DEST_ZIP_DIR, `MicrosoftEdge-${name}-v${version}.zip`)
     .then(() => console.info('OK'))
     .catch(console.err);
 };
