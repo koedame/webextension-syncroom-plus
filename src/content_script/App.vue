@@ -1,73 +1,78 @@
 <template lang="pug">
-#SYNCROOM_PLUS-main(v-if="rooms.length !== 0")
-  h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧
+#SYNCROOM_PLUS-wrapper
+  Navbar
 
-  .filter-form
-    .filter-form__filter-keyword
-      label
-        fa.filter-form__filter-keyword__search-icon(:icon="['fas', 'search']")
-        input.filter-form__filter-keyword__input(v-model="keyword", placeholder="キーワードを入力")
-      fa.filter-form__filter-keyword__clear-icon(:icon="['fas', 'times-circle']", v-if="keyword", @click="keyword = ''")
-    .filter-form__filter-switchs
-      button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'all')}", @click="roomFilter = 'all'")
-        | すべて ({{ this.rooms.length }})
-      button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_unlocked')}", @click="roomFilter = 'only_unlocked'")
-        fa(:icon="['fas', 'lock-open']")
+  #SYNCROOM_PLUS-main(v-if="rooms.length !== 0")
+    h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧
+
+    .filter-form
+      .filter-form__filter-keyword
+        label
+          fa.filter-form__filter-keyword__search-icon(:icon="['fas', 'search']")
+          input.filter-form__filter-keyword__input(v-model="keyword", placeholder="キーワードを入力")
+        fa.filter-form__filter-keyword__clear-icon(:icon="['fas', 'times-circle']", v-if="keyword", @click="keyword = ''")
+      .filter-form__filter-switchs
+        button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'all')}", @click="roomFilter = 'all'")
+          | すべて ({{ this.rooms.length }})
+        button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_unlocked')}", @click="roomFilter = 'only_unlocked'")
+          fa(:icon="['fas', 'lock-open']")
+          |
+          | 鍵なし ({{ this.unlockedRoomCount }})
+        button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_locked')}", @click="roomFilter = 'only_locked'")
+          fa(:icon="['fas', 'lock']")
+          |
+          | 鍵あり ({{ this.lockedRoomCount }})
+
+      a.filter-form__testroom-link(href="#testroom")
+        fa(:icon="['fas', 'headphones-alt']")
         |
-        | 鍵なし ({{ this.unlockedRoomCount }})
-      button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_locked')}", @click="roomFilter = 'only_locked'")
-        fa(:icon="['fas', 'lock']")
-        |
-        | 鍵あり ({{ this.lockedRoomCount }})
+        | 接続テストルームはこちら
 
-    a.filter-form__testroom-link(href="#testroom")
-      fa(:icon="['fas', 'headphones-alt']")
-      |
-      | 接続テストルームはこちら
+    .SYNCROOM_PLUS-main__rooms
+      RoomCard(
+        v-for="room in filteredRooms",
+        :key="`room-${room.creator_mid}`",
+        :createTime="room.create_time",
+        :iconlist="room.iconlist || []",
+        :members="room.members",
+        :needPasswd="room.need_passwd",
+        :numMembers="room.num_members",
+        :roomDesc="room.room_desc || ''",
+        :roomName="room.room_name"
+        :roomTags="room.room_tags || []"
+      )
 
-  .SYNCROOM_PLUS-main__rooms
-    RoomCard(
-      v-for="room in filteredRooms",
-      :key="`room-${room.creator_mid}`",
-      :createTime="room.create_time",
-      :iconlist="room.iconlist || []",
-      :members="room.members",
-      :needPasswd="room.need_passwd",
-      :numMembers="room.num_members",
-      :roomDesc="room.room_desc || ''",
-      :roomName="room.room_name"
-      :roomTags="room.room_tags || []"
-    )
+      .SYNCROOM_PLUS-main__rooms__empty(v-if="filteredRooms.length === 0")
+        span(v-if="keyword.length === 0")
+          | ルームがありません😔
+        span(v-else)
+          | ルームが見つかりませんでした😔
 
-    .SYNCROOM_PLUS-main__rooms__empty(v-if="filteredRooms.length === 0")
-      span(v-if="keyword.length === 0")
-        | ルームがありません😔
-      span(v-else)
-        | ルームが見つかりませんでした😔
+    h2#testroom.SYNCROOM_PLUS-main__subtitle 接続テストルーム
 
-  h2#testroom.SYNCROOM_PLUS-main__subtitle 接続テストルーム
-
-  .SYNCROOM_PLUS-main__rooms
-    RoomCard(
-      v-if="testRoom",
-      :createTime="testRoom.create_time",
-      :iconlist="testRoom.iconlist || []",
-      :members="testRoom.members",
-      :needPasswd="testRoom.need_passwd",
-      :numMembers="testRoom.num_members",
-      roomDesc="SYNCROOMの公式テストルームです。入室すると、音声が3秒後に返ってきますので、通信の確認をすることができます。",
-      :roomName="testRoom.room_name"
-      :roomTags="testRoom.room_tags || []"
-    )
+    .SYNCROOM_PLUS-main__rooms
+      RoomCard(
+        v-if="testRoom",
+        :createTime="testRoom.create_time",
+        :iconlist="testRoom.iconlist || []",
+        :members="testRoom.members",
+        :needPasswd="testRoom.need_passwd",
+        :numMembers="testRoom.num_members",
+        roomDesc="SYNCROOMの公式テストルームです。入室すると、音声が3秒後に返ってきますので、通信の確認をすることができます。",
+        :roomName="testRoom.room_name"
+        :roomTags="testRoom.room_tags || []"
+      )
 </template>
 
 <script>
 import axios from 'axios';
 import RoomCard from './components/RoomCard';
+import Navbar from './components/Navbar';
 
 export default {
   components: {
     RoomCard,
+    Navbar,
   },
   data() {
     return {
@@ -335,6 +340,9 @@ export default {
 // Import Bulma and Buefy styles
 @import "~bulma"
 @import "~buefy/src/scss/buefy"
+
+#SYNCROOM_PLUS-wrapper
+  margin-top: 56px
 
 #SYNCROOM_PLUS-main
   background: #F9FBFF !important

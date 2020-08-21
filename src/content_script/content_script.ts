@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 // 不要になるscriptとiframeを削除
-const scriptTags: NodeList = window.document.querySelectorAll('script,iframe');
+const scriptTags: NodeList = window.document.querySelectorAll('script,iframe,style,link[rel="stylesheet"]');
 scriptTags.forEach((value: Node, key: number, parent: NodeList): void => {
   value.parentNode.removeChild(value);
 });
@@ -23,6 +23,9 @@ Vue.component('fa', FontAwesomeIcon);
 import VueCompositionApi from '@vue/composition-api';
 Vue.use(VueCompositionApi);
 
+import Buefy from 'buefy';
+Vue.use(Buefy);
+
 const browser = require('webextension-polyfill');
 
 // stateを復元
@@ -39,7 +42,7 @@ setInterval((): void => {
 
 /* eslint-disable no-new */
 new Vue({
-  el: 'main > article',
+  el: 'body',
   store: store,
   render: (h) => h(App),
 });

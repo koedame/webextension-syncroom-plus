@@ -1,0 +1,54 @@
+<template lang="pug">
+b-navbar#navbar--custom(fixed-top)
+  template(slot='brand')
+    b-navbar-item(href="https://syncroom.yamaha.com/play/")
+      img(src='https://syncroom.yamaha.com/play/assets/img/top/logo_sync.svg', alt='SYNCROOM')
+  template(slot='start')
+  template(slot='end')
+    b-navbar-item(href='https://syncroom.yamaha.com/play/')
+      | ルーム一覧
+    b-navbar-item(href='https://syncroom.yamaha.com/play/manual/index_pc.html', target="_blank", rel="noopener noreferrer")
+      | マニュアル
+    b-navbar-item(href='https://syncroom.yamaha.com/play/faq/index_pc.html', target="_blank", rel="noopener noreferrer")
+      | よくある質問
+    b-navbar-item(href='https://syncroom.yamaha.com/play/dl/', target="_blank", rel="noopener noreferrer")
+      | ダウンロード
+    b-navbar-item(href='https://syncroom.yamaha.com/play/information/', target="_blank", rel="noopener noreferrer")
+      | お知らせ
+    b-navbar-item(tag='div')
+      .buttons
+        a.button.is-primary.is-inverted.is-outlined(href="https://syncroom.yamaha.com/", target="_blank", rel="noopener noreferrer")
+          strong SYNCROOM POTAL SITE
+</template>
+
+<style lang="sass">
+#navbar--custom
+  background: #5074f5
+  background-color: #5074f5
+
+  .navbar-item
+    color: #fff
+
+    &:hover
+      background: none
+      opacity: 0.8
+    &:active
+      background: none
+      opacity: 0.8
+    &:focus
+      background: none
+      opacity: 0.8
+    &:focus-within
+      background: none
+      opacity: 0.8
+
+    img
+      max-height: 36px
+
+  .navbar-burger.burger
+    color: #fff !important
+
+  .navbar-menu.is-active
+    background: #5074f5
+    background-color: #5074f5
+</style>
