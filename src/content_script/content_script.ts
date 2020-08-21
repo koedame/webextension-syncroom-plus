@@ -1,17 +1,12 @@
 /* eslint-disable import/first */
-// コンフリクトしないように既存のscriptを削除
-const scriptTags = window.document.querySelectorAll('script');
-for (let i = 0; i < scriptTags.length; i++) {
-  scriptTags[i].remove();
-}
-
-// 不要なのでTwitter領域を削除
-const iframeTags = window.document.querySelectorAll('iframe');
-for (let i = 0; i < iframeTags.length; i++) {
-  iframeTags[i].remove();
-}
+// 不要になるscriptとiframeを削除
+const scriptTags: NodeList = window.document.querySelectorAll('script,iframe');
+scriptTags.forEach((value: Node, key: number, parent: NodeList): void => {
+  value.parentNode.removeChild(value);
+});
 
 import Vue from 'vue';
+//@ts-ignore
 import App from './App';
 import store from '../store';
 
@@ -25,16 +20,19 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 library.add(fas, far, fab);
 Vue.component('fa', FontAwesomeIcon);
 
-global.browser = require('webextension-polyfill');
-Vue.prototype.$browser = global.browser;
+const browser = require('webextension-polyfill');
+Vue.prototype.$browser = browser;
+
+import VueCompositionApi from '@vue/composition-api';
+Vue.use(VueCompositionApi);
 
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
 store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 
-// background.js側で更新されたデータは反映されないので定期的に読み込みを行う
-setInterval(() => {
+// background.ts側で更新されたデータは反映されないので定期的に読み込みを行う
+setInterval((): void => {
   store.dispatch('favoriteMembers/restoreFromLocalStorage');
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
   store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
@@ -48,5 +46,5 @@ new Vue({
 });
 
 // ファビコン追加
-const faviconTag = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
+const faviconTag: string = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
 document.head.insertAdjacentHTML('beforeend', faviconTag);
