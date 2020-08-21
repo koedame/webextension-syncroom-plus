@@ -20,11 +20,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 library.add(fas, far, fab);
 Vue.component('fa', FontAwesomeIcon);
 
-const browser = require('webextension-polyfill');
-Vue.prototype.$browser = browser;
-
 import VueCompositionApi from '@vue/composition-api';
 Vue.use(VueCompositionApi);
+
+const browser = require('webextension-polyfill');
 
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
