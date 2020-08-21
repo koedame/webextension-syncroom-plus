@@ -39,6 +39,7 @@
 <script>
 import RemainingTime from './RemainingTime';
 import Members from './Members';
+import makeJoinUri from '../../lib/make_join_uri';
 
 export default {
   props: {
@@ -93,10 +94,10 @@ export default {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
 
         if (pwPrompt) {
-          location.href = this.makeJoinUri(this.roomName, pwPrompt, 4, 2);
+          location.href = makeJoinUri(this.roomName, pwPrompt, 4, 2);
         }
       } else {
-        location.href = this.makeJoinUri(this.roomName, '', 4, 2);
+        location.href = makeJoinUri(this.roomName, '', 4, 2);
       }
     },
 
@@ -105,10 +106,10 @@ export default {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
 
         if (pwPrompt) {
-          location.href = this.makeJoinUri(this.roomName, pwPrompt, 4, 3);
+          location.href = makeJoinUri(this.roomName, pwPrompt, 4, 3);
         }
       } else {
-        location.href = this.makeJoinUri(this.roomName, '', 4, 3);
+        location.href = makeJoinUri(this.roomName, '', 4, 3);
       }
     },
 
