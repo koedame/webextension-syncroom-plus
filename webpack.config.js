@@ -14,7 +14,7 @@ const config = {
     background: './background.ts',
     // 'popup/popup': './popup/popup.js',
     // 'options/options': './options/options.js',
-    'content_script/content_script': './content_script/content_script.js',
+    'content_script/content_script': './content_script/content_script.ts',
   },
   output: {
     path: __dirname + '/dist',
