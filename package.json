@@ -42,6 +42,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/runtime-corejs3": "^7.4.0",
+    "@vue/composition-api": "^1.0.0-beta.10",
     "archiver": "^5.0.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.2",
