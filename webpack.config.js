@@ -118,14 +118,14 @@ const config = {
           from: 'icons',
           to: 'icons',
           globOptions: {
-            ignore: ['.DS_Store'],
+            ignore: ['**/.DS_Store'],
           },
         },
         {
           from: 'images',
           to: 'images',
           globOptions: {
-            ignore: ['.DS_Store'],
+            ignore: ['**/.DS_Store'],
           },
         },
         // { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
