@@ -1,29 +1,33 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { StoreOptions } from 'vuex';
 
-import clock from './clock.js';
-import favoriteMembers from './favorite_members.js';
-import notificationVacancyRooms from './notification_vacancy_rooms.js';
-import notificationOnlineMembers from './notification_online_members.js';
+import { clock } from './Clock';
+import { favoriteMembers } from './FavoriteMembers';
+import { notificationVacancyRooms } from './NotificationVacancyRooms';
+import { notificationOnlineMembers } from './NotificationOnlineMembers';
 
+//@ts-ignore
 import createMutationsSharer from 'vuex-shared-mutations';
-
-global.browser = require('webextension-polyfill');
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+import { RootState } from './types';
+
+const store: StoreOptions<RootState> = {
+  state: {
+    version: '1.0.0',
+  },
   modules: {
-    clock: clock,
-    favoriteMembers: favoriteMembers,
-    notificationVacancyRooms: notificationVacancyRooms,
-    notificationOnlineMembers: notificationOnlineMembers,
+    clock,
+    favoriteMembers,
+    notificationVacancyRooms,
+    notificationOnlineMembers,
   },
   plugins: [
     // 複数Tab/Windowでのstateの共有
     createMutationsSharer({
-      predicate: (mutation, state) => {
-        const predicate = []
+      predicate: (mutation: any) => {
+        const predicate: Array<string> = []
           .concat(Object.keys(favoriteMembers.mutations).map((name) => `favoriteMembers/${name}`))
           .concat(Object.keys(notificationVacancyRooms.mutations).map((name) => `notificationVacancyRooms/${name}`))
           .concat(Object.keys(notificationOnlineMembers.mutations).map((name) => `notificationOnlineMembers/${name}`));
@@ -35,4 +39,6 @@ export default new Vuex.Store({
       },
     }),
   ],
-});
+};
+
+export default new Vuex.Store<RootState>(store);

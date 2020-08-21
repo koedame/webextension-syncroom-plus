@@ -3,14 +3,17 @@
   img.volume_meter__image(:src="volumeMeterImageLink")
 </template>
 
-<script>
-export default {
-  data() {
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+const browser = require('webextension-polyfill');
+
+export default defineComponent({
+  setup() {
     return {
       volumeMeterImageLink: browser.extension.getURL(`/images/volume-meter-${Math.floor(Math.random() * Math.floor(20))}.gif`),
     };
   },
-};
+});
 </script>
 
 <style lang="sass" scoped>
