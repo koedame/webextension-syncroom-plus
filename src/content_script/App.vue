@@ -1,73 +1,87 @@
 <template lang="pug">
-#SYNCROOM_PLUS-main(v-if="rooms.length !== 0")
-  h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧
+#SYNCROOM_PLUS-wrapper
+  Navbar
 
-  .filter-form
-    .filter-form__filter-keyword
-      label
-        fa.filter-form__filter-keyword__search-icon(:icon="['fas', 'search']")
-        input.filter-form__filter-keyword__input(v-model="keyword", placeholder="キーワードを入力")
-      fa.filter-form__filter-keyword__clear-icon(:icon="['fas', 'times-circle']", v-if="keyword", @click="keyword = ''")
-    .filter-form__filter-switchs
-      button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'all')}", @click="roomFilter = 'all'")
-        | すべて ({{ this.rooms.length }})
-      button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_unlocked')}", @click="roomFilter = 'only_unlocked'")
-        fa(:icon="['fas', 'lock-open']")
-        |
-        | 鍵なし ({{ this.unlockedRoomCount }})
-      button.filter-form__filter-switchs__item(:class="{'filter-form__filter-switchs__item--active': (roomFilter === 'only_locked')}", @click="roomFilter = 'only_locked'")
-        fa(:icon="['fas', 'lock']")
-        |
-        | 鍵あり ({{ this.lockedRoomCount }})
+  #SYNCROOM_PLUS-main(v-if="rooms.length !== 0")
+    h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧
 
-    a.filter-form__testroom-link(href="#testroom")
-      fa(:icon="['fas', 'headphones-alt']")
-      |
-      | 接続テストルームはこちら
+    .filter-form
+      .filter-form__field.custom--search-field
+        b-input(
+          placeholder='キーワードを入力',
+          v-model='keyword',
+          type='search',
+          icon="search",
+        )
 
-  .SYNCROOM_PLUS-main__rooms
-    RoomCard(
-      v-for="room in filteredRooms",
-      :key="`room-${room.creator_mid}`",
-      :createTime="room.create_time",
-      :iconlist="room.iconlist || []",
-      :members="room.members",
-      :needPasswd="room.need_passwd",
-      :numMembers="room.num_members",
-      :roomDesc="room.room_desc || ''",
-      :roomName="room.room_name"
-      :roomTags="room.room_tags || []"
-    )
+      .filter-form__field
+        b-field
+          b-radio-button(v-model='roomFilter', native-value='all', type='is-info')
+            | すべて ({{ rooms.length }})
+          b-radio-button(v-model='roomFilter', native-value='only_unlocked', type='is-link')
+            b-icon(icon='lock-open')
+            | 鍵なし ({{ unlockedRoomCount }})
+          b-radio-button(v-model='roomFilter', native-value='only_locked', type='is-dark')
+            b-icon(icon='lock')
+            | 鍵あり ({{ lockedRoomCount }})
 
-    .SYNCROOM_PLUS-main__rooms__empty(v-if="filteredRooms.length === 0")
-      span(v-if="keyword.length === 0")
-        | ルームがありません😔
-      span(v-else)
-        | ルームが見つかりませんでした😔
+      .filter-form__field
+        b-button(type="is-info", tag="a", href="#testroom", icon-left="headphones-alt")
+          | 接続テストルームはこちら
 
-  h2#testroom.SYNCROOM_PLUS-main__subtitle 接続テストルーム
+    .SYNCROOM_PLUS-main__rooms
+      RoomCard(
+        v-for="room in filteredRooms",
+        :key="`room-${room.creator_mid}`",
+        :createTime="room.create_time",
+        :iconlist="room.iconlist || []",
+        :members="room.members",
+        :needPasswd="room.need_passwd",
+        :numMembers="room.num_members",
+        :roomDesc="room.room_desc || ''",
+        :roomName="room.room_name"
+        :roomTags="room.room_tags || []"
+      )
 
-  .SYNCROOM_PLUS-main__rooms
-    RoomCard(
-      v-if="testRoom",
-      :createTime="testRoom.create_time",
-      :iconlist="testRoom.iconlist || []",
-      :members="testRoom.members",
-      :needPasswd="testRoom.need_passwd",
-      :numMembers="testRoom.num_members",
-      roomDesc="SYNCROOMの公式テストルームです。入室すると、音声が3秒後に返ってきますので、通信の確認をすることができます。",
-      :roomName="testRoom.room_name"
-      :roomTags="testRoom.room_tags || []"
-    )
+      template(v-if="filteredRooms.length === 0")
+        template(v-if="keyword.length === 0")
+          b-message(type="is-warning")
+            | ルームがありません 😔
+        template(v-else)
+          b-message(type="is-warning")
+            | ルームが見つかりませんでした 😔
+
+    hr
+
+    h2#testroom.SYNCROOM_PLUS-main__subtitle 接続テストルーム
+
+    .SYNCROOM_PLUS-main__rooms
+      RoomCard(
+        v-if="testRoom",
+        :createTime="testRoom.create_time",
+        :iconlist="testRoom.iconlist || []",
+        :members="testRoom.members",
+        :needPasswd="testRoom.need_passwd",
+        :numMembers="testRoom.num_members",
+        roomDesc="SYNCROOMの公式テストルームです。入室すると、音声が3秒後に返ってきますので、通信の確認をすることができます。",
+        :roomName="testRoom.room_name"
+        :roomTags="testRoom.room_tags || []"
+      )
+
+  Footer
 </template>
 
 <script>
 import axios from 'axios';
 import RoomCard from './components/RoomCard';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 export default {
   components: {
     RoomCard,
+    Navbar,
+    Footer,
   },
   data() {
     return {
@@ -303,7 +317,42 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all"
+
+// // Set your colors
+// $primary: #8c67ef;
+// $primary-invert: findColorInvert($primary);
+// $twitter: #4099FF;
+// $twitter-invert: findColorInvert($twitter);
+
+// // Setup $colors to use as bulma classes (e.g. 'is-twitter')
+// $colors: (
+//     "white": ($white, $black),
+//     "black": ($black, $white),
+//     "light": ($light, $light-invert),
+//     "dark": ($dark, $dark-invert),
+//     "primary": ($primary, $primary-invert),
+//     "info": ($info, $info-invert),
+//     "success": ($success, $success-invert),
+//     "warning": ($warning, $warning-invert),
+//     "danger": ($danger, $danger-invert),
+//     "twitter": ($twitter, $twitter-invert)
+// );
+
+// // Links
+// $link: $primary;
+// $link-invert: $primary-invert;
+// $link-focus-border: $primary;
+
+// Import Bulma and Buefy styles
+@import "~bulma"
+@import "~buefy/src/scss/buefy"
+
+#SYNCROOM_PLUS-wrapper
+  margin-top: 56px
+
 #SYNCROOM_PLUS-main
   background: #F9FBFF !important
   overflow: hidden
@@ -319,64 +368,17 @@ export default {
   justify-content: center
   flex-wrap: wrap
 
-  &__empty
-    background: #d9e3fe
-    width: 100%
-    text-align: center
-    margin: 20px 20px
-    font-size: 32px
-    padding: 50px 0
-    border-radius: 5px
-
 .filter-form
+  margin: 30px 0
   text-align: center
-  margin-bottom: 1em
 
-  &__filter-keyword
+  &__field
     display: inline-block
-    margin-right: 10px
-    position: relative
-    &__search-icon
-      position: absolute
-      left: 7px
-      top: 7px
-      color: #949494
-    &__input
-      border: solid 1px #ccc
-      border-radius: 5px
-      padding: 0 26px
-    &__clear-icon
-      position: absolute
-      right: 8px
-      top: 8px
-      cursor: pointer
+    overflow: hidden
 
-  &__filter-switchs
-    display: inline-block
-    margin-right: 10px
+  .control
+    margin-right: 25px
 
-    &__item
-      outline: none
-      border: solid 1px #ccc
-      padding: 0 10px
-      cursor: pointer
-
-      &:first-child
-        border-radius: 5px 0 0 5px
-        border-right: none
-
-      &:last-child
-        border-radius: 0 5px 5px 0
-        border-left: none
-
-      &--active
-        background: #5072f5
-        color: #fff
-
-  &__testroom-link
-    background: #5072f5
-    color: #fff
-    padding: 0px 10px
-    display: inline-block
-    border-radius: 5px
+  .custom--search-field
+    width: 300px
 </style>

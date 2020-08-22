@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 // 不要になるscriptとiframeを削除
-const scriptTags: NodeList = window.document.querySelectorAll('script,iframe');
+const scriptTags: NodeList = window.document.querySelectorAll('script,iframe,style,link[rel="stylesheet"]');
 scriptTags.forEach((value: Node, key: number, parent: NodeList): void => {
   value.parentNode.removeChild(value);
 });
@@ -10,18 +10,21 @@ import Vue from 'vue';
 import App from './App';
 import store from '../store';
 
-// FontAwesomeIcon
+import VueCompositionApi from '@vue/composition-api';
+Vue.use(VueCompositionApi);
+
+import Buefy from 'buefy';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
 library.add(fas, far, fab);
-Vue.component('fa', FontAwesomeIcon);
-
-import VueCompositionApi from '@vue/composition-api';
-Vue.use(VueCompositionApi);
+Vue.component('vue-fontawesome', FontAwesomeIcon);
+Vue.use(Buefy, {
+  defaultIconComponent: 'vue-fontawesome',
+  defaultIconPack: 'fas',
+});
 
 const browser = require('webextension-polyfill');
 
@@ -39,7 +42,7 @@ setInterval((): void => {
 
 /* eslint-disable no-new */
 new Vue({
-  el: 'main > article',
+  el: 'body',
   store: store,
   render: (h) => h(App),
 });
