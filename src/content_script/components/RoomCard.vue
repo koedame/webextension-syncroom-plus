@@ -202,12 +202,10 @@ export default {
       padding: 0em 0.5em
       margin-bottom: 1em
 
-      display: -webkit-box
-      overflow: hidden
-      -webkit-line-clamp: 3
-      -webkit-box-orient: vertical
+      overflow-y: auto
+      word-break: break-word
 
-      height: calc( 1.8em * 3 )
+      height: calc( 1.8em * 4 )
       line-height: 1.8em
       border-radius: 5px
 
