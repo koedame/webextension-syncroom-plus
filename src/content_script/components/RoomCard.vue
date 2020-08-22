@@ -1,10 +1,8 @@
 <template lang="pug">
 .card(:class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }")
   .card__header
-    span.card__header__item
-    span.card__header__item.card__header__item--timer
+    .card__header__item
       RemainingTime(:create-time="createTime")
-    span.card__header__item
   .card__body
     h3.room_name {{ roomName }}
 
@@ -29,10 +27,12 @@
           | 空きが出たら通知を受け取る
 
     .card__body__buttons(v-else)
-      button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom")
+      b-button(type="is-light" @click="onOpenTentativeSyncroom")
         | 仮入室
-      button.card__body__buttons__button(type="button" @click="onOpenSyncroom")
-        fa.card__body__buttons__button__icon(icon="lock", v-if="needPasswd")
+
+      b-button.card__body__buttons__entry-button(v-if="needPasswd", type="is-dark" @click="onOpenSyncroom", icon-left="lock")
+        | ルームに入る
+      b-button.card__body__buttons__entry-button(v-else, type="is-link" @click="onOpenSyncroom")
         | ルームに入る
 </template>
 
@@ -178,12 +178,8 @@ export default {
     color: #fff
     font-weight: normal
     font-size: 15px
-    display: flex
-    justify-content: space-between
-
-    &__item
-      &--timer
-        padding: 0 1em
+    line-height: 30px
+    text-align: center
 
   &__body
     padding: 10px
@@ -228,33 +224,8 @@ export default {
     &__buttons
       display: flex
       justify-content: space-between
-
-      &__button
-        display: inline-block
-        width: calc(70% - 5px)
-        background: #1300C3
-        border: none
-        color: #fff
-        cursor: pointer
-        line-height: 3em
-        font-size: 13px
-        border-radius: 5px
-
-        &:hover
-          opacity: 0.7
-
-        &:focus
-          outline: none
-
-        &__icon
-          margin-right: 0.5em
-
-        &--tentative
-          display: inline-block
-          width: calc(30% - 5px)
-          border: none
-          background: #D2D3DD
-          color: #3E3E3E
+      &__entry-button
+        width: 185px
 
 .card.card--need_passwd
   background: #eaeaea
@@ -266,12 +237,6 @@ export default {
 
   .card__body
     &__buttons
-      &__button
-        background: #272727
-        &--tentative
-          background: #D2D3DD
-          color: #3E3E3E
-        &:hover
 
 .card.card--no_vacancy
   background: #E6E6E6
@@ -285,11 +250,4 @@ export default {
   .card__body
     color: #808080
     &__buttons
-      &__button
-        display: block
-        width: 100%
-        background: #818181
-
-        &:hover
-          opacity: 1
 </style>
