@@ -17,14 +17,10 @@
 
     div(v-if="isNoVacancy")
       template(v-if="isNotificationVacancyRoom")
-        b-button(type="is-link is-light", expanded, @click="onRemoveNotificationVacancyRoom")
-          fa(:icon="['fas', 'bell']")
-          |
+        b-button(type="is-link is-light", expanded, @click="onRemoveNotificationVacancyRoom", icon-left="bell")
           | 通知を解除
       template(v-else)
-        b-button(type="is-link is-light", expanded, @click="onSetNotificationVacancyRoom")
-          fa(:icon="['far', 'bell-slash']")
-          |
+        b-button(type="is-link is-light", expanded, @click="onSetNotificationVacancyRoom", icon-left="bell-slash")
           | 空きが出たら通知を受け取る
 
     .buttons(v-else)
