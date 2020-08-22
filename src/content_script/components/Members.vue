@@ -14,16 +14,18 @@
             | [仮入室]
           template(v-else)
             | {{ member }}
-        a.members__item__right__name__add-notification(title="オンライン時に通知を受け取れます", @click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
-          template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
-            fa.members__item__right__name__add-notification__on(:icon="['fas', 'bell']")
-          template(v-else)
-            fa(:icon="['far', 'bell-slash']")
-        a.members__item__right__name__add-favorite(title="見つけやすいように表示を目立たせます", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
-          template(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
-            fa.members__item__right__name__add-favorite__on(:icon="['fas', 'star']")
-          template(v-else)
-            fa(:icon="['far', 'star']")
+        b-tooltip(label='オンライン時に通知を受け取れます', position="is-top", type="is-light")
+          a.members__item__right__name__add-notification(@click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
+            template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
+              fa.members__item__right__name__add-notification__on(:icon="['fas', 'bell']")
+            template(v-else)
+              fa(:icon="['far', 'bell-slash']")
+        b-tooltip(label='見つけやすいように表示を目立たせます', position="is-top", type="is-light")
+          a.members__item__right__name__add-favorite(@click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
+            template(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
+              fa.members__item__right__name__add-favorite__on(:icon="['fas', 'star']")
+            template(v-else)
+              fa(:icon="['far', 'star']")
       .members__item__right__volumes
         VolumeMeter
   .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
@@ -103,7 +105,6 @@ export default {
   background-color: #F9FCFF
   background-repeat: no-repeat
   background-size: contain
-  overflow: hidden
   border-radius: 5px
 
   &__item

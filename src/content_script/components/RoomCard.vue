@@ -171,10 +171,10 @@ export default {
   width: 300px
   background: #D9E2FE
   border-radius: 5px
-  overflow: hidden
   box-shadow: 0px 1px 8px -5px #20293a
 
   &__header
+    border-radius: 5px 5px 0 0
     background: #5073f5
     color: #fff
     font-weight: normal
