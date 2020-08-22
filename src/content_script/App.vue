@@ -43,11 +43,15 @@
         :roomTags="room.room_tags || []"
       )
 
-      .SYNCROOM_PLUS-main__rooms__empty(v-if="filteredRooms.length === 0")
-        span(v-if="keyword.length === 0")
-          | ルームがありません😔
-        span(v-else)
-          | ルームが見つかりませんでした😔
+      template(v-if="filteredRooms.length === 0")
+        template(v-if="keyword.length === 0")
+          b-message(type="is-warning")
+            | ルームがありません 😔
+        template(v-else)
+          b-message(type="is-warning")
+            | ルームが見つかりませんでした 😔
+
+    hr
 
     h2#testroom.SYNCROOM_PLUS-main__subtitle 接続テストルーム
 
@@ -363,15 +367,6 @@ export default {
   display: flex
   justify-content: center
   flex-wrap: wrap
-
-  &__empty
-    background: #d9e3fe
-    width: 100%
-    text-align: center
-    margin: 20px 20px
-    font-size: 32px
-    padding: 50px 0
-    border-radius: 5px
 
 .filter-form
   margin: 30px 0
