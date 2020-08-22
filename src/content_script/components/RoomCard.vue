@@ -153,14 +153,17 @@ export default {
 
   computed: {
     linkedRoomDesc() {
-      return sanitizeHtml(this.roomDesc)
-        .replace(/(\b(https|http):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, (link) => {
-          return `<a href='${link}' target='_blank' rel='noopener noreferrer'>${link}</a>`;
-        })
-        .replace(/(@[0-9a-zA-Z_]{1,15})/g, (twitterID) => {
-          const noAtTwitterID = twitterID.replace('@', '');
-          return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
-        });
+      return (
+        sanitizeHtml(this.roomDesc)
+          /* eslint-disable no-useless-escape */
+          .replace(/(\b(https|http):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, (link) => {
+            return `<a href='${link}' target='_blank' rel='noopener noreferrer'>${link}</a>`;
+          })
+          .replace(/(@[0-9a-zA-Z_]{1,15})/g, (twitterID) => {
+            const noAtTwitterID = twitterID.replace('@', '');
+            return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
+          })
+      );
     },
     isNoVacancy() {
       return this.numMembers === 5;

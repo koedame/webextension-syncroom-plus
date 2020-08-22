@@ -41,8 +41,8 @@
 
 <script>
 import VolumeMeter from './VolumeMeter';
-const browser = require('webextension-polyfill');
 import sanitizeHtml from 'sanitize-html';
+const browser = require('webextension-polyfill');
 
 export default {
   props: {
