@@ -198,7 +198,7 @@ export default {
     .room_tags
       margin-bottom: 10px
       overflow: hidden
-      height: 22px
+      height: 24px
 
     .room_desc
       font-size: 12px
