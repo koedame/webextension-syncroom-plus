@@ -37,7 +37,6 @@
 import RemainingTime from './RemainingTime';
 import Members from './Members';
 import makeJoinUri from '../../lib/make_join_uri';
-import sanitizeHtml from 'sanitize-html';
 
 export default {
   props: {
@@ -154,7 +153,12 @@ export default {
   computed: {
     linkedRoomDesc() {
       return (
-        sanitizeHtml(this.roomDesc)
+        this.roomDesc
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;')
           /* eslint-disable no-useless-escape */
           .replace(/(\b(https|http):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, (link) => {
             return `<a href='${link}' target='_blank' rel='noopener noreferrer'>${link}</a>`;

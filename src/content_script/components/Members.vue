@@ -41,7 +41,6 @@
 
 <script>
 import VolumeMeter from './VolumeMeter';
-import sanitizeHtml from 'sanitize-html';
 const browser = require('webextension-polyfill');
 
 export default {
@@ -90,10 +89,16 @@ export default {
 
   methods: {
     twitterIdToLink(text) {
-      return sanitizeHtml(text).replace(/((@|＠)[0-9a-zA-Z_]{1,15})/g, (twitterID) => {
-        const noAtTwitterID = twitterID.replace(/@|＠/g, '');
-        return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
-      });
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/((@|＠)[0-9a-zA-Z_]{1,15})/g, (twitterID) => {
+          const noAtTwitterID = twitterID.replace(/@|＠/g, '');
+          return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
+        });
     },
   },
   computed: {
