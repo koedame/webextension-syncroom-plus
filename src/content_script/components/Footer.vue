@@ -11,6 +11,7 @@ footer.footer
         strong
           |
           | 肥溜め
+      |
       | が管理・運用しています。
       br
       | ソースコードは
