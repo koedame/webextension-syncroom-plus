@@ -11,7 +11,7 @@
         b-tag(v-for="tag in roomTags", :key="tag")
           | {{tag}}
 
-    p.room_desc(:title="roomDesc", v-html="linkedRoomDesc")
+    p.room_desc(v-html="linkedRoomDesc")
 
     Members(:num-members="numMembers", :members="members", :iconlist="iconlist", :room-create-time="createTime")
 
