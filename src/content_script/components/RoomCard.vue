@@ -15,7 +15,7 @@
 
     Members(:num-members="numMembers", :members="members", :iconlist="iconlist", :room-create-time="createTime")
 
-    .card__body__buttons--no_vacancy(v-if="isNoVacancy")
+    div(v-if="isNoVacancy")
       template(v-if="isNotificationVacancyRoom")
         b-button(type="is-link is-light", expanded, @click="onRemoveNotificationVacancyRoom")
           fa(:icon="['fas', 'bell']")
@@ -27,7 +27,7 @@
           |
           | 空きが出たら通知を受け取る
 
-    .card__body__buttons(v-else)
+    .buttons(v-else)
       b-button(type="is-light" @click="onOpenTentativeSyncroom")
         | 仮入室
 
@@ -216,8 +216,6 @@ export default {
       border-radius: 5px
 
     &__buttons
-      display: flex
-      justify-content: space-between
       &__entry-button
         width: 185px
 
@@ -226,22 +224,13 @@ export default {
 
   .card__header
     background: #272727
-    &__item
-      &--timer
-
-  .card__body
-    &__buttons
 
 .card.card--no_vacancy
   background: #E6E6E6
 
   .card__header
     background: #A3A3A3
-    &__item
-      &--timer
-        background: none
 
   .card__body
     color: #808080
-    &__buttons
 </style>
