@@ -24,7 +24,11 @@ import VueCompositionApi from '@vue/composition-api';
 Vue.use(VueCompositionApi);
 
 import Buefy from 'buefy';
-Vue.use(Buefy);
+Vue.component('vue-fontawesome', FontAwesomeIcon);
+Vue.use(Buefy, {
+  defaultIconComponent: 'vue-fontawesome',
+  defaultIconPack: 'fas',
+});
 
 const browser = require('webextension-polyfill');
 
