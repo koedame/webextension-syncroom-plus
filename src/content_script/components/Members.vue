@@ -13,7 +13,7 @@
           template(v-if="member.length === 0")
             | [仮入室]
           template(v-else)
-            | {{ member }}
+            span(v-html="twitterIdToLink(member)")
         b-tooltip(label='オンライン時に通知を受け取れます', position="is-top", type="is-light")
           a.members__item__right__name__add-notification(@click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
             template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
@@ -41,6 +41,7 @@
 
 <script>
 import VolumeMeter from './VolumeMeter';
+import sanitizeHtml from 'sanitize-html';
 const browser = require('webextension-polyfill');
 
 export default {
@@ -87,6 +88,14 @@ export default {
     };
   },
 
+  methods: {
+    twitterIdToLink(text) {
+      return sanitizeHtml(text).replace(/(@[0-9a-zA-Z_]{1,15})/g, (twitterID) => {
+        const noAtTwitterID = twitterID.replace('@', '');
+        return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
+      });
+    },
+  },
   computed: {
     unknownMemberNum() {
       return this.numMembers - this.members.length;
