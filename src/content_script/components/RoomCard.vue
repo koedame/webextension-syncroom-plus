@@ -7,8 +7,9 @@
     h3.room_name {{ roomName }}
 
     p.room_tags
-      span.room_tags__item(v-for="tag in roomTags", :key="tag")
-        | {{tag}}
+      b-taglist
+        b-tag(v-for="tag in roomTags", :key="tag")
+          | {{tag}}
 
     p.room_desc(:title="roomDesc") {{ roomDesc }}
 
@@ -198,13 +199,6 @@ export default {
       margin-bottom: 10px
       overflow: hidden
       height: 22px
-      &__item
-        background: #ccc
-        padding: 0px 6px
-        display: inline-block
-        font-size: 11px
-        border-radius: 3px
-        margin-right: 5px
 
     .room_desc
       font-size: 12px
