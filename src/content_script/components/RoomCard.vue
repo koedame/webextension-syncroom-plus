@@ -11,7 +11,7 @@
         b-tag(v-for="tag in roomTags", :key="tag")
           | {{tag}}
 
-    p.room_desc(:title="roomDesc") {{ roomDesc }}
+    p.room_desc(:title="roomDesc", v-html="linkedRoomDesc")
 
     Members(:num-members="numMembers", :members="members", :iconlist="iconlist", :room-create-time="createTime")
 
@@ -37,6 +37,7 @@
 import RemainingTime from './RemainingTime';
 import Members from './Members';
 import makeJoinUri from '../../lib/make_join_uri';
+import sanitizeHtml from 'sanitize-html';
 
 export default {
   props: {
@@ -151,6 +152,16 @@ export default {
   },
 
   computed: {
+    linkedRoomDesc() {
+      return sanitizeHtml(this.roomDesc)
+        .replace(/(\b(https|http):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, (link) => {
+          return `<a href='${link}' target='_blank' rel='noopener noreferrer'>${link}</a>`;
+        })
+        .replace(/(@[0-9a-zA-Z_]{1,15})/g, (twitterID) => {
+          const noAtTwitterID = twitterID.replace('@', '');
+          return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
+        });
+    },
     isNoVacancy() {
       return this.numMembers === 5;
     },
