@@ -10,20 +10,16 @@ import Vue from 'vue';
 import App from './App';
 import store from '../store';
 
-// FontAwesomeIcon
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-library.add(fas, far, fab);
-Vue.component('fa', FontAwesomeIcon);
-
 import VueCompositionApi from '@vue/composition-api';
 Vue.use(VueCompositionApi);
 
 import Buefy from 'buefy';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+library.add(fas, far, fab);
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 Vue.use(Buefy, {
   defaultIconComponent: 'vue-fontawesome',
