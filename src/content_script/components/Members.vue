@@ -136,6 +136,7 @@ export default {
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
+          line-height: 22px
         &--favorite
           background: #ffff80
 
