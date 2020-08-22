@@ -2,7 +2,7 @@
 b-navbar#navbar--custom(fixed-top)
   template(slot='brand')
     b-navbar-item(href="https://syncroom.yamaha.com/play/")
-      img(src='https://syncroom.yamaha.com/play/assets/img/top/logo_sync.svg', alt='SYNCROOM')
+      img(:src='logoUrl', alt='SYNCROOM')
   template(slot='start')
   template(slot='end')
     b-navbar-item(href='https://syncroom.yamaha.com/play/')
@@ -20,6 +20,19 @@ b-navbar#navbar--custom(fixed-top)
         a.button.is-primary.is-inverted.is-outlined(href="https://syncroom.yamaha.com/", target="_blank", rel="noopener noreferrer")
           strong SYNCROOM POTAL SITE
 </template>
+
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+const browser = require('webextension-polyfill');
+
+export default defineComponent({
+  setup() {
+    return {
+      logoUrl: browser.extension.getURL(`/images/logo_plus.png`),
+    };
+  },
+});
+</script>
 
 <style lang="sass">
 #navbar--custom

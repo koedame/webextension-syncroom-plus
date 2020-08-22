@@ -20,5 +20,5 @@
     }
   ],
   "permissions": ["https://*.yamaha.com/*", "storage", "tabs", "notifications"],
-  "web_accessible_resources": ["icons/*.png", "icons/*.ico", "images/*.gif"]
+  "web_accessible_resources": ["icons/*.png", "icons/*.ico", "images/*"]
 }
