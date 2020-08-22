@@ -17,15 +17,15 @@
         b-tooltip(label='オンライン時に通知を受け取れます', position="is-top", type="is-light")
           a.members__item__right__name__add-notification(@click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
             template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
-              fa.members__item__right__name__add-notification__on(:icon="['fas', 'bell']")
+              b-icon.members__item__right__name__add-notification__on(icon='bell')
             template(v-else)
-              fa(:icon="['far', 'bell-slash']")
+              b-icon(icon='bell-slash')
         b-tooltip(label='見つけやすいように表示を目立たせます', position="is-top", type="is-light")
           a.members__item__right__name__add-favorite(@click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
             template(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
-              fa.members__item__right__name__add-favorite__on(:icon="['fas', 'star']")
+              b-icon.members__item__right__name__add-favorite__on(icon='star')
             template(v-else)
-              fa(:icon="['far', 'star']")
+              b-icon(icon='star')
       .members__item__right__volumes
         VolumeMeter
   .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
@@ -146,13 +146,11 @@ export default {
           display: inline-block
           vertical-align: super
           color: #949494
-          padding: 0 6px
 
           &__on
             color: #ffa90a
 
         &__add-notification
-          padding: 0 6px
           border: none
           outline: none
           cursor: pointer
