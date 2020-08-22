@@ -6,7 +6,10 @@
         v-if="iconlist && iconlist[i] && (iconlist[i].iconurl || iconlist[i].icon)",
         :src="iconlist[i].iconurl.replace('http:', 'https:') || memberIconLinks[iconlist[i].icon]"
       )
-      .members__item__left__icon(v-else)
+      img.members__item__left__icon(
+        v-else
+        :src="unknownMemberIconLink"
+      )
     .members__item__right
       .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
         span.members__item__right__name__text
@@ -30,7 +33,9 @@
         VolumeMeter
   .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
     .members__item__left
-      .members__item__left__icon.members__item__left__icon--unknown
+      img.members__item__left__icon(
+        :src="unknownMemberIconLink"
+      )
     .members__item__right
       .members__item__right__name
         | [非公開入室]
@@ -83,6 +88,7 @@ export default {
         browser.extension.getURL('/icons/member-icon-12.png'),
         browser.extension.getURL('/icons/member-icon-13.png'),
       ],
+      unknownMemberIconLink: browser.extension.getURL('/icons/member-icon-unknown.png'),
       backgroundLogoLink: browser.extension.getURL('/icons/icon-background-logo.png'),
     };
   },
@@ -137,7 +143,6 @@ export default {
         width: 35px
         height: 35px
         border-radius: 4px
-        background: #888
 
     &__right
       width: 230px
