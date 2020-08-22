@@ -16,9 +16,8 @@ b-navbar#navbar--custom(fixed-top)
     b-navbar-item(href='https://syncroom.yamaha.com/play/information/', target="_blank", rel="noopener noreferrer")
       | お知らせ
     b-navbar-item(tag='div')
-      .buttons
-        a.button.is-primary.is-inverted.is-outlined(href="https://syncroom.yamaha.com/", target="_blank", rel="noopener noreferrer")
-          strong SYNCROOM POTAL SITE
+      b-button(type="is-normal", tag="a", href="https://syncroom.yamaha.com/", target="_blank", rel="noopener noreferrer", inverted, outlined)
+        | SYNCROOM POTAL SITE
 </template>
 
 <script lang="ts">
