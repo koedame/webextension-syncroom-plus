@@ -350,9 +350,6 @@ export default {
 @import "~bulma"
 @import "~buefy/src/scss/buefy"
 
-#SYNCROOM_PLUS-wrapper
-  margin-top: 56px
-
 #SYNCROOM_PLUS-main
   background: #F9FBFF !important
   overflow: hidden
