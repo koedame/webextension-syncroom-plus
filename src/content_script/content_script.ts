@@ -26,6 +26,13 @@ Vue.use(Buefy, {
   defaultIconPack: 'fas',
 });
 
+const moment = require('moment');
+require('moment/locale/ja');
+
+Vue.use(require('vue-moment'), {
+  moment,
+});
+
 const browser = require('webextension-polyfill');
 
 // stateを復元

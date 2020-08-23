@@ -1,7 +1,7 @@
 const browser = require('webextension-polyfill');
 
 import { Module, MutationTree, ActionTree, GetterTree } from 'vuex';
-import { NotificationVacancyRoomsState, RootState } from '../types';
+import { NotificationVacancyRoomsState, NotificationVacancyRoom, RootState } from '../types';
 
 const state: NotificationVacancyRoomsState = {
   rooms: [],
@@ -9,17 +9,50 @@ const state: NotificationVacancyRoomsState = {
 
 const getters: GetterTree<NotificationVacancyRoomsState, RootState> = {
   rooms: (state) => {
-    return state.rooms;
+    return [].concat(state.rooms);
   },
 };
 
 const mutations: MutationTree<NotificationVacancyRoomsState> = {
-  // storage.localからstateを復元
   restoreFromLocalStorage(state) {
-    //@ts-ignore
-    browser.storage.local.get('notificationVacancyRooms').then(({ notificationVacancyRooms }) => {
-      state.rooms = notificationVacancyRooms || [];
-    });
+    browser.storage.local
+      .get('notificationVacancyRooms')
+      //@ts-ignore
+      .then(({ notificationVacancyRooms }) => {
+        // データがないときはエラーが起こるので初期化
+        if (typeof notificationVacancyRooms === 'undefined') {
+          state.rooms = [];
+        } else {
+          if (Array.isArray(notificationVacancyRooms)) {
+            let rooms: Array<NotificationVacancyRoom> = [];
+
+            for (let notificationVacancyRoom of notificationVacancyRooms) {
+              if (typeof notificationVacancyRoom.uid === 'undefined') {
+                continue;
+              }
+
+              let member: NotificationVacancyRoom = { uid: notificationVacancyRoom.uid, createdAt: '' };
+
+              if (typeof notificationVacancyRoom.createdAt === 'undefined') {
+                member.createdAt = new Date().toISOString();
+              } else {
+                member.createdAt = new Date(notificationVacancyRoom.createdAt).toISOString();
+              }
+
+              rooms.push(member);
+            }
+
+            state.rooms = rooms;
+          } else {
+            state.rooms = [];
+          }
+        }
+      })
+      .then(() => {
+        browser.storage.local.set({
+          notificationVacancyRooms: JSON.parse(JSON.stringify(state.rooms)),
+        });
+      });
   },
 
   setNotification(state, uid) {
@@ -27,13 +60,40 @@ const mutations: MutationTree<NotificationVacancyRoomsState> = {
       .get('notificationVacancyRooms')
       //@ts-ignore
       .then(({ notificationVacancyRooms }) => {
-        state.rooms = notificationVacancyRooms || [];
+        // データがないときはエラーが起こるので初期化
+        if (typeof notificationVacancyRooms === 'undefined') {
+          state.rooms = [];
+        } else {
+          if (Array.isArray(notificationVacancyRooms)) {
+            let rooms: Array<NotificationVacancyRoom> = [];
+
+            for (let notificationVacancyRoom of notificationVacancyRooms) {
+              if (typeof notificationVacancyRoom.uid === 'undefined') {
+                continue;
+              }
+
+              let member: NotificationVacancyRoom = { uid: notificationVacancyRoom.uid, createdAt: '' };
+
+              if (typeof notificationVacancyRoom.createdAt === 'undefined') {
+                member.createdAt = new Date().toISOString();
+              } else {
+                member.createdAt = new Date(notificationVacancyRoom.createdAt).toISOString();
+              }
+
+              rooms.push(member);
+            }
+
+            state.rooms = rooms;
+          } else {
+            state.rooms = [];
+          }
+        }
       })
       .then(() => {
         if (!state.rooms.find((room) => room.uid === uid)) {
           state.rooms.push({
             uid: uid,
-            createdAt: new Date(),
+            createdAt: new Date().toISOString(),
           });
         }
       })
@@ -49,7 +109,34 @@ const mutations: MutationTree<NotificationVacancyRoomsState> = {
       .get('notificationVacancyRooms')
       //@ts-ignore
       .then(({ notificationVacancyRooms }) => {
-        state.rooms = notificationVacancyRooms || [];
+        // データがないときはエラーが起こるので初期化
+        if (typeof notificationVacancyRooms === 'undefined') {
+          state.rooms = [];
+        } else {
+          if (Array.isArray(notificationVacancyRooms)) {
+            let rooms: Array<NotificationVacancyRoom> = [];
+
+            for (let notificationVacancyRoom of notificationVacancyRooms) {
+              if (typeof notificationVacancyRoom.uid === 'undefined') {
+                continue;
+              }
+
+              let member: NotificationVacancyRoom = { uid: notificationVacancyRoom.uid, createdAt: '' };
+
+              if (typeof notificationVacancyRoom.createdAt === 'undefined') {
+                member.createdAt = new Date().toISOString();
+              } else {
+                member.createdAt = new Date(notificationVacancyRoom.createdAt).toISOString();
+              }
+
+              rooms.push(member);
+            }
+
+            state.rooms = rooms;
+          } else {
+            state.rooms = [];
+          }
+        }
       })
       .then(() => {
         state.rooms = state.rooms.filter((room) => room.uid !== uid);
