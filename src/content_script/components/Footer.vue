@@ -18,4 +18,12 @@ footer.footer
       a(href='http://opensource.org/licenses/mit-license.php', target="_blank", rel="noopener noreferrer")
         | MITライセンス
       | のもとでライセンスされています。
+
+    b-tag(type="is-dark")
+      | 😊
+      |
+      | Inspired by
+      |
+      b SYNCROOM-utility
+      | .
 </template>

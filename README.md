@@ -31,3 +31,7 @@ npm run build-zip
 ```
 
 `dist-zip` ディレクトリに各ブラウザ用のパッケージがビルドされます。
+
+<hr>
+
+😊 Inspired by SYNCROOM-utility.
