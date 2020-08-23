@@ -159,6 +159,7 @@ export default {
           .replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;')
           .replace(/'/g, '&#039;')
+          .replace(/\n/g, '<br />')
           /* eslint-disable no-useless-escape */
           .replace(/(\b(https|http):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, (link) => {
             return `<a href='${link}' target='_blank' rel='noopener noreferrer'>${link}</a>`;
