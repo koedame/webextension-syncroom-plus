@@ -11,7 +11,7 @@
         :src="unknownMemberIconLink"
       )
     .members__item__right
-      .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
+      .members__item__right__name(:class="{'members__item__right__name--favorite': $store.getters['favoriteMembers/members'].some(m => m.memberName === member)}")
         span.members__item__right__name__text
           template(v-if="member.length === 0")
             | [仮入室]
@@ -19,13 +19,13 @@
             span(v-html="twitterIdToLink(member)")
         b-tooltip(label='オンライン時に通知を受け取れます', position="is-top", type="is-light")
           a.members__item__right__name__add-notification(@click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
-            template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
+            template(v-if="$store.getters['notificationOnlineMembers/members'].some(m => m.memberName === member)")
               b-icon.members__item__right__name__add-notification__on(icon='bell')
             template(v-else)
               b-icon(icon='bell-slash')
         b-tooltip(label='見つけやすいように表示を目立たせます', position="is-top", type="is-light")
           a.members__item__right__name__add-favorite(@click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
-            template(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
+            template(v-if="$store.getters['favoriteMembers/members'].some(m => m.memberName === member)")
               b-icon.members__item__right__name__add-favorite__on(icon='star')
             template(v-else)
               b-icon(icon='star')

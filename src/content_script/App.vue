@@ -3,6 +3,13 @@
   Navbar
 
   #SYNCROOM_PLUS-main(v-if="rooms.length !== 0")
+
+    .level
+      .level-left
+      .level-right
+        b-button(icon-left="cog", type="is-warning is-light", @click="openConfig")
+          | 設定
+
     h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧
 
     .filter-form
@@ -76,6 +83,7 @@ import axios from 'axios';
 import RoomCard from './components/RoomCard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Config from './components/Config';
 
 export default {
   components: {
@@ -104,6 +112,13 @@ export default {
   },
 
   methods: {
+    openConfig() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: Config,
+        hasModalCard: true,
+      });
+    },
     fetchRooms() {
       axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
         this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
@@ -358,7 +373,7 @@ export default {
   font-size: 20px
   font-weight: bold
   text-align: center
-  margin: 2em 0 1em 0
+  margin: 0 0 1em 0
 
 .SYNCROOM_PLUS-main__rooms
   display: flex

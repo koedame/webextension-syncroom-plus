@@ -13,7 +13,7 @@ export interface FavoriteMembersState {
 
 export interface FavoriteMember {
   memberName: string;
-  favoritedAt: Date;
+  createdAt: string;
 }
 
 export interface NotificationOnlineMembersState {
@@ -22,8 +22,8 @@ export interface NotificationOnlineMembersState {
 
 export interface NotificationOnlineMember {
   memberName: string;
-  createdAt: Date;
-  lastNotificationRoomCreatedTime: Date;
+  createdAt: string;
+  lastNotificationRoomCreatedTime: string;
 }
 
 export interface NotificationVacancyRoomsState {
@@ -32,5 +32,5 @@ export interface NotificationVacancyRoomsState {
 
 export interface NotificationVacancyRoom {
   uid: string;
-  createdAt: Date;
+  createdAt: string;
 }
