@@ -1,5 +1,30 @@
 # CHANGELOGS
 
+## v1.3.0
+
+### 新規
+
+- ルーム説明のスクロール対応
+- URL の自動リンク化
+- TwitterID の自動リンク化
+- お気に入りの管理機能追加
+- オンライン通知の管理機能追加
+- TypeScript 対応
+- エラートラッキング機能追加
+
+### 変更
+
+- ページ全体を置き換えるように変更
+- アイコンを変更
+- 非公開入室と仮入室が区別できるように
+
+### 依存パッケージ
+
+- @babel/core from 7.11.1 to 7.11.4
+- axios from 0.19.2 to 0.20.0
+- vue and vue-template-compiler
+- pretty-quick from 2.0.1 to 3.0.0
+
 ## v1.2.0
 
 ### 新規
@@ -14,7 +39,7 @@
 
 ### 依存パッケージ
 
-- ejs from 3.1.3 to 3.1.5 dependencies javascript
+- ejs from 3.1.3 to 3.1.5
 
 ## v1.1.0
 
