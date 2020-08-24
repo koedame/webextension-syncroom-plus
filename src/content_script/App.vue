@@ -85,6 +85,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Config from './components/Config';
 import optimizeSearchKeyword from '../lib/optimize_search_keyword';
+import decryptionTags from '../lib/decryption_tags';
 
 export default {
   components: {
@@ -125,7 +126,7 @@ export default {
         this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
         // タグを復号
         for (let i = 0; i < this.rooms.length; i++) {
-          this.rooms[i].room_tags = this.tagConvert(this.rooms[i]);
+          this.rooms[i].room_tags = decryptionTags(this.rooms[i]);
         }
 
         this.lockedRoomCount = this.rooms.filter((room) => room.need_passwd).length;
@@ -133,49 +134,6 @@ export default {
 
         this.testRoom = res.data.rooms.find((room) => room.room_name === '接続テストルーム');
       });
-    },
-    tagConvert(room) {
-      var m;
-      var i;
-      var result = [];
-
-      const tags = [
-        '練習中',
-        'おしゃべり',
-        '初心者OK',
-        '配信中',
-        '録音中',
-        'Classic',
-        'Country / Folk',
-        'Club Music / EDM',
-        'Hip Hop / Rap',
-        'R&B / Soul',
-        'Jazz',
-        'Fusion',
-        'Rock',
-        'HR / HM',
-        '洋楽',
-        'J-Pop',
-        'アイドル',
-        'アニメ・ゲーム・ボカロ',
-        'World',
-      ];
-
-      if (room.tag_orig) {
-        result.push(room.tag_orig);
-      }
-
-      if (room.tag_mask) {
-        m = (room.tag_mask ^ 0xffffffff) >>> 0;
-        for (i = 0; i < tags.length; i++) {
-          var tm = Math.pow(2, i);
-          if (((m ^ 0xffffffff) & tm) === tm) {
-            result.push(tags[i]);
-          }
-        }
-      }
-
-      return result;
     },
   },
 
