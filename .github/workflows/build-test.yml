@@ -1,9 +1,9 @@
-name: ビルドテスト
+name: ビルド検証
 on:
   push:
 
 jobs:
-  run_lint_and_test:
+  run_build:
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -1,34 +1,40 @@
 <template lang="pug">
 .members(:style="`background-image: url(${backgroundLogoLink})`")
-  .members__item(v-for="(member, i) in members", :key="`${member}-${i}`")
+  .members__item(v-for="(member, i) in members2", :key="`${member.memberName}-${i}`")
     .members__item__left
-      img.members__item__left__icon(
-        v-if="iconlist && iconlist[i] && (iconlist[i].iconurl || iconlist[i].icon)",
-        :src="iconlist[i].iconurl.replace('http:', 'https:') || memberIconLinks[iconlist[i].icon]"
-      )
-      .members__item__left__icon(v-else)
+      img.members__item__left__icon(:src="member.icon")
     .members__item__right
-      .members__item__right__name(:class="{'members__item__right__name--favorite': $store.state.favoriteMembers.members.some(m => m.memberName === member)}")
-        span.members__item__right__name__text
-          | {{ member }}
-        a.members__item__right__name__add-notification(title="オンライン時に通知を受け取れます", @click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
-          template(v-if="$store.state.notificationOnlineMembers.members.some(m => m.memberName === member)")
-            fa.members__item__right__name__add-notification__on(:icon="['fas', 'bell']")
-          template(v-else)
-            fa(:icon="['far', 'bell-slash']")
-        a.members__item__right__name__add-favorite(title="見つけやすいように表示を目立たせます", @click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
-          template(v-if="$store.state.favoriteMembers.members.some(m => m.memberName === member)")
-            fa.members__item__right__name__add-favorite__on(:icon="['fas', 'star']")
-          template(v-else)
-            fa(:icon="['far', 'star']")
+      .members__item__right__name(:class="{'members__item__right__name--favorite': $store.getters['favoriteMembers/members'].some(m => m.memberName === member.memberName)}")
+        template(v-if="member.memberName.length === 0")
+          | [仮入室]
+
+        template(v-else)
+          span.members__item__right__name__text
+            span(v-html="twitterIdToLink(member.memberName)")
+
+          b-tooltip(label='オンライン時に通知を受け取れます', position="is-top", type="is-light")
+            a.members__item__right__name__add-notification(@click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member.memberName, roomCreateTime})")
+              template(v-if="$store.getters['notificationOnlineMembers/members'].some(m => m.memberName === member.memberName)")
+                b-icon.members__item__right__name__add-notification__on(icon='bell')
+              template(v-else)
+                b-icon(icon='bell-slash')
+
+          b-tooltip(label='見つけやすいように表示を目立たせます', position="is-top", type="is-light")
+            a.members__item__right__name__add-favorite(@click="$store.dispatch('favoriteMembers/toggleFavorite', member.memberName)")
+              template(v-if="$store.getters['favoriteMembers/members'].some(m => m.memberName === member.memberName)")
+                b-icon.members__item__right__name__add-favorite__on(icon='star')
+              template(v-else)
+                b-icon(icon='star')
+
       .members__item__right__volumes
         VolumeMeter
+
   .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
     .members__item__left
-      .members__item__left__icon.members__item__left__icon--unknown
+      img.members__item__left__icon(:src="unknownMemberIconLink")
     .members__item__right
       .members__item__right__name
-        | ?????
+        | [非公開入室]
       .members__item__right__volumes
         VolumeMeter
   .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
@@ -36,6 +42,7 @@
 
 <script>
 import VolumeMeter from './VolumeMeter';
+const browser = require('webextension-polyfill');
 
 export default {
   props: {
@@ -77,11 +84,45 @@ export default {
         browser.extension.getURL('/icons/member-icon-12.png'),
         browser.extension.getURL('/icons/member-icon-13.png'),
       ],
+      unknownMemberIconLink: browser.extension.getURL('/icons/member-icon-unknown.png'),
       backgroundLogoLink: browser.extension.getURL('/icons/icon-background-logo.png'),
     };
   },
 
+  methods: {
+    twitterIdToLink(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/((@|＠)[0-9a-zA-Z_]{1,15})/g, (twitterID) => {
+          const noAtTwitterID = twitterID.replace(/@|＠/g, '');
+          return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
+        });
+    },
+  },
   computed: {
+    members2() {
+      const data = [];
+      for (const i in this.members) {
+        let icon;
+        if (typeof this.iconlist[i] === 'undefined') {
+          icon = this.unknownMemberIconLink;
+        } else if (this.iconlist[i].iconurl.length === 0) {
+          icon = this.memberIconLinks[this.iconlist[i].icon];
+        } else {
+          icon = this.iconlist[i].iconurl.replace('http://', 'https://');
+        }
+
+        data.push({
+          memberName: this.members[i],
+          icon: icon,
+        });
+      }
+      return data;
+    },
     unknownMemberNum() {
       return this.numMembers - this.members.length;
     },
@@ -99,7 +140,6 @@ export default {
   background-color: #F9FCFF
   background-repeat: no-repeat
   background-size: contain
-  overflow: hidden
   border-radius: 5px
 
   &__item
@@ -118,7 +158,6 @@ export default {
         width: 35px
         height: 35px
         border-radius: 4px
-        background: #888
 
     &__right
       width: 230px
@@ -131,6 +170,7 @@ export default {
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
+          line-height: 22px
         &--favorite
           background: #ffff80
 
@@ -141,13 +181,11 @@ export default {
           display: inline-block
           vertical-align: super
           color: #949494
-          padding: 0 6px
 
           &__on
             color: #ffa90a
 
         &__add-notification
-          padding: 0 6px
           border: none
           outline: none
           cursor: pointer

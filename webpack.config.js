@@ -11,23 +11,34 @@ const config = {
   mode: process.env.NODE_ENV,
   context: __dirname + '/src',
   entry: {
-    background: './background.js',
+    background: './background.ts',
     // 'popup/popup': './popup/popup.js',
     // 'options/options': './options/options.js',
-    'content_script/content_script': './content_script/content_script.js',
+    'content_script/content_script': './content_script/content_script.ts',
   },
   output: {
     path: __dirname + '/dist',
     filename: '[name].js',
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: ['.js', '.vue', '.ts', '.json'],
   },
   module: {
     rules: [
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+      },
+      {
+        test: /\.ts$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              appendTsSuffixTo: [/\.vue$/],
+            },
+          },
+        ],
       },
       {
         test: /\.js$/,
@@ -107,14 +118,14 @@ const config = {
           from: 'icons',
           to: 'icons',
           globOptions: {
-            ignore: ['.DS_Store'],
+            ignore: ['**/.DS_Store'],
           },
         },
         {
           from: 'images',
           to: 'images',
           globOptions: {
-            ignore: ['.DS_Store'],
+            ignore: ['**/.DS_Store'],
           },
         },
         // { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },

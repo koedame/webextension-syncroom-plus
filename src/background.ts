@@ -1,10 +1,25 @@
+const browser = require('webextension-polyfill');
+
+import * as Sentry from '@sentry/browser';
+import { Integrations as ApmIntegrations } from '@sentry/apm';
+
+const manifestInfo = browser.runtime.getManifest();
+
+Sentry.init({
+  dsn: 'https://c23617d9245a48aab09dc438bb257301@o438164.ingest.sentry.io/5402400',
+  release: manifestInfo.browser_action.default_title + '@' + manifestInfo.version,
+  integrations: [new ApmIntegrations.Tracing()],
+  tracesSampleRate: 1.0,
+  environment: process.env.NODE_ENV,
+});
+
+import makeJoinUri from './lib/make_join_uri';
 import store from './store';
+import { NotificationVacancyRoom } from './store/types';
 import axios from 'axios';
 
-global.browser = require('webextension-polyfill');
-
 // アイコンクリック時のアクション
-browser.browserAction.onClicked.addListener(() => {
+browser.browserAction.onClicked.addListener((): void => {
   browser.tabs.create({
     url: 'https://syncroom.yamaha.com/play/',
     active: true,
@@ -17,8 +32,8 @@ store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 
 // 参考: https://qiita.com/sakuraya/items/33f93e19438d0694a91d
-const userAgent = window.navigator.userAgent.toLowerCase();
-let currentBrowser;
+const userAgent: string = window.navigator.userAgent.toLowerCase();
+let currentBrowser: string;
 if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
   currentBrowser = 'InternetExplorer';
 } else if (userAgent.indexOf('edge') !== -1) {
@@ -35,28 +50,20 @@ if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
   currentBrowser = 'unknown';
 }
 
-setInterval(() => {
+setInterval((): void => {
   // 他のscriptから変更されたものはreactiveにならないので、最初にfetchしておく
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
   store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 
-  // 通知登録がある場合のみ実行
-  const notificationVacancyRooms = store.getters['notificationVacancyRooms/rooms'];
-  const notificationOnlineMembers = store.getters['notificationOnlineMembers/members'];
-
-  if (notificationVacancyRooms.length !== 0 || notificationOnlineMembers.length !== 0) {
+  if (store.getters['notificationVacancyRooms/rooms'].length !== 0 || store.getters['notificationOnlineMembers/members'].length !== 0) {
     axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
-      const rooms = res.data.rooms;
-
-      for (let i = 0; i < rooms.length; i++) {
-        const room = rooms[i];
-
+      for (let room of res.data.rooms) {
         // オンライン通知
-        for (let ii = 0; ii < room.members.length; ii++) {
-          const notificationOnlineMember = notificationOnlineMembers.find((r) => r.memberName === room.members[ii]);
+        for (let member of room.members) {
+          const notificationOnlineMember = store.getters['notificationOnlineMembers/members'].find((r: any) => r.memberName === member);
           // 最後の部屋作成日時と違う場合は通知
           if (notificationOnlineMember && notificationOnlineMember.lastNotificationRoomCreatedTime !== room.create_time) {
-            const options = {
+            const options: any = {
               type: 'basic',
               // TODO: iconをわかりやすいものに変える
               iconUrl: 'icons/icon_128.png',
@@ -78,10 +85,10 @@ setInterval(() => {
 
         // 空き通知
         if (room.num_members < 5) {
-          const uid = `${room.create_time}||${room.room_name}`;
-          const isExistNotificationVacancyRooms = notificationVacancyRooms.find((r) => r.uid === uid);
+          const uid: string = `${room.create_time}||${room.room_name}`;
+          const isExistNotificationVacancyRooms: boolean = store.getters['notificationVacancyRooms/rooms'].some((r: any) => r.uid === uid);
           if (isExistNotificationVacancyRooms) {
-            const options = {
+            const options: any = {
               type: 'basic',
               // TODO: iconをわかりやすいものに変える
               iconUrl: 'icons/icon_128.png',
@@ -100,68 +107,29 @@ setInterval(() => {
       }
 
       // roomがなくなっていれば通知を削除
-      for (let i = 0; i < notificationVacancyRooms.length; i++) {
-        if (!rooms.find((r) => `${r.create_time}||${r.room_name}` === notificationVacancyRooms[i].uid)) {
-          store.dispatch('notificationVacancyRooms/removeNotificationByUID', notificationVacancyRooms[i].uid);
+      for (let notificationVacancyRoom of store.getters['notificationVacancyRooms/rooms']) {
+        if (!res.data.rooms.some((r: any) => `${r.create_time}||${r.room_name}` === notificationVacancyRoom.uid)) {
+          store.dispatch('notificationVacancyRooms/removeNotificationByUID', notificationVacancyRoom.uid);
           // 通知が残っていれば消しておく
-          browser.notifications.clear(notificationVacancyRooms[i].uid);
+          browser.notifications.clear(notificationVacancyRoom.uid);
         }
       }
     });
   }
 }, 1000);
 
-const makeJoinUri = (roomName, pass, pid, mode) => {
-  var urienc = function (str) {
-    return encodeURIComponent(str).replace(/[!*'()]/g, function (c) {
-      return '%' + c.charCodeAt(0).toString(16);
-    });
-  };
-
-  var str = 'joingroup?mode=' + urienc(mode) + '&pid=' + urienc(pid) + '&nickname=&groupname=' + urienc(roomName) + '&password=' + urienc(pass);
-  var uri = 'syncroom:';
-  var tbl = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-  var len = str.length;
-  var mod = len % 3;
-  if (mod > 0) len -= mod;
-
-  var i, t;
-  for (i = 0; i < len; i += 3) {
-    t = (str.charCodeAt(i + 0) << 16) | (str.charCodeAt(i + 1) << 8) | str.charCodeAt(i + 2);
-    uri += tbl.charAt((t >> 18) & 0x3f);
-    uri += tbl.charAt((t >> 12) & 0x3f);
-    uri += tbl.charAt((t >> 6) & 0x3f);
-    uri += tbl.charAt(t & 0x3f);
-  }
-  if (mod === 2) {
-    t = (str.charCodeAt(i + 0) << 16) | (str.charCodeAt(i + 1) << 8);
-    uri += tbl.charAt((t >> 18) & 0x3f);
-    uri += tbl.charAt((t >> 12) & 0x3f);
-    uri += tbl.charAt((t >> 6) & 0x3f);
-    uri += '=';
-  } else if (mod === 1) {
-    t = str.charCodeAt(i + 0) << 16;
-    uri += tbl.charAt((t >> 18) & 0x3f);
-    uri += tbl.charAt((t >> 12) & 0x3f);
-    uri += '=';
-    uri += '=';
-  }
-
-  return uri;
-};
-
-browser.notifications.onClicked.addListener((notificationId) => {
-  const splittedNotificationId = notificationId.split('::');
-  const actionType = splittedNotificationId[0];
+browser.notifications.onClicked.addListener((notificationId: string): void => {
+  const splittedNotificationId: Array<string> = notificationId.split('::');
+  const actionType: string = splittedNotificationId[0];
 
   if (actionType === 'vacancy') {
-    const uid = splittedNotificationId[1];
-    const roomName = uid.split('||')[1];
+    const uid: string = splittedNotificationId[1];
+    const roomName: string = uid.split('||')[1];
     axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
-      const room = res.data.rooms.find((room) => room.room_name === roomName);
+      const room: any = res.data.rooms.find((room: any) => room.room_name === roomName);
 
       if (room.need_passwd) {
-        const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
+        const pwPrompt: string = window.prompt('ルームパスワードを入力してください', '');
         if (pwPrompt) {
           browser.tabs.create({
             url: makeJoinUri(roomName, pwPrompt, 4, 2),
@@ -189,10 +157,10 @@ browser.notifications.onClicked.addListener((notificationId) => {
   browser.notifications.clear(notificationId);
 });
 
-browser.notifications.onClosed.addListener((notificationId) => {
-  const splittedNotificationId = notificationId.split('::');
-  const actionType = splittedNotificationId[0];
-  const uid = splittedNotificationId[1];
+browser.notifications.onClosed.addListener((notificationId: string): void => {
+  const splittedNotificationId: Array<string> = notificationId.split('::');
+  const actionType: string = splittedNotificationId[0];
+  const uid: string = splittedNotificationId[1];
 
   if (actionType === 'vacancy') {
     store.dispatch('notificationVacancyRooms/removeNotificationByUID', uid);

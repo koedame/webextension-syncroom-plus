@@ -1,44 +1,42 @@
 <template lang="pug">
 .card(:class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }")
   .card__header
-    span.card__header__item
-    span.card__header__item.card__header__item--timer
+    .card__header__item
       RemainingTime(:create-time="createTime")
-    span.card__header__item
   .card__body
     h3.room_name {{ roomName }}
 
     p.room_tags
-      span.room_tags__item(v-for="tag in roomTags", :key="tag")
-        | {{tag}}
+      b-taglist
+        b-tag(v-for="tag in roomTags", :key="tag")
+          | {{tag}}
 
-    p.room_desc(:title="roomDesc") {{ roomDesc }}
+    p.room_desc(v-html="linkedRoomDesc")
 
     Members(:num-members="numMembers", :members="members", :iconlist="iconlist", :room-create-time="createTime")
 
-    .card__body__buttons--no_vacancy(v-if="isNoVacancy")
+    div(v-if="isNoVacancy")
       template(v-if="isNotificationVacancyRoom")
-        button.card__body__buttons__button.card__body__buttons__button--on(type="button", @click="onRemoveNotificationVacancyRoom")
-          fa(:icon="['fas', 'bell']")
-          |
+        b-button(type="is-link is-light", expanded, @click="onRemoveNotificationVacancyRoom", icon-left="bell")
           | 通知を解除
       template(v-else)
-        button.card__body__buttons__button(type="button", @click="onSetNotificationVacancyRoom")
-          fa(:icon="['far', 'bell-slash']")
-          |
+        b-button(type="is-link is-light", expanded, @click="onSetNotificationVacancyRoom", icon-left="bell-slash")
           | 空きが出たら通知を受け取る
 
-    .card__body__buttons(v-else)
-      button.card__body__buttons__button.card__body__buttons__button--tentative(type="button" @click="onOpenTentativeSyncroom")
+    .buttons(v-else)
+      b-button(type="is-light" @click="onOpenTentativeSyncroom")
         | 仮入室
-      button.card__body__buttons__button(type="button" @click="onOpenSyncroom")
-        fa.card__body__buttons__button__icon(icon="lock", v-if="needPasswd")
+
+      b-button.card__body__buttons__entry-button(v-if="needPasswd", type="is-dark" @click="onOpenSyncroom", icon-left="lock")
+        | ルームに入る
+      b-button.card__body__buttons__entry-button(v-else, type="is-link" @click="onOpenSyncroom")
         | ルームに入る
 </template>
 
 <script>
 import RemainingTime from './RemainingTime';
 import Members from './Members';
+import makeJoinUri from '../../lib/make_join_uri';
 
 export default {
   props: {
@@ -93,10 +91,10 @@ export default {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
 
         if (pwPrompt) {
-          location.href = this.makeJoinUri(this.roomName, pwPrompt, 4, 2);
+          location.href = makeJoinUri(this.roomName, pwPrompt, 4, 2);
         }
       } else {
-        location.href = this.makeJoinUri(this.roomName, '', 4, 2);
+        location.href = makeJoinUri(this.roomName, '', 4, 2);
       }
     },
 
@@ -105,10 +103,10 @@ export default {
         const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
 
         if (pwPrompt) {
-          location.href = this.makeJoinUri(this.roomName, pwPrompt, 4, 3);
+          location.href = makeJoinUri(this.roomName, pwPrompt, 4, 3);
         }
       } else {
-        location.href = this.makeJoinUri(this.roomName, '', 4, 3);
+        location.href = makeJoinUri(this.roomName, '', 4, 3);
       }
     },
 
@@ -153,6 +151,25 @@ export default {
   },
 
   computed: {
+    linkedRoomDesc() {
+      return (
+        this.roomDesc
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;')
+          .replace(/\n/g, '<br />')
+          /* eslint-disable no-useless-escape */
+          .replace(/(\b(https|http):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, (link) => {
+            return `<a href='${link}' target='_blank' rel='noopener noreferrer'>${link}</a>`;
+          })
+          .replace(/((@|＠)[0-9a-zA-Z_]{1,15})/g, (twitterID) => {
+            const noAtTwitterID = twitterID.replace(/@|＠/g, '');
+            return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
+          })
+      );
+    },
     isNoVacancy() {
       return this.numMembers === 5;
     },
@@ -169,20 +186,16 @@ export default {
   width: 300px
   background: #D9E2FE
   border-radius: 5px
-  overflow: hidden
   box-shadow: 0px 1px 8px -5px #20293a
 
   &__header
+    border-radius: 5px 5px 0 0
     background: #5073f5
     color: #fff
     font-weight: normal
     font-size: 15px
-    display: flex
-    justify-content: space-between
-
-    &__item
-      &--timer
-        padding: 0 1em
+    line-height: 30px
+    text-align: center
 
   &__body
     padding: 10px
@@ -200,14 +213,7 @@ export default {
     .room_tags
       margin-bottom: 10px
       overflow: hidden
-      height: 22px
-      &__item
-        background: #ccc
-        padding: 0px 6px
-        display: inline-block
-        font-size: 11px
-        border-radius: 3px
-        margin-right: 5px
+      height: 24px
 
     .room_desc
       font-size: 12px
@@ -215,80 +221,29 @@ export default {
       padding: 0em 0.5em
       margin-bottom: 1em
 
-      display: -webkit-box
-      overflow: hidden
-      -webkit-line-clamp: 3
-      -webkit-box-orient: vertical
+      overflow-y: auto
+      word-break: break-word
 
-      height: calc( 1.8em * 3 )
+      height: calc( 1.8em * 4 )
       line-height: 1.8em
       border-radius: 5px
 
     &__buttons
-      display: flex
-      justify-content: space-between
-
-      &__button
-        display: inline-block
-        width: calc(70% - 5px)
-        background: #1300C3
-        border: none
-        color: #fff
-        cursor: pointer
-        line-height: 3em
-        font-size: 13px
-        border-radius: 5px
-
-        &:hover
-          opacity: 0.7
-
-        &:focus
-          outline: none
-
-        &__icon
-          margin-right: 0.5em
-
-        &--tentative
-          display: inline-block
-          width: calc(30% - 5px)
-          border: none
-          background: #D2D3DD
-          color: #3E3E3E
+      &__entry-button
+        width: 185px
 
 .card.card--need_passwd
   background: #eaeaea
 
   .card__header
     background: #272727
-    &__item
-      &--timer
-
-  .card__body
-    &__buttons
-      &__button
-        background: #272727
-        &--tentative
-          background: #D2D3DD
-          color: #3E3E3E
-        &:hover
 
 .card.card--no_vacancy
   background: #E6E6E6
 
   .card__header
     background: #A3A3A3
-    &__item
-      &--timer
-        background: none
 
   .card__body
     color: #808080
-    &__buttons
-      &__button
-        display: block
-        width: 100%
-        background: #818181
-
-        &:hover
-          opacity: 1
 </style>
