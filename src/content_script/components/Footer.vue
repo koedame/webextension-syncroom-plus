@@ -2,6 +2,11 @@
 footer.footer
   .content.has-text-centered
     p
+      b-tag(type="is-info")
+        | SYNCROOM Plus Version {{ version }}
+
+
+    p
       a(href='https://github.com/koedame/webextension-syncroom-plus', target="_blank", rel="noopener noreferrer")
         strong SYNCROOM Plus
       |
@@ -19,11 +24,26 @@ footer.footer
         | MITライセンス
       | のもとでライセンスされています。
 
-    b-tag(type="is-dark")
-      | 😊
-      |
-      | Inspired by
-      |
-      b SYNCROOM-utility
-      | .
+    hr
+
+    p
+      b-tag(type="is-dark")
+        | 😊
+        |
+        | Inspired by
+        |
+        b SYNCROOM-utility
+        | .
 </template>
+
+<script>
+const browser = require('webextension-polyfill');
+
+export default {
+  data() {
+    return {
+      version: browser.runtime.getManifest().version,
+    };
+  },
+};
+</script>
