@@ -2,7 +2,7 @@
 #SYNCROOM_PLUS-wrapper
   Navbar
 
-  #SYNCROOM_PLUS-main(v-if="rooms.length !== 0")
+  #SYNCROOM_PLUS-main
 
     .level
       .level-left
