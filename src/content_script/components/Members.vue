@@ -1,41 +1,37 @@
 <template lang="pug">
 .members(:style="`background-image: url(${backgroundLogoLink})`")
-  .members__item(v-for="(member, i) in members", :key="`${member}-${i}`")
+  .members__item(v-for="(member, i) in members2", :key="`${member.memberName}-${i}`")
     .members__item__left
-      img.members__item__left__icon(
-        v-if="iconlist && iconlist[i] && (iconlist[i].iconurl || iconlist[i].icon)",
-        :src="iconlist[i].iconurl.replace('http:', 'https:') || memberIconLinks[iconlist[i].icon]"
-      )
-      img.members__item__left__icon(
-        v-else
-        :src="unknownMemberIconLink"
-      )
+      img.members__item__left__icon(:src="member.icon")
     .members__item__right
-      .members__item__right__name(:class="{'members__item__right__name--favorite': $store.getters['favoriteMembers/members'].some(m => m.memberName === member)}")
-        span.members__item__right__name__text
-          template(v-if="member.length === 0")
-            | [仮入室]
-          template(v-else)
-            span(v-html="twitterIdToLink(member)")
-        b-tooltip(label='オンライン時に通知を受け取れます', position="is-top", type="is-light")
-          a.members__item__right__name__add-notification(@click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member, roomCreateTime})")
-            template(v-if="$store.getters['notificationOnlineMembers/members'].some(m => m.memberName === member)")
-              b-icon.members__item__right__name__add-notification__on(icon='bell')
-            template(v-else)
-              b-icon(icon='bell-slash')
-        b-tooltip(label='見つけやすいように表示を目立たせます', position="is-top", type="is-light")
-          a.members__item__right__name__add-favorite(@click="$store.dispatch('favoriteMembers/toggleFavorite', member)")
-            template(v-if="$store.getters['favoriteMembers/members'].some(m => m.memberName === member)")
-              b-icon.members__item__right__name__add-favorite__on(icon='star')
-            template(v-else)
-              b-icon(icon='star')
+      .members__item__right__name(:class="{'members__item__right__name--favorite': $store.getters['favoriteMembers/members'].some(m => m.memberName === member.memberName)}")
+        template(v-if="member.memberName.length === 0")
+          | [仮入室]
+
+        template(v-else)
+          span.members__item__right__name__text
+            span(v-html="twitterIdToLink(member.memberName)")
+
+          b-tooltip(label='オンライン時に通知を受け取れます', position="is-top", type="is-light")
+            a.members__item__right__name__add-notification(@click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member.memberName, roomCreateTime})")
+              template(v-if="$store.getters['notificationOnlineMembers/members'].some(m => m.memberName === member.memberName)")
+                b-icon.members__item__right__name__add-notification__on(icon='bell')
+              template(v-else)
+                b-icon(icon='bell-slash')
+
+          b-tooltip(label='見つけやすいように表示を目立たせます', position="is-top", type="is-light")
+            a.members__item__right__name__add-favorite(@click="$store.dispatch('favoriteMembers/toggleFavorite', member.memberName)")
+              template(v-if="$store.getters['favoriteMembers/members'].some(m => m.memberName === member.memberName)")
+                b-icon.members__item__right__name__add-favorite__on(icon='star')
+              template(v-else)
+                b-icon(icon='star')
+
       .members__item__right__volumes
         VolumeMeter
+
   .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
     .members__item__left
-      img.members__item__left__icon(
-        :src="unknownMemberIconLink"
-      )
+      img.members__item__left__icon(:src="unknownMemberIconLink")
     .members__item__right
       .members__item__right__name
         | [非公開入室]
@@ -108,6 +104,25 @@ export default {
     },
   },
   computed: {
+    members2() {
+      const data = [];
+      for (const i in this.members) {
+        let icon;
+        if (typeof this.iconlist[i] === 'undefined') {
+          icon = this.unknownMemberIconLink;
+        } else if (this.iconlist[i].iconurl.length === 0) {
+          icon = this.memberIconLinks[this.iconlist[i].icon];
+        } else {
+          icon = this.iconlist[i].iconurl.replace('http://', 'https://');
+        }
+
+        data.push({
+          memberName: this.members[i],
+          icon: icon,
+        });
+      }
+      return data;
+    },
     unknownMemberNum() {
       return this.numMembers - this.members.length;
     },
