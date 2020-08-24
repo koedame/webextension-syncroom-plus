@@ -63,8 +63,6 @@ Sentry.init({
   environment: process.env.NODE_ENV,
 });
 
-console.log(process.env.NODE_ENV);
-
 /* eslint-disable no-new */
 new Vue({
   el: '#wrapper',
