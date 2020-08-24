@@ -33,8 +33,6 @@ Vue.use(require('vue-moment'), {
   moment,
 });
 
-const browser = require('webextension-polyfill');
-
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
 store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
@@ -47,13 +45,29 @@ setInterval((): void => {
   store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 }, 1000);
 
+const browser = require('webextension-polyfill');
+
+// ファビコン追加
+const faviconTag: string = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
+document.head.insertAdjacentHTML('beforeend', faviconTag);
+
+import * as Sentry from '@sentry/browser';
+import { Vue as VueIntegration } from '@sentry/integrations';
+
+const manifestInfo = browser.runtime.getManifest();
+
+Sentry.init({
+  dsn: 'https://c23617d9245a48aab09dc438bb257301@o438164.ingest.sentry.io/5402400',
+  release: manifestInfo.browser_action.default_title + '@' + manifestInfo.version,
+  integrations: [new VueIntegration({ Vue, attachProps: true })],
+  environment: process.env.NODE_ENV,
+});
+
+console.log(process.env.NODE_ENV);
+
 /* eslint-disable no-new */
 new Vue({
   el: '#wrapper',
   store: store,
   render: (h) => h(App),
 });
-
-// ファビコン追加
-const faviconTag: string = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
-document.head.insertAdjacentHTML('beforeend', faviconTag);

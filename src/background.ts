@@ -1,9 +1,22 @@
+const browser = require('webextension-polyfill');
+
+import * as Sentry from '@sentry/browser';
+import { Integrations as ApmIntegrations } from '@sentry/apm';
+
+const manifestInfo = browser.runtime.getManifest();
+
+Sentry.init({
+  dsn: 'https://c23617d9245a48aab09dc438bb257301@o438164.ingest.sentry.io/5402400',
+  release: manifestInfo.browser_action.default_title + '@' + manifestInfo.version,
+  integrations: [new ApmIntegrations.Tracing()],
+  tracesSampleRate: 1.0,
+  environment: process.env.NODE_ENV,
+});
+
 import makeJoinUri from './lib/make_join_uri';
 import store from './store';
 import { NotificationVacancyRoom } from './store/types';
 import axios from 'axios';
-
-const browser = require('webextension-polyfill');
 
 // アイコンクリック時のアクション
 browser.browserAction.onClicked.addListener((): void => {
