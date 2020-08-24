@@ -3,7 +3,7 @@ on:
   push:
 
 jobs:
-  run_lint_and_test:
+  run_lint:
     runs-on: ubuntu-latest
     strategy:
       matrix:
