@@ -109,45 +109,6 @@ export default {
         location.href = makeJoinUri(this.roomName, '', 4, 3);
       }
     },
-
-    makeJoinUri(room, pass, pid, mode) {
-      var urienc = function (str) {
-        return encodeURIComponent(str).replace(/[!*'()]/g, function (c) {
-          return '%' + c.charCodeAt(0).toString(16);
-        });
-      };
-
-      var str = 'joingroup?mode=' + urienc(mode) + '&pid=' + urienc(pid) + '&nickname=&groupname=' + urienc(room) + '&password=' + urienc(pass);
-      var uri = 'syncroom:';
-      var tbl = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-      var len = str.length;
-      var mod = len % 3;
-      if (mod > 0) len -= mod;
-
-      var i, t;
-      for (i = 0; i < len; i += 3) {
-        t = (str.charCodeAt(i + 0) << 16) | (str.charCodeAt(i + 1) << 8) | str.charCodeAt(i + 2);
-        uri += tbl.charAt((t >> 18) & 0x3f);
-        uri += tbl.charAt((t >> 12) & 0x3f);
-        uri += tbl.charAt((t >> 6) & 0x3f);
-        uri += tbl.charAt(t & 0x3f);
-      }
-      if (mod === 2) {
-        t = (str.charCodeAt(i + 0) << 16) | (str.charCodeAt(i + 1) << 8);
-        uri += tbl.charAt((t >> 18) & 0x3f);
-        uri += tbl.charAt((t >> 12) & 0x3f);
-        uri += tbl.charAt((t >> 6) & 0x3f);
-        uri += '=';
-      } else if (mod === 1) {
-        t = str.charCodeAt(i + 0) << 16;
-        uri += tbl.charAt((t >> 18) & 0x3f);
-        uri += tbl.charAt((t >> 12) & 0x3f);
-        uri += '=';
-        uri += '=';
-      }
-
-      return uri;
-    },
   },
 
   computed: {
