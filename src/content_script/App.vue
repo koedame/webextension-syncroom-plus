@@ -36,8 +36,8 @@
         b-button(type="is-info", tag="a", href="#testroom", icon-left="headphones-alt")
           | 接続テストルームはこちら
 
-    b-taglist.custom--taglist
-      b-tag(v-for="tag in tags", :key="tag.name", size="is-small", type="is-light")
+    .buttons.custom--taglist
+      b-button(v-for="tag in tags", :key="`tag-${tag.name}`", size="is-small", @click="selectTag(tag.name)", :class="{'is-dark': (tag.name === selectedTag), 'is-light': (tag.name !== selectedTag)}")
         | {{ tag.name }} ({{ tag.count }})
 
     .SYNCROOM_PLUS-main__rooms
@@ -106,6 +106,7 @@ export default {
       unlockedRoomCount: 0,
       lockedRoomCount: 0,
       tags: [],
+      selectedTag: '',
     };
   },
 
@@ -119,6 +120,13 @@ export default {
   },
 
   methods: {
+    selectTag(tagName) {
+      if (this.selectedTag === tagName) {
+        this.selectedTag = '';
+      } else {
+        this.selectedTag = tagName;
+      }
+    },
     openConfig() {
       this.$buefy.modal.open({
         parent: this,
@@ -173,6 +181,11 @@ export default {
         displayRooms = displayRooms.filter((room) => !room.need_passwd);
       } else if (this.roomFilter === 'only_locked') {
         displayRooms = displayRooms.filter((room) => room.need_passwd);
+      }
+
+      // タグ選択
+      if (this.selectedTag.length !== 0) {
+        displayRooms = displayRooms.filter((room) => room.room_tags.some((tag) => tag === this.selectedTag));
       }
 
       if (this.keyword.length !== 0) {
