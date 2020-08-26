@@ -23,7 +23,7 @@
 - ✅ Google Chrome （[Google Chrome 版をインストール](https://chrome.google.com/webstore/detail/syncroom-plus-%E3%83%AB%E3%83%BC%E3%83%A0%E4%B8%80%E8%A6%A7%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%AB%EF%BC%81/gpgdkbjhojmcmkpldiopicipgolddmfg?hl=ja)）
 - ✅ Mozilla Firefox （[Mozilla Firefox 版をインストール](https://addons.mozilla.org/ja/firefox/addon/syncroom-plus/)）
 - ✅ Opera（申請中）
-- ✅ Microsoft Edge（申請中）
+- ✅ Microsoft Edge（[Microsoft Edge 版をインストール](https://microsoftedge.microsoft.com/addons/detail/syncroom-plus-%E3%83%AB%E3%83%BC%E3%83%A0%E4%B8%80%E8%A6%A7%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%AB/jidoehgenjfemiclndkcockblmbcihem?hl=ja)）
 
 ## 開発の始め方
 
