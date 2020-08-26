@@ -1,9 +1,28 @@
+// 参考: https://qiita.com/sakuraya/items/33f93e19438d0694a91d
+const userAgent: string = window.navigator.userAgent.toLowerCase();
+let currentBrowser: string;
+if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
+  currentBrowser = 'InternetExplorer';
+} else if (userAgent.indexOf('edge') !== -1) {
+  currentBrowser = 'Edge';
+} else if (userAgent.indexOf('chrome') !== -1) {
+  currentBrowser = 'GoogleChrome';
+} else if (userAgent.indexOf('safari') !== -1) {
+  currentBrowser = 'Safari';
+} else if (userAgent.indexOf('firefox') !== -1) {
+  currentBrowser = 'FireFox';
+} else if (userAgent.indexOf('opera') !== -1) {
+  currentBrowser = 'Opera';
+} else {
+  currentBrowser = 'unknown';
+}
+
 const browser = require('webextension-polyfill');
 
 import * as Sentry from '@sentry/browser';
 import { Integrations as ApmIntegrations } from '@sentry/apm';
 
-if (process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV !== 'development' && currentBrowser === 'GoogleChrome') {
   const manifestInfo = browser.runtime.getManifest();
 
   Sentry.init({
@@ -32,25 +51,6 @@ browser.browserAction.onClicked.addListener((): void => {
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
 store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
 store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
-
-// 参考: https://qiita.com/sakuraya/items/33f93e19438d0694a91d
-const userAgent: string = window.navigator.userAgent.toLowerCase();
-let currentBrowser: string;
-if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
-  currentBrowser = 'InternetExplorer';
-} else if (userAgent.indexOf('edge') !== -1) {
-  currentBrowser = 'Edge';
-} else if (userAgent.indexOf('chrome') !== -1) {
-  currentBrowser = 'GoogleChrome';
-} else if (userAgent.indexOf('safari') !== -1) {
-  currentBrowser = 'Safari';
-} else if (userAgent.indexOf('firefox') !== -1) {
-  currentBrowser = 'FireFox';
-} else if (userAgent.indexOf('opera') !== -1) {
-  currentBrowser = 'Opera';
-} else {
-  currentBrowser = 'unknown';
-}
 
 setInterval((): void => {
   // 他のscriptから変更されたものはreactiveにならないので、最初にfetchしておく
