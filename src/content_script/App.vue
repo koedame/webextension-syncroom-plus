@@ -2,7 +2,7 @@
 #SYNCROOM_PLUS-wrapper
   Navbar
 
-  #SYNCROOM_PLUS-main(v-if="rooms.length !== 0")
+  #SYNCROOM_PLUS-main
 
     .level
       .level-left
@@ -35,6 +35,10 @@
       .filter-form__field
         b-button(type="is-info", tag="a", href="#testroom", icon-left="headphones-alt")
           | 接続テストルームはこちら
+
+    .buttons.custom--taglist
+      b-button(v-for="tag in tags", :key="`tag-${tag.name}`", size="is-small", @click="selectTag(tag.name)", :class="{'is-dark': (tag.name === selectedTag), 'is-light': (tag.name !== selectedTag)}")
+        | {{ tag.name }} ({{ tag.count }})
 
     .SYNCROOM_PLUS-main__rooms
       RoomCard(
@@ -84,6 +88,8 @@ import RoomCard from './components/RoomCard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Config from './components/Config';
+import optimizeSearchKeyword from '../lib/optimize_search_keyword';
+import decryptionTags from '../lib/decryption_tags';
 
 export default {
   components: {
@@ -99,6 +105,8 @@ export default {
       keyword: '',
       unlockedRoomCount: 0,
       lockedRoomCount: 0,
+      tags: [],
+      selectedTag: '',
     };
   },
 
@@ -108,10 +116,17 @@ export default {
     this.timer = setInterval(() => {
       this.$store.dispatch('clock/fetch');
       this.fetchRooms();
-    }, 1000);
+    }, 5000);
   },
 
   methods: {
+    selectTag(tagName) {
+      if (this.selectedTag === tagName) {
+        this.selectedTag = '';
+      } else {
+        this.selectedTag = tagName;
+      }
+    },
     openConfig() {
       this.$buefy.modal.open({
         parent: this,
@@ -120,183 +135,44 @@ export default {
       });
     },
     fetchRooms() {
-      axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
-        this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
-        // タグを復号
-        for (let i = 0; i < this.rooms.length; i++) {
-          this.rooms[i].room_tags = this.tagConvert(this.rooms[i]);
-        }
+      axios
+        .get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4')
+        .then((res) => {
+          this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
 
-        this.lockedRoomCount = this.rooms.filter((room) => room.need_passwd).length;
-        this.unlockedRoomCount = this.rooms.filter((room) => !room.need_passwd).length;
+          let allTags = [];
 
-        this.testRoom = res.data.rooms.find((room) => room.room_name === '接続テストルーム');
-      });
-    },
-    tagConvert(room) {
-      var m;
-      var i;
-      var result = [];
-
-      const tags = [
-        '練習中',
-        'おしゃべり',
-        '初心者OK',
-        '配信中',
-        '録音中',
-        'Classic',
-        'Country / Folk',
-        'Club Music / EDM',
-        'Hip Hop / Rap',
-        'R&B / Soul',
-        'Jazz',
-        'Fusion',
-        'Rock',
-        'HR / HM',
-        '洋楽',
-        'J-Pop',
-        'アイドル',
-        'アニメ・ゲーム・ボカロ',
-        'World',
-      ];
-
-      if (room.tag_orig) {
-        result.push(room.tag_orig);
-      }
-
-      if (room.tag_mask) {
-        m = (room.tag_mask ^ 0xffffffff) >>> 0;
-        for (i = 0; i < tags.length; i++) {
-          var tm = Math.pow(2, i);
-          if (((m ^ 0xffffffff) & tm) === tm) {
-            result.push(tags[i]);
+          // タグを復号
+          for (let i = 0; i < this.rooms.length; i++) {
+            const roomTags = decryptionTags(this.rooms[i]);
+            this.rooms[i].room_tags = decryptionTags(this.rooms[i]);
+            allTags = allTags.concat(roomTags);
           }
-        }
-      }
 
-      return result;
-    },
-    convertSearchKeyword(keyword) {
-      let result = keyword;
+          // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
+          if (this.selectedTag.length !== 0 && !allTags.some((tag) => tag === this.selectedTag)) {
+            this.selectedTag = '';
+          }
 
-      // 記号を削除
-      /* eslint-disable no-useless-escape */
-      result = result.replace(/[\~\!\@\#\$\%\^\&\*\(\)\_\+\`\-\=\[\]\\\{\}\|\;\'\:\"\,\.\/\<\>\?\']/g, '');
+          this.tags = allTags.reduce((result, current) => {
+            const element = result.find((value) => value.name === current);
+            if (element) {
+              element.count++;
+            } else {
+              result.push({
+                name: current,
+                count: 1,
+              });
+            }
+            return result;
+          }, []);
 
-      // 英数字をすべて半角に統一
-      result = result.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => {
-        return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-      });
+          this.lockedRoomCount = this.rooms.filter((room) => room.need_passwd).length;
+          this.unlockedRoomCount = this.rooms.filter((room) => !room.need_passwd).length;
 
-      // ひらがなをカタカナに統一
-      result = result.replace(/[\u3041-\u3096]/g, (ch) => {
-        return String.fromCharCode(ch.charCodeAt(0) + 0x60);
-      });
-
-      // 半角カタカナを全角に統一
-      const kanaMap = {
-        ｶﾞ: 'ガ',
-        ｷﾞ: 'ギ',
-        ｸﾞ: 'グ',
-        ｹﾞ: 'ゲ',
-        ｺﾞ: 'ゴ',
-        ｻﾞ: 'ザ',
-        ｼﾞ: 'ジ',
-        ｽﾞ: 'ズ',
-        ｾﾞ: 'ゼ',
-        ｿﾞ: 'ゾ',
-        ﾀﾞ: 'ダ',
-        ﾁﾞ: 'ヂ',
-        ﾂﾞ: 'ヅ',
-        ﾃﾞ: 'デ',
-        ﾄﾞ: 'ド',
-        ﾊﾞ: 'バ',
-        ﾋﾞ: 'ビ',
-        ﾌﾞ: 'ブ',
-        ﾍﾞ: 'ベ',
-        ﾎﾞ: 'ボ',
-        ﾊﾟ: 'パ',
-        ﾋﾟ: 'ピ',
-        ﾌﾟ: 'プ',
-        ﾍﾟ: 'ペ',
-        ﾎﾟ: 'ポ',
-        ｳﾞ: 'ヴ',
-        ﾜﾞ: 'ヷ',
-        ｦﾞ: 'ヺ',
-        ｱ: 'ア',
-        ｲ: 'イ',
-        ｳ: 'ウ',
-        ｴ: 'エ',
-        ｵ: 'オ',
-        ｶ: 'カ',
-        ｷ: 'キ',
-        ｸ: 'ク',
-        ｹ: 'ケ',
-        ｺ: 'コ',
-        ｻ: 'サ',
-        ｼ: 'シ',
-        ｽ: 'ス',
-        ｾ: 'セ',
-        ｿ: 'ソ',
-        ﾀ: 'タ',
-        ﾁ: 'チ',
-        ﾂ: 'ツ',
-        ﾃ: 'テ',
-        ﾄ: 'ト',
-        ﾅ: 'ナ',
-        ﾆ: 'ニ',
-        ﾇ: 'ヌ',
-        ﾈ: 'ネ',
-        ﾉ: 'ノ',
-        ﾊ: 'ハ',
-        ﾋ: 'ヒ',
-        ﾌ: 'フ',
-        ﾍ: 'ヘ',
-        ﾎ: 'ホ',
-        ﾏ: 'マ',
-        ﾐ: 'ミ',
-        ﾑ: 'ム',
-        ﾒ: 'メ',
-        ﾓ: 'モ',
-        ﾔ: 'ヤ',
-        ﾕ: 'ユ',
-        ﾖ: 'ヨ',
-        ﾗ: 'ラ',
-        ﾘ: 'リ',
-        ﾙ: 'ル',
-        ﾚ: 'レ',
-        ﾛ: 'ロ',
-        ﾜ: 'ワ',
-        ｦ: 'ヲ',
-        ﾝ: 'ン',
-        ｧ: 'ァ',
-        ｨ: 'ィ',
-        ｩ: 'ゥ',
-        ｪ: 'ェ',
-        ｫ: 'ォ',
-        ｯ: 'ッ',
-        ｬ: 'ャ',
-        ｭ: 'ュ',
-        ｮ: 'ョ',
-        '｡': '。',
-        '､': '、',
-        ｰ: 'ー',
-        '｢': '「',
-        '｣': '」',
-        '･': '・',
-      };
-
-      const reg = new RegExp('(' + Object.keys(kanaMap).join('|') + ')', 'g');
-      result = result
-        .replace(reg, (match) => {
-          return kanaMap[match];
+          this.testRoom = res.data.rooms.find((room) => room.room_name === '接続テストルーム');
         })
-        .replace(/ﾞ/g, '゛')
-        .replace(/ﾟ/g, '゜');
-
-      // アルファベットをすべて小文字に統一
-      result = result.toLowerCase();
-      return result;
+        .catch((e) => {});
     },
   },
 
@@ -312,11 +188,16 @@ export default {
         displayRooms = displayRooms.filter((room) => room.need_passwd);
       }
 
+      // タグ選択
+      if (this.selectedTag.length !== 0) {
+        displayRooms = displayRooms.filter((room) => room.room_tags.some((tag) => tag === this.selectedTag));
+      }
+
       if (this.keyword.length !== 0) {
-        const keyword = this.convertSearchKeyword(this.keyword);
+        const keyword = optimizeSearchKeyword(this.keyword);
 
         displayRooms = displayRooms.filter((room) => {
-          return this.convertSearchKeyword(`${room.room_name}|${room.members.join('|')}|${room.room_tags.join('|')}|${room.room_desc}`).match(keyword);
+          return optimizeSearchKeyword(`${room.room_name}|${room.members.join('|')}|${room.room_tags.join('|')}|${room.room_desc}`).match(keyword);
         });
       }
 
@@ -393,4 +274,7 @@ export default {
 
   .custom--search-field
     width: 300px
+
+.custom--taglist
+  justify-content: center
 </style>

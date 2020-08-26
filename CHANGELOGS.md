@@ -1,5 +1,31 @@
 # CHANGELOGS
 
+## v1.4.0
+
+### 新規
+
+- タグ一覧の表示と絞り込み機能
+
+### 変更
+
+- コードの最適化
+
+### 修正
+
+- ルームが存在しないときになにも表示されなくなる不具合に対応
+- 部屋情報取得時のエラーに対応
+
+### 依存パッケージ
+
+- sass-loader from 9.0.3 to 10.0.0
+- @sentry/apm from 5.21.3 to 5.21.4
+- prettier from 2.0.5 to 2.1.0
+- @vue/composition-api from 1.0.0-beta.10 to 1.0.0-beta.11
+- @sentry/integrations from 5.21.3 to 5.21.4
+- @sentry/browser from 5.21.3 to 5.21.4
+- css-loader from 4.2.1 to 4.2.2
+- ts-loader from 8.0.2 to 8.0.3
+
 ## v1.3.0
 
 ### 新規
