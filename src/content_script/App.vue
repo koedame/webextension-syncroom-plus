@@ -149,6 +149,11 @@ export default {
             allTags = allTags.concat(roomTags);
           }
 
+          // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
+          if (this.selectedTag.length !== 0 && !allTags.some((tag) => tag === this.selectedTag)) {
+            this.selectedTag = '';
+          }
+
           this.tags = allTags.reduce((result, current) => {
             const element = result.find((value) => value.name === current);
             if (element) {
