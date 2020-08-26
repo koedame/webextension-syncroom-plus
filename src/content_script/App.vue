@@ -36,6 +36,10 @@
         b-button(type="is-info", tag="a", href="#testroom", icon-left="headphones-alt")
           | 接続テストルームはこちら
 
+    .buttons.custom--taglist
+      b-button(v-for="tag in tags", :key="`tag-${tag.name}`", size="is-small", @click="selectTag(tag.name)", :class="{'is-dark': (tag.name === selectedTag), 'is-light': (tag.name !== selectedTag)}")
+        | {{ tag.name }} ({{ tag.count }})
+
     .SYNCROOM_PLUS-main__rooms
       RoomCard(
         v-for="room in filteredRooms",
@@ -101,6 +105,8 @@ export default {
       keyword: '',
       unlockedRoomCount: 0,
       lockedRoomCount: 0,
+      tags: [],
+      selectedTag: '',
     };
   },
 
@@ -114,6 +120,13 @@ export default {
   },
 
   methods: {
+    selectTag(tagName) {
+      if (this.selectedTag === tagName) {
+        this.selectedTag = '';
+      } else {
+        this.selectedTag = tagName;
+      }
+    },
     openConfig() {
       this.$buefy.modal.open({
         parent: this,
@@ -126,10 +139,28 @@ export default {
         .get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4')
         .then((res) => {
           this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
+
+          let allTags = [];
+
           // タグを復号
           for (let i = 0; i < this.rooms.length; i++) {
+            const roomTags = decryptionTags(this.rooms[i]);
             this.rooms[i].room_tags = decryptionTags(this.rooms[i]);
+            allTags = allTags.concat(roomTags);
           }
+
+          this.tags = allTags.reduce((result, current) => {
+            const element = result.find((value) => value.name === current);
+            if (element) {
+              element.count++;
+            } else {
+              result.push({
+                name: current,
+                count: 1,
+              });
+            }
+            return result;
+          }, []);
 
           this.lockedRoomCount = this.rooms.filter((room) => room.need_passwd).length;
           this.unlockedRoomCount = this.rooms.filter((room) => !room.need_passwd).length;
@@ -150,6 +181,11 @@ export default {
         displayRooms = displayRooms.filter((room) => !room.need_passwd);
       } else if (this.roomFilter === 'only_locked') {
         displayRooms = displayRooms.filter((room) => room.need_passwd);
+      }
+
+      // タグ選択
+      if (this.selectedTag.length !== 0) {
+        displayRooms = displayRooms.filter((room) => room.room_tags.some((tag) => tag === this.selectedTag));
       }
 
       if (this.keyword.length !== 0) {
@@ -233,4 +269,7 @@ export default {
 
   .custom--search-field
     width: 300px
+
+.custom--taglist
+  justify-content: center
 </style>

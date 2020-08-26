@@ -54,14 +54,16 @@ document.head.insertAdjacentHTML('beforeend', faviconTag);
 import * as Sentry from '@sentry/browser';
 import { Vue as VueIntegration } from '@sentry/integrations';
 
-const manifestInfo = browser.runtime.getManifest();
+if (process.env.NODE_ENV !== 'development') {
+  const manifestInfo = browser.runtime.getManifest();
 
-Sentry.init({
-  dsn: 'https://c23617d9245a48aab09dc438bb257301@o438164.ingest.sentry.io/5402400',
-  release: manifestInfo.browser_action.default_title + '@' + manifestInfo.version,
-  integrations: [new VueIntegration({ Vue, attachProps: true })],
-  environment: process.env.NODE_ENV,
-});
+  Sentry.init({
+    dsn: 'https://c23617d9245a48aab09dc438bb257301@o438164.ingest.sentry.io/5402400',
+    release: manifestInfo.browser_action.default_title + '@' + manifestInfo.version,
+    integrations: [new VueIntegration({ Vue, attachProps: true })],
+    environment: process.env.NODE_ENV,
+  });
+}
 
 /* eslint-disable no-new */
 new Vue({
