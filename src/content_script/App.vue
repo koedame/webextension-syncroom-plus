@@ -110,7 +110,7 @@ export default {
     this.timer = setInterval(() => {
       this.$store.dispatch('clock/fetch');
       this.fetchRooms();
-    }, 1000);
+    }, 5000);
   },
 
   methods: {
@@ -122,18 +122,21 @@ export default {
       });
     },
     fetchRooms() {
-      axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4').then((res) => {
-        this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
-        // タグを復号
-        for (let i = 0; i < this.rooms.length; i++) {
-          this.rooms[i].room_tags = decryptionTags(this.rooms[i]);
-        }
+      axios
+        .get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4')
+        .then((res) => {
+          this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
+          // タグを復号
+          for (let i = 0; i < this.rooms.length; i++) {
+            this.rooms[i].room_tags = decryptionTags(this.rooms[i]);
+          }
 
-        this.lockedRoomCount = this.rooms.filter((room) => room.need_passwd).length;
-        this.unlockedRoomCount = this.rooms.filter((room) => !room.need_passwd).length;
+          this.lockedRoomCount = this.rooms.filter((room) => room.need_passwd).length;
+          this.unlockedRoomCount = this.rooms.filter((room) => !room.need_passwd).length;
 
-        this.testRoom = res.data.rooms.find((room) => room.room_name === '接続テストルーム');
-      });
+          this.testRoom = res.data.rooms.find((room) => room.room_name === '接続テストルーム');
+        })
+        .catch((e) => {});
     },
   },
 
