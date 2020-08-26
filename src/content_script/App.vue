@@ -37,8 +37,11 @@
           | 接続テストルームはこちら
 
     .buttons.custom--taglist
-      b-button(v-for="tag in tags", :key="`tag-${tag.name}`", size="is-small", @click="selectTag(tag.name)", :class="{'is-dark': (tag.name === selectedTag), 'is-light': (tag.name !== selectedTag)}")
-        | {{ tag.name }} ({{ tag.count }})
+      template(v-for="tag in tags")
+        b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
+          | {{ tag.name }} ({{ tag.count }})
+        b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
+          | {{ tag.name }} ({{ tag.count }})
 
     .SYNCROOM_PLUS-main__rooms
       RoomCard(
@@ -121,13 +124,6 @@ export default {
   },
 
   methods: {
-    selectTag(tagName) {
-      if (this.selectedTag === tagName) {
-        this.selectedTag = '';
-      } else {
-        this.selectedTag = tagName;
-      }
-    },
     openConfig() {
       this.$buefy.modal.open({
         parent: this,
