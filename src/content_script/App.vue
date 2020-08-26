@@ -43,7 +43,8 @@
     .SYNCROOM_PLUS-main__rooms
       RoomCard(
         v-for="room in filteredRooms",
-        :key="`room-${room.creator_mid}`",
+        v-show="room.show",
+        :key="`room-${room.room_name}`",
         :createTime="room.create_time",
         :iconlist="room.iconlist || []",
         :members="room.members",
@@ -54,7 +55,7 @@
         :roomTags="room.room_tags || []"
       )
 
-      template(v-if="filteredRooms.length === 0")
+      template(v-if="isEmptyFilteredRooms")
         template(v-if="keyword.length === 0")
           b-message(type="is-warning")
             | ルームがありません 😔
@@ -178,30 +179,43 @@ export default {
 
   computed: {
     filteredRooms() {
-      let displayRooms = this.rooms;
+      const displayRooms = this.rooms;
 
-      // すべて/鍵あり/鍵なし
-      if (this.roomFilter === 'all') {
-      } else if (this.roomFilter === 'only_unlocked') {
-        displayRooms = displayRooms.filter((room) => !room.need_passwd);
-      } else if (this.roomFilter === 'only_locked') {
-        displayRooms = displayRooms.filter((room) => room.need_passwd);
-      }
+      for (const displayRoom of displayRooms) {
+        displayRoom.show = true;
 
-      // タグ選択
-      if (this.selectedTag.length !== 0) {
-        displayRooms = displayRooms.filter((room) => room.room_tags.some((tag) => tag === this.selectedTag));
-      }
+        // すべて/鍵あり/鍵なし
+        if (this.roomFilter === 'all') {
+        } else if (this.roomFilter === 'only_unlocked') {
+          if (displayRoom.need_passwd) {
+            displayRoom.show = false;
+          }
+        } else if (this.roomFilter === 'only_locked') {
+          if (!displayRoom.need_passwd) {
+            displayRoom.show = false;
+          }
+        }
 
-      if (this.keyword.length !== 0) {
-        const keyword = optimizeSearchKeyword(this.keyword);
+        // タグ選択
+        if (this.selectedTag.length !== 0) {
+          if (!displayRoom.room_tags.some((tag) => tag === this.selectedTag)) {
+            displayRoom.show = false;
+          }
+        }
 
-        displayRooms = displayRooms.filter((room) => {
-          return optimizeSearchKeyword(`${room.room_name}|${room.members.join('|')}|${room.room_tags.join('|')}|${room.room_desc}`).match(keyword);
-        });
+        if (this.keyword.length !== 0) {
+          const keyword = optimizeSearchKeyword(this.keyword);
+
+          if (!optimizeSearchKeyword(`${displayRoom.room_name}|${displayRoom.members.join('|')}|${displayRoom.room_tags.join('|')}|${displayRoom.room_desc}`).match(keyword)) {
+            displayRoom.show = false;
+          }
+        }
       }
 
       return displayRooms;
+    },
+    isEmptyFilteredRooms() {
+      return !this.filteredRooms.some((room) => room.show);
     },
   },
 
