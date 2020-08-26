@@ -108,7 +108,6 @@ export default {
       lockedRoomCount: 0,
       tags: [],
       selectedTag: '',
-      isEmptyFilteredRooms: false,
     };
   },
 
@@ -180,9 +179,9 @@ export default {
 
   computed: {
     filteredRooms() {
-      let displayRooms = this.rooms;
+      const displayRooms = this.rooms;
 
-      for (let displayRoom of displayRooms) {
+      for (const displayRoom of displayRooms) {
         displayRoom.show = true;
 
         // すべて/鍵あり/鍵なし
@@ -213,9 +212,10 @@ export default {
         }
       }
 
-      this.isEmptyFilteredRooms = !displayRooms.some((room) => room.show);
-
       return displayRooms;
+    },
+    isEmptyFilteredRooms() {
+      return !this.filteredRooms.some((room) => room.show);
     },
   },
 
