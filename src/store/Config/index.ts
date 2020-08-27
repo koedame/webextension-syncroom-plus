@@ -21,12 +21,7 @@ const mutations: MutationTree<ConfigState> = {
       .get('config')
       //@ts-ignore
       .then(({ config }) => {
-        // データがないときはエラーが起こるので初期化
-        if (typeof config === 'undefined') {
-          state.config.autoReload = true;
-        } else {
-          state.config.autoReload = config.autoReload;
-        }
+        Object.assign(state.config, config);
       })
       .then(() => {
         browser.storage.local.set({
@@ -39,12 +34,7 @@ const mutations: MutationTree<ConfigState> = {
       .get('config')
       //@ts-ignore
       .then(({ config }) => {
-        // データがないときはエラーが起こるので初期化
-        if (typeof config === 'undefined') {
-          state.config.autoReload = true;
-        } else {
-          state.config.autoReload = config.autoReload;
-        }
+        Object.assign(state.config, config);
       })
       .then(() => {
         state.config.autoReload = value;
