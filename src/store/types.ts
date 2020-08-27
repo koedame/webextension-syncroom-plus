@@ -36,9 +36,6 @@ export interface NotificationVacancyRoom {
 }
 
 export interface ConfigState {
-  config: Config;
-}
-
-export interface Config {
   autoReload: boolean;
+  animation: boolean;
 }

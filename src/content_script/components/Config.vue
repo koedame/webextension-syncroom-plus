@@ -11,8 +11,12 @@
         b-icon(icon="cog")
         |
         | 設定
-      b-switch(v-model="config.autoReload", type="is-info", @input="onInputAutoReload")
+
+      b-switch(v-model="configAutoReload", type="is-info", @input="onInputAutoReload")
         | 自動更新
+
+      b-switch(v-model="configAnimation", type="is-info", @input="onInputAnimation")
+        | アニメーション
 
       hr
 
@@ -69,9 +73,8 @@
 export default {
   data() {
     return {
-      config: {
-        autoReload: this.$store.getters['config/autoReload'],
-      },
+      configAutoReload: this.$store.getters['config/autoReload'],
+      configAnimation: this.$store.getters['config/animation'],
     };
   },
   computed: {
@@ -85,7 +88,9 @@ export default {
   methods: {
     onInputAutoReload(value) {
       this.$store.dispatch('config/setAutoReload', value);
-      this.config.autoReload = this.$store.getters['config/autoReload'];
+    },
+    onInputAnimation(value) {
+      this.$store.dispatch('config/setAnimation', value);
     },
     confirmRemoveFavorite(memberName) {
       this.$buefy.dialog.confirm({
