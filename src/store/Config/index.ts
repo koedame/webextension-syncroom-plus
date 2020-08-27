@@ -4,14 +4,16 @@ import { Module, MutationTree, ActionTree, GetterTree } from 'vuex';
 import { ConfigState, RootState } from '../types';
 
 const state: ConfigState = {
-  config: {
-    autoReload: true,
-  },
+  autoReload: true,
+  animation: true,
 };
 
 const getters: GetterTree<ConfigState, RootState> = {
   autoReload: (state) => {
-    return state.config.autoReload;
+    return state.autoReload;
+  },
+  animation: (state) => {
+    return state.animation;
   },
 };
 
@@ -21,11 +23,11 @@ const mutations: MutationTree<ConfigState> = {
       .get('config')
       //@ts-ignore
       .then(({ config }) => {
-        Object.assign(state.config, config);
+        Object.assign(state, config);
       })
       .then(() => {
         browser.storage.local.set({
-          config: JSON.parse(JSON.stringify(state.config)),
+          config: JSON.parse(JSON.stringify(state)),
         });
       });
   },
@@ -34,14 +36,30 @@ const mutations: MutationTree<ConfigState> = {
       .get('config')
       //@ts-ignore
       .then(({ config }) => {
-        Object.assign(state.config, config);
+        Object.assign(state, config);
       })
       .then(() => {
-        state.config.autoReload = value;
+        state.autoReload = value;
       })
       .then(() => {
         browser.storage.local.set({
-          config: JSON.parse(JSON.stringify(state.config)),
+          config: JSON.parse(JSON.stringify(config)),
+        });
+      });
+  },
+  setAnimation: (state, value: boolean) => {
+    browser.storage.local
+      .get('config')
+      //@ts-ignore
+      .then(({ config }) => {
+        Object.assign(state, config);
+      })
+      .then(() => {
+        state.animation = value;
+      })
+      .then(() => {
+        browser.storage.local.set({
+          config: JSON.parse(JSON.stringify(config)),
         });
       });
   },
@@ -50,6 +68,9 @@ const mutations: MutationTree<ConfigState> = {
 const actions: ActionTree<ConfigState, RootState> = {
   setAutoReload({ commit }, value: boolean) {
     commit('setAutoReload', value);
+  },
+  setAnimation({ commit }, value: boolean) {
+    commit('setAnimation', value);
   },
   restoreFromLocalStorage({ commit }) {
     commit('restoreFromLocalStorage');

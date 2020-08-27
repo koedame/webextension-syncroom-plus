@@ -49,11 +49,26 @@
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
           | {{ tag.name }} ({{ tag.count }})
 
-    transition-group.SYNCROOM_PLUS-main__rooms(name="room-list", tag="div")
+
+    transition-group.SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-if="$store.getters['config/animation']")
       RoomCard.room-list-item(
         v-for="room in filteredRooms",
         v-show="room.show",
-        :key="`room-${room.room_name}`",
+        :key="`room-${room.create_time}-${room.room_name}`",
+        :createTime="room.create_time",
+        :iconlist="room.iconlist || []",
+        :members="room.members",
+        :needPasswd="room.need_passwd",
+        :numMembers="room.num_members",
+        :roomDesc="room.room_desc || ''",
+        :roomName="room.room_name"
+        :roomTags="room.room_tags || []"
+      )
+    .SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-else)
+      RoomCard.room-list-item(
+        v-for="room in filteredRooms",
+        v-show="room.show",
+        :key="`room-${room.create_time}-${room.room_name}`",
         :createTime="room.create_time",
         :iconlist="room.iconlist || []",
         :members="room.members",
@@ -312,7 +327,7 @@ export default {
   justify-content: center
 
 .room-list-item
-  transition: all 750ms
+  transition: all 500ms
 
 .room-list-enter
   opacity: 0
