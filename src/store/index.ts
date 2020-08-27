@@ -5,7 +5,7 @@ import { clock } from './Clock';
 import { favoriteMembers } from './FavoriteMembers';
 import { notificationVacancyRooms } from './NotificationVacancyRooms';
 import { notificationOnlineMembers } from './NotificationOnlineMembers';
-import { config } from './config';
+import { config } from './Config';
 
 //@ts-ignore
 import createMutationsSharer from 'vuex-shared-mutations';
