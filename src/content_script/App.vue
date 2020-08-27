@@ -10,7 +10,13 @@
         b-button(icon-left="cog", type="is-warning is-light", @click="openConfig")
           | 設定
 
-    h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧
+    h2.SYNCROOM_PLUS-main__subtitle
+      | 公開ルーム一覧
+      template(v-if="!this.$store.getters['config/autoReload']")
+        b-button.SYNCROOM_PLUS-main__subtitle__button(type="is-success is-light", @click="fetchRooms")
+          b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-if="isLoading", custom-class="fa-spin", icon="sync-alt", size="is-small")
+          b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-else, icon="sync-alt", size="is-small")
+          | 更新
 
     .filter-form
       .filter-form__field.custom--search-field
@@ -111,6 +117,7 @@ export default {
       lockedRoomCount: 0,
       tags: [],
       selectedTag: '',
+      isLoading: false,
     };
   },
 
@@ -119,7 +126,10 @@ export default {
     this.fetchRooms();
     this.timer = setInterval(() => {
       this.$store.dispatch('clock/fetch');
-      this.fetchRooms();
+
+      if (this.$store.getters['config/autoReload']) {
+        this.fetchRooms();
+      }
     }, 5000);
   },
 
@@ -131,8 +141,9 @@ export default {
         hasModalCard: true,
       });
     },
-    fetchRooms() {
-      axios
+    async fetchRooms() {
+      this.isLoading = true;
+      await axios
         .get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4')
         .then((res) => {
           this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
@@ -170,6 +181,10 @@ export default {
           this.testRoom = res.data.rooms.find((room) => room.room_name === '接続テストルーム');
         })
         .catch((e) => {});
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     },
   },
 
@@ -265,6 +280,13 @@ export default {
   font-weight: bold
   text-align: center
   margin: 0 0 1em 0
+  &__button
+    vertical-align: baseline
+    margin-left: 20px
+    &__icon
+      margin-right: 5px !important
+      vertical-align: bottom
+
 
 .SYNCROOM_PLUS-main__rooms
   display: flex

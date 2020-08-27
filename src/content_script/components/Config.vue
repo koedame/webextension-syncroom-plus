@@ -8,6 +8,15 @@
   .modal-card-body
     .section
       .subtitle
+        b-icon(icon="cog")
+        |
+        | 設定
+      b-switch(v-model="config.autoReload", type="is-info", @input="onInputAutoReload")
+        | 自動更新
+
+      hr
+
+      .subtitle
         b-icon(icon="star")
         |
         | お気に入りを管理（{{favoriteMembers.length}}）
@@ -16,7 +25,7 @@
         | メンバー名の横にあるお気に入り登録ボタン（
         b-icon(icon="star")
         | ）をクリックするとお気に入りに追加/削除できます。
-      b-table(:data="favoriteMembers", v-else)
+      b-table(:data="favoriteMembers", v-else, narrowed, bordered)
 
         b-table-column(label="名前", v-slot="props")
           | {{ props.row.memberName }}
@@ -41,7 +50,7 @@
         | /
         b-icon(icon="bell-slash")
         | ）をクリックすると通知の登録/解除が行えます。
-      b-table(:data="notificationOnlineMembers", v-else)
+      b-table(:data="notificationOnlineMembers", v-else, narrowed, bordered)
 
         b-table-column(label="名前", v-slot="props")
           | {{ props.row.memberName }}
@@ -58,6 +67,13 @@
 
 <script>
 export default {
+  data() {
+    return {
+      config: {
+        autoReload: this.$store.getters['config/autoReload'],
+      },
+    };
+  },
   computed: {
     favoriteMembers() {
       return this.$store.getters['favoriteMembers/members'];
@@ -67,6 +83,10 @@ export default {
     },
   },
   methods: {
+    onInputAutoReload(value) {
+      this.$store.dispatch('config/setAutoReload', value);
+      this.config.autoReload = this.$store.getters['config/autoReload'];
+    },
     confirmRemoveFavorite(memberName) {
       this.$buefy.dialog.confirm({
         title: 'お気に入りから削除しますか？',
