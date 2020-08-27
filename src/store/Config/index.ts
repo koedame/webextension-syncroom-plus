@@ -32,36 +32,17 @@ const mutations: MutationTree<ConfigState> = {
       });
   },
   setAutoReload: (state, value: boolean) => {
-    browser.storage.local
-      .get('config')
-      //@ts-ignore
-      .then(({ config }) => {
-        Object.assign(state, config);
-      })
-      .then(() => {
-        state.autoReload = value;
-      })
-      .then(() => {
-        browser.storage.local.set({
-          config: JSON.parse(JSON.stringify(config)),
-        });
-      });
+    state.autoReload = value;
+
+    browser.storage.local.set({
+      config: JSON.parse(JSON.stringify(state)),
+    });
   },
   setAnimation: (state, value: boolean) => {
-    browser.storage.local
-      .get('config')
-      //@ts-ignore
-      .then(({ config }) => {
-        Object.assign(state, config);
-      })
-      .then(() => {
-        state.animation = value;
-      })
-      .then(() => {
-        browser.storage.local.set({
-          config: JSON.parse(JSON.stringify(config)),
-        });
-      });
+    state.animation = value;
+    browser.storage.local.set({
+      config: JSON.parse(JSON.stringify(state)),
+    });
   },
 };
 
