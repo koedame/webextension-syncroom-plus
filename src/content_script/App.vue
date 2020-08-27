@@ -49,8 +49,8 @@
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
           | {{ tag.name }} ({{ tag.count }})
 
-    .SYNCROOM_PLUS-main__rooms
-      RoomCard(
+    transition-group.SYNCROOM_PLUS-main__rooms(name="room-list", tag="div")
+      RoomCard.room-list-item(
         v-for="room in filteredRooms",
         v-show="room.show",
         :key="`room-${room.room_name}`",
@@ -64,6 +64,7 @@
         :roomTags="room.room_tags || []"
       )
 
+    .SYNCROOM_PLUS-main__rooms(name="room-list")
       template(v-if="isEmptyFilteredRooms")
         template(v-if="keyword.length === 0")
           b-message(type="is-warning")
@@ -309,4 +310,23 @@ export default {
 
 .custom--taglist
   justify-content: center
+
+.room-list-item
+  transition: all 750ms
+
+.room-list-enter
+  opacity: 0
+  transform: translateY(-500px)
+
+.room-list-enter-active
+
+.room-list-enter-to
+
+
+.room-list-leave-active
+  position: absolute
+
+.room-list-leave-to
+  opacity: 0
+  transform: translateY(500px)
 </style>
