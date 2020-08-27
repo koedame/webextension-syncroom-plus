@@ -119,7 +119,10 @@ export default {
     this.fetchRooms();
     this.timer = setInterval(() => {
       this.$store.dispatch('clock/fetch');
-      this.fetchRooms();
+
+      if (this.$store.getters['config/autoReload']) {
+        this.fetchRooms();
+      }
     }, 5000);
   },
 
