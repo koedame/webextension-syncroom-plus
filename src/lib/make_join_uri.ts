@@ -1,3 +1,5 @@
+// https://syncroom.yamaha.com/play/
+// https://webapi.syncroom.appservice.yamaha.com/ndroom/static/js/util.js
 const makeJoinUri = (roomName: string, pass: any, pid: number, mode: number): string => {
   let urienc = (str: string | number): string => {
     return encodeURIComponent(str).replace(/[!*'()]/g, (c) => {

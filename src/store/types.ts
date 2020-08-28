@@ -34,3 +34,8 @@ export interface NotificationVacancyRoom {
   uid: string;
   createdAt: string;
 }
+
+export interface ConfigState {
+  autoReload: boolean;
+  animation: boolean;
+}

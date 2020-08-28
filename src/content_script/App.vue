@@ -10,7 +10,13 @@
         b-button(icon-left="cog", type="is-warning is-light", @click="openConfig")
           | 設定
 
-    h2.SYNCROOM_PLUS-main__subtitle 公開ルーム一覧
+    h2.SYNCROOM_PLUS-main__subtitle
+      | 公開ルーム一覧
+      template(v-if="!this.$store.getters['config/autoReload']")
+        b-button.SYNCROOM_PLUS-main__subtitle__button(type="is-success is-light", @click="fetchRooms")
+          b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-if="isLoading", custom-class="fa-spin", icon="sync-alt", size="is-small")
+          b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-else, icon="sync-alt", size="is-small")
+          | 更新
 
     .filter-form
       .filter-form__field.custom--search-field
@@ -37,13 +43,32 @@
           | 接続テストルームはこちら
 
     .buttons.custom--taglist
-      b-button(v-for="tag in tags", :key="`tag-${tag.name}`", size="is-small", @click="selectTag(tag.name)", :class="{'is-dark': (tag.name === selectedTag), 'is-light': (tag.name !== selectedTag)}")
-        | {{ tag.name }} ({{ tag.count }})
+      template(v-for="tag in tags")
+        b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
+          | {{ tag.name }} ({{ tag.count }})
+        b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
+          | {{ tag.name }} ({{ tag.count }})
 
-    .SYNCROOM_PLUS-main__rooms
-      RoomCard(
+
+    transition-group.SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-if="$store.getters['config/animation']")
+      RoomCard.room-list-item(
         v-for="room in filteredRooms",
-        :key="`room-${room.creator_mid}`",
+        v-show="room.show",
+        :key="`room-${room.create_time}-${room.room_name}`",
+        :createTime="room.create_time",
+        :iconlist="room.iconlist || []",
+        :members="room.members",
+        :needPasswd="room.need_passwd",
+        :numMembers="room.num_members",
+        :roomDesc="room.room_desc || ''",
+        :roomName="room.room_name"
+        :roomTags="room.room_tags || []"
+      )
+    .SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-else)
+      RoomCard.room-list-item(
+        v-for="room in filteredRooms",
+        v-show="room.show",
+        :key="`room-${room.create_time}-${room.room_name}`",
         :createTime="room.create_time",
         :iconlist="room.iconlist || []",
         :members="room.members",
@@ -54,7 +79,8 @@
         :roomTags="room.room_tags || []"
       )
 
-      template(v-if="filteredRooms.length === 0")
+    .SYNCROOM_PLUS-main__rooms(name="room-list")
+      template(v-if="isEmptyFilteredRooms")
         template(v-if="keyword.length === 0")
           b-message(type="is-warning")
             | ルームがありません 😔
@@ -107,6 +133,7 @@ export default {
       lockedRoomCount: 0,
       tags: [],
       selectedTag: '',
+      isLoading: false,
     };
   },
 
@@ -115,18 +142,14 @@ export default {
     this.fetchRooms();
     this.timer = setInterval(() => {
       this.$store.dispatch('clock/fetch');
-      this.fetchRooms();
+
+      if (this.$store.getters['config/autoReload']) {
+        this.fetchRooms();
+      }
     }, 5000);
   },
 
   methods: {
-    selectTag(tagName) {
-      if (this.selectedTag === tagName) {
-        this.selectedTag = '';
-      } else {
-        this.selectedTag = tagName;
-      }
-    },
     openConfig() {
       this.$buefy.modal.open({
         parent: this,
@@ -134,8 +157,9 @@ export default {
         hasModalCard: true,
       });
     },
-    fetchRooms() {
-      axios
+    async fetchRooms() {
+      this.isLoading = true;
+      await axios
         .get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4')
         .then((res) => {
           this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
@@ -173,35 +197,52 @@ export default {
           this.testRoom = res.data.rooms.find((room) => room.room_name === '接続テストルーム');
         })
         .catch((e) => {});
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     },
   },
 
   computed: {
     filteredRooms() {
-      let displayRooms = this.rooms;
+      const displayRooms = this.rooms;
 
-      // すべて/鍵あり/鍵なし
-      if (this.roomFilter === 'all') {
-      } else if (this.roomFilter === 'only_unlocked') {
-        displayRooms = displayRooms.filter((room) => !room.need_passwd);
-      } else if (this.roomFilter === 'only_locked') {
-        displayRooms = displayRooms.filter((room) => room.need_passwd);
-      }
+      for (const displayRoom of displayRooms) {
+        displayRoom.show = true;
 
-      // タグ選択
-      if (this.selectedTag.length !== 0) {
-        displayRooms = displayRooms.filter((room) => room.room_tags.some((tag) => tag === this.selectedTag));
-      }
+        // すべて/鍵あり/鍵なし
+        if (this.roomFilter === 'all') {
+        } else if (this.roomFilter === 'only_unlocked') {
+          if (displayRoom.need_passwd) {
+            displayRoom.show = false;
+          }
+        } else if (this.roomFilter === 'only_locked') {
+          if (!displayRoom.need_passwd) {
+            displayRoom.show = false;
+          }
+        }
 
-      if (this.keyword.length !== 0) {
-        const keyword = optimizeSearchKeyword(this.keyword);
+        // タグ選択
+        if (this.selectedTag.length !== 0) {
+          if (!displayRoom.room_tags.some((tag) => tag === this.selectedTag)) {
+            displayRoom.show = false;
+          }
+        }
 
-        displayRooms = displayRooms.filter((room) => {
-          return optimizeSearchKeyword(`${room.room_name}|${room.members.join('|')}|${room.room_tags.join('|')}|${room.room_desc}`).match(keyword);
-        });
+        if (this.keyword.length !== 0) {
+          const keyword = optimizeSearchKeyword(this.keyword);
+
+          if (!optimizeSearchKeyword(`${displayRoom.room_name}|${displayRoom.members.join('|')}|${displayRoom.room_tags.join('|')}|${displayRoom.room_desc}`).match(keyword)) {
+            displayRoom.show = false;
+          }
+        }
       }
 
       return displayRooms;
+    },
+    isEmptyFilteredRooms() {
+      return !this.filteredRooms.some((room) => room.show);
     },
   },
 
@@ -255,6 +296,13 @@ export default {
   font-weight: bold
   text-align: center
   margin: 0 0 1em 0
+  &__button
+    vertical-align: baseline
+    margin-left: 20px
+    &__icon
+      margin-right: 5px !important
+      vertical-align: bottom
+
 
 .SYNCROOM_PLUS-main__rooms
   display: flex
@@ -277,4 +325,23 @@ export default {
 
 .custom--taglist
   justify-content: center
+
+.room-list-item
+  transition: all 500ms
+
+.room-list-enter
+  opacity: 0
+  transform: translateY(-500px)
+
+.room-list-enter-active
+
+.room-list-enter-to
+
+
+.room-list-leave-active
+  position: absolute
+
+.room-list-leave-to
+  opacity: 0
+  transform: translateY(500px)
 </style>
