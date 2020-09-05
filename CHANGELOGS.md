@@ -1,5 +1,26 @@
 # CHANGELOGS
 
+## v1.4.2
+
+### 変更
+
+- 仮入室のアイコンを匿名に変更
+
+### 依存パッケージ
+
+- [Security] bl from 4.0.2 to 4.0.3
+- @babel/core from 7.11.4 to 7.11.5
+- @babel/preset-env from 7.11.0 to 7.11.5
+- @fortawesome/vue-fontawesome from 0.1.10 to 2.0.0
+- copy-webpack-plugin from 6.0.3 to 6.1.0
+- mini-css-extract-plugin from 0.10.0 to 0.11.0
+- @sentry/browser from 5.21.4 to 5.22.3
+- sass-loader from 10.0.0 to 10.0.1
+- @sentry/integrations from 5.21.4 to 5.22.3
+- file-loader from 6.0.0 to 6.1.0
+- @sentry/apm from 5.21.4 to 5.22.3
+- node from 14.8.0-alpine to 14.9.0-alpine
+
 ## v1.4.1
 
 ### 新規
