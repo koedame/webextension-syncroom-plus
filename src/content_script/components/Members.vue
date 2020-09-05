@@ -108,7 +108,9 @@ export default {
       const data = [];
       for (const i in this.members) {
         let icon;
-        if (typeof this.iconlist[i] === 'undefined') {
+        if (this.members[i].length === 0) {
+          icon = this.unknownMemberIconLink;
+        } else if (typeof this.iconlist[i] === 'undefined') {
           icon = this.unknownMemberIconLink;
         } else if (this.iconlist[i].iconurl.length === 0) {
           icon = this.memberIconLinks[this.iconlist[i].icon];
