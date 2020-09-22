@@ -1,5 +1,30 @@
 # CHANGELOGS
 
+## v1.4.3
+
+### 新規
+
+- 不要なリクエストを無効化
+
+### 依存パッケージ
+
+- @babel/core from 7.11.5 to 7.11.6
+- @sentry/apm from 5.22.3 to 5.24.2
+- @sentry/browser from 5.22.3 to 5.24.2
+- @sentry/integrations from 5.22.3 to 5.24.2
+- @vue/composition-api from 1.0.0-beta.11 to 1.0.0-beta.14
+- archiver from 5.0.0 to 5.0.2
+- buefy from 0.9.2 to 0.9.3
+- css-loader from 4.2.2 to 4.3.0
+- husky from 4.2.5 to 4.3.0
+- mini-css-extract-plugin from 0.11.0 to 0.11.2
+- moment from 2.27.0 to 2.29.0
+- node from 14.9.0-alpine to 14.11.0-alpine
+- pretty-quick from 3.0.0 to 3.0.2
+- sass-loader from 10.0.1 to 10.0.2
+- ts-loader from 8.0.3 to 8.0.4
+- typescript from 4.0.2 to 4.0.3
+
 ## v1.4.2
 
 ### 変更
