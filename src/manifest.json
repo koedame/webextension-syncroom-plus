@@ -11,6 +11,7 @@
     "default_title": "syncroom-plus"
   },
   "background": {
+    "persistent": true,
     "scripts": ["background.js"]
   },
   "content_scripts": [
@@ -19,6 +20,16 @@
       "js": ["content_script/content_script.js"]
     }
   ],
-  "permissions": ["https://*.yamaha.com/*", "storage", "tabs", "notifications"],
+  "permissions": [
+    "*://*.yamaha.com/*",
+    "storage",
+    "tabs",
+    "notifications",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*.googleapis.com/*",
+    "*://*.cloudflare.com/*",
+    "*://*.twitter.com/*"
+  ],
   "web_accessible_resources": ["icons/*.png", "icons/*.ico", "images/*"]
 }
