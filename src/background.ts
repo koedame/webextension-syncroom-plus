@@ -175,3 +175,14 @@ browser.notifications.onClosed.addListener((notificationId: string): void => {
 
   browser.notifications.clear(notificationId);
 });
+
+// 不要なリクエストをブロック
+browser.webRequest.onBeforeRequest.addListener(
+  () => {
+    return { cancel: true };
+  },
+  {
+    urls: ['*://ajax.googleapis.com/*', '*://*.yamaha.com/*.js', '*://*.cloudflare.com/*.js', '*://*.twitter.com/*', '*://*.cloudflare.com/*.css', '*://*.yamaha.com/*.css'],
+  },
+  ['blocking']
+);
