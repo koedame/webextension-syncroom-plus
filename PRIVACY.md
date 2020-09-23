@@ -98,15 +98,3 @@ SYNCROOMのプレイヤーズサイト(https://syncroom.yamaha.com/play/)に機�
 ```
 APIから部屋情報を取得しているため。
 ```
-
-#### webRequest が必要な理由
-
-```
-不要なリクエストを無効化するため
-```
-
-#### webRequestBlocking が必要な理由
-
-```
-不要なリクエストを無効化するため
-```
