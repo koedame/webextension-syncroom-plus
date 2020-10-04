@@ -5,35 +5,17 @@ footer.footer
       b-tag(type="is-info")
         | SYNCROOM Plus Version {{ version }}
 
-
     p
-      a(href='https://github.com/koedame/webextension-syncroom-plus', target="_blank", rel="noopener noreferrer")
-        strong SYNCROOM Plus
+      strong SYNCROOM Plus
       |
       | は
       |
-      a(href='https://github.com/koedame/', target="_blank", rel="noopener noreferrer")
+      a(href='https://twitter.com/koedamedev', target="_blank", rel="noopener noreferrer")
         strong
-          |
           | 肥溜め
+        | @koedamedev
       |
       | が管理・運用しています。
-      br
-      | ソースコードは
-      a(href='http://opensource.org/licenses/mit-license.php', target="_blank", rel="noopener noreferrer")
-        | MITライセンス
-      | のもとでライセンスされています。
-
-    hr
-
-    p
-      b-tag(type="is-dark")
-        | 😊
-        |
-        | Inspired by
-        |
-        b SYNCROOM-utility
-        | .
 </template>
 
 <script>
