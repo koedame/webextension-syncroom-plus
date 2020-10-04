@@ -1,5 +1,23 @@
 # CHANGELOGS
 
+## v1.5.0
+
+### 新規
+
+- コンタクトフォーム追加
+
+### 変更
+
+- フッターテキストを変更
+
+### 依存パッケージ
+
+- copy-webpack-plugin from 6.1.0 to 6.1.1
+- eslint-config-prettier from 6.11.0 to 6.12.0
+- eslint-plugin-import from 2.22.0 to 2.22.1
+- eslint-plugin-vue from 6.2.2 to 7.0.0
+- webpack from 4.44.1 to 4.44.2
+
 ## v1.4.4
 
 ### 変更
