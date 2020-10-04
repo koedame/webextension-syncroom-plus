@@ -105,6 +105,9 @@
         :roomTags="testRoom.room_tags || []"
       )
 
+  b-button#form-button(type="is-warning", icon-left="exclamation-triangle", @click="openContactFrom")
+    strong 要望・不具合報告はこちら
+
   Footer
 </template>
 
@@ -114,6 +117,7 @@ import RoomCard from './components/RoomCard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Config from './components/Config';
+import ContactForm from './components/ContactForm';
 import optimizeSearchKeyword from '../lib/optimize_search_keyword';
 import decryptionTags from '../lib/decryption_tags';
 
@@ -201,6 +205,13 @@ export default {
       setTimeout(() => {
         this.isLoading = false;
       }, 1000);
+    },
+
+    openContactFrom() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: ContactForm,
+      });
     },
   },
 
@@ -344,4 +355,9 @@ export default {
 .room-list-leave-to
   opacity: 0
   transform: translateY(500px)
+
+#form-button
+  position: fixed
+  bottom: 20px
+  right: 12px
 </style>
