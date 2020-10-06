@@ -1,5 +1,22 @@
 # CHANGELOGS
 
+## v1.5.1
+
+### 変更
+
+- ルームフィルターの自動フォーカスを外すように設定
+- node バージョン更新
+
+### 依存パッケージ
+
+- node from 14.11.0-alpine to 14.13.0-alpine
+- copy-webpack-plugin from 6.1.1 to 6.2.0
+- mini-css-extract-plugin from 0.11.2 to 0.11.3
+- @vue/composition-api from 1.0.0-beta.14 to 1.0.0-beta.15
+- @sentry/browser from 5.24.2 to 5.25.0
+- eslint from 6.8.0 to 7.10.0
+- eslint-plugin-vue from 7.0.0 to 7.0.1
+
 ## v1.5.0
 
 ### 新規

@@ -29,12 +29,12 @@
 
       .filter-form__field
         b-field
-          b-radio-button(v-model='roomFilter', native-value='all', type='is-info')
+          b-radio-button(v-model='roomFilter', native-value='all', @click.native='onChangeRoomFilter', type='is-info')
             | すべて ({{ rooms.length }})
-          b-radio-button(v-model='roomFilter', native-value='only_unlocked', type='is-link')
+          b-radio-button(v-model='roomFilter', native-value='only_unlocked', @click.native='onChangeRoomFilter', type='is-link')
             b-icon(icon='lock-open')
             | 鍵なし ({{ unlockedRoomCount }})
-          b-radio-button(v-model='roomFilter', native-value='only_locked', type='is-dark')
+          b-radio-button(v-model='roomFilter', native-value='only_locked', @click.native='onChangeRoomFilter', type='is-dark')
             b-icon(icon='lock')
             | 鍵あり ({{ lockedRoomCount }})
 
@@ -212,6 +212,13 @@ export default {
         parent: this,
         component: ContactForm,
       });
+    },
+
+    onChangeRoomFilter(e) {
+      // フォーカスされるとされると矢印キーで操作できてしまいUXが低下するのでフォーカスをはずす
+      setTimeout(() => {
+        document.activeElement.blur();
+      }, 250);
     },
   },
 
