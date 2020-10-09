@@ -1,5 +1,19 @@
 # CHANGELOGS
 
+## v1.6.0
+
+### 変更
+
+- タグ一覧と鍵フィルターを連携
+
+### 依存パッケージ
+
+- node from 14.13.0-alpine to 14.13.1-alpine
+- mini-css-extract-plugin from 0.11.3 to 0.12.0
+- @sentry/integrations from 5.24.2 to 5.25.0
+- @sentry/apm from 5.24.2 to 5.25.0
+- moment from 2.29.0 to 2.29.1
+
 ## v1.5.1
 
 ### 変更
