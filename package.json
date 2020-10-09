@@ -1,6 +1,6 @@
 {
   "name": "syncroom-plus",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "author": "",
   "engines": {
     "node": ">=10"
@@ -27,12 +27,12 @@
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/vue-fontawesome": "^2.0.0",
-    "@sentry/apm": "^5.24.2",
+    "@sentry/apm": "^5.25.0",
     "@sentry/browser": "^5.25.0",
-    "@sentry/integrations": "^5.24.2",
+    "@sentry/integrations": "^5.25.0",
     "axios": "^0.20.0",
     "buefy": "^0.9.3",
-    "moment": "^2.29.0",
+    "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "vue": "^2.6.12",
     "vue-moment": "^4.1.0",
@@ -67,7 +67,7 @@
     "eslint-plugin-vue": "^7.0.1",
     "file-loader": "^6.1.0",
     "husky": "^4.3.0",
-    "mini-css-extract-plugin": "^0.11.3",
+    "mini-css-extract-plugin": "^0.12.0",
     "node-sass": "^4.9.3",
     "prettier": "^2.0.5",
     "pretty-quick": "^3.0.2",

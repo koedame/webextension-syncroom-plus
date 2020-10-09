@@ -43,7 +43,17 @@
           | 接続テストルームはこちら
 
     .buttons.custom--taglist
-      template(v-for="tag in tags")
+      template(v-for="tag in tags", v-if="roomFilter === 'all'")
+        b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
+          | {{ tag.name }} ({{ tag.count }})
+        b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
+          | {{ tag.name }} ({{ tag.count }})
+      template(v-for="tag in lockedRoomTags", v-if="roomFilter === 'only_locked'")
+        b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
+          | {{ tag.name }} ({{ tag.count }})
+        b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
+          | {{ tag.name }} ({{ tag.count }})
+      template(v-for="tag in unlockedRoomTags", v-if="roomFilter === 'only_unlocked'")
         b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
           | {{ tag.name }} ({{ tag.count }})
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
@@ -136,6 +146,8 @@ export default {
       unlockedRoomCount: 0,
       lockedRoomCount: 0,
       tags: [],
+      lockedRoomTags: [],
+      unlockedRoomTags: [],
       selectedTag: '',
       isLoading: false,
     };
@@ -169,12 +181,20 @@ export default {
           this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
 
           let allTags = [];
+          let lockedRoomTags = [];
+          let unlockedRoomTags = [];
 
           // タグを復号
           for (let i = 0; i < this.rooms.length; i++) {
             const roomTags = decryptionTags(this.rooms[i]);
-            this.rooms[i].room_tags = decryptionTags(this.rooms[i]);
+            this.rooms[i].room_tags = roomTags;
             allTags = allTags.concat(roomTags);
+
+            if (this.rooms[i].need_passwd) {
+              lockedRoomTags = lockedRoomTags.concat(roomTags);
+            } else {
+              unlockedRoomTags = unlockedRoomTags.concat(roomTags);
+            }
           }
 
           // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
@@ -183,6 +203,32 @@ export default {
           }
 
           this.tags = allTags.reduce((result, current) => {
+            const element = result.find((value) => value.name === current);
+            if (element) {
+              element.count++;
+            } else {
+              result.push({
+                name: current,
+                count: 1,
+              });
+            }
+            return result;
+          }, []);
+
+          this.lockedRoomTags = lockedRoomTags.reduce((result, current) => {
+            const element = result.find((value) => value.name === current);
+            if (element) {
+              element.count++;
+            } else {
+              result.push({
+                name: current,
+                count: 1,
+              });
+            }
+            return result;
+          }, []);
+
+          this.unlockedRoomTags = unlockedRoomTags.reduce((result, current) => {
             const element = result.find((value) => value.name === current);
             if (element) {
               element.count++;
