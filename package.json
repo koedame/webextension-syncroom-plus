@@ -27,7 +27,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/vue-fontawesome": "^2.0.0",
-    "@sentry/apm": "^5.24.2",
+    "@sentry/apm": "^5.25.0",
     "@sentry/browser": "^5.25.0",
     "@sentry/integrations": "^5.25.0",
     "axios": "^0.20.0",
