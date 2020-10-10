@@ -1,5 +1,18 @@
 # CHANGELOGS
 
+## v1.6.1
+
+### 変更
+
+- 部屋フィルターを切り替えたときに選択タグをリセットするように
+
+### 依存パッケージ
+
+- mini-css-extract-plugin from 0.12.0 to 1.0.0
+- copy-webpack-plugin from 6.2.0 to 6.2.1
+- file-loader from 6.1.0 to 6.1.1
+- sass-loader from 10.0.2 to 10.0.3
+
 ## v1.6.0
 
 ### 変更

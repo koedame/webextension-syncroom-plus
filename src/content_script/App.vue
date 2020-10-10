@@ -261,6 +261,8 @@ export default {
     },
 
     onChangeRoomFilter(e) {
+      // タグが選択しっぱなしで解除できなくなるのでリセットしておく
+      this.selectedTag = '';
       // フォーカスされるとされると矢印キーで操作できてしまいUXが低下するのでフォーカスをはずす
       setTimeout(() => {
         document.activeElement.blur();
