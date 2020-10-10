@@ -17,7 +17,7 @@ b-navbar#navbar--custom(fixed-top)
       | お知らせ
     b-navbar-item(tag='div')
       b-button(type="is-normal", tag="a", href="https://syncroom.yamaha.com/", target="_blank", rel="noopener noreferrer", inverted, outlined)
-        | SYNCROOM POTAL SITE
+        | SYNCROOM PORTAL SITE
 </template>
 
 <script lang="ts">
