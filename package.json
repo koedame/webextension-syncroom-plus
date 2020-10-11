@@ -1,6 +1,6 @@
 {
   "name": "syncroom-plus",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "author": "",
   "engines": {
     "node": ">=10"
@@ -10,8 +10,8 @@
     "lint:fix": "eslint --fix --ext .js,.vue src",
     "prettier": "prettier \"src/**/*.{js,vue}\"",
     "prettier:write": "npm run prettier -- --write",
-    "build": "cross-env NODE_ENV=production webpack --hide-modules",
-    "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
+    "build": "cross-env NODE_ENV=production webpack",
+    "build:dev": "cross-env NODE_ENV=development webpack",
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env NODE_ENV=development HMR=true npm run build:dev -- --watch"
@@ -45,7 +45,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.0.0",
     "@babel/preset-env": "^7.11.5",
     "@babel/runtime-corejs3": "^7.4.0",
-    "@vue/composition-api": "^1.0.0-beta.15",
+    "@vue/composition-api": "^1.0.0-beta.16",
     "archiver": "^5.0.2",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.2",
@@ -54,7 +54,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^4.3.0",
     "ejs": "^3.1.5",
-    "eslint": "^7.10.0",
+    "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-friendly-formatter": "^4.0.1",
@@ -80,7 +80,7 @@
     "vue-template-compiler": "^2.6.12",
     "web-ext-types": "^3.2.1",
     "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.10",
+    "webpack-cli": "^4.0.0",
     "webpack-extension-reloader": "^1.1.0"
   }
 }

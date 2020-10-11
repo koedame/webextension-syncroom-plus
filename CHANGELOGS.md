@@ -1,5 +1,19 @@
 # CHANGELOGS
 
+## v1.6.2
+
+### 変更
+
+- 誤字修正
+
+### 依存パッケージ
+
+- webpack-cli from 3.3.12 to 4.0.0
+- @vue/composition-api from 1.0.0-beta.15 to 1.0.0-beta.16
+- eslint from 7.10.0 to 7.11.0
+
+#221 by ahlisohxu8faigai0ohv3phuwiomiil5 was merged yesterday
+
 ## v1.6.1
 
 ### 変更
