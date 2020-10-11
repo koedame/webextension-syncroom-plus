@@ -80,7 +80,7 @@
     "vue-template-compiler": "^2.6.12",
     "web-ext-types": "^3.2.1",
     "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.10",
+    "webpack-cli": "^4.0.0",
     "webpack-extension-reloader": "^1.1.0"
   }
 }
