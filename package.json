@@ -10,8 +10,8 @@
     "lint:fix": "eslint --fix --ext .js,.vue src",
     "prettier": "prettier \"src/**/*.{js,vue}\"",
     "prettier:write": "npm run prettier -- --write",
-    "build": "cross-env NODE_ENV=production webpack --hide-modules",
-    "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
+    "build": "cross-env NODE_ENV=production webpack",
+    "build:dev": "cross-env NODE_ENV=development webpack",
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env NODE_ENV=development HMR=true npm run build:dev -- --watch"
