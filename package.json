@@ -1,6 +1,6 @@
 {
   "name": "syncroom-plus",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "author": "",
   "engines": {
     "node": ">=10"
