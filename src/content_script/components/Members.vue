@@ -31,7 +31,11 @@
 
   .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
     .members__item__left
-      img.members__item__left__icon(:src="unknownMemberIconLink")
+      template(v-if="members2.length === 0")
+        img.members__item__left__icon(v-if="isHalloween", :src="halloweenIcons[i%14]")
+      template(v-else)
+        img.members__item__left__icon(v-if="isHalloween", :src="halloweenIcons[(members2[0].memberName.length+i)%14]")
+        img.members__item__left__icon(v-else, :src="unknownMemberIconLink")
     .members__item__right
       .members__item__right__name
         | [非公開入室]
@@ -41,6 +45,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import VolumeMeter from './VolumeMeter';
 const browser = require('webextension-polyfill');
 
@@ -84,6 +89,25 @@ export default {
         browser.extension.getURL('/icons/member-icon-12.png'),
         browser.extension.getURL('/icons/member-icon-13.png'),
       ],
+
+      isHalloween: moment().isBetween('2020-10-20', '2020-11-02'),
+      halloweenIcons: [
+        browser.extension.getURL('/icons/halloween/0.png'),
+        browser.extension.getURL('/icons/halloween/1.png'),
+        browser.extension.getURL('/icons/halloween/2.png'),
+        browser.extension.getURL('/icons/halloween/3.png'),
+        browser.extension.getURL('/icons/halloween/4.png'),
+        browser.extension.getURL('/icons/halloween/5.png'),
+        browser.extension.getURL('/icons/halloween/6.png'),
+        browser.extension.getURL('/icons/halloween/7.png'),
+        browser.extension.getURL('/icons/halloween/8.png'),
+        browser.extension.getURL('/icons/halloween/9.png'),
+        browser.extension.getURL('/icons/halloween/10.png'),
+        browser.extension.getURL('/icons/halloween/11.png'),
+        browser.extension.getURL('/icons/halloween/12.png'),
+        browser.extension.getURL('/icons/halloween/13.png'),
+      ],
+
       unknownMemberIconLink: browser.extension.getURL('/icons/member-icon-unknown.png'),
       backgroundLogoLink: browser.extension.getURL('/icons/icon-background-logo.png'),
     };

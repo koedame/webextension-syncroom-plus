@@ -1,5 +1,20 @@
 # CHANGELOGS
 
+## v1.6.3
+
+### 新規
+
+- ハロウィーン仕様を追加
+
+### 依存パッケージ
+
+- css-loader from 4.3.0 to 5.0.0
+- ts-loader from 8.0.4 to 8.0.5
+- pretty-quick from 3.0.2 to 3.1.0
+- @sentry/browser from 5.25.0 to 5.26.0
+- @sentry/integrations from 5.25.0 to 5.26.0
+- @sentry/apm from 5.25.0 to 5.26.0
+
 ## v1.6.2
 
 ### 変更
@@ -11,8 +26,6 @@
 - webpack-cli from 3.3.12 to 4.0.0
 - @vue/composition-api from 1.0.0-beta.15 to 1.0.0-beta.16
 - eslint from 7.10.0 to 7.11.0
-
-#221 by ahlisohxu8faigai0ohv3phuwiomiil5 was merged yesterday
 
 ## v1.6.1
 
