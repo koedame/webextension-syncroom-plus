@@ -19,21 +19,6 @@ if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
 
 const browser = require('webextension-polyfill');
 
-import * as Sentry from '@sentry/browser';
-import { Integrations as ApmIntegrations } from '@sentry/apm';
-
-if (process.env.NODE_ENV !== 'development' && currentBrowser === 'GoogleChrome') {
-  const manifestInfo = browser.runtime.getManifest();
-
-  Sentry.init({
-    dsn: 'https://c23617d9245a48aab09dc438bb257301@o438164.ingest.sentry.io/5402400',
-    release: manifestInfo.browser_action.default_title + '@' + manifestInfo.version,
-    integrations: [new ApmIntegrations.Tracing()],
-    tracesSampleRate: 1.0,
-    environment: process.env.NODE_ENV,
-  });
-}
-
 import makeJoinUri from './lib/make_join_uri';
 import store from './store';
 import { NotificationVacancyRoom } from './store/types';
