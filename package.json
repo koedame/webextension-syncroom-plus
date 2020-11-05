@@ -29,7 +29,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.0",
     "@sentry/apm": "^5.27.1",
     "@sentry/browser": "^5.26.0",
-    "@sentry/integrations": "^5.26.0",
+    "@sentry/integrations": "^5.27.3",
     "axios": "^0.20.0",
     "buefy": "^0.9.3",
     "moment": "^2.29.1",
