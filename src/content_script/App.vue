@@ -278,8 +278,7 @@ export default {
         displayRoom.show = true;
 
         // すべて/鍵あり/鍵なし
-        if (this.roomFilter === 'all') {
-        } else if (this.roomFilter === 'only_unlocked') {
+        if (this.roomFilter === 'only_unlocked') {
           if (displayRoom.need_passwd) {
             displayRoom.show = false;
           }
