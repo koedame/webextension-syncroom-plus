@@ -1,5 +1,44 @@
 # CHANGELOGS
 
+## v1.6.4
+
+### 変更
+
+- ツールチップが途切れる不具合を修正
+- node のバージョンを更新
+- 不要なパッケージを削除
+
+### 依存パッケージ
+
+- @babel/core from 7.11.6 to 7.12.3
+- @babel/plugin-proposal-optional-chaining from 7.11.0 to 7.12.1
+- @babel/preset-env from 7.11.5 to 7.12.1
+- @babel/runtime-corejs3 from 7.11.2 to 7.12.5
+- @vue/composition-api from 1.0.0-beta.16 to 1.0.0-beta.19
+- axios from 0.20.0 to 0.21.0
+- babel-loader from 8.1.0 to 8.2.2
+- buefy from 0.9.3 to 0.9.4
+- copy-webpack-plugin from 6.2.1 to 6.3.2
+- core-js from 3.6.5 to 3.8.0
+- css-loader from 5.0.0 to 5.0.1
+- eslint from 7.11.0 to 7.12.1
+- eslint from 7.12.1 to 7.14.0
+- eslint-config-prettier from 6.12.0 to 6.15.0
+- eslint-config-standard from 14.1.1 to 16.0.1
+- eslint-plugin-standard from 4.0.1 to 5.0.0
+- eslint-plugin-vue from 7.0.1 to 7.1.0
+- file-loader from 6.1.1 to 6.2.0
+- mini-css-extract-plugin from 1.0.0 to 1.3.1
+- moment-timezone from 0.5.31 to 0.5.32
+- node from 14.13.1-alpine to 15.3.0-alpine
+- node-sass from 4.14.1 to 5.0.0
+- sass-loader from 10.0.3 to 10.1.0
+- ts-loader from 8.0.5 to 8.0.11
+- typescript from 4.0.3 to 4.0.5
+- vue-loader from 15.9.3 to 15.9.5
+- webextension-polyfill from 0.6.0 to 0.7.0
+- webpack-cli from 4.0.0 to 4.2.0
+
 ## v1.6.3
 
 ### 新規

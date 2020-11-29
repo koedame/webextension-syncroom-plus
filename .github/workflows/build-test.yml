@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['14.13.1']
+        node: ['15.3.0']
     timeout-minutes: 300
     steps:
       - name: checkout pushed commit

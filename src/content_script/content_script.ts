@@ -36,9 +36,7 @@ import Buefy from 'buefy';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-library.add(fas, far, fab);
+library.add(fas);
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 Vue.use(Buefy, {
   defaultIconComponent: 'vue-fontawesome',
@@ -71,20 +69,6 @@ const browser = require('webextension-polyfill');
 // ファビコン追加
 const faviconTag: string = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
 document.head.insertAdjacentHTML('beforeend', faviconTag);
-
-import * as Sentry from '@sentry/browser';
-import { Vue as VueIntegration } from '@sentry/integrations';
-
-if (process.env.NODE_ENV !== 'development' && currentBrowser === 'GoogleChrome') {
-  const manifestInfo = browser.runtime.getManifest();
-
-  Sentry.init({
-    dsn: 'https://c23617d9245a48aab09dc438bb257301@o438164.ingest.sentry.io/5402400',
-    release: manifestInfo.browser_action.default_title + '@' + manifestInfo.version,
-    integrations: [new VueIntegration({ Vue, attachProps: true })],
-    environment: process.env.NODE_ENV,
-  });
-}
 
 /* eslint-disable no-new */
 new Vue({

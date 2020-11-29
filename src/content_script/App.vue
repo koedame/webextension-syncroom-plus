@@ -278,8 +278,7 @@ export default {
         displayRoom.show = true;
 
         // すべて/鍵あり/鍵なし
-        if (this.roomFilter === 'all') {
-        } else if (this.roomFilter === 'only_unlocked') {
+        if (this.roomFilter === 'only_unlocked') {
           if (displayRoom.need_passwd) {
             displayRoom.show = false;
           }
@@ -323,31 +322,6 @@ export default {
 <style lang="sass">
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all"
-
-// // Set your colors
-// $primary: #8c67ef;
-// $primary-invert: findColorInvert($primary);
-// $twitter: #4099FF;
-// $twitter-invert: findColorInvert($twitter);
-
-// // Setup $colors to use as bulma classes (e.g. 'is-twitter')
-// $colors: (
-//     "white": ($white, $black),
-//     "black": ($black, $white),
-//     "light": ($light, $light-invert),
-//     "dark": ($dark, $dark-invert),
-//     "primary": ($primary, $primary-invert),
-//     "info": ($info, $info-invert),
-//     "success": ($success, $success-invert),
-//     "warning": ($warning, $warning-invert),
-//     "danger": ($danger, $danger-invert),
-//     "twitter": ($twitter, $twitter-invert)
-// );
-
-// // Links
-// $link: $primary;
-// $link-invert: $primary-invert;
-// $link-focus-border: $primary;
 
 // Import Bulma and Buefy styles
 @import "~bulma"
@@ -394,6 +368,8 @@ export default {
 
 .room-list-item
   transition: all 500ms
+  // `.card` に `overflow: hidden` が設定されているので上書き
+  overflow: visible
 
 .room-list-enter
   opacity: 0
@@ -415,4 +391,6 @@ export default {
   position: fixed
   bottom: 20px
   right: 12px
+
+.card
 </style>
