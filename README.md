@@ -37,7 +37,7 @@ docker-compose up
 ## ビルド手順
 
 ```
-docker-compose run --rm builder ./bin/build.sh
+docker-compose run --rm builder ./scripts/build.sh
 ```
 
 `dist-zip` ディレクトリに各ブラウザ用のパッケージがビルドされます。

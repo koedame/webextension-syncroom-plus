@@ -21,7 +21,7 @@ services:
       HOST: 0.0.0.0
       npm_config_loglevel: info
       npm_config_unsafe_perm: info
-    entrypoint: ./bin/entrypoint.sh
+    entrypoint: ./scripts/entrypoint.sh
 
   builder:
     build:
