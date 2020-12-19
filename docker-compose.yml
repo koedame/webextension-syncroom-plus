@@ -22,3 +22,18 @@ services:
       npm_config_loglevel: info
       npm_config_unsafe_perm: info
     entrypoint: ./bin/entrypoint.sh
+
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app:cached
+
+      - node_modules:/app/node_modules:cached
+
+      - /app/.git
+    stdin_open: true
+    environment:
+      npm_config_loglevel: info
+      npm_config_unsafe_perm: info
