@@ -37,15 +37,7 @@ docker-compose up
 ## ビルド手順
 
 ```
-npm install
-rm -rf ./dist
-rm -rf ./dist-zip
-npm run build
-npm run build-zip
+docker-compose run --rm builder ./bin/build.sh
 ```
 
 `dist-zip` ディレクトリに各ブラウザ用のパッケージがビルドされます。
-
-<hr>
-
-😊 Inspired by SYNCROOM-utility.
