@@ -375,10 +375,9 @@ export default {
   opacity: 0
   transform: translateY(-500px)
 
-.room-list-enter-active
+// .room-list-enter-active
 
-.room-list-enter-to
-
+// .room-list-enter-to
 
 .room-list-leave-active
   position: absolute
@@ -391,6 +390,4 @@ export default {
   position: fixed
   bottom: 20px
   right: 12px
-
-.card
 </style>
