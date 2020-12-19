@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 // 不要になるscriptとiframeを削除
 const scriptTags: NodeList = window.document.querySelectorAll('script,iframe,style,link[rel="stylesheet"]');
 scriptTags.forEach((value: Node, key: number, parent: NodeList): void => {
@@ -25,7 +24,7 @@ if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
 }
 
 import Vue from 'vue';
-//@ts-ignore
+// @ts-ignore
 import App from './App';
 import store from '../store';
 
@@ -70,7 +69,6 @@ const browser = require('webextension-polyfill');
 const faviconTag: string = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
 document.head.insertAdjacentHTML('beforeend', faviconTag);
 
-/* eslint-disable no-new */
 new Vue({
   el: '#wrapper',
   store: store,

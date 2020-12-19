@@ -18,14 +18,15 @@ footer.footer
       | が管理・運用しています。
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 const browser = require('webextension-polyfill');
 
-export default {
-  data() {
+export default defineComponent({
+  setup() {
     return {
       version: browser.runtime.getManifest().version,
     };
   },
-};
+});
 </script>
