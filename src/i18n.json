@@ -1,0 +1,19 @@
+{
+  "en": {
+    "hello": "%{msg} world!!",
+    "roomlist": "Rooms",
+    "settings": "Settings",
+    "inputkeyword": "input keywords...",
+    "all": "all",
+    "nopassword": "No Password",
+    "withpassword": "With Password",
+    "testroom": "Test Room",
+    "testjoin": "Test JOIN",
+    "join": "JOIN",
+    "pleaseenterpassword": "Please ender password.",
+    "sendreport": "Report a bug."
+  },
+  "ja": {
+    "hello": "%{msg}、世界!!"
+  }
+}

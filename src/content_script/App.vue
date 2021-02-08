@@ -6,12 +6,19 @@
 
     .level
       .level-left
+        b-dropdown(aria-role='list')
+          template(#trigger)
+            b-button(type='is-default', icon-right="angle-down")
+              | Language: {{ $store.getters['config/languageDisplayNamy'] }}
+          b-dropdown-item(aria-role='listitem', @click="changeLanguage('en')") English
+          b-dropdown-item(aria-role='listitem', @click="changeLanguage('ja')") Japanese (日本語)
       .level-right
         b-button(icon-left="cog", type="is-warning is-light", @click="openConfig")
           | 設定
 
     h2.SYNCROOM_PLUS-main__subtitle
       | 公開ルーム一覧
+
       template(v-if="!this.$store.getters['config/autoReload']")
         b-button.SYNCROOM_PLUS-main__subtitle__button(type="is-success is-light", @click="fetchRooms")
           b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-if="isLoading", custom-class="fa-spin", icon="sync-alt", size="is-small")
@@ -166,6 +173,10 @@ export default {
   },
 
   methods: {
+    changeLanguage(lang) {
+      this.$store.dispatch('config/setLanguage', lang);
+      this.$i18n.locale = lang;
+    },
     openConfig() {
       this.$buefy.modal.open({
         parent: this,

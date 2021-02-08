@@ -1,3 +1,5 @@
+const browser = require('webextension-polyfill');
+
 // 不要になるscriptとiframeを削除
 const scriptTags: NodeList = window.document.querySelectorAll('script,iframe,style,link[rel="stylesheet"]');
 scriptTags.forEach((value: Node, key: number, parent: NodeList): void => {
@@ -49,6 +51,23 @@ Vue.use(require('vue-moment'), {
   moment,
 });
 
+// @ts-ignore
+import VueI18n from 'vue-i18n';
+Vue.use(VueI18n);
+const i18n = new VueI18n({
+  locale: 'ja',
+  messages: require('../i18n.json'),
+});
+
+browser.storage.local
+  .get('configLanguage')
+  // @ts-ignore
+  .then(({ configLanguage }) => {
+    if (typeof configLanguage !== 'undefined') {
+      i18n.locale = configLanguage;
+    }
+  });
+
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
 store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
@@ -63,7 +82,8 @@ setInterval((): void => {
   store.dispatch('config/restoreFromLocalStorage');
 }, 1000);
 
-const browser = require('webextension-polyfill');
+// 反映されない
+i18n.locale = store.getters['config/language'];
 
 // ファビコン追加
 const faviconTag: string = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
@@ -71,6 +91,8 @@ document.head.insertAdjacentHTML('beforeend', faviconTag);
 
 new Vue({
   el: '#wrapper',
-  store: store,
+  store,
+  // @ts-ignore
+  i18n,
   render: (h) => h(App),
 });
