@@ -21,8 +21,9 @@ const browser = require('webextension-polyfill');
 
 import makeJoinUri from './lib/make_join_uri';
 import store from './store';
-import { NotificationVacancyRoom } from './store/types';
 import axios from 'axios';
+
+import { i18n, translate } from './lib/i18n';
 
 // アイコンクリック時のアクション
 browser.browserAction.onClicked.addListener((): void => {
@@ -42,6 +43,17 @@ setInterval((): void => {
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
   store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
 
+  browser.storage.local
+    .get('configLanguage')
+    // @ts-ignore
+    .then(({ configLanguage }) => {
+      if (typeof configLanguage !== 'undefined') {
+        i18n.locale = configLanguage;
+      } else {
+        i18n.locale = 'ja';
+      }
+    });
+
   if (store.getters['notificationVacancyRooms/rooms'].length !== 0 || store.getters['notificationOnlineMembers/members'].length !== 0) {
     axios
       .get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4')
@@ -56,8 +68,8 @@ setInterval((): void => {
                 type: 'basic',
                 // TODO: iconをわかりやすいものに変える
                 iconUrl: 'icons/icon_128.png',
-                title: `ルーム名：${room.room_name}`,
-                message: `「${notificationOnlineMember.memberName}」さんがオンラインになりました`,
+                title: `${translate('room_name')}：${room.room_name}`,
+                message: translate('online_user', { username: notificationOnlineMember.memberName }),
               };
 
               if (currentBrowser === 'GoogleChrome') {
@@ -81,8 +93,8 @@ setInterval((): void => {
                 type: 'basic',
                 // TODO: iconをわかりやすいものに変える
                 iconUrl: 'icons/icon_128.png',
-                title: `ルーム名：${room.room_name}`,
-                message: '空きがでました',
+                title: `${translate('room_name')}：${room.room_name}`,
+                message: translate('you_can_now_join'),
               };
 
               if (currentBrowser === 'GoogleChrome') {
@@ -121,7 +133,7 @@ browser.notifications.onClicked.addListener((notificationId: string): void => {
         const room: any = res.data.rooms.find((room: any) => room.room_name === roomName);
 
         if (room.need_passwd) {
-          const pwPrompt: string = window.prompt('ルームパスワードを入力してください', '');
+          const pwPrompt: string = window.prompt(translate('please_enter_room_password'), '');
           if (pwPrompt) {
             browser.tabs.create({
               url: makeJoinUri(roomName, pwPrompt, 4, 2),

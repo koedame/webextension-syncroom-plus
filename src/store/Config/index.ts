@@ -2,10 +2,12 @@ const browser = require('webextension-polyfill');
 
 import { Module, MutationTree, ActionTree, GetterTree } from 'vuex';
 import { ConfigState, RootState } from '../types';
+import LanguageMap from '../language_map';
 
 const state: ConfigState = {
   autoReload: true,
   animation: true,
+  language: 'ja',
 };
 
 const getters: GetterTree<ConfigState, RootState> = {
@@ -15,34 +17,72 @@ const getters: GetterTree<ConfigState, RootState> = {
   animation: (state) => {
     return state.animation;
   },
+  language: (state) => {
+    return state.language;
+  },
+  languageDisplayNamy: (state) => {
+    return LanguageMap[state.language].displayName;
+  },
 };
 
 const mutations: MutationTree<ConfigState> = {
   restoreFromLocalStorage: (state) => {
     browser.storage.local
-      .get('config')
-      //@ts-ignore
-      .then(({ config }) => {
-        Object.assign(state, config);
-      })
-      .then(() => {
-        browser.storage.local.set({
-          config: JSON.parse(JSON.stringify(state)),
-        });
+      .get('configAutoReload')
+      // @ts-ignore
+      .then(({ configAutoReload }) => {
+        if (typeof configAutoReload !== 'undefined') {
+          state.autoReload = configAutoReload;
+        }
+      });
+
+    browser.storage.local
+      .get('configAnimation')
+      // @ts-ignore
+      .then(({ configAnimation }) => {
+        if (typeof configAnimation !== 'undefined') {
+          state.animation = configAnimation;
+        }
+      });
+
+    browser.storage.local
+      .get('configLanguage')
+      // @ts-ignore
+      .then(({ configLanguage }) => {
+        if (typeof configLanguage !== 'undefined') {
+          state.language = configLanguage;
+        } else {
+          state.language = 'ja';
+        }
       });
   },
-  setAutoReload: (state, value: boolean) => {
-    state.autoReload = value;
 
-    browser.storage.local.set({
-      config: JSON.parse(JSON.stringify(state)),
-    });
+  setAutoReload: (state, value: boolean) => {
+    browser.storage.local
+      .set({
+        configAutoReload: value,
+      })
+      .then(() => {
+        state.autoReload = value;
+      });
   },
   setAnimation: (state, value: boolean) => {
-    state.animation = value;
-    browser.storage.local.set({
-      config: JSON.parse(JSON.stringify(state)),
-    });
+    browser.storage.local
+      .set({
+        configAnimation: value,
+      })
+      .then(() => {
+        state.animation = value;
+      });
+  },
+  setLanguage: (state, value: string) => {
+    browser.storage.local
+      .set({
+        configLanguage: value,
+      })
+      .then(() => {
+        state.language = value;
+      });
   },
 };
 
@@ -52,6 +92,9 @@ const actions: ActionTree<ConfigState, RootState> = {
   },
   setAnimation({ commit }, value: boolean) {
     commit('setAnimation', value);
+  },
+  setLanguage({ commit }, value: string) {
+    commit('setLanguage', value);
   },
   restoreFromLocalStorage({ commit }) {
     commit('restoreFromLocalStorage');

@@ -6,20 +6,20 @@
     .members__item__right
       .members__item__right__name(:class="{'members__item__right__name--favorite': $store.getters['favoriteMembers/members'].some(m => m.memberName === member.memberName)}")
         template(v-if="member.memberName.length === 0")
-          | [仮入室]
+          | [ {{translate("temporary_entry")}} ]
 
         template(v-else)
           span.members__item__right__name__text
             span(v-html="twitterIdToLink(member.memberName)")
 
-          b-tooltip(label='オンライン時に通知を受け取れます', position="is-top", type="is-light")
+          b-tooltip(:label='translate("receive_notification_when_online_this_user")', position="is-top", type="is-light")
             a.members__item__right__name__add-notification(@click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member.memberName, roomCreateTime})")
               template(v-if="$store.getters['notificationOnlineMembers/members'].some(m => m.memberName === member.memberName)")
                 b-icon.members__item__right__name__add-notification__on(icon='bell')
               template(v-else)
                 b-icon(icon='bell-slash')
 
-          b-tooltip(label='見つけやすいように表示を目立たせます', position="is-top", type="is-light")
+          b-tooltip(:label='translate("color_it_to_make_it_easier_to_find")', position="is-top", type="is-light")
             a.members__item__right__name__add-favorite(@click="$store.dispatch('favoriteMembers/toggleFavorite', member.memberName)")
               template(v-if="$store.getters['favoriteMembers/members'].some(m => m.memberName === member.memberName)")
                 b-icon.members__item__right__name__add-favorite__on(icon='star')
@@ -38,7 +38,7 @@
         img.members__item__left__icon(v-else, :src="unknownMemberIconLink")
     .members__item__right
       .members__item__right__name
-        | [非公開入室]
+        | [ {{translate("hidden_entry")}} ]
       .members__item__right__volumes
         VolumeMeter
   .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
@@ -47,6 +47,7 @@
 <script>
 import moment from 'moment';
 import VolumeMeter from './VolumeMeter';
+import { translate } from '../../lib/i18n';
 const browser = require('webextension-polyfill');
 
 export default {
@@ -73,6 +74,7 @@ export default {
   },
   data() {
     return {
+      translate,
       memberIconLinks: [
         browser.extension.getURL('/icons/member-icon-0.png'),
         browser.extension.getURL('/icons/member-icon-1.png'),

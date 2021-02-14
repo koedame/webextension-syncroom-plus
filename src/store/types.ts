@@ -8,7 +8,7 @@ export interface ClockState {
 }
 
 export interface FavoriteMembersState {
-  members: Array<FavoriteMember>;
+  members: FavoriteMember[];
 }
 
 export interface FavoriteMember {
@@ -17,7 +17,7 @@ export interface FavoriteMember {
 }
 
 export interface NotificationOnlineMembersState {
-  members: Array<NotificationOnlineMember>;
+  members: NotificationOnlineMember[];
 }
 
 export interface NotificationOnlineMember {
@@ -27,7 +27,7 @@ export interface NotificationOnlineMember {
 }
 
 export interface NotificationVacancyRoomsState {
-  rooms: Array<NotificationVacancyRoom>;
+  rooms: NotificationVacancyRoom[];
 }
 
 export interface NotificationVacancyRoom {
@@ -38,4 +38,5 @@ export interface NotificationVacancyRoom {
 export interface ConfigState {
   autoReload: boolean;
   animation: boolean;
+  language: string;
 }
