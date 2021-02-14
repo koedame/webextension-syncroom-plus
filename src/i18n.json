@@ -62,7 +62,7 @@
     "no_room": "No room",
     "room_not_found": "Room not found",
 
-    "reports": "Requests, bug reports, etc."
+    "reports": "Report requests, bugs, translation errors, etc."
   },
   "ja": {
     "settings": "設定",
@@ -192,6 +192,6 @@
     "no_room": "룸이 없습니다",
     "room_not_found": "방을 찾을 수 없습니다",
 
-    "reports": "요청, 버그 보고서 등"
+    "reports": "요청, 버그, 번역 오류보고 등"
   }
 }
