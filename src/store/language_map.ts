@@ -11,6 +11,9 @@ const languageMap: LanguageMap = {
   ja: {
     displayName: '日本語',
   },
+  ko: {
+    displayName: '한국',
+  },
 };
 
 export default languageMap;

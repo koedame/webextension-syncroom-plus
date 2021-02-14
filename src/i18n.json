@@ -59,6 +59,9 @@
     "online_user": "\"%{username}\" is now online.",
     "you_can_now_join": "You can now join",
 
+    "no_room": "No room",
+    "room_not_found": "Room not found",
+
     "reports": "Requests, bug reports, etc."
   },
   "ja": {
@@ -120,6 +123,9 @@
     "room_name": "ルーム名",
     "online_user": "「%{username}」さんがオンラインになりました",
     "you_can_now_join": "空きがでました。",
+
+    "no_room": "ルームがありません",
+    "room_not_found": "ルームが見つかりませんでした",
 
     "reports": "要望・不具合報告はこちら"
   },
@@ -183,6 +189,9 @@
     "online_user": "\"%{username}\" 현재 온라인 상태입니다.",
     "you_can_now_join": "입실 가능합니다",
   
+    "no_room": "룸이 없습니다",
+    "room_not_found": "방을 찾을 수 없습니다",
+
     "reports": "요청, 버그 보고서 등"
   }
 }

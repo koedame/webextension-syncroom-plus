@@ -20,7 +20,7 @@ const getters: GetterTree<ConfigState, RootState> = {
   language: (state) => {
     return state.language;
   },
-  languageDisplayNamy: (state) => {
+  languageDisplayName: (state) => {
     return LanguageMap[state.language].displayName;
   },
 };

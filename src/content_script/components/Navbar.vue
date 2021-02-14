@@ -11,7 +11,7 @@ b-navbar#navbar--custom(fixed-top)
         b-dropdown(aria-role='list')
           template(#trigger)
             b-button(type='is-default', icon-left="language", icon-right="angle-down")
-              | Language: {{ $store.getters['config/languageDisplayNamy'] }}
+              | Language: {{ $store.getters['config/languageDisplayName'] }}
           b-dropdown-item(aria-role='listitem', @click="changeLanguage('en')") English
           b-dropdown-item(aria-role='listitem', @click="changeLanguage('ja')") Japanese (日本語)
           b-dropdown-item(aria-role='listitem', @click="changeLanguage('ko')") Korean (한국어)
