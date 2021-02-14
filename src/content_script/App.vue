@@ -87,14 +87,15 @@
       template(v-if="isEmptyFilteredRooms")
         template(v-if="keyword.length === 0")
           b-message(type="is-warning")
-            | ルームがありません 😔
+            | {{translate("no_room")}} 😔
         template(v-else)
           b-message(type="is-warning")
-            | ルームが見つかりませんでした 😔
+            | {{translate("room_not_found")}} 😔
 
     hr
 
-    h2#testroom.SYNCROOM_PLUS-main__subtitle 接続テストルーム
+    h2#testroom.SYNCROOM_PLUS-main__subtitle
+      | {{translate("test_room")}}
 
     .SYNCROOM_PLUS-main__rooms
       RoomCard(
