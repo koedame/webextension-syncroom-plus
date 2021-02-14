@@ -14,6 +14,7 @@ b-navbar#navbar--custom(fixed-top)
               | Language: {{ $store.getters['config/languageDisplayNamy'] }}
           b-dropdown-item(aria-role='listitem', @click="changeLanguage('en')") English
           b-dropdown-item(aria-role='listitem', @click="changeLanguage('ja')") Japanese (日本語)
+          b-dropdown-item(aria-role='listitem', @click="changeLanguage('ko')") Korean (한국어)
 
         b-button(icon-left="cog", type="is-info", outlined, @click="openConfig")
           | {{ translate('settings') }}

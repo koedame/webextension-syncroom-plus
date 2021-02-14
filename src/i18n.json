@@ -1,6 +1,5 @@
 {
   "en": {
-    "hello": "%{msg} world!!",
     "settings": "Settings",
     "auto_reload": "Automatic Reloading",
     "animation": "Animation",
@@ -28,7 +27,7 @@
 
     "test_room": "Test room",
 
-    "take_a_peek": "Take a peek",
+    "take_a_peek": "Temporary join",
     "join": "Join",
 
     "temporary_entry": "temporary",
@@ -123,5 +122,67 @@
     "you_can_now_join": "空きがでました。",
 
     "reports": "要望・不具合報告はこちら"
+  },
+  "ko": {
+    "settings": "설정",
+    "auto_reload": "자동 재 장전",
+    "animation": "애니메이션",
+    "manage_favorites": "즐겨 찾기 (%{length})",
+    "missing_favorites1": "즐겨 찾기 버튼을 눌러 등록 할 수 있습니다.",
+    "missing_favorites2": "",
+  
+    "missing_online_notifications1": "등록 된 온라인 알림이 없습니다. 알림 버튼을 눌러 등록 할 수 있습니다.",
+    "missing_online_notifications2": "",
+  
+    "user_name": "이름",
+    "date_added": "추가 된 날짜",
+    "action": "조작",
+    "remove": "지우다",
+    "close": "닫기",
+  
+    "public_rooms": "공개 방",
+  
+    "type_keywords": "키워드를 입력",
+    "all": "모두",
+    "unlocked": "비밀번호 없음",
+    "locked": "비밀번호 필요",
+  
+    "reload": "재 장전",
+  
+    "test_room": "시험실",
+  
+    "take_a_peek": "임시 입실",
+    "join": "참여",
+  
+    "temporary_entry": "임시 입실",
+    "hidden_entry": "익명",
+  
+    "cancel_notification": "알림 취소",
+    "notification_when_joinable": "자리가 비어 있었던 때 알림을받을",
+  
+    "test_room_description": "방에 들어 오면 3 초 후에 음성이 나오므로 통신 내용을 확인할 수 있습니다.",
+  
+    "developed_by": "개발자 ",
+  
+    "please_enter_room_password": "방 비밀번호를 입력하세요.",
+  
+    "unfavorite_user?": "즐겨 찾기를 제거 하시겠습니까?",
+    "unfavorite_user": "즐겨 찾기에서 \"%{username}\"를 제거 하시겠습니까? 이 작업은 실행 취소 할 수 없습니다.",
+    "succeeded_unfavorite": "성공",
+  
+    "cancel_notification?": "알림을 취소 하시겠습니까?",
+    "confirme_cancel_notification": "온라인 알림에서 \"%{username}\"을 제거 하시겠습니까? 이 작업은 실행 취소 할 수 없습니다.",
+    "succeeded_cancel_notification": "성공",
+  
+    "manage_online_notifications": "온라인 알림 (%{length})",
+  
+    "receive_notification_when_online_this_user": "쉽게 찾을 수 있도록 색을 칠합니다.",
+    "color_it_to_make_it_easier_to_find": "쉽게 찾을 수 있도록 색상을 지정합니다.",
+  
+    "room_name": "방 이름",
+    "online_user": "\"%{username}\" 현재 온라인 상태입니다.",
+    "you_can_now_join": "입실 가능합니다",
+  
+    "reports": "요청, 버그 보고서 등"
   }
 }
