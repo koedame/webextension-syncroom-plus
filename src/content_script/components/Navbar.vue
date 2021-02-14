@@ -1,33 +1,53 @@
 <template lang="pug">
 b-navbar#navbar--custom(fixed-top)
   template(slot='brand')
-    b-navbar-item(href="https://syncroom.yamaha.com/play/")
+    b-navbar-item(tag="div")
       img(:src='logoUrl', alt='SYNCROOM')
   template(slot='start')
+
   template(slot='end')
-    b-navbar-item(href='https://syncroom.yamaha.com/play/')
-      | ルーム一覧
-    b-navbar-item(href='https://syncroom.yamaha.com/play/manual/index_pc.html', target="_blank", rel="noopener noreferrer")
-      | マニュアル
-    b-navbar-item(href='https://syncroom.yamaha.com/play/faq/index_pc.html', target="_blank", rel="noopener noreferrer")
-      | よくある質問
-    b-navbar-item(href='https://syncroom.yamaha.com/play/dl/', target="_blank", rel="noopener noreferrer")
-      | ダウンロード
-    b-navbar-item(href='https://syncroom.yamaha.com/play/information/', target="_blank", rel="noopener noreferrer")
-      | お知らせ
-    b-navbar-item(tag='div')
-      b-button(type="is-normal", tag="a", href="https://syncroom.yamaha.com/", target="_blank", rel="noopener noreferrer", inverted, outlined)
-        | SYNCROOM PORTAL SITE
+    b-navbar-item(tag="div")
+      .buttons
+        b-dropdown(aria-role='list')
+          template(#trigger)
+            b-button(type='is-default', icon-left="language", icon-right="angle-down")
+              | Language: {{ $store.getters['config/languageDisplayNamy'] }}
+          b-dropdown-item(aria-role='listitem', @click="changeLanguage('en')") English
+          b-dropdown-item(aria-role='listitem', @click="changeLanguage('ja')") Japanese (日本語)
+
+        b-button(icon-left="cog", type="is-info", outlined, @click="openConfig")
+          | {{ translate('settings') }}
+
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+import { i18n, translate } from '../../lib/i18n';
+import store from '../../store';
+import { ModalProgrammatic as Modal } from 'buefy';
+import Config from './Config.vue';
+
 const browser = require('webextension-polyfill');
 
 export default defineComponent({
   setup() {
+    const changeLanguage = (lang: string) => {
+      store.dispatch('config/setLanguage', lang);
+      i18n.locale = lang;
+    };
+
+    const openConfig = () => {
+      Modal.open({
+        component: Config,
+        hasModalCard: true,
+      });
+    };
+
     return {
-      logoUrl: browser.extension.getURL(`/images/logo_plus.png`),
+      logoUrl: browser.extension.getURL(`/images/logo_plus_black.png`),
+      changeLanguage,
+      openConfig,
+      translate,
     };
   },
 });
@@ -35,32 +55,32 @@ export default defineComponent({
 
 <style lang="sass">
 #navbar--custom
-  background: #5074f5
-  background-color: #5074f5
+  // background: #5074f5
+  // background-color: #5074f5
 
   .navbar-item
-    color: #fff
+    // color: #fff
 
     &:hover
-      background: none
-      opacity: 0.8
+      background: white
+      opacity: 1
     &:active
-      background: none
-      opacity: 0.8
+      background: white
+      opacity: 1
     &:focus
-      background: none
-      opacity: 0.8
+      background: white
+      opacity: 1
     &:focus-within
-      background: none
-      opacity: 0.8
+      background: white
+      opacity: 1
 
     img
       max-height: 36px
 
   .navbar-burger.burger
-    color: #fff !important
+    // color: #fff !important
 
   .navbar-menu.is-active
-    background: #5074f5
-    background-color: #5074f5
+    // background: #5074f5
+    // background-color: #5074f5
 </style>

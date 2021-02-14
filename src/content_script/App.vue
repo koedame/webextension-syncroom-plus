@@ -3,32 +3,19 @@
   Navbar
 
   #SYNCROOM_PLUS-main
-
-    .level
-      .level-left
-        b-dropdown(aria-role='list')
-          template(#trigger)
-            b-button(type='is-default', icon-right="angle-down")
-              | Language: {{ $store.getters['config/languageDisplayNamy'] }}
-          b-dropdown-item(aria-role='listitem', @click="changeLanguage('en')") English
-          b-dropdown-item(aria-role='listitem', @click="changeLanguage('ja')") Japanese (日本語)
-      .level-right
-        b-button(icon-left="cog", type="is-warning is-light", @click="openConfig")
-          | 設定
-
     h2.SYNCROOM_PLUS-main__subtitle
-      | 公開ルーム一覧
+      | {{ translate('public_rooms') }}
 
       template(v-if="!this.$store.getters['config/autoReload']")
         b-button.SYNCROOM_PLUS-main__subtitle__button(type="is-success is-light", @click="fetchRooms")
           b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-if="isLoading", custom-class="fa-spin", icon="sync-alt", size="is-small")
           b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-else, icon="sync-alt", size="is-small")
-          | 更新
+          | {{translate("reload")}}
 
     .filter-form
       .filter-form__field.custom--search-field
         b-input(
-          placeholder='キーワードを入力',
+          :placeholder='translate("type_keywords")',
           v-model='keyword',
           type='search',
           icon="search",
@@ -37,17 +24,17 @@
       .filter-form__field
         b-field
           b-radio-button(v-model='roomFilter', native-value='all', @click.native='onChangeRoomFilter', type='is-info')
-            | すべて ({{ rooms.length }})
+            | {{translate("all")}} ({{ rooms.length }})
           b-radio-button(v-model='roomFilter', native-value='only_unlocked', @click.native='onChangeRoomFilter', type='is-link')
             b-icon(icon='lock-open')
-            | 鍵なし ({{ unlockedRoomCount }})
+            | {{translate("unlocked")}} ({{ unlockedRoomCount }})
           b-radio-button(v-model='roomFilter', native-value='only_locked', @click.native='onChangeRoomFilter', type='is-dark')
             b-icon(icon='lock')
-            | 鍵あり ({{ lockedRoomCount }})
+            | {{translate("locked")}} ({{ lockedRoomCount }})
 
       .filter-form__field
         b-button(type="is-info", tag="a", href="#testroom", icon-left="headphones-alt")
-          | 接続テストルームはこちら
+          | {{translate("test_room")}}
 
     .buttons.custom--taglist
       template(v-for="tag in tags", v-if="roomFilter === 'all'")
@@ -117,13 +104,14 @@
         :members="testRoom.members",
         :needPasswd="testRoom.need_passwd",
         :numMembers="testRoom.num_members",
-        roomDesc="SYNCROOMの公式テストルームです。入室すると、音声が3秒後に返ってきますので、通信の確認をすることができます。",
-        :roomName="testRoom.room_name"
+        :roomDesc="translate('test_room_description')",
+        :roomName="translate('test_room')"
         :roomTags="testRoom.room_tags || []"
       )
 
   b-button#form-button(type="is-warning", icon-left="exclamation-triangle", @click="openContactFrom")
-    strong 要望・不具合報告はこちら
+    strong
+      | {{translate("reports")}}
 
   Footer
 </template>
@@ -133,10 +121,10 @@ import axios from 'axios';
 import RoomCard from './components/RoomCard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Config from './components/Config';
 import ContactForm from './components/ContactForm';
 import optimizeSearchKeyword from '../lib/optimize_search_keyword';
 import decryptionTags from '../lib/decryption_tags';
+import { translate } from '../lib/i18n';
 
 export default {
   components: {
@@ -157,6 +145,7 @@ export default {
       unlockedRoomTags: [],
       selectedTag: '',
       isLoading: false,
+      translate,
     };
   },
 
@@ -173,17 +162,6 @@ export default {
   },
 
   methods: {
-    changeLanguage(lang) {
-      this.$store.dispatch('config/setLanguage', lang);
-      this.$i18n.locale = lang;
-    },
-    openConfig() {
-      this.$buefy.modal.open({
-        parent: this,
-        component: Config,
-        hasModalCard: true,
-      });
-    },
     async fetchRooms() {
       this.isLoading = true;
       await axios
@@ -339,8 +317,8 @@ export default {
 @import "~buefy/src/scss/buefy"
 
 #SYNCROOM_PLUS-main
-  background: #F9FBFF !important
   overflow: hidden
+  padding: 3em 0
 
 .SYNCROOM_PLUS-main__subtitle
   font-size: 20px
@@ -401,4 +379,7 @@ export default {
   position: fixed
   bottom: 20px
   right: 12px
+
+html,body
+  overscroll-behavior: none
 </style>

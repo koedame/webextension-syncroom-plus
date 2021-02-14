@@ -51,6 +51,8 @@ const mutations: MutationTree<ConfigState> = {
       .then(({ configLanguage }) => {
         if (typeof configLanguage !== 'undefined') {
           state.language = configLanguage;
+        } else {
+          state.language = 'ja';
         }
       });
   },

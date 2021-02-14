@@ -1,19 +1,127 @@
 {
   "en": {
     "hello": "%{msg} world!!",
-    "roomlist": "Rooms",
     "settings": "Settings",
-    "inputkeyword": "input keywords...",
-    "all": "all",
-    "nopassword": "No Password",
-    "withpassword": "With Password",
-    "testroom": "Test Room",
-    "testjoin": "Test JOIN",
-    "join": "JOIN",
-    "pleaseenterpassword": "Please ender password.",
-    "sendreport": "Report a bug."
+    "auto_reload": "Automatic Reloading",
+    "animation": "Animation",
+    "manage_favorites": "Favorites (%{length})",
+    "missing_favorites1": "You can register by pressing the favorite button.",
+    "missing_favorites2": "",
+
+    "missing_online_notifications1": "There are no registered online notifications. You can register by pressing the notification button.",
+    "missing_online_notifications2": "",
+
+    "user_name": "Name",
+    "date_added": "Date Added",
+    "action": "Action",
+    "remove": "Remove",
+    "close": "Close",
+
+    "public_rooms": "Public rooms",
+
+    "type_keywords": "Type Keywords",
+    "all": "All",
+    "unlocked": "Unlocked",
+    "locked": "Locked",
+
+    "reload": "Reload",
+
+    "test_room": "Test room",
+
+    "take_a_peek": "Take a peek",
+    "join": "Join",
+
+    "temporary_entry": "temporary",
+    "hidden_entry": "hidden",
+
+    "cancel_notification": "Cancel notification",
+    "notification_when_joinable": "Receive notification when joinable.",
+
+    "test_room_description": "When you enter the room, the voice will be returned after 3 seconds, so you can check the communication.",
+
+    "developed_by": "Developed by ",
+
+    "please_enter_room_password": "Please enter room password.",
+
+    "unfavorite_user?": "Remove favorite?",
+    "unfavorite_user": "Do you want to remove \"%{username}\" from your favorites? Note that you cannot undo this action.",
+    "succeeded_unfavorite": "Succeeded",
+
+    "cancel_notification?": "Cancel notification?",
+    "confirme_cancel_notification": "Do you want to remove \"%{username}\" from your online notification? Note that you cannot undo this action.",
+    "succeeded_cancel_notification": "Succeeded",
+
+    "manage_online_notifications": "Online Notifications (%{length})",
+
+    "receive_notification_when_online_this_user": "Receive notification when online this user.",
+    "color_it_to_make_it_easier_to_find": "Color it to make it easier to find.",
+
+    "room_name": "Room name",
+    "online_user": "\"%{username}\" is now online.",
+    "you_can_now_join": "You can now join",
+
+    "reports": "Requests, bug reports, etc."
   },
   "ja": {
-    "hello": "%{msg}、世界!!"
+    "settings": "設定",
+    "auto_reload": "自動更新",
+    "animation": "アニメーション",
+    "manage_favorites": "お気に入りを管理 (%{length})",
+    "missing_favorites1": "お気に入りに追加されているメンバーがが1件もありません。メンバー名の横にあるお気に入り登録ボタン（",
+    "missing_favorites2": "）をクリックするとお気に入りに追加/削除できます。",
+
+    "missing_online_notifications1": "登録されているオンライン通知が1件もありません。 メンバー名の横にある通知ボタン（",
+    "missing_online_notifications2": "）をクリックすると通知の登録/解除が行えます。",
+
+    "user_name": "名前",
+    "date_added": "追加日時",
+    "action": "操作",
+    "remove": "削除",
+    "close": "閉じる",
+
+    "public_rooms": "公開ルーム一覧",
+
+    "type_keywords": "キーワードを入力",
+    "all": "すべて",
+    "unlocked": "鍵なし",
+    "locked": "鍵あり",
+
+    "reload": "更新",
+
+    "test_room": "接続テストルーム",
+
+    "take_a_peek": "仮入室",
+    "join": "ルームに入る",
+
+    "temporary_entry": "仮入室",
+    "hidden_entry": "非公開入室",
+
+    "cancel_notification": "通知を解除",
+    "notification_when_joinable": "空きが出たら通知を受け取る",
+
+    "test_room_description": "SYNCROOMの公式テストルームです。入室すると、音声が3秒後に返ってきますので、通信の確認をすることができます。",
+
+    "developed_by": "開発提供：",
+
+    "please_enter_room_password": "ルームパスワードを入力してください。",
+
+    "unfavorite_user?": "お気に入りから削除しますか？",
+    "unfavorite_user": "「%{username}」さんをお気に入りから削除します。この操作は取り消せません。",
+    "succeeded_unfavorite": "お気に入りから削除しました",
+
+    "cancel_notification?": "オンライン通知を解除しますか？",
+    "confirme_cancel_notification": "「%{username}」さんのオンライン通知を解除します。この操作は取り消せません。",
+    "succeeded_cancel_notification": "オンライン通知を解除しました",
+
+    "manage_online_notifications": "オンライン通知を管理 (%{length})",
+
+    "receive_notification_when_online_this_user": "オンライン時に通知を受け取れます",
+    "color_it_to_make_it_easier_to_find": "見つけやすいように表示を目立たせます",
+
+    "room_name": "ルーム名",
+    "online_user": "「%{username}」さんがオンラインになりました",
+    "you_can_now_join": "空きがでました。",
+
+    "reports": "要望・不具合報告はこちら"
   }
 }

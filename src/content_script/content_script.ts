@@ -45,28 +45,13 @@ Vue.use(Buefy, {
 });
 
 const moment = require('moment');
-require('moment/locale/ja');
+require('moment/min/locales.min');
 
 Vue.use(require('vue-moment'), {
   moment,
 });
 
-// @ts-ignore
-import VueI18n from 'vue-i18n';
-Vue.use(VueI18n);
-const i18n = new VueI18n({
-  locale: 'ja',
-  messages: require('../i18n.json'),
-});
-
-browser.storage.local
-  .get('configLanguage')
-  // @ts-ignore
-  .then(({ configLanguage }) => {
-    if (typeof configLanguage !== 'undefined') {
-      i18n.locale = configLanguage;
-    }
-  });
+import { i18n } from '../lib/i18n';
 
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
@@ -81,9 +66,6 @@ setInterval((): void => {
   store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
   store.dispatch('config/restoreFromLocalStorage');
 }, 1000);
-
-// 反映されない
-i18n.locale = store.getters['config/language'];
 
 // ファビコン追加
 const faviconTag: string = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
