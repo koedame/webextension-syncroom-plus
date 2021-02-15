@@ -1,5 +1,52 @@
 # CHANGELOGS
 
+## v1.7.0
+
+### 変更
+
+- UI変更
+- 多言語対応
+  - 英語
+  - 韓国語
+- .node-version削除
+- 一部TypeScript化
+
+### 依存パッケージ
+
+- @types/node
+- Node sass => Dart Sass 
+- @babel/core from 7.12.9 to 7.12.10
+- @babel/plugin-proposal-optional-chaining from 7.12.7 to 7.12.16
+- @babel/preset-env from 7.12.7 to 7.12.16
+- @babel/runtime-corejs3 from 7.12.5 to 7.12.13
+- @fortawesome/fontawesome-svg-core from 1.2.32 to 1.2.34
+- @fortawesome/free-solid-svg-icons from 5.15.1 to 5.15.2
+- @vue/composition-api from 1.0.0-beta.20 to 1.0.0-rc.1
+- archiver from 5.1.0 to 5.2.0
+- axios from 0.21.0 to 0.21.1
+- copy-webpack-plugin from 6.3.2 to 7.0.0
+- core-js from 3.8.0 to 3.8.3
+- cross-env from 7.0.2 to 7.0.3
+- css-loader from 5.0.1 to 5.0.2
+- ejs from 3.1.5 to 3.1.6
+- eslint from 7.14.0 to 7.20.0
+- eslint-config-prettier from 6.15.0 to 7.2.0
+- eslint-plugin-prettier from 3.1.4 to 3.3.1
+- eslint-plugin-promise from 4.2.1 to 4.3.1
+- eslint-plugin-vue from 7.1.0 to 7.5.0
+- husky from 4.3.0 to 5.0.9
+- mini-css-extract-plugin from 1.3.1 to 1.3.6
+- moment-timezone from 0.5.32 to 0.5.33
+- node from 15.3.0-alpine to 15.8.0-alpine
+- pug-plain-loader from 1.0.0 to 1.1.0
+- sass-loader from 10.1.0 to 11.0.1
+- ts-loader from 8.0.11 to 8.0.17
+- typescript from 4.1.2 to 4.1.5
+- vue-i18n from 8.22.3 to 8.22.4
+- vuex from 3.6.0 to 3.6.2
+- webpack from 4.44.2 to 5.21.2
+- webpack-cli from 4.2.0 to 4.5.0
+
 ## v1.6.4
 
 ### 変更

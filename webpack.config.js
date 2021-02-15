@@ -130,6 +130,13 @@ const config = {
             ignore: ['**/.DS_Store'],
           },
         },
+        {
+          from: '_locales',
+          to: '_locales',
+          globOptions: {
+            ignore: ['**/.DS_Store'],
+          },
+        },
         // { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
         // { from: 'options/options.html', to: 'options/options.html', transform: transformHtml },
         {
