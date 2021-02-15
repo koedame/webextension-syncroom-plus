@@ -1,6 +1,7 @@
 {
-  "name": "SYNCROOM Plus - ルーム一覧が便利に！",
-  "description": "SYNCROOMのルーム情報がより使いやすくなります。",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "default_locale": "ja",
   "version": null,
   "manifest_version": 2,
   "icons": {
