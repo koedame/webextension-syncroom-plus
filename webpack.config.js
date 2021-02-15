@@ -70,7 +70,9 @@ const config = {
           {
             loader: 'sass-loader',
             options: {
+              implementation: require('sass'),
               sassOptions: {
+                fiber: require('fibers'),
                 indentedSyntax: true,
               },
             },
@@ -124,6 +126,13 @@ const config = {
         {
           from: 'images',
           to: 'images',
+          globOptions: {
+            ignore: ['**/.DS_Store'],
+          },
+        },
+        {
+          from: '_locales',
+          to: '_locales',
           globOptions: {
             ignore: ['**/.DS_Store'],
           },

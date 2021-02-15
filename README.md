@@ -18,6 +18,7 @@
 - 🐦 TwitterID の自動リンク化
 - 🎸 見やすいパートアイコン
 - 🔖 タグ一覧の表示と絞り込み
+- 🌏 多言語対応
 
 ## 対応ブラウザ
 
@@ -37,15 +38,7 @@ docker-compose up
 ## ビルド手順
 
 ```
-npm install
-rm -rf ./dist
-rm -rf ./dist-zip
-npm run build
-npm run build-zip
+docker-compose run --rm builder ./scripts/build.sh
 ```
 
 `dist-zip` ディレクトリに各ブラウザ用のパッケージがビルドされます。
-
-<hr>
-
-😊 Inspired by SYNCROOM-utility.

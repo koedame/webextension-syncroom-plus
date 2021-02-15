@@ -4,128 +4,140 @@
     .modal-card-title
       b-icon(icon="cog")
       |
-      | 設定
+      | {{ translate('settings') }}
   .modal-card-body
     .section
       .subtitle
         b-icon(icon="cog")
         |
-        | 設定
+        | {{ translate('settings') }}
 
       b-switch(v-model="configAutoReload", type="is-info", @input="onInputAutoReload")
-        | 自動更新
+        | {{ translate('auto_reload') }}
 
       b-switch(v-model="configAnimation", type="is-info", @input="onInputAnimation")
-        | アニメーション
+        | {{ translate('animation') }}
 
       hr
 
       .subtitle
         b-icon(icon="star")
         |
-        | お気に入りを管理（{{favoriteMembers.length}}）
+        | {{ translate('manage_favorites', {length: favoriteMembers.length}) }}
       b-message(type="is-info", v-if="favoriteMembers.length === 0")
-        | お気に入りに追加されているメンバーがが1件もありません。
-        | メンバー名の横にあるお気に入り登録ボタン（
+        | {{ translate("missing_favorites1") }}
         b-icon(icon="star")
-        | ）をクリックするとお気に入りに追加/削除できます。
+        | {{ translate("missing_favorites2") }}
       b-table(:data="favoriteMembers", v-else, narrowed, bordered)
 
-        b-table-column(label="名前", v-slot="props")
+        b-table-column(:label="translate('user_name')", v-slot="props")
           | {{ props.row.memberName }}
 
-        b-table-column(label="追加日時", v-slot="props")
+        b-table-column(:label="translate('date_added')", v-slot="props")
           | {{ props.row.createdAt | moment('llll') }}
 
-        b-table-column(label="操作", v-slot="props")
+        b-table-column(:label="translate('action')", v-slot="props")
           b-button(type="is-danger", size="is-small", icon-left="trash", @click="confirmRemoveFavorite(props.row.memberName)")
-            | 削除
+            | {{ translate("remove") }}
 
       hr
 
       .subtitle
         b-icon(icon="bell")
         |
-        | オンライン通知を管理（{{notificationOnlineMembers.length}}）
+        | {{ translate('manage_online_notifications', {length: notificationOnlineMembers.length}) }}
       b-message(type="is-info", v-if="notificationOnlineMembers.length === 0")
-        | 登録されているオンライン通知が1件もありません。
-        | メンバー名の横にある通知ボタン（
+        | {{ translate("missing_online_notifications1") }}
         b-icon(icon="bell")
         | /
         b-icon(icon="bell-slash")
-        | ）をクリックすると通知の登録/解除が行えます。
+        | {{ translate("missing_online_notifications2") }}
       b-table(:data="notificationOnlineMembers", v-else, narrowed, bordered)
 
-        b-table-column(label="名前", v-slot="props")
+        b-table-column(:label="translate('user_name')", v-slot="props")
           | {{ props.row.memberName }}
 
-        b-table-column(label="追加日時", v-slot="props")
+        b-table-column(:label="translate('date_added')", v-slot="props")
           | {{ props.row.createdAt | moment('llll') }}
 
-        b-table-column(label="操作", v-slot="props")
+        b-table-column(:label="translate('action')", v-slot="props")
           b-button(type="is-danger", size="is-small", icon-left="trash", @click="confirmRemoveNotification(props.row.memberName)")
-            | 削除
+            | {{ translate("remove") }}
   .modal-card-foot
-    b-button(@click="$emit('close')", icon-left="times") 閉じる
+    b-button(@click="$emit('close')", icon-left="times") {{ translate("close") }}
 </template>
 
-<script>
-export default {
-  data() {
+<script lang="ts">
+import { defineComponent, computed } from '@vue/composition-api';
+import { translate } from '../../lib/i18n';
+import store from '../../store';
+import { DialogProgrammatic as Dialog, ToastProgrammatic as Toast } from 'buefy';
+
+export default defineComponent({
+  setup() {
+    const onInputAutoReload = (value: boolean) => {
+      store.dispatch('config/setAutoReload', value);
+    };
+
+    const onInputAnimation = (value: boolean) => {
+      store.dispatch('config/setAnimation', value);
+    };
+
+    const confirmRemoveFavorite = (memberName: string) => {
+      Dialog.confirm({
+        title: translate('unfavorite_user?'),
+        message: translate('unfavorite_user', { username: memberName }),
+        confirmText: translate('remove'),
+        cancelText: translate('close'),
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: async () => {
+          await store.dispatch('favoriteMembers/removeFavorite', memberName);
+          Toast.open({
+            message: translate('succeeded_unfavorite'),
+            type: 'is-success',
+          });
+        },
+      });
+    };
+
+    const confirmRemoveNotification = (memberName: string) => {
+      Dialog.confirm({
+        title: translate('cancel_notification?'),
+        message: translate('confirme_cancel_notification', { username: memberName }),
+        confirmText: translate('remove'),
+        cancelText: translate('close'),
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: async () => {
+          await store.dispatch('notificationOnlineMembers/removeNotification', memberName);
+          Toast.open({
+            message: translate('succeeded_cancel_notification'),
+            type: 'is-success',
+          });
+        },
+      });
+    };
+
+    const favoriteMembers = computed(() => {
+      return store.getters['favoriteMembers/members'];
+    });
+
+    const notificationOnlineMembers = computed(() => {
+      return store.getters['notificationOnlineMembers/members'];
+    });
+
     return {
-      configAutoReload: this.$store.getters['config/autoReload'],
-      configAnimation: this.$store.getters['config/animation'],
+      configAutoReload: store.getters['config/autoReload'],
+      configAnimation: store.getters['config/animation'],
+      onInputAutoReload,
+      onInputAnimation,
+      confirmRemoveFavorite,
+      confirmRemoveNotification,
+      favoriteMembers,
+      notificationOnlineMembers,
+      translate,
     };
   },
-  computed: {
-    favoriteMembers() {
-      return this.$store.getters['favoriteMembers/members'];
-    },
-    notificationOnlineMembers() {
-      return this.$store.getters['notificationOnlineMembers/members'];
-    },
-  },
-  methods: {
-    onInputAutoReload(value) {
-      this.$store.dispatch('config/setAutoReload', value);
-    },
-    onInputAnimation(value) {
-      this.$store.dispatch('config/setAnimation', value);
-    },
-    confirmRemoveFavorite(memberName) {
-      this.$buefy.dialog.confirm({
-        title: 'お気に入りから削除しますか？',
-        message: `「<b>${memberName}</b>」さんをお気に入りから削除します。<br />この作業は<b>取り消せません</b>。`,
-        confirmText: '削除する',
-        cancelText: '閉じる',
-        type: 'is-danger',
-        hasIcon: true,
-        onConfirm: async () => {
-          await this.$store.dispatch('favoriteMembers/removeFavorite', memberName);
-          this.$buefy.toast.open({
-            message: 'お気に入りから削除しました',
-            type: 'is-success',
-          });
-        },
-      });
-    },
-    confirmRemoveNotification(memberName) {
-      this.$buefy.dialog.confirm({
-        title: 'オンライン通知を解除しますか？',
-        message: `「<b>${memberName}</b>」さんのオンライン通知を解除します。<br />この作業は<b>取り消せません</b>。`,
-        confirmText: '解除する',
-        cancelText: '閉じる',
-        type: 'is-danger',
-        hasIcon: true,
-        onConfirm: async () => {
-          await this.$store.dispatch('notificationOnlineMembers/removeNotification', memberName);
-          this.$buefy.toast.open({
-            message: 'オンライン通知を解除しました',
-            type: 'is-success',
-          });
-        },
-      });
-    },
-  },
-};
+});
 </script>

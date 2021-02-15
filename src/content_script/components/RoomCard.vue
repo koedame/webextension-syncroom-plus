@@ -18,25 +18,29 @@
     div(v-if="isNoVacancy")
       template(v-if="isNotificationVacancyRoom")
         b-button(type="is-link is-light", expanded, @click="onRemoveNotificationVacancyRoom", icon-left="bell")
-          | 通知を解除
+          | {{translate("cancel_notification")}}
       template(v-else)
         b-button(type="is-link is-light", expanded, @click="onSetNotificationVacancyRoom", icon-left="bell-slash")
-          | 空きが出たら通知を受け取る
+          | {{translate("notification_when_joinable")}}
 
-    .buttons(v-else)
-      b-button(type="is-light" @click="onOpenTentativeSyncroom")
-        | 仮入室
+    div(v-else)
+      .level
+        .level-left
+          b-button(type="is-light" @click="onOpenTentativeSyncroom")
+            | {{translate("take_a_peek")}}
 
-      b-button.card__body__buttons__entry-button(v-if="needPasswd", type="is-dark" @click="onOpenSyncroom", icon-left="lock")
-        | ルームに入る
-      b-button.card__body__buttons__entry-button(v-else, type="is-link" @click="onOpenSyncroom")
-        | ルームに入る
+        .level-right
+          b-button.card__body__buttons__entry-button(v-if="needPasswd", type="is-dark" @click="onOpenSyncroom", icon-left="lock")
+            | {{translate("join")}}
+          b-button.card__body__buttons__entry-button(v-else, type="is-link" @click="onOpenSyncroom")
+            | {{translate("join")}}
 </template>
 
 <script>
 import RemainingTime from './RemainingTime';
 import Members from './Members';
 import makeJoinUri from '../../lib/make_join_uri';
+import { translate } from '../../lib/i18n';
 
 export default {
   props: {
@@ -73,6 +77,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      translate,
+    };
+  },
   components: {
     RemainingTime,
     Members,
@@ -88,7 +97,7 @@ export default {
 
     onOpenSyncroom() {
       if (this.needPasswd) {
-        const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
+        const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
 
         if (pwPrompt) {
           location.href = makeJoinUri(this.roomName, pwPrompt, 4, 2);
@@ -100,7 +109,7 @@ export default {
 
     onOpenTentativeSyncroom() {
       if (this.needPasswd) {
-        const pwPrompt = window.prompt('ルームパスワードを入力してください', '');
+        const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
 
         if (pwPrompt) {
           location.href = makeJoinUri(this.roomName, pwPrompt, 4, 3);
@@ -188,10 +197,6 @@ export default {
       height: calc( 1.8em * 4 )
       line-height: 1.8em
       border-radius: 5px
-
-    &__buttons
-      &__entry-button
-        width: 185px
 
 .card.card--need_passwd
   background: #eaeaea

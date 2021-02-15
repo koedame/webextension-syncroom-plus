@@ -1,4 +1,5 @@
-/* eslint-disable import/first */
+const browser = require('webextension-polyfill');
+
 // 不要になるscriptとiframeを削除
 const scriptTags: NodeList = window.document.querySelectorAll('script,iframe,style,link[rel="stylesheet"]');
 scriptTags.forEach((value: Node, key: number, parent: NodeList): void => {
@@ -25,7 +26,7 @@ if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
 }
 
 import Vue from 'vue';
-//@ts-ignore
+// @ts-ignore
 import App from './App';
 import store from '../store';
 
@@ -44,11 +45,13 @@ Vue.use(Buefy, {
 });
 
 const moment = require('moment');
-require('moment/locale/ja');
+require('moment/min/locales.min');
 
 Vue.use(require('vue-moment'), {
   moment,
 });
+
+import { i18n } from '../lib/i18n';
 
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
@@ -64,15 +67,14 @@ setInterval((): void => {
   store.dispatch('config/restoreFromLocalStorage');
 }, 1000);
 
-const browser = require('webextension-polyfill');
-
 // ファビコン追加
 const faviconTag: string = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
 document.head.insertAdjacentHTML('beforeend', faviconTag);
 
-/* eslint-disable no-new */
 new Vue({
   el: '#wrapper',
-  store: store,
+  store,
+  // @ts-ignore
+  i18n,
   render: (h) => h(App),
 });

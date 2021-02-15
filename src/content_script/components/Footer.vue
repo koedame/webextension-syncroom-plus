@@ -6,26 +6,24 @@ footer.footer
         | SYNCROOM Plus Version {{ version }}
 
     p
-      strong SYNCROOM Plus
-      |
-      | は
-      |
+      | {{ translate("developed_by") }}
       a(href='https://twitter.com/koedamedev', target="_blank", rel="noopener noreferrer")
         strong
           | 肥溜め
         | @koedamedev
-      |
-      | が管理・運用しています。
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+import { translate } from '../../lib/i18n';
 const browser = require('webextension-polyfill');
 
-export default {
-  data() {
+export default defineComponent({
+  setup() {
     return {
       version: browser.runtime.getManifest().version,
+      translate,
     };
   },
-};
+});
 </script>
