@@ -1,5 +1,26 @@
 # CHANGELOGS
 
+## v1.7.1
+
+### 変更
+
+- 日本語以外のとき接続テストルームが開けない不具合を修正
+- 一部TypeScript化
+
+### 依存パッケージ
+
+- @babel/core from 7.12.10 to 7.12.17
+- @babel/preset-env from 7.12.16 to 7.12.17
+- @babel/runtime-corejs3 from 7.12.13 to 7.12.18
+- @types/node from 14.14.27 to 14.14.30
+- @vue/composition-api from 1.0.0-rc.1 to 1.0.0-rc.2
+- core-js from 3.8.3 to 3.9.0
+- eslint-plugin-vue from 7.5.0 to 7.6.0
+- mini-css-extract-plugin from 1.3.6 to 1.3.8
+- node from 15.8.0-alpine to 15.9.0-alpine
+- sass from 1.32.7 to 1.32.8
+- webpack from 5.21.2 to 5.23.0
+
 ## v1.7.0
 
 ### 変更
