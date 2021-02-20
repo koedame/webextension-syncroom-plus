@@ -2,26 +2,36 @@
 span {{ remainingTime }}
 </template>
 
-<script>
-import moment from 'moment';
+<script lang="ts">
+import { defineComponent, computed } from '@vue/composition-api';
+
+import store from '../../store';
+
+const moment = require('moment');
 require('moment-timezone');
 
-export default {
+type Props = {
+  createTime: string;
+};
+
+export default defineComponent({
   props: {
     createTime: {
       type: String,
       required: true,
     },
   },
-  created() {
-    this.endAt = moment(this.createTime, 'YYYY-MM-DD hh:mm:ss zz').add(6, 'h');
-  },
 
-  computed: {
-    remainingTime() {
-      const remainingTime = this.endAt.diff(this.$store.state.clock.currentTime);
-      return moment(remainingTime).format('HH:mm:ss');
-    },
+  setup(props: Props) {
+    const remainingTime = computed(() => {
+      const endAt = moment(props.createTime, 'YYYY-MM-DD hh:mm:ss zz').add(6, 'h');
+      const r = endAt.diff(store.getters['clock/currentTime']);
+      return moment(r).format('HH:mm:ss');
+    });
+
+    return {
+      remainingTime,
+    };
   },
-};
+});
 </script>

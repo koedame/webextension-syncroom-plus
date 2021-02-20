@@ -106,7 +106,7 @@
         :needPasswd="testRoom.need_passwd",
         :numMembers="testRoom.num_members",
         :roomDesc="translate('test_room_description')",
-        :roomName="translate('test_room')"
+        roomName="接続テストルーム",
         :roomTags="testRoom.room_tags || []"
       )
 

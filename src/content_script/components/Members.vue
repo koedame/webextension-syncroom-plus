@@ -44,13 +44,27 @@
   .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
 </template>
 
-<script>
-import moment from 'moment';
+<script lang="ts">
 import VolumeMeter from './VolumeMeter';
 import { translate } from '../../lib/i18n';
+import { defineComponent, computed } from '@vue/composition-api';
+
+const moment = require('moment');
 const browser = require('webextension-polyfill');
 
-export default {
+// FIXME: APIのレスポンス的に型宣言が難しいので独自APIにすることを検討する
+type Props = {
+  iconlist: any;
+  numMembers: number;
+  members: any;
+  roomCreateTime: string;
+};
+
+export default defineComponent({
+  components: {
+    VolumeMeter,
+  },
+
   props: {
     iconlist: {
       type: Array,
@@ -69,54 +83,77 @@ export default {
       required: true,
     },
   },
-  components: {
-    VolumeMeter,
-  },
-  data() {
-    return {
-      translate,
-      memberIconLinks: [
-        browser.extension.getURL('/icons/member-icon-0.png'),
-        browser.extension.getURL('/icons/member-icon-1.png'),
-        browser.extension.getURL('/icons/member-icon-2.png'),
-        browser.extension.getURL('/icons/member-icon-3.png'),
-        browser.extension.getURL('/icons/member-icon-4.png'),
-        browser.extension.getURL('/icons/member-icon-5.png'),
-        browser.extension.getURL('/icons/member-icon-6.png'),
-        browser.extension.getURL('/icons/member-icon-7.png'),
-        browser.extension.getURL('/icons/member-icon-8.png'),
-        browser.extension.getURL('/icons/member-icon-9.png'),
-        browser.extension.getURL('/icons/member-icon-10.png'),
-        browser.extension.getURL('/icons/member-icon-11.png'),
-        browser.extension.getURL('/icons/member-icon-12.png'),
-        browser.extension.getURL('/icons/member-icon-13.png'),
-      ],
 
-      isHalloween: moment().isBetween('2020-10-20', '2020-11-02'),
-      halloweenIcons: [
-        browser.extension.getURL('/icons/halloween/0.png'),
-        browser.extension.getURL('/icons/halloween/1.png'),
-        browser.extension.getURL('/icons/halloween/2.png'),
-        browser.extension.getURL('/icons/halloween/3.png'),
-        browser.extension.getURL('/icons/halloween/4.png'),
-        browser.extension.getURL('/icons/halloween/5.png'),
-        browser.extension.getURL('/icons/halloween/6.png'),
-        browser.extension.getURL('/icons/halloween/7.png'),
-        browser.extension.getURL('/icons/halloween/8.png'),
-        browser.extension.getURL('/icons/halloween/9.png'),
-        browser.extension.getURL('/icons/halloween/10.png'),
-        browser.extension.getURL('/icons/halloween/11.png'),
-        browser.extension.getURL('/icons/halloween/12.png'),
-        browser.extension.getURL('/icons/halloween/13.png'),
-      ],
+  setup(props: Props) {
+    const memberIconLinks = [
+      browser.extension.getURL('/icons/member-icon-0.png'),
+      browser.extension.getURL('/icons/member-icon-1.png'),
+      browser.extension.getURL('/icons/member-icon-2.png'),
+      browser.extension.getURL('/icons/member-icon-3.png'),
+      browser.extension.getURL('/icons/member-icon-4.png'),
+      browser.extension.getURL('/icons/member-icon-5.png'),
+      browser.extension.getURL('/icons/member-icon-6.png'),
+      browser.extension.getURL('/icons/member-icon-7.png'),
+      browser.extension.getURL('/icons/member-icon-8.png'),
+      browser.extension.getURL('/icons/member-icon-9.png'),
+      browser.extension.getURL('/icons/member-icon-10.png'),
+      browser.extension.getURL('/icons/member-icon-11.png'),
+      browser.extension.getURL('/icons/member-icon-12.png'),
+      browser.extension.getURL('/icons/member-icon-13.png'),
+    ];
 
-      unknownMemberIconLink: browser.extension.getURL('/icons/member-icon-unknown.png'),
-      backgroundLogoLink: browser.extension.getURL('/icons/icon-background-logo.png'),
-    };
-  },
+    const isHalloween = moment().isBetween('2020-10-20', '2020-11-02');
+    const halloweenIcons = [
+      browser.extension.getURL('/icons/halloween/0.png'),
+      browser.extension.getURL('/icons/halloween/1.png'),
+      browser.extension.getURL('/icons/halloween/2.png'),
+      browser.extension.getURL('/icons/halloween/3.png'),
+      browser.extension.getURL('/icons/halloween/4.png'),
+      browser.extension.getURL('/icons/halloween/5.png'),
+      browser.extension.getURL('/icons/halloween/6.png'),
+      browser.extension.getURL('/icons/halloween/7.png'),
+      browser.extension.getURL('/icons/halloween/8.png'),
+      browser.extension.getURL('/icons/halloween/9.png'),
+      browser.extension.getURL('/icons/halloween/10.png'),
+      browser.extension.getURL('/icons/halloween/11.png'),
+      browser.extension.getURL('/icons/halloween/12.png'),
+      browser.extension.getURL('/icons/halloween/13.png'),
+    ];
 
-  methods: {
-    twitterIdToLink(text) {
+    const unknownMemberIconLink = browser.extension.getURL('/icons/member-icon-unknown.png');
+    const backgroundLogoLink = browser.extension.getURL('/icons/icon-background-logo.png');
+
+    const members2 = computed(() => {
+      const d = [];
+      for (const i in props.members) {
+        let icon;
+        if (props.members[i].length === 0) {
+          icon = unknownMemberIconLink;
+        } else if (typeof props.iconlist[i] === 'undefined') {
+          icon = unknownMemberIconLink;
+        } else if (props.iconlist[i].iconurl.length === 0) {
+          icon = memberIconLinks[props.iconlist[i].icon];
+        } else {
+          icon = props.iconlist[i].iconurl.replace('http://', 'https://');
+        }
+
+        d.push({
+          memberName: props.members[i],
+          icon: icon,
+        });
+      }
+      return d;
+    });
+
+    const unknownMemberNum = computed(() => {
+      return props.numMembers - props.members.length;
+    });
+
+    const emptyNum = computed(() => {
+      return 5 - props.numMembers;
+    });
+
+    const twitterIdToLink = (text: string) => {
       return text
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -127,38 +164,22 @@ export default {
           const noAtTwitterID = twitterID.replace(/@|＠/g, '');
           return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
         });
-    },
-  },
-  computed: {
-    members2() {
-      const data = [];
-      for (const i in this.members) {
-        let icon;
-        if (this.members[i].length === 0) {
-          icon = this.unknownMemberIconLink;
-        } else if (typeof this.iconlist[i] === 'undefined') {
-          icon = this.unknownMemberIconLink;
-        } else if (this.iconlist[i].iconurl.length === 0) {
-          icon = this.memberIconLinks[this.iconlist[i].icon];
-        } else {
-          icon = this.iconlist[i].iconurl.replace('http://', 'https://');
-        }
+    };
 
-        data.push({
-          memberName: this.members[i],
-          icon: icon,
-        });
-      }
-      return data;
-    },
-    unknownMemberNum() {
-      return this.numMembers - this.members.length;
-    },
-    emptyNum() {
-      return 5 - this.numMembers;
-    },
+    return {
+      translate,
+      memberIconLinks,
+      isHalloween,
+      halloweenIcons,
+      unknownMemberIconLink,
+      backgroundLogoLink,
+      members2,
+      unknownMemberNum,
+      emptyNum,
+      twitterIdToLink,
+    };
   },
-};
+});
 </script>
 
 <style lang="sass" scoped>
