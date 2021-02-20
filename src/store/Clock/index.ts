@@ -7,7 +7,11 @@ const state: ClockState = {
   currentTime: moment(),
 };
 
-const getters: GetterTree<ClockState, RootState> = {};
+const getters: GetterTree<ClockState, RootState> = {
+  currentTime: (state) => {
+    return state.currentTime;
+  }
+};
 
 const mutations: MutationTree<ClockState> = {
   seCurrentTime: (state, currentTime: any) => {
