@@ -36,13 +36,27 @@
             | {{translate("join")}}
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, computed } from '@vue/composition-api';
 import RemainingTime from './RemainingTime';
 import Members from './Members';
+import store from '../../store';
+
 import makeJoinUri from '../../lib/make_join_uri';
 import { translate } from '../../lib/i18n';
 
-export default {
+type Props = {
+  iconlist: any;
+  createTime: string;
+  numMembers: number;
+  roomDesc: string;
+  roomName: string;
+  members: any;
+  needPasswd: boolean;
+  roomTags: string[];
+};
+
+export default defineComponent({
   props: {
     iconlist: {
       type: Array,
@@ -77,77 +91,82 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      translate,
-    };
-  },
+
   components: {
     RemainingTime,
     Members,
   },
-  methods: {
-    onSetNotificationVacancyRoom() {
-      this.$store.dispatch('notificationVacancyRooms/setNotificationByUID', `${this.createTime}||${this.roomName}`);
-    },
 
-    onRemoveNotificationVacancyRoom() {
-      this.$store.dispatch('notificationVacancyRooms/removeNotificationByUID', `${this.createTime}||${this.roomName}`);
-    },
+  setup(props: Props) {
+    const onSetNotificationVacancyRoom = () => {
+      store.dispatch('notificationVacancyRooms/setNotificationByUID', `${props.createTime}||${props.roomName}`);
+    };
 
-    onOpenSyncroom() {
-      if (this.needPasswd) {
+    const onRemoveNotificationVacancyRoom = () => {
+      store.dispatch('notificationVacancyRooms/removeNotificationByUID', `${props.createTime}||${props.roomName}`);
+    };
+
+    const onOpenSyncroom = () => {
+      if (props.needPasswd) {
         const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
 
         if (pwPrompt) {
-          location.href = makeJoinUri(this.roomName, pwPrompt, 4, 2);
+          location.href = makeJoinUri(props.roomName, pwPrompt, 4, 2);
         }
       } else {
-        location.href = makeJoinUri(this.roomName, '', 4, 2);
+        location.href = makeJoinUri(props.roomName, '', 4, 2);
       }
-    },
+    };
 
-    onOpenTentativeSyncroom() {
-      if (this.needPasswd) {
+    const onOpenTentativeSyncroom = () => {
+      if (props.needPasswd) {
         const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
 
         if (pwPrompt) {
-          location.href = makeJoinUri(this.roomName, pwPrompt, 4, 3);
+          location.href = makeJoinUri(props.roomName, pwPrompt, 4, 3);
         }
       } else {
-        location.href = makeJoinUri(this.roomName, '', 4, 3);
+        location.href = makeJoinUri(props.roomName, '', 4, 3);
       }
-    },
-  },
+    };
 
-  computed: {
-    linkedRoomDesc() {
-      return (
-        this.roomDesc
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#039;')
-          .replace(/\n/g, '<br />')
-          /* eslint-disable no-useless-escape */
-          .replace(/(\b(https|http):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, (link) => {
-            return `<a href='${link}' target='_blank' rel='noopener noreferrer'>${link}</a>`;
-          })
-          .replace(/((@|＠)[0-9a-zA-Z_]{1,15})/g, (twitterID) => {
-            const noAtTwitterID = twitterID.replace(/@|＠/g, '');
-            return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
-          })
-      );
-    },
-    isNoVacancy() {
-      return this.numMembers === 5;
-    },
-    isNotificationVacancyRoom() {
-      return this.$store.getters['notificationVacancyRooms/rooms'].find((r) => r.uid === `${this.createTime}||${this.roomName}`);
-    },
+    const linkedRoomDesc = computed(() => {
+      return props.roomDesc
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/\n/g, '<br />')
+        .replace(/(\b(https|http):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi, (link: string) => {
+          return `<a href='${link}' target='_blank' rel='noopener noreferrer'>${link}</a>`;
+        })
+        .replace(/((@|＠)[0-9a-zA-Z_]{1,15})/g, (twitterID: string) => {
+          const noAtTwitterID = twitterID.replace(/@|＠/g, '');
+          return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
+        });
+    });
+
+    const isNoVacancy = computed(() => {
+      return props.numMembers === 5;
+    });
+
+    const isNotificationVacancyRoom = computed(() => {
+      return store.getters['notificationVacancyRooms/rooms'].find((r: any) => r.uid === `${props.createTime}||${props.roomName}`);
+    });
+
+    return {
+      translate,
+      onSetNotificationVacancyRoom,
+      onRemoveNotificationVacancyRoom,
+      onOpenSyncroom,
+      onOpenTentativeSyncroom,
+      linkedRoomDesc,
+      isNoVacancy,
+      isNotificationVacancyRoom,
+    };
   },
-};
+});
 </script>
 
 <style lang="sass" scoped>
