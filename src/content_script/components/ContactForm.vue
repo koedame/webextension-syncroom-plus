@@ -8,8 +8,6 @@
   ) 読込中
 </template>
 
-<script></script>
-
 <style lang="sass" scoped>
 .syncroom-plus-contact-form
   width: 100%
