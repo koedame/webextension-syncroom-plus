@@ -27,7 +27,7 @@ import { i18n, translate } from '../../lib/i18n';
 import store from '../../store';
 import { ModalProgrammatic as Modal } from 'buefy';
 import Config from './Config.vue';
-import { browser } from "webextension-polyfill-ts";
+import { browser } from 'webextension-polyfill-ts';
 
 export default defineComponent({
   setup() {
