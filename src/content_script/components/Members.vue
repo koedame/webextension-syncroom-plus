@@ -50,7 +50,7 @@ import { translate } from '../../lib/i18n';
 import { defineComponent, computed } from '@vue/composition-api';
 
 const moment = require('moment');
-const browser = require('webextension-polyfill');
+import { browser } from "webextension-polyfill-ts";
 
 // FIXME: APIのレスポンス的に型宣言が難しいので独自APIにすることを検討する
 type Props = {

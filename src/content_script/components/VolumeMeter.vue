@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-const browser = require('webextension-polyfill');
+import { browser } from "webextension-polyfill-ts";
 
 export default defineComponent({
   setup() {
