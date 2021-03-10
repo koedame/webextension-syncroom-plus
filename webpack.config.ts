@@ -141,7 +141,7 @@ const config = {
         {
           from: 'manifest.json',
           to: 'manifest.json',
-          transform: (content, absoluteFrom) => {
+          transform: (content: any, absoluteFrom: any) => {
             const jsonContent = JSON.parse(content);
             jsonContent.version = version;
 
