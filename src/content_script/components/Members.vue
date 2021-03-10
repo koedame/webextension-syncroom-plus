@@ -48,9 +48,9 @@
 import VolumeMeter from './VolumeMeter';
 import { translate } from '../../lib/i18n';
 import { defineComponent, computed } from '@vue/composition-api';
+import { browser } from 'webextension-polyfill-ts';
 
 const moment = require('moment');
-const browser = require('webextension-polyfill');
 
 // FIXME: APIのレスポンス的に型宣言が難しいので独自APIにすることを検討する
 type Props = {
