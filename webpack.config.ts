@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const ejs = require('ejs');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ExtensionReloader = require('webpack-extension-reloader');
@@ -137,12 +136,12 @@ const config = {
             ignore: ['**/.DS_Store'],
           },
         },
-        // { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
-        // { from: 'options/options.html', to: 'options/options.html', transform: transformHtml },
+        // { from: 'popup/popup.html', to: 'popup/popup.html' },
+        // { from: 'options/options.html', to: 'options/options.html' },
         {
           from: 'manifest.json',
           to: 'manifest.json',
-          transform: (content, absoluteFrom) => {
+          transform: (content: any, absoluteFrom: any) => {
             const jsonContent = JSON.parse(content);
             jsonContent.version = version;
 
@@ -185,12 +184,6 @@ if (process.env.HMR === 'true') {
       manifest: __dirname + '/src/manifest.json',
     }),
   ]);
-}
-
-function transformHtml(content) {
-  return ejs.render(content.toString(), {
-    ...process.env,
-  });
 }
 
 module.exports = config;

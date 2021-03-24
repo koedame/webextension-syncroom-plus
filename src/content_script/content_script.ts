@@ -1,4 +1,4 @@
-const browser = require('webextension-polyfill');
+import { browser } from "webextension-polyfill-ts";
 
 // 不要になるscriptとiframeを削除
 const scriptTags: NodeList = window.document.querySelectorAll('script,iframe,style,link[rel="stylesheet"]');

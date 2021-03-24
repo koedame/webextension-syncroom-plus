@@ -17,7 +17,7 @@ if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
   currentBrowser = 'unknown';
 }
 
-const browser = require('webextension-polyfill');
+import { browser } from "webextension-polyfill-ts";
 
 import makeJoinUri from './lib/make_join_uri';
 import store from './store';

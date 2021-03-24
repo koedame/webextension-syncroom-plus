@@ -32,9 +32,9 @@
   .members__item(v-for="i in (unknownMemberNum)", :key="`unknownMember-${i}`")
     .members__item__left
       template(v-if="members2.length === 0")
-        img.members__item__left__icon(v-if="isHalloween", :src="halloweenIcons[i%14]")
+        img.members__item__left__icon(v-if="isEvent", :src="eventIcons[i%eventIcons.length]")
       template(v-else)
-        img.members__item__left__icon(v-if="isHalloween", :src="halloweenIcons[(members2[0].memberName.length+i)%14]")
+        img.members__item__left__icon(v-if="isEvent", :src="eventIcons[(members2[0].memberName.length+i)%eventIcons.length]")
         img.members__item__left__icon(v-else, :src="unknownMemberIconLink")
     .members__item__right
       .members__item__right__name
@@ -48,9 +48,9 @@
 import VolumeMeter from './VolumeMeter';
 import { translate } from '../../lib/i18n';
 import { defineComponent, computed } from '@vue/composition-api';
+import { browser } from 'webextension-polyfill-ts';
 
 const moment = require('moment');
-const browser = require('webextension-polyfill');
 
 // FIXME: APIのレスポンス的に型宣言が難しいので独自APIにすることを検討する
 type Props = {
@@ -102,23 +102,44 @@ export default defineComponent({
       browser.extension.getURL('/icons/member-icon-13.png'),
     ];
 
-    const isHalloween = moment().isBetween('2020-10-20', '2020-11-02');
-    const halloweenIcons = [
-      browser.extension.getURL('/icons/halloween/0.png'),
-      browser.extension.getURL('/icons/halloween/1.png'),
-      browser.extension.getURL('/icons/halloween/2.png'),
-      browser.extension.getURL('/icons/halloween/3.png'),
-      browser.extension.getURL('/icons/halloween/4.png'),
-      browser.extension.getURL('/icons/halloween/5.png'),
-      browser.extension.getURL('/icons/halloween/6.png'),
-      browser.extension.getURL('/icons/halloween/7.png'),
-      browser.extension.getURL('/icons/halloween/8.png'),
-      browser.extension.getURL('/icons/halloween/9.png'),
-      browser.extension.getURL('/icons/halloween/10.png'),
-      browser.extension.getURL('/icons/halloween/11.png'),
-      browser.extension.getURL('/icons/halloween/12.png'),
-      browser.extension.getURL('/icons/halloween/13.png'),
-    ];
+    let isEvent = false;
+    let eventIcons: string[] = [];
+    const currentYear = moment().year();
+
+    if (moment().isBetween(`${currentYear}-04-01`, `${currentYear}-04-02`)) {
+      // エイプリルフール
+      isEvent = true;
+      eventIcons = [
+        browser.extension.getURL('/icons/aprilfool/0.png'),
+        browser.extension.getURL('/icons/aprilfool/1.png'),
+        browser.extension.getURL('/icons/aprilfool/2.png'),
+        browser.extension.getURL('/icons/aprilfool/3.png'),
+        browser.extension.getURL('/icons/aprilfool/4.png'),
+        browser.extension.getURL('/icons/aprilfool/5.png'),
+        browser.extension.getURL('/icons/aprilfool/6.png'),
+        browser.extension.getURL('/icons/aprilfool/7.png'),
+        browser.extension.getURL('/icons/aprilfool/8.png'),
+      ];
+    } else if (moment().isBetween(`${currentYear}-10-20`, `${currentYear}-11-02`)) {
+      // ハロウィーン
+      isEvent = true;
+      eventIcons = [
+        browser.extension.getURL('/icons/halloween/0.png'),
+        browser.extension.getURL('/icons/halloween/1.png'),
+        browser.extension.getURL('/icons/halloween/2.png'),
+        browser.extension.getURL('/icons/halloween/3.png'),
+        browser.extension.getURL('/icons/halloween/4.png'),
+        browser.extension.getURL('/icons/halloween/5.png'),
+        browser.extension.getURL('/icons/halloween/6.png'),
+        browser.extension.getURL('/icons/halloween/7.png'),
+        browser.extension.getURL('/icons/halloween/8.png'),
+        browser.extension.getURL('/icons/halloween/9.png'),
+        browser.extension.getURL('/icons/halloween/10.png'),
+        browser.extension.getURL('/icons/halloween/11.png'),
+        browser.extension.getURL('/icons/halloween/12.png'),
+        browser.extension.getURL('/icons/halloween/13.png'),
+      ];
+    }
 
     const unknownMemberIconLink = browser.extension.getURL('/icons/member-icon-unknown.png');
     const backgroundLogoLink = browser.extension.getURL('/icons/icon-background-logo.png');
@@ -169,8 +190,8 @@ export default defineComponent({
     return {
       translate,
       memberIconLinks,
-      isHalloween,
-      halloweenIcons,
+      isEvent,
+      eventIcons,
       unknownMemberIconLink,
       backgroundLogoLink,
       members2,
