@@ -102,13 +102,13 @@ export default defineComponent({
       browser.extension.getURL('/icons/member-icon-13.png'),
     ];
 
-    let isEvent = false
-    let eventIcons: string[] = []
-    const currentYear = moment().year()
+    let isEvent = false;
+    let eventIcons: string[] = [];
+    const currentYear = moment().year();
 
-    if (moment().isBetween(`${currentYear}-04-01`, `${currentYear}-04-02`)){
+    if (moment().isBetween(`${currentYear}-04-01`, `${currentYear}-04-02`)) {
       // エイプリルフール
-      isEvent = true
+      isEvent = true;
       eventIcons = [
         browser.extension.getURL('/icons/aprilfool/0.png'),
         browser.extension.getURL('/icons/aprilfool/1.png'),
@@ -120,9 +120,9 @@ export default defineComponent({
         browser.extension.getURL('/icons/aprilfool/7.png'),
         browser.extension.getURL('/icons/aprilfool/8.png'),
       ];
-    } else if (moment().isBetween(`${currentYear}-10-20`, `${currentYear}-11-02`)){
+    } else if (moment().isBetween(`${currentYear}-10-20`, `${currentYear}-11-02`)) {
       // ハロウィーン
-      isEvent = true
+      isEvent = true;
       eventIcons = [
         browser.extension.getURL('/icons/halloween/0.png'),
         browser.extension.getURL('/icons/halloween/1.png'),
