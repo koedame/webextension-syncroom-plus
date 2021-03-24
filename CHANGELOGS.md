@@ -1,5 +1,42 @@
 # CHANGELOGS
 
+## v1.8.0
+
+### 変更
+
+- エイプリルフール仕様追加
+- webpackのts化
+- RoomCard.vueをts化
+
+### 依存パッケージ
+
+- ts-node追加
+- husky削除
+- ejs削除
+- webextension-polyfill => webextension-polyfill-ts
+- webpack from 5.23.0 to 5.27.2
+- vue-i18n from 8.22.4 to 8.24.2
+- typescript from 4.1.5 to 4.2.3
+- ts-loader from 8.0.17 to 8.0.18
+- pug from 3.0.0 to 3.0.2
+- node from 15.9.0-alpine to 15.12.0-alpine
+- mini-css-extract-plugin from 1.3.8 to 1.3.9
+- eslint-plugin-vue from 7.6.0 to 7.8.0
+- eslint-config-prettier from 7.2.0 to 8.1.0
+- eslint from 7.20.0 to 7.22.0
+- css-loader from 5.0.2 to 5.1.3
+- core-js from 3.9.0 to 3.9.1
+- copy-webpack-plugin from 7.0.0 to 8.0.0
+- archiver from 5.2.0 to 5.3.0
+- @vue/composition-api from 1.0.0-rc.2 to 1.0.0-rc.5
+- @types/node from 14.14.30 to 14.14.35
+- @fortawesome/free-solid-svg-icons from 5.15.2 to 5.15.3
+- @fortawesome/fontawesome-svg-core from 1.2.34 to 1.2.35
+- @babel/runtime-corejs3 from 7.12.18 to 7.13.10
+- @babel/preset-env from 7.12.17 to 7.13.10
+- @babel/plugin-proposal-optional-chaining from 7.12.17 to 7.13.0
+- @babel/core from 7.12.17 to 7.13.10
+
 ## v1.7.1
 
 ### 変更
