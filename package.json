@@ -22,7 +22,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.0",
     "@vue/composition-api": "^1.0.0-rc.6",
     "axios": "^0.21.1",
-    "buefy": "^0.9.5",
+    "buefy": "^0.9.6",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "vue": "^2.6.12",
