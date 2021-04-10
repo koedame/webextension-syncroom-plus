@@ -124,8 +124,9 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ContactForm from './components/ContactForm';
 import optimizeSearchKeyword from '../lib/optimize_search_keyword';
-import decryptionTags from '../lib/decryption_tags';
+import parseRooms from '../lib/parse_rooms';
 import { translate } from '../lib/i18n';
+import { ModalProgrammatic as Modal } from 'buefy';
 
 export default {
   components: {
@@ -165,78 +166,22 @@ export default {
   methods: {
     async fetchRooms() {
       this.isLoading = true;
-      await axios
-        .get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4')
-        .then((res) => {
-          this.rooms = res.data.rooms.filter((room) => room.room_name !== '接続テストルーム');
+      const res = await axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4');
 
-          let allTags = [];
-          let lockedRoomTags = [];
-          let unlockedRoomTags = [];
+      const { publicRooms, calcedTags, calcedLockedRoomTags, calcedUnlockedRoomTags, lockedRoomCount, unlockedRoomCount, testRoom } = parseRooms(res.data.rooms);
 
-          // タグを復号
-          for (let i = 0; i < this.rooms.length; i++) {
-            const roomTags = decryptionTags(this.rooms[i]);
-            this.rooms[i].room_tags = roomTags;
-            allTags = allTags.concat(roomTags);
+      this.rooms = publicRooms;
+      this.tags = calcedTags;
+      this.lockedRoomTags = calcedLockedRoomTags;
+      this.unlockedRoomTags = calcedUnlockedRoomTags;
+      this.lockedRoomCount = lockedRoomCount;
+      this.unlockedRoomCount = unlockedRoomCount;
+      this.testRoom = testRoom;
 
-            if (this.rooms[i].need_passwd) {
-              lockedRoomTags = lockedRoomTags.concat(roomTags);
-            } else {
-              unlockedRoomTags = unlockedRoomTags.concat(roomTags);
-            }
-          }
-
-          // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
-          if (this.selectedTag.length !== 0 && !allTags.some((tag) => tag === this.selectedTag)) {
-            this.selectedTag = '';
-          }
-
-          this.tags = allTags.reduce((result, current) => {
-            const element = result.find((value) => value.name === current);
-            if (element) {
-              element.count++;
-            } else {
-              result.push({
-                name: current,
-                count: 1,
-              });
-            }
-            return result;
-          }, []);
-
-          this.lockedRoomTags = lockedRoomTags.reduce((result, current) => {
-            const element = result.find((value) => value.name === current);
-            if (element) {
-              element.count++;
-            } else {
-              result.push({
-                name: current,
-                count: 1,
-              });
-            }
-            return result;
-          }, []);
-
-          this.unlockedRoomTags = unlockedRoomTags.reduce((result, current) => {
-            const element = result.find((value) => value.name === current);
-            if (element) {
-              element.count++;
-            } else {
-              result.push({
-                name: current,
-                count: 1,
-              });
-            }
-            return result;
-          }, []);
-
-          this.lockedRoomCount = this.rooms.filter((room) => room.need_passwd).length;
-          this.unlockedRoomCount = this.rooms.filter((room) => !room.need_passwd).length;
-
-          this.testRoom = res.data.rooms.find((room) => room.room_name === '接続テストルーム');
-        })
-        .catch((e) => {});
+      // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
+      if (this.selectedTag.length !== 0 && !calcedTags.some((tag) => tag.name === this.selectedTag)) {
+        this.selectedTag = '';
+      }
 
       setTimeout(() => {
         this.isLoading = false;
@@ -244,7 +189,7 @@ export default {
     },
 
     openContactFrom() {
-      this.$buefy.modal.open({
+      Modal.open({
         parent: this,
         component: ContactForm,
       });
