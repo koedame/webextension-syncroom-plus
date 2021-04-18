@@ -1,5 +1,37 @@
 # CHANGELOGS
 
+## v1.8.1
+
+### 変更
+
+- 翻訳修正
+- 一部コードを外部ファイル化
+
+### 依存パッケージ
+
+- @babel/core from 7.13.10 to 7.13.15
+- @babel/plugin-proposal-optional-chaining from 7.13.8 to 7.13.12
+- @babel/preset-env from 7.13.10 to 7.13.15
+- @types/node from 14.14.35 to 14.14.39
+- @types/webpack from 4.41.26 to 5.28.0
+- @vue/composition-api from 1.0.0-rc.5 to 1.0.0-rc.6
+- buefy from 0.9.4 to 0.9.6
+- copy-webpack-plugin from 8.0.0 to 8.1.1
+- core-js from 3.9.1 to 3.10.1
+- css-loader from 5.1.3 to 5.2.1
+- eslint from 7.22.0 to 7.24.0
+- eslint-config-prettier from 8.1.0 to 8.2.0
+- eslint-plugin-prettier from 3.3.1 to 3.4.0
+- eslint-plugin-promise from 4.3.1 to 5.1.0
+- eslint-plugin-vue from 7.8.0 to 7.9.0
+- mini-css-extract-plugin from 1.3.9 to 1.4.1
+- node from 15.12.0-alpine to 15.14.0-alpine
+- ts-loader from 8.0.18 to 8.1.0
+- typescript from 4.2.3 to 4.2.4
+- vue-i18n from 8.24.2 to 8.24.3
+- webpack from 5.27.2 to 5.33.2
+- webpack-cli from 4.5.0 to 4.6.0
+
 ## v1.8.0
 
 ### 変更
