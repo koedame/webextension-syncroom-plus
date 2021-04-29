@@ -24,7 +24,7 @@
       .filter-form__field
         b-field
           b-radio-button(v-model='roomFilter', native-value='all', @click.native='onChangeRoomFilter', type='is-info')
-            | {{translate("all")}} ({{ rooms.length }})
+            | {{translate("all")}} ({{ publicRoomCount }})
           b-radio-button(v-model='roomFilter', native-value='only_unlocked', @click.native='onChangeRoomFilter', type='is-link')
             b-icon(icon='lock-open')
             | {{translate("unlocked")}} ({{ unlockedRoomCount }})
@@ -53,34 +53,31 @@
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
           | {{ tag.name }} ({{ tag.count }})
 
-
     transition-group.SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-if="$store.getters['config/animation']")
       RoomCard.room-list-item(
         v-for="room in filteredRooms",
         v-show="room.show",
-        :key="`room-${room.create_time}-${room.room_name}`",
-        :createTime="room.create_time",
-        :iconlist="room.iconlist || []",
+        :key="`room-${room.created_at}-${room.name}`",
+        :createTime="room.created_at",
         :members="room.members",
-        :needPasswd="room.need_passwd",
-        :numMembers="room.num_members",
-        :roomDesc="room.room_desc || ''",
-        :roomName="room.room_name"
-        :roomTags="room.room_tags || []"
+        :needPasswd="room.is_password_required",
+        :roomDesc="room.description",
+        :roomName="room.name",
+        :roomTags="room.tags",
+        :remainingTime="room.remaining_time"
       )
     .SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-else)
       RoomCard.room-list-item(
         v-for="room in filteredRooms",
         v-show="room.show",
-        :key="`room-${room.create_time}-${room.room_name}`",
-        :createTime="room.create_time",
-        :iconlist="room.iconlist || []",
+        :key="`room-${room.created_at}-${room.name}`",
+        :createTime="room.created_at",
         :members="room.members",
-        :needPasswd="room.need_passwd",
-        :numMembers="room.num_members",
-        :roomDesc="room.room_desc || ''",
-        :roomName="room.room_name"
-        :roomTags="room.room_tags || []"
+        :needPasswd="room.is_password_required",
+        :roomDesc="room.description",
+        :roomName="room.name",
+        :roomTags="room.tags",
+        :remainingTime="room.remaining_time"
       )
 
     .SYNCROOM_PLUS-main__rooms(name="room-list")
@@ -100,14 +97,13 @@
     .SYNCROOM_PLUS-main__rooms
       RoomCard(
         v-if="testRoom",
-        :createTime="testRoom.create_time",
-        :iconlist="testRoom.iconlist || []",
+        :createTime="testRoom.created_at",
         :members="testRoom.members",
-        :needPasswd="testRoom.need_passwd",
-        :numMembers="testRoom.num_members",
+        :needPasswd="testRoom.is_password_required",
         :roomDesc="translate('test_room_description')",
         roomName="接続テストルーム",
-        :roomTags="testRoom.room_tags || []"
+        :roomTags="testRoom.tags",
+        :remainingTime="testRoom.remaining_time"
       )
 
   b-button#form-button(type="is-warning", icon-left="exclamation-triangle", @click="openContactFrom")
@@ -124,7 +120,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ContactForm from './components/ContactForm';
 import optimizeSearchKeyword from '../lib/optimize_search_keyword';
-import parseRooms from '../lib/parse_rooms';
 import { translate } from '../lib/i18n';
 import { ModalProgrammatic as Modal } from 'buefy';
 
@@ -137,9 +132,12 @@ export default {
   data() {
     return {
       rooms: [],
+      public_locked_rooms: [],
+      public_opend_rooms: [],
       testRoom: null,
       roomFilter: 'all',
       keyword: '',
+      publicRoomCount: 0,
       unlockedRoomCount: 0,
       lockedRoomCount: 0,
       tags: [],
@@ -152,11 +150,8 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('clock/fetch');
     this.fetchRooms();
     this.timer = setInterval(() => {
-      this.$store.dispatch('clock/fetch');
-
       if (this.$store.getters['config/autoReload']) {
         this.fetchRooms();
       }
@@ -166,20 +161,20 @@ export default {
   methods: {
     async fetchRooms() {
       this.isLoading = true;
-      const res = await axios.get('https://webapi.syncroom.appservice.yamaha.com/ndroom/room_list.json?pagesize=500&realm=4');
+      // const res = await axios.get('http://localhost:8080/api/v1/rooms/all');
+      const res = await axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all');
 
-      const { publicRooms, calcedTags, calcedLockedRoomTags, calcedUnlockedRoomTags, lockedRoomCount, unlockedRoomCount, testRoom } = parseRooms(res.data.rooms);
-
-      this.rooms = publicRooms;
-      this.tags = calcedTags;
-      this.lockedRoomTags = calcedLockedRoomTags;
-      this.unlockedRoomTags = calcedUnlockedRoomTags;
-      this.lockedRoomCount = lockedRoomCount;
-      this.unlockedRoomCount = unlockedRoomCount;
-      this.testRoom = testRoom;
+      this.rooms = res.data.rooms;
+      this.tags = res.data.aggregated_tags;
+      this.lockedRoomTags = res.data.locked_aggregated_tags;
+      this.unlockedRoomTags = res.data.opend_aggregated_tags;
+      this.publicRoomCount = res.data.public_room_count;
+      this.lockedRoomCount = res.data.public_locked_rooms_count;
+      this.unlockedRoomCount = res.data.public_opend_rooms_count;
+      this.testRoom = res.data.test_room;
 
       // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
-      if (this.selectedTag.length !== 0 && !calcedTags.some((tag) => tag.name === this.selectedTag)) {
+      if (this.selectedTag.length !== 0 && !res.data.aggregated_tags.some((tag) => tag.name === this.selectedTag)) {
         this.selectedTag = '';
       }
 
@@ -212,20 +207,23 @@ export default {
       for (const displayRoom of displayRooms) {
         displayRoom.show = true;
 
-        // すべて/鍵あり/鍵なし
         if (this.roomFilter === 'only_unlocked') {
-          if (displayRoom.need_passwd) {
+          if (displayRoom.is_password_required){
             displayRoom.show = false;
+          } else {
+            displayRoom.show = true;
           }
         } else if (this.roomFilter === 'only_locked') {
-          if (!displayRoom.need_passwd) {
+          if (displayRoom.is_password_required){
+            displayRoom.show = true;
+          } else {
             displayRoom.show = false;
           }
         }
 
         // タグ選択
         if (this.selectedTag.length !== 0) {
-          if (!displayRoom.room_tags.some((tag) => tag === this.selectedTag)) {
+          if (!displayRoom.tags.some((tag) => tag === this.selectedTag)) {
             displayRoom.show = false;
           }
         }
@@ -233,7 +231,7 @@ export default {
         if (this.keyword.length !== 0) {
           const keyword = optimizeSearchKeyword(this.keyword);
 
-          if (!optimizeSearchKeyword(`${displayRoom.room_name}|${displayRoom.members.join('|')}|${displayRoom.room_tags.join('|')}|${displayRoom.room_desc}`).match(keyword)) {
+          if (!optimizeSearchKeyword(`${displayRoom.name}|${displayRoom.members.map((m) => { return m.name }).join('|')}|${displayRoom.tags.join('|')}|${displayRoom.description}`).match(keyword)) {
             displayRoom.show = false;
           }
         }

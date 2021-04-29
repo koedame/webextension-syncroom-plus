@@ -18,7 +18,6 @@ b-navbar#navbar--custom(fixed-top)
 
         b-button(icon-left="cog", type="is-info", outlined, @click="openConfig")
           | {{ translate('settings') }}
-
 </template>
 
 <script lang="ts">
