@@ -208,13 +208,13 @@ export default {
         displayRoom.show = true;
 
         if (this.roomFilter === 'only_unlocked') {
-          if (displayRoom.is_password_required){
+          if (displayRoom.is_password_required) {
             displayRoom.show = false;
           } else {
             displayRoom.show = true;
           }
         } else if (this.roomFilter === 'only_locked') {
-          if (displayRoom.is_password_required){
+          if (displayRoom.is_password_required) {
             displayRoom.show = true;
           } else {
             displayRoom.show = false;
@@ -231,7 +231,15 @@ export default {
         if (this.keyword.length !== 0) {
           const keyword = optimizeSearchKeyword(this.keyword);
 
-          if (!optimizeSearchKeyword(`${displayRoom.name}|${displayRoom.members.map((m) => { return m.name }).join('|')}|${displayRoom.tags.join('|')}|${displayRoom.description}`).match(keyword)) {
+          if (
+            !optimizeSearchKeyword(
+              `${displayRoom.name}|${displayRoom.members
+                .map((m) => {
+                  return m.name;
+                })
+                .join('|')}|${displayRoom.tags.join('|')}|${displayRoom.description}`
+            ).match(keyword)
+          ) {
             displayRoom.show = false;
           }
         }
