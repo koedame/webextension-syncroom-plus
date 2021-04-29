@@ -81,12 +81,6 @@ export default defineComponent({
 
     return {
       translate,
-      // memberIconLinks,
-      // isEvent,
-      // eventIcons,
-      // unknownMemberIconLink,
-      // members2,
-      // unknownMemberNum,
       emptyNum,
       twitterIdToLink,
     };
