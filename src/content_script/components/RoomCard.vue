@@ -38,7 +38,6 @@
 
 <script lang="ts">
 import { defineComponent, computed } from '@vue/composition-api';
-import RemainingTime from './RemainingTime';
 import Members from './Members';
 import store from '../../store';
 
@@ -88,7 +87,6 @@ export default defineComponent({
   },
 
   components: {
-    RemainingTime,
     Members,
   },
 
