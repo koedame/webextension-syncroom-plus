@@ -115,13 +115,13 @@ const config = {
     }),
     new CopyPlugin({
       patterns: [
-        {
-          from: 'icons',
-          to: 'icons',
-          globOptions: {
-            ignore: ['**/.DS_Store'],
-          },
-        },
+        // {
+        //   from: 'icons',
+        //   to: 'icons',
+        //   globOptions: {
+        //     ignore: ['**/.DS_Store'],
+        //   },
+        // },
         {
           from: 'images',
           to: 'images',
