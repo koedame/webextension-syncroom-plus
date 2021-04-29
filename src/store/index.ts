@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 
-import { clock } from './Clock';
 import { favoriteMembers } from './FavoriteMembers';
 import { notificationVacancyRooms } from './NotificationVacancyRooms';
 import { notificationOnlineMembers } from './NotificationOnlineMembers';
@@ -16,7 +15,6 @@ const store: StoreOptions<RootState> = {
     version: '1.0.0',
   },
   modules: {
-    clock,
     favoriteMembers,
     notificationVacancyRooms,
     notificationOnlineMembers,
