@@ -53,8 +53,7 @@ setInterval(() => {
     }
   });
 
-  // FIXME: URLを変更
-  axios.get('http://localhost:8080/api/v1/rooms/all').then((res) => {
+  axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res) => {
     // FIXME: オフラインになったら通知を削除
     // ユーザーオンライン通知
     browser.storage.local.get('notificationOnlineMembers').then(({ notificationOnlineMembers }) => {
