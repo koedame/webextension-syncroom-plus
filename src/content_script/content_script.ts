@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 // 不要になるscriptとiframeを削除
 const scriptTags: NodeList = window.document.querySelectorAll('script,iframe,style,link[rel="stylesheet"]');
 scriptTags.forEach((value: Node, key: number, parent: NodeList): void => {

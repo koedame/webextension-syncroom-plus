@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts";
+import { browser } from 'webextension-polyfill-ts';
 import { Module, MutationTree, ActionTree, GetterTree } from 'vuex';
 import { ConfigState, RootState } from '../types';
 import LanguageMap from '../language_map';
