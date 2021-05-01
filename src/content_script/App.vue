@@ -37,6 +37,9 @@
           | {{translate("test_room")}}
 
     .buttons.custom--taglist
+      template(v-for="n in 5", v-if="isSkeleton")
+        .skeleton_tag.button.is-light.is-small(:key="`tag-${n}`")
+
       template(v-for="tag in tags", v-if="roomFilter === 'all'")
         b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
           | {{ tag.name }} ({{ tag.count }})
@@ -53,20 +56,10 @@
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
           | {{ tag.name }} ({{ tag.count }})
 
-    transition-group.SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-if="$store.getters['config/animation']")
-      RoomCard.room-list-item(
-        v-for="room in filteredRooms",
-        v-show="room.show",
-        :key="`room-${room.created_at}-${room.name}`",
-        :createTime="room.created_at",
-        :members="room.members",
-        :needPasswd="room.is_password_required",
-        :roomDesc="room.description",
-        :roomName="room.name",
-        :roomTags="room.tags",
-        :remainingTime="room.remaining_time"
-      )
-    .SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-else)
+    .SYNCROOM_PLUS-main__rooms(name="room-list", v-if="isSkeleton")
+      .skeleten_room_card.room-list-item.has-background-light(v-for="n in 8")
+
+    .SYNCROOM_PLUS-main__rooms(name="room-list", :is="roomComponent")
       RoomCard.room-list-item(
         v-for="room in filteredRooms",
         v-show="room.show",
@@ -146,6 +139,8 @@ export default {
       selectedTag: '',
       isLoading: false,
       translate,
+      isAnimationable: false,
+      isSkeleton: true,
     };
   },
 
@@ -159,28 +154,31 @@ export default {
   },
 
   methods: {
-    async fetchRooms() {
+    fetchRooms() {
       this.isLoading = true;
-      // const res = await axios.get('http://localhost:8080/api/v1/rooms/all');
-      const res = await axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all');
 
-      this.rooms = res.data.rooms;
-      this.tags = res.data.aggregated_tags;
-      this.lockedRoomTags = res.data.locked_aggregated_tags;
-      this.unlockedRoomTags = res.data.opend_aggregated_tags;
-      this.publicRoomCount = res.data.public_room_count;
-      this.lockedRoomCount = res.data.public_locked_rooms_count;
-      this.unlockedRoomCount = res.data.public_opend_rooms_count;
-      this.testRoom = res.data.test_room;
+      axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res) => {
+        this.rooms = res.data.rooms;
+        this.tags = res.data.aggregated_tags;
+        this.lockedRoomTags = res.data.locked_aggregated_tags;
+        this.unlockedRoomTags = res.data.opend_aggregated_tags;
+        this.publicRoomCount = res.data.public_room_count;
+        this.lockedRoomCount = res.data.public_locked_rooms_count;
+        this.unlockedRoomCount = res.data.public_opend_rooms_count;
+        this.testRoom = res.data.test_room;
 
-      // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
-      if (this.selectedTag.length !== 0 && !res.data.aggregated_tags.some((tag) => tag.name === this.selectedTag)) {
-        this.selectedTag = '';
-      }
+        // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
+        if (this.selectedTag.length !== 0 && !res.data.aggregated_tags.some((tag) => tag.name === this.selectedTag)) {
+          this.selectedTag = '';
+        }
 
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
+        this.isSkeleton = false;
+        this.isAnimationable = true;
+
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      });
     },
 
     openContactFrom() {
@@ -201,6 +199,13 @@ export default {
   },
 
   computed: {
+    roomComponent() {
+      if (this.isAnimationable && this.$store.getters['config/animation']) {
+        return 'transition-group';
+      } else {
+        return 'div';
+      }
+    },
     filteredRooms() {
       const displayRooms = this.rooms;
 
@@ -334,4 +339,13 @@ export default {
 
 html,body
   overscroll-behavior: none
+
+.skeleten_room_card
+  width: 300px
+  height: 500px
+  border-radius: 5px
+  margin: 5px 5px 15px 5px
+
+.skeleton_tag
+  width: 100px
 </style>
