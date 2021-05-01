@@ -111,7 +111,7 @@ export default defineComponent({
         type: 'is-danger',
         hasIcon: true,
         onConfirm: async () => {
-          store.dispatch('notificationOnlineMembers/removeNotification', memberName).then((res)=>{
+          store.dispatch('notificationOnlineMembers/removeNotification', memberName).then((res) => {
             Toast.open({
               message: translate('succeeded_cancel_notification'),
               type: 'is-success',
