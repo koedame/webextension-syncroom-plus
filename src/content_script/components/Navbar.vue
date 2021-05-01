@@ -8,7 +8,7 @@ b-navbar#navbar--custom(fixed-top)
   template(slot='end')
     b-navbar-item(tag="div")
       .buttons
-        b-dropdown(aria-role='list')
+        b-dropdown.mr-2(aria-role='list')
           template(#trigger)
             b-button(type='is-default', icon-left="language", icon-right="angle-down")
               | Language: {{ $store.getters['config/languageDisplayName'] }}
