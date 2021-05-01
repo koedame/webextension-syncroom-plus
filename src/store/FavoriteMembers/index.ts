@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts";
+import { browser } from 'webextension-polyfill-ts';
 import { Module, MutationTree, ActionTree, GetterTree } from 'vuex';
 import { FavoriteMembersState, FavoriteMember, RootState } from '../types';
 
@@ -16,21 +16,21 @@ const mutations: MutationTree<FavoriteMembersState> = {
   restoreFromLocalStorage: (state) => {
     browser.storage.local
       .get('favoriteMembers')
-      //@ts-ignore
+      // @ts-ignore
       .then(({ favoriteMembers }) => {
         // データがないときはエラーが起こるので初期化
         if (typeof favoriteMembers === 'undefined') {
           state.members = [];
         } else {
           if (Array.isArray(favoriteMembers)) {
-            let members: Array<FavoriteMember> = [];
+            const members: Array<FavoriteMember> = [];
 
-            for (let favoriteMember of favoriteMembers) {
+            for (const favoriteMember of favoriteMembers) {
               if (typeof favoriteMember.memberName === 'undefined') {
                 continue;
               }
 
-              let member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
+              const member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
 
               if (typeof favoriteMember.createdAt === 'undefined') {
                 member.createdAt = new Date().toISOString();
@@ -57,21 +57,21 @@ const mutations: MutationTree<FavoriteMembersState> = {
   setFavorite: (state, memberName: string) => {
     browser.storage.local
       .get('favoriteMembers')
-      //@ts-ignore
+      // @ts-ignore
       .then(({ favoriteMembers }) => {
         // データがないときはエラーが起こるので初期化
         if (typeof favoriteMembers === 'undefined') {
           state.members = [];
         } else {
           if (Array.isArray(favoriteMembers)) {
-            let members: Array<FavoriteMember> = [];
+            const members: Array<FavoriteMember> = [];
 
-            for (let favoriteMember of favoriteMembers) {
+            for (const favoriteMember of favoriteMembers) {
               if (typeof favoriteMember.memberName === 'undefined') {
                 continue;
               }
 
-              let member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
+              const member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
 
               if (typeof favoriteMember.createdAt === 'undefined') {
                 member.createdAt = new Date().toISOString();
@@ -105,21 +105,21 @@ const mutations: MutationTree<FavoriteMembersState> = {
   removeFavorite(state, memberName: string) {
     browser.storage.local
       .get('favoriteMembers')
-      //@ts-ignore
+      // @ts-ignore
       .then(({ favoriteMembers }) => {
         // データがないときはエラーが起こるので初期化
         if (typeof favoriteMembers === 'undefined') {
           state.members = [];
         } else {
           if (Array.isArray(favoriteMembers)) {
-            let members: Array<FavoriteMember> = [];
+            const members: Array<FavoriteMember> = [];
 
-            for (let favoriteMember of favoriteMembers) {
+            for (const favoriteMember of favoriteMembers) {
               if (typeof favoriteMember.memberName === 'undefined') {
                 continue;
               }
 
-              let member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
+              const member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
 
               if (typeof favoriteMember.createdAt === 'undefined') {
                 member.createdAt = new Date().toISOString();
