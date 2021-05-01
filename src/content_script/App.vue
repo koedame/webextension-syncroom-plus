@@ -3,16 +3,13 @@
   Navbar
 
   #SYNCROOM_PLUS-main
-    h2.SYNCROOM_PLUS-main__subtitle
-      | {{ translate('public_rooms') }}
-
-      template(v-if="!this.$store.getters['config/autoReload']")
+    .filter-form
+      .filter-form__field.mr-5(v-if="!this.$store.getters['config/autoReload']")
         b-button.SYNCROOM_PLUS-main__subtitle__button(type="is-success is-light", @click="fetchRooms")
           b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-if="isLoading", custom-class="fa-spin", icon="sync-alt", size="is-small")
           b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-else, icon="sync-alt", size="is-small")
           | {{translate("reload")}}
 
-    .filter-form
       .filter-form__field.custom--search-field
         b-input(
           :placeholder='translate("type_keywords")',
@@ -266,7 +263,6 @@ export default {
 </script>
 
 <style lang="sass">
-// Import Bulma's core
 @import "~bulma/sass/utilities/_all"
 
 // Import Bulma and Buefy styles
@@ -275,7 +271,6 @@ export default {
 
 #SYNCROOM_PLUS-main
   overflow: hidden
-  padding: 3em 0
 
 .SYNCROOM_PLUS-main__subtitle
   font-size: 20px
