@@ -103,7 +103,7 @@ setInterval(() => {
       }
     });
 
-    // TODO: 部屋がなくなれば通知を削除
+    // 空き部屋通知周り
     browser.storage.local.get('notificationVacancyRooms').then(({ notificationVacancyRooms }) => {
       // データがなければ何もしない
       if (!Array.isArray(notificationVacancyRooms)) {
@@ -113,6 +113,7 @@ setInterval(() => {
         return false;
       }
 
+      // 空き部屋通知
       for (const room of res.data.rooms) {
         // 満室の部屋はスキップ
         if (room.members.length === 5) {
@@ -144,6 +145,21 @@ setInterval(() => {
         browser.storage.local.set({
           notificationVacancyRooms: JSON.parse(JSON.stringify(newNotificationVacancyRooms)),
         });
+      }
+
+      // キューの掃除
+      // 出っぱなしの通知を消すにはキューを残す設計に変えないといけない
+      for (const notificationVacancyRoom of notificationVacancyRooms) {
+        const tmp: string[] = notificationVacancyRoom.uid.split('||');
+        const roomName = tmp[1];
+
+        if (!res.data.rooms.some((r: any) => r.name === roomName)) {
+          // 部屋が存在しないキューが残っていたら削除
+          const newNotificationVacancyRooms = notificationVacancyRooms.filter((r) => r.uid !== notificationVacancyRoom.uid);
+          browser.storage.local.set({
+            notificationVacancyRooms: JSON.parse(JSON.stringify(newNotificationVacancyRooms)),
+          });
+        }
       }
     });
   });
