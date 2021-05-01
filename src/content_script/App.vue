@@ -4,7 +4,7 @@
 
   #SYNCROOM_PLUS-main
     .filter-form
-      .filter-form__field.mr-5(v-if="!this.$store.getters['config/autoReload']")
+      .filter-form__field.mr-5(v-if="!$store.getters['config/autoReload']")
         b-button.SYNCROOM_PLUS-main__subtitle__button(type="is-success is-light", @click="fetchRooms")
           b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-if="isLoading", custom-class="fa-spin", icon="sync-alt", size="is-small")
           b-icon.SYNCROOM_PLUS-main__subtitle__button__icon(v-else, icon="sync-alt", size="is-small")
