@@ -133,6 +133,7 @@ export default {
       selectedTag: '',
       isLoading: false,
       translate,
+      isAnimationable: false
     };
   },
 
@@ -165,6 +166,7 @@ export default {
         this.selectedTag = '';
       }
 
+      this.isAnimationable = true
       setTimeout(() => {
         this.isLoading = false;
       }, 1000);
@@ -189,7 +191,7 @@ export default {
 
   computed: {
     roomComponent(){
-      if (this.$store.getters['config/animation']) {
+      if (this.isAnimationable && this.$store.getters['config/animation']) {
         return 'transition-group'
       } else {
         return 'div'
