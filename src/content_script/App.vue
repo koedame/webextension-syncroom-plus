@@ -38,8 +38,7 @@
 
     .buttons.custom--taglist
       template(v-for="n in 5", v-if="isSkeleton")
-        b-button(:key="`tag-${n}`", size="is-small", type="is-light")
-          | {{"　　　　　　　　"}}
+        .skeleton_tag.button.is-light.is-small(:key="`tag-${n}`")
 
       template(v-for="tag in tags", v-if="roomFilter === 'all'")
         b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
@@ -141,7 +140,7 @@ export default {
       isLoading: false,
       translate,
       isAnimationable: false,
-      isSkeleton: true
+      isSkeleton: true,
     };
   },
 
@@ -158,7 +157,7 @@ export default {
     fetchRooms() {
       this.isLoading = true;
 
-      axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res)=>{
+      axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res) => {
         this.rooms = res.data.rooms;
         this.tags = res.data.aggregated_tags;
         this.lockedRoomTags = res.data.locked_aggregated_tags;
@@ -173,13 +172,13 @@ export default {
           this.selectedTag = '';
         }
 
-        this.isSkeleton = false
-        this.isAnimationable = true
+        this.isSkeleton = false;
+        this.isAnimationable = true;
 
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
-      })
+      });
     },
 
     openContactFrom() {
@@ -200,11 +199,11 @@ export default {
   },
 
   computed: {
-    roomComponent(){
+    roomComponent() {
       if (this.isAnimationable && this.$store.getters['config/animation']) {
-        return 'transition-group'
+        return 'transition-group';
       } else {
-        return 'div'
+        return 'div';
       }
     },
     filteredRooms() {
@@ -346,4 +345,7 @@ html,body
   height: 500px
   border-radius: 5px
   margin: 5px 5px 15px 5px
+
+.skeleton_tag
+  width: 100px
 </style>
