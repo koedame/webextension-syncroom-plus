@@ -83,8 +83,7 @@ setInterval(() => {
 
           const options: any = {
             type: 'basic',
-            // TODO: iconをわかりやすいものに変える
-            iconUrl: 'images/icon_128.png',
+            iconUrl: 'images/band.png',
             title: `${translate('room_name')}：${room.name}`,
             message: translate('online_user', { username: notificationOnlineMember.memberName }),
           };
@@ -138,8 +137,7 @@ setInterval(() => {
 
         const options: any = {
           type: 'basic',
-          // TODO: iconをわかりやすいものに変える
-          iconUrl: 'images/icon_128.png',
+          iconUrl: 'images/band.png',
           title: `${translate('room_name')}：${room.name}`,
           message: translate('you_can_now_join'),
         };
