@@ -37,6 +37,10 @@
           | {{translate("test_room")}}
 
     .buttons.custom--taglist
+      template(v-for="n in 5", v-if="isSkeleton")
+        b-button(:key="`tag-${n}`", size="is-small", type="is-light")
+          | {{"　　　　　　　　"}}
+
       template(v-for="tag in tags", v-if="roomFilter === 'all'")
         b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
           | {{ tag.name }} ({{ tag.count }})
@@ -52,6 +56,9 @@
           | {{ tag.name }} ({{ tag.count }})
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
           | {{ tag.name }} ({{ tag.count }})
+
+    .SYNCROOM_PLUS-main__rooms(name="room-list", v-if="isSkeleton")
+      .skeleten_room_card.room-list-item.has-background-light(v-for="n in 8")
 
     .SYNCROOM_PLUS-main__rooms(name="room-list", :is="roomComponent")
       RoomCard.room-list-item(
@@ -133,7 +140,8 @@ export default {
       selectedTag: '',
       isLoading: false,
       translate,
-      isAnimationable: false
+      isAnimationable: false,
+      isSkeleton: true
     };
   },
 
@@ -166,6 +174,7 @@ export default {
         this.selectedTag = '';
       }
 
+      this.isSkeleton = false
       this.isAnimationable = true
       setTimeout(() => {
         this.isLoading = false;
@@ -330,4 +339,10 @@ export default {
 
 html,body
   overscroll-behavior: none
+
+.skeleten_room_card
+  width: 300px
+  height: 500px
+  border-radius: 5px
+  margin: 5px 5px 15px 5px
 </style>
