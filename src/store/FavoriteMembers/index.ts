@@ -16,7 +16,6 @@ const mutations: MutationTree<FavoriteMembersState> = {
   restoreFromLocalStorage: (state) => {
     browser.storage.local
       .get('favoriteMembers')
-      // @ts-ignore
       .then(({ favoriteMembers }) => {
         // データがないときはエラーが起こるので初期化
         if (typeof favoriteMembers === 'undefined') {
@@ -57,7 +56,6 @@ const mutations: MutationTree<FavoriteMembersState> = {
   setFavorite: (state, memberName: string) => {
     browser.storage.local
       .get('favoriteMembers')
-      // @ts-ignore
       .then(({ favoriteMembers }) => {
         // データがないときはエラーが起こるので初期化
         if (typeof favoriteMembers === 'undefined') {
@@ -105,7 +103,6 @@ const mutations: MutationTree<FavoriteMembersState> = {
   removeFavorite(state, memberName: string) {
     browser.storage.local
       .get('favoriteMembers')
-      // @ts-ignore
       .then(({ favoriteMembers }) => {
         // データがないときはエラーが起こるので初期化
         if (typeof favoriteMembers === 'undefined') {

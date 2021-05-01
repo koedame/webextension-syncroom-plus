@@ -16,7 +16,6 @@ const mutations: MutationTree<NotificationOnlineMembersState> = {
   restoreFromLocalStorage(state) {
     browser.storage.local
       .get('notificationOnlineMembers')
-      // @ts-ignore
       .then(({ notificationOnlineMembers }) => {
         if (Array.isArray(notificationOnlineMembers)) {
           // 整形
@@ -64,7 +63,6 @@ const mutations: MutationTree<NotificationOnlineMembersState> = {
   setNotification(state, { memberName, roomCreateTime }) {
     browser.storage.local
       .get('notificationOnlineMembers')
-      // @ts-ignore
       .then(({ notificationOnlineMembers }) => {
         if (!Array.isArray(notificationOnlineMembers)) {
           // データがないときはエラーが起こるので初期化を先にする
@@ -89,7 +87,6 @@ const mutations: MutationTree<NotificationOnlineMembersState> = {
   removeNotification(state, memberName) {
     browser.storage.local
       .get('notificationOnlineMembers')
-      // @ts-ignore
       .then(({ notificationOnlineMembers }) => {
         if (Array.isArray(notificationOnlineMembers)) {
           state.members = state.members.filter((m) => m.memberName !== memberName);

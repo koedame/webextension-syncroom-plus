@@ -16,7 +16,6 @@ const mutations: MutationTree<NotificationVacancyRoomsState> = {
   restoreFromLocalStorage(state) {
     browser.storage.local
       .get('notificationVacancyRooms')
-      // @ts-ignore
       .then(({ notificationVacancyRooms }) => {
         if (Array.isArray(notificationVacancyRooms)) {
           // データ形式がおかしい場合があるので整形
@@ -54,7 +53,6 @@ const mutations: MutationTree<NotificationVacancyRoomsState> = {
   setNotification(state, uid) {
     browser.storage.local
       .get('notificationVacancyRooms')
-      // @ts-ignore
       .then(({ notificationVacancyRooms }) => {
         if (!Array.isArray(notificationVacancyRooms)) {
           // データがないときはエラーが起こるのでまずは初期化
@@ -78,7 +76,6 @@ const mutations: MutationTree<NotificationVacancyRoomsState> = {
   removeNotification(state, uid) {
     browser.storage.local
       .get('notificationVacancyRooms')
-      // @ts-ignore
       .then(({ notificationVacancyRooms }) => {
         if (Array.isArray(notificationVacancyRooms)) {
           state.rooms = state.rooms.filter((room) => room.uid !== uid);
