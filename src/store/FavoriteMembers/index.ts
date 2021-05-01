@@ -18,32 +18,28 @@ const mutations: MutationTree<FavoriteMembersState> = {
       .get('favoriteMembers')
       .then(({ favoriteMembers }) => {
         // データがないときはエラーが起こるので初期化
-        if (typeof favoriteMembers === 'undefined') {
-          state.members = [];
-        } else {
-          if (Array.isArray(favoriteMembers)) {
-            const members: Array<FavoriteMember> = [];
+        if (Array.isArray(favoriteMembers)) {
+          const members: Array<FavoriteMember> = [];
 
-            for (const favoriteMember of favoriteMembers) {
-              if (typeof favoriteMember.memberName === 'undefined') {
-                continue;
-              }
-
-              const member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
-
-              if (typeof favoriteMember.createdAt === 'undefined') {
-                member.createdAt = new Date().toISOString();
-              } else {
-                member.createdAt = new Date(favoriteMember.createdAt).toISOString();
-              }
-
-              members.push(member);
+          for (const favoriteMember of favoriteMembers) {
+            if (typeof favoriteMember.memberName === 'undefined') {
+              continue;
             }
 
-            state.members = members;
-          } else {
-            state.members = [];
+            const member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
+
+            if (typeof favoriteMember.createdAt === 'undefined') {
+              member.createdAt = new Date().toISOString();
+            } else {
+              member.createdAt = new Date(favoriteMember.createdAt).toISOString();
+            }
+
+            members.push(member);
           }
+
+          state.members = members;
+        } else {
+          state.members = [];
         }
       })
       .then(() => {
@@ -58,35 +54,10 @@ const mutations: MutationTree<FavoriteMembersState> = {
       .get('favoriteMembers')
       .then(({ favoriteMembers }) => {
         // データがないときはエラーが起こるので初期化
-        if (typeof favoriteMembers === 'undefined') {
+        if (!Array.isArray(favoriteMembers)) {
           state.members = [];
-        } else {
-          if (Array.isArray(favoriteMembers)) {
-            const members: Array<FavoriteMember> = [];
-
-            for (const favoriteMember of favoriteMembers) {
-              if (typeof favoriteMember.memberName === 'undefined') {
-                continue;
-              }
-
-              const member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
-
-              if (typeof favoriteMember.createdAt === 'undefined') {
-                member.createdAt = new Date().toISOString();
-              } else {
-                member.createdAt = new Date(favoriteMember.createdAt).toISOString();
-              }
-
-              members.push(member);
-            }
-
-            state.members = members;
-          } else {
-            state.members = [];
-          }
         }
-      })
-      .then(() => {
+
         if (!state.members.some((member: FavoriteMember) => member.memberName === memberName)) {
           state.members.push({
             memberName: memberName,
@@ -105,36 +76,11 @@ const mutations: MutationTree<FavoriteMembersState> = {
       .get('favoriteMembers')
       .then(({ favoriteMembers }) => {
         // データがないときはエラーが起こるので初期化
-        if (typeof favoriteMembers === 'undefined') {
-          state.members = [];
+        if (Array.isArray(favoriteMembers)) {
+          state.members = state.members.filter((member) => member.memberName !== memberName);
         } else {
-          if (Array.isArray(favoriteMembers)) {
-            const members: Array<FavoriteMember> = [];
-
-            for (const favoriteMember of favoriteMembers) {
-              if (typeof favoriteMember.memberName === 'undefined') {
-                continue;
-              }
-
-              const member: FavoriteMember = { memberName: favoriteMember.memberName, createdAt: '' };
-
-              if (typeof favoriteMember.createdAt === 'undefined') {
-                member.createdAt = new Date().toISOString();
-              } else {
-                member.createdAt = new Date(favoriteMember.createdAt).toISOString();
-              }
-
-              members.push(member);
-            }
-
-            state.members = members;
-          } else {
-            state.members = [];
-          }
+          state.members = [];
         }
-      })
-      .then(() => {
-        state.members = state.members.filter((member) => member.memberName !== memberName);
       })
       .then(() => {
         browser.storage.local.set({
