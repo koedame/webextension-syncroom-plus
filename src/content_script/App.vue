@@ -155,30 +155,31 @@ export default {
   },
 
   methods: {
-    async fetchRooms() {
+    fetchRooms() {
       this.isLoading = true;
-      // const res = await axios.get('http://localhost:8080/api/v1/rooms/all');
-      const res = await axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all');
 
-      this.rooms = res.data.rooms;
-      this.tags = res.data.aggregated_tags;
-      this.lockedRoomTags = res.data.locked_aggregated_tags;
-      this.unlockedRoomTags = res.data.opend_aggregated_tags;
-      this.publicRoomCount = res.data.public_room_count;
-      this.lockedRoomCount = res.data.public_locked_rooms_count;
-      this.unlockedRoomCount = res.data.public_opend_rooms_count;
-      this.testRoom = res.data.test_room;
+      axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res)=>{
+        this.rooms = res.data.rooms;
+        this.tags = res.data.aggregated_tags;
+        this.lockedRoomTags = res.data.locked_aggregated_tags;
+        this.unlockedRoomTags = res.data.opend_aggregated_tags;
+        this.publicRoomCount = res.data.public_room_count;
+        this.lockedRoomCount = res.data.public_locked_rooms_count;
+        this.unlockedRoomCount = res.data.public_opend_rooms_count;
+        this.testRoom = res.data.test_room;
 
-      // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
-      if (this.selectedTag.length !== 0 && !res.data.aggregated_tags.some((tag) => tag.name === this.selectedTag)) {
-        this.selectedTag = '';
-      }
+        // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
+        if (this.selectedTag.length !== 0 && !res.data.aggregated_tags.some((tag) => tag.name === this.selectedTag)) {
+          this.selectedTag = '';
+        }
 
-      this.isSkeleton = false
-      this.isAnimationable = true
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
+        this.isSkeleton = false
+        this.isAnimationable = true
+
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      })
     },
 
     openContactFrom() {

@@ -92,10 +92,11 @@ export default defineComponent({
         type: 'is-danger',
         hasIcon: true,
         onConfirm: async () => {
-          await store.dispatch('favoriteMembers/removeFavorite', memberName);
-          Toast.open({
-            message: translate('succeeded_unfavorite'),
-            type: 'is-success',
+          store.dispatch('favoriteMembers/removeFavorite', memberName).then((res) => {
+            Toast.open({
+              message: translate('succeeded_unfavorite'),
+              type: 'is-success',
+            });
           });
         },
       });
@@ -110,10 +111,11 @@ export default defineComponent({
         type: 'is-danger',
         hasIcon: true,
         onConfirm: async () => {
-          await store.dispatch('notificationOnlineMembers/removeNotification', memberName);
-          Toast.open({
-            message: translate('succeeded_cancel_notification'),
-            type: 'is-success',
+          store.dispatch('notificationOnlineMembers/removeNotification', memberName).then((res)=>{
+            Toast.open({
+              message: translate('succeeded_cancel_notification'),
+              type: 'is-success',
+            });
           });
         },
       });
