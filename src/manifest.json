@@ -5,8 +5,8 @@
   "version": null,
   "manifest_version": 2,
   "icons": {
-    "48": "icons/icon_48.png",
-    "128": "icons/icon_128.png"
+    "48": "images/icon_48.png",
+    "128": "images/icon_128.png"
   },
   "browser_action": {
     "default_title": "syncroom-plus"
@@ -21,5 +21,5 @@
     }
   ],
   "permissions": ["https://*.yamaha.com/*", "storage", "tabs", "notifications"],
-  "web_accessible_resources": ["icons/*.png", "icons/*.ico", "images/*"]
+  "web_accessible_resources": ["images/*"]
 }

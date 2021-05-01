@@ -1,29 +1,9 @@
-import { browser } from "webextension-polyfill-ts";
-
+/* eslint-disable import/first */
 // 不要になるscriptとiframeを削除
 const scriptTags: NodeList = window.document.querySelectorAll('script,iframe,style,link[rel="stylesheet"]');
 scriptTags.forEach((value: Node, key: number, parent: NodeList): void => {
   value.parentNode.removeChild(value);
 });
-
-// 参考: https://qiita.com/sakuraya/items/33f93e19438d0694a91d
-const userAgent: string = window.navigator.userAgent.toLowerCase();
-let currentBrowser: string;
-if (userAgent.indexOf('msie') !== -1 || userAgent.indexOf('trident') !== -1) {
-  currentBrowser = 'InternetExplorer';
-} else if (userAgent.indexOf('edge') !== -1) {
-  currentBrowser = 'Edge';
-} else if (userAgent.indexOf('chrome') !== -1) {
-  currentBrowser = 'GoogleChrome';
-} else if (userAgent.indexOf('safari') !== -1) {
-  currentBrowser = 'Safari';
-} else if (userAgent.indexOf('firefox') !== -1) {
-  currentBrowser = 'FireFox';
-} else if (userAgent.indexOf('opera') !== -1) {
-  currentBrowser = 'Opera';
-} else {
-  currentBrowser = 'unknown';
-}
 
 import Vue from 'vue';
 // @ts-ignore
@@ -68,13 +48,13 @@ setInterval((): void => {
 }, 1000);
 
 // ファビコン追加
-const faviconTag: string = `<link rel="shortcut icon" href="${browser.extension.getURL('/icons/favicon.ico')}">`;
+const faviconTag: string = '<link rel="shortcut icon" href="https://syncroomplus.koeda.me/favicon.ico">';
 document.head.insertAdjacentHTML('beforeend', faviconTag);
 
+/* eslint-disable no-new */
 new Vue({
   el: '#wrapper',
   store,
-  // @ts-ignore
   i18n,
   render: (h) => h(App),
 });

@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts";
+import { browser } from 'webextension-polyfill-ts';
 import { Module, MutationTree, ActionTree, GetterTree } from 'vuex';
 import { NotificationVacancyRoomsState, NotificationVacancyRoom, RootState } from '../types';
 
@@ -16,35 +16,31 @@ const mutations: MutationTree<NotificationVacancyRoomsState> = {
   restoreFromLocalStorage(state) {
     browser.storage.local
       .get('notificationVacancyRooms')
-      //@ts-ignore
       .then(({ notificationVacancyRooms }) => {
-        // データがないときはエラーが起こるので初期化
-        if (typeof notificationVacancyRooms === 'undefined') {
-          state.rooms = [];
-        } else {
-          if (Array.isArray(notificationVacancyRooms)) {
-            let rooms: Array<NotificationVacancyRoom> = [];
+        if (Array.isArray(notificationVacancyRooms)) {
+          // データ形式がおかしい場合があるので整形
+          const rooms: NotificationVacancyRoom[] = [];
 
-            for (let notificationVacancyRoom of notificationVacancyRooms) {
-              if (typeof notificationVacancyRoom.uid === 'undefined') {
-                continue;
-              }
-
-              let member: NotificationVacancyRoom = { uid: notificationVacancyRoom.uid, createdAt: '' };
-
-              if (typeof notificationVacancyRoom.createdAt === 'undefined') {
-                member.createdAt = new Date().toISOString();
-              } else {
-                member.createdAt = new Date(notificationVacancyRoom.createdAt).toISOString();
-              }
-
-              rooms.push(member);
+          for (const notificationVacancyRoom of notificationVacancyRooms) {
+            if (typeof notificationVacancyRoom.uid === 'undefined') {
+              continue;
             }
 
-            state.rooms = rooms;
-          } else {
-            state.rooms = [];
+            const room: NotificationVacancyRoom = { uid: notificationVacancyRoom.uid, createdAt: '' };
+
+            if (typeof notificationVacancyRoom.createdAt === 'undefined') {
+              room.createdAt = new Date().toISOString();
+            } else {
+              room.createdAt = new Date(notificationVacancyRoom.createdAt).toISOString();
+            }
+
+            rooms.push(room);
           }
+
+          state.rooms = rooms;
+        } else {
+          // データがないときはエラーが起こるので初期化だけ
+          state.rooms = [];
         }
       })
       .then(() => {
@@ -57,41 +53,15 @@ const mutations: MutationTree<NotificationVacancyRoomsState> = {
   setNotification(state, uid) {
     browser.storage.local
       .get('notificationVacancyRooms')
-      //@ts-ignore
       .then(({ notificationVacancyRooms }) => {
-        // データがないときはエラーが起こるので初期化
-        if (typeof notificationVacancyRooms === 'undefined') {
+        if (!Array.isArray(notificationVacancyRooms)) {
+          // データがないときはエラーが起こるのでまずは初期化
           state.rooms = [];
-        } else {
-          if (Array.isArray(notificationVacancyRooms)) {
-            let rooms: Array<NotificationVacancyRoom> = [];
-
-            for (let notificationVacancyRoom of notificationVacancyRooms) {
-              if (typeof notificationVacancyRoom.uid === 'undefined') {
-                continue;
-              }
-
-              let member: NotificationVacancyRoom = { uid: notificationVacancyRoom.uid, createdAt: '' };
-
-              if (typeof notificationVacancyRoom.createdAt === 'undefined') {
-                member.createdAt = new Date().toISOString();
-              } else {
-                member.createdAt = new Date(notificationVacancyRoom.createdAt).toISOString();
-              }
-
-              rooms.push(member);
-            }
-
-            state.rooms = rooms;
-          } else {
-            state.rooms = [];
-          }
         }
-      })
-      .then(() => {
+
         if (!state.rooms.find((room) => room.uid === uid)) {
           state.rooms.push({
-            uid: uid,
+            uid,
             createdAt: new Date().toISOString(),
           });
         }
@@ -106,39 +76,13 @@ const mutations: MutationTree<NotificationVacancyRoomsState> = {
   removeNotification(state, uid) {
     browser.storage.local
       .get('notificationVacancyRooms')
-      //@ts-ignore
       .then(({ notificationVacancyRooms }) => {
-        // データがないときはエラーが起こるので初期化
-        if (typeof notificationVacancyRooms === 'undefined') {
-          state.rooms = [];
+        if (Array.isArray(notificationVacancyRooms)) {
+          state.rooms = state.rooms.filter((room) => room.uid !== uid);
         } else {
-          if (Array.isArray(notificationVacancyRooms)) {
-            let rooms: Array<NotificationVacancyRoom> = [];
-
-            for (let notificationVacancyRoom of notificationVacancyRooms) {
-              if (typeof notificationVacancyRoom.uid === 'undefined') {
-                continue;
-              }
-
-              let member: NotificationVacancyRoom = { uid: notificationVacancyRoom.uid, createdAt: '' };
-
-              if (typeof notificationVacancyRoom.createdAt === 'undefined') {
-                member.createdAt = new Date().toISOString();
-              } else {
-                member.createdAt = new Date(notificationVacancyRoom.createdAt).toISOString();
-              }
-
-              rooms.push(member);
-            }
-
-            state.rooms = rooms;
-          } else {
-            state.rooms = [];
-          }
+          // データがないときはエラーが起こるので初期化だけ
+          state.rooms = [];
         }
-      })
-      .then(() => {
-        state.rooms = state.rooms.filter((room) => room.uid !== uid);
       })
       .then(() => {
         browser.storage.local.set({

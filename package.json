@@ -6,9 +6,9 @@
     "node": ">=10"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.vue src",
-    "lint:fix": "eslint --fix --ext .js,.vue src",
-    "prettier": "prettier \"src/**/*.{js,vue}\"",
+    "lint": "eslint --ext .js,.ts,.vue src",
+    "lint:fix": "eslint --fix --ext .js,.ts,.vue src",
+    "prettier": "prettier \"src/**/*.{js,ts,vue}\"",
     "prettier:write": "npm run prettier -- --write",
     "build": "cross-env NODE_ENV=production webpack",
     "build:dev": "cross-env NODE_ENV=development webpack",

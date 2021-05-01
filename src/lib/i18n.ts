@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts";
+import { browser } from 'webextension-polyfill-ts';
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 Vue.use(VueI18n);
@@ -9,16 +9,13 @@ const i18n = new VueI18n({
 });
 
 // restoreFromLocalStorage でうまく設定反映されないので個別の処理で対応
-browser.storage.local
-  .get('configLanguage')
-  // @ts-ignore
-  .then(({ configLanguage }) => {
-    if (typeof configLanguage !== 'undefined') {
-      i18n.locale = configLanguage;
-    } else {
-      i18n.locale = 'ja';
-    }
-  });
+browser.storage.local.get('configLanguage').then(({ configLanguage }) => {
+  if (typeof configLanguage === 'undefined') {
+    i18n.locale = 'ja';
+  } else {
+    i18n.locale = configLanguage;
+  }
+});
 
 const translate = (key: string, option?: any) => {
   if (!key) {

@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts";
+import { browser } from 'webextension-polyfill-ts';
 import { Module, MutationTree, ActionTree, GetterTree } from 'vuex';
 import { ConfigState, RootState } from '../types';
 import LanguageMap from '../language_map';
@@ -26,34 +26,25 @@ const getters: GetterTree<ConfigState, RootState> = {
 
 const mutations: MutationTree<ConfigState> = {
   restoreFromLocalStorage: (state) => {
-    browser.storage.local
-      .get('configAutoReload')
-      // @ts-ignore
-      .then(({ configAutoReload }) => {
-        if (typeof configAutoReload !== 'undefined') {
-          state.autoReload = configAutoReload;
-        }
-      });
+    browser.storage.local.get('configAutoReload').then(({ configAutoReload }) => {
+      if (typeof configAutoReload !== 'undefined') {
+        state.autoReload = configAutoReload;
+      }
+    });
 
-    browser.storage.local
-      .get('configAnimation')
-      // @ts-ignore
-      .then(({ configAnimation }) => {
-        if (typeof configAnimation !== 'undefined') {
-          state.animation = configAnimation;
-        }
-      });
+    browser.storage.local.get('configAnimation').then(({ configAnimation }) => {
+      if (typeof configAnimation !== 'undefined') {
+        state.animation = configAnimation;
+      }
+    });
 
-    browser.storage.local
-      .get('configLanguage')
-      // @ts-ignore
-      .then(({ configLanguage }) => {
-        if (typeof configLanguage !== 'undefined') {
-          state.language = configLanguage;
-        } else {
-          state.language = 'ja';
-        }
-      });
+    browser.storage.local.get('configLanguage').then(({ configLanguage }) => {
+      if (typeof configLanguage !== 'undefined') {
+        state.language = configLanguage;
+      } else {
+        state.language = 'ja';
+      }
+    });
   },
 
   setAutoReload: (state, value: boolean) => {
