@@ -54,7 +54,6 @@ setInterval(() => {
   });
 
   axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res) => {
-    // FIXME: オフラインになったら通知を削除
     // ユーザーオンライン通知
     browser.storage.local.get('notificationOnlineMembers').then(({ notificationOnlineMembers }) => {
       // データがなければ何もしない
@@ -65,8 +64,11 @@ setInterval(() => {
         return false;
       }
 
+      const onlineMembers = [];
       for (const room of res.data.rooms) {
         for (const member of room.members) {
+          onlineMembers.push(member);
+
           const notificationOnlineMember = notificationOnlineMembers.find((m: any) => m.memberName === member.name);
 
           // 登録されているメンバーでないときは何もしない
@@ -99,6 +101,14 @@ setInterval(() => {
           browser.storage.local.set({
             notificationOnlineMembers: JSON.parse(JSON.stringify(notificationOnlineMembers)),
           });
+        }
+      }
+
+      // 通知の取り消し
+      for (const notificationOnlineMember of notificationOnlineMembers) {
+        // ユーザーがオンラインでなければ通知を取り消し
+        if (!onlineMembers.some((m) => m.name === notificationOnlineMember.memberName)) {
+          browser.notifications.clear(`online_member::${notificationOnlineMember.memberName}`);
         }
       }
     });
