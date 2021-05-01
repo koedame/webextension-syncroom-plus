@@ -53,20 +53,7 @@
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
           | {{ tag.name }} ({{ tag.count }})
 
-    transition-group.SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-if="$store.getters['config/animation']")
-      RoomCard.room-list-item(
-        v-for="room in filteredRooms",
-        v-show="room.show",
-        :key="`room-${room.created_at}-${room.name}`",
-        :createTime="room.created_at",
-        :members="room.members",
-        :needPasswd="room.is_password_required",
-        :roomDesc="room.description",
-        :roomName="room.name",
-        :roomTags="room.tags",
-        :remainingTime="room.remaining_time"
-      )
-    .SYNCROOM_PLUS-main__rooms(name="room-list", tag="div", v-else)
+    .SYNCROOM_PLUS-main__rooms(name="room-list", :is="roomComponent")
       RoomCard.room-list-item(
         v-for="room in filteredRooms",
         v-show="room.show",
@@ -201,6 +188,13 @@ export default {
   },
 
   computed: {
+    roomComponent(){
+      if (this.$store.getters['config/animation']) {
+        return 'transition-group'
+      } else {
+        return 'div'
+      }
+    },
     filteredRooms() {
       const displayRooms = this.rooms;
 
