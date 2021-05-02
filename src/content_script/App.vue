@@ -140,6 +140,7 @@ export default defineComponent({
     const timer = ref(null);
 
     const fetchRooms = () => {
+      isLoading.value = true;
       axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res) => {
         rooms.value = res.data.rooms;
         tags.value = res.data.aggregated_tags;
@@ -253,6 +254,7 @@ export default defineComponent({
     });
 
     return {
+      fetchRooms,
       rooms,
       testRoom,
       roomFilter,
