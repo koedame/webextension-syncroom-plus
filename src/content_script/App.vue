@@ -103,8 +103,10 @@
   Footer
 </template>
 
-<script>
+<script lang="ts">
 import axios from 'axios';
+import { defineComponent, computed, onBeforeUnmount, ref } from '@vue/composition-api';
+import store from '../store';
 import RoomCard from './components/RoomCard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -113,107 +115,78 @@ import optimizeSearchKeyword from '../lib/optimize_search_keyword';
 import { translate } from '../lib/i18n';
 import { ModalProgrammatic as Modal } from 'buefy';
 
-export default {
+export default defineComponent({
   components: {
     RoomCard,
     Navbar,
     Footer,
   },
-  data() {
-    return {
-      rooms: [],
-      testRoom: null,
-      roomFilter: 'all',
-      keyword: '',
-      publicRoomCount: 0,
-      unlockedRoomCount: 0,
-      lockedRoomCount: 0,
-      tags: [],
-      lockedRoomTags: [],
-      unlockedRoomTags: [],
-      selectedTag: '',
-      isLoading: false,
-      translate,
-      isAnimationable: false,
-      isSkeleton: true,
-    };
-  },
 
-  mounted() {
-    this.fetchRooms();
-    this.timer = setInterval(() => {
-      if (this.$store.getters['config/autoReload']) {
-        this.fetchRooms();
-      }
-    }, 5000);
-  },
+  setup() {
+    const rooms = ref([]);
+    const testRoom = ref(null);
+    const roomFilter = ref('all');
+    const keyword = ref('');
+    const publicRoomCount = ref(0);
+    const unlockedRoomCount = ref(0);
+    const lockedRoomCount = ref(0);
+    const tags = ref([]);
+    const lockedRoomTags = ref([]);
+    const unlockedRoomTags = ref([]);
+    const selectedTag = ref('');
+    const isLoading = ref(false);
+    const isAnimationable = ref(false);
+    const isSkeleton = ref(true);
+    const timer = ref(null);
 
-  methods: {
-    fetchRooms() {
-      this.isLoading = true;
-
+    const fetchRooms = () => {
       axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res) => {
-        this.rooms = res.data.rooms;
-        this.tags = res.data.aggregated_tags;
-        this.lockedRoomTags = res.data.locked_aggregated_tags;
-        this.unlockedRoomTags = res.data.opend_aggregated_tags;
-        this.publicRoomCount = res.data.public_room_count;
-        this.lockedRoomCount = res.data.public_locked_rooms_count;
-        this.unlockedRoomCount = res.data.public_opend_rooms_count;
-        this.testRoom = res.data.test_room;
+        rooms.value = res.data.rooms;
+        tags.value = res.data.aggregated_tags;
+        lockedRoomTags.value = res.data.locked_aggregated_tags;
+        unlockedRoomTags.value = res.data.opend_aggregated_tags;
+        publicRoomCount.value = res.data.public_room_count;
+        lockedRoomCount.value = res.data.public_locked_rooms_count;
+        unlockedRoomCount.value = res.data.public_opend_rooms_count;
+        testRoom.value = res.data.test_room;
 
         // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
-        if (this.selectedTag.length !== 0 && !res.data.aggregated_tags.some((tag) => tag.name === this.selectedTag)) {
-          this.selectedTag = '';
+        if (selectedTag.value.length !== 0 && !res.data.aggregated_tags.some((tag) => tag.name === selectedTag.value)) {
+          selectedTag.value = '';
         }
 
-        this.isSkeleton = false;
-        this.isAnimationable = true;
+        isSkeleton.value = false;
+        isAnimationable.value = true;
 
         setTimeout(() => {
-          this.isLoading = false;
+          isLoading.value = false;
         }, 1000);
       });
-    },
+    };
 
-    openContactFrom() {
-      Modal.open({
-        parent: this,
-        component: ContactForm,
-      });
-    },
+    fetchRooms();
 
-    onChangeRoomFilter(e) {
-      // タグが選択しっぱなしで解除できなくなるのでリセットしておく
-      this.selectedTag = '';
-      // フォーカスされるとされると矢印キーで操作できてしまいUXが低下するのでフォーカスをはずす
-      setTimeout(() => {
-        document.activeElement.blur();
-      }, 250);
-    },
-  },
-
-  computed: {
-    roomComponent() {
-      if (this.isAnimationable && this.$store.getters['config/animation']) {
+    const roomComponent = computed(() => {
+      if (isAnimationable.value && store.getters['config/animation']) {
         return 'transition-group';
       } else {
         return 'div';
       }
-    },
-    filteredRooms() {
-      const displayRooms = this.rooms;
+    });
+
+    const filteredRooms = computed(() => {
+      const displayRooms = rooms.value;
 
       for (const displayRoom of displayRooms) {
         displayRoom.show = true;
 
-        if (this.roomFilter === 'only_unlocked') {
+        if (roomFilter.value === 'only_unlocked') {
           if (displayRoom.is_password_required) {
             displayRoom.show = false;
           } else {
             displayRoom.show = true;
           }
-        } else if (this.roomFilter === 'only_locked') {
+        } else if (roomFilter.value === 'only_locked') {
           if (displayRoom.is_password_required) {
             displayRoom.show = true;
           } else {
@@ -222,14 +195,14 @@ export default {
         }
 
         // タグ選択
-        if (this.selectedTag.length !== 0) {
-          if (!displayRoom.tags.some((tag) => tag === this.selectedTag)) {
+        if (selectedTag.value.length !== 0) {
+          if (!displayRoom.tags.some((tag) => tag === selectedTag.value)) {
             displayRoom.show = false;
           }
         }
 
-        if (this.keyword.length !== 0) {
-          const keyword = optimizeSearchKeyword(this.keyword);
+        if (keyword.value.length !== 0) {
+          const k = optimizeSearchKeyword(keyword.value);
 
           if (
             !optimizeSearchKeyword(
@@ -238,7 +211,7 @@ export default {
                   return m.name;
                 })
                 .join('|')}|${displayRoom.tags.join('|')}|${displayRoom.description}`
-            ).match(keyword)
+            ).match(k)
           ) {
             displayRoom.show = false;
           }
@@ -246,24 +219,68 @@ export default {
       }
 
       return displayRooms;
-    },
-    isEmptyFilteredRooms() {
-      return !this.filteredRooms.some((room) => room.show);
-    },
-  },
+    });
 
-  beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
+    const openContactFrom = () => {
+      Modal.open({
+        component: ContactForm,
+      });
+    };
+
+    const isEmptyFilteredRooms = computed(() => {
+      return !filteredRooms.value.some((room) => room.show);
+    });
+
+    const onChangeRoomFilter = (e) => {
+      // タグが選択しっぱなしで解除できなくなるのでリセットしておく
+      selectedTag.value = '';
+      // フォーカスされるとされると矢印キーで操作できてしまいUXが低下するのでフォーカスをはずす
+      setTimeout(() => {
+        document.activeElement.blur();
+      }, 250);
+    };
+
+    timer.value = setInterval(() => {
+      if (store.getters['config/autoReload']) {
+        fetchRooms();
+      }
+    }, 5000);
+
+    onBeforeUnmount(() => {
+      if (timer.value) {
+        clearInterval(timer.value);
+      }
+    });
+
+    return {
+      rooms,
+      testRoom,
+      roomFilter,
+      keyword,
+      publicRoomCount,
+      unlockedRoomCount,
+      lockedRoomCount,
+      tags,
+      lockedRoomTags,
+      unlockedRoomTags,
+      selectedTag,
+      isLoading,
+      isAnimationable,
+      isSkeleton,
+      translate,
+      roomComponent,
+      filteredRooms,
+      isEmptyFilteredRooms,
+      openContactFrom,
+      onChangeRoomFilter,
+    };
   },
-};
+});
 </script>
 
 <style lang="sass">
 @import "~bulma/sass/utilities/_all"
 
-// Import Bulma and Buefy styles
 @import "~bulma"
 @import "~buefy/src/scss/buefy"
 
