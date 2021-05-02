@@ -1,4 +1,4 @@
-<template lang="pug" functional>
+<template lang="pug">
 .card
   iframe.syncroom-plus-contact-form(
     src="https://docs.google.com/forms/d/e/1FAIpQLSeGXG8E9_dEfy1vEKV8DdZ5RGNSVIKQOh_3yenXWTGPJRpRmA/viewform?embedded=true",
@@ -7,6 +7,11 @@
     marginwidth="0"
   ) 読込中
 </template>
+
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+export default defineComponent({});
+</script>
 
 <style lang="sass" scoped>
 .syncroom-plus-contact-form
