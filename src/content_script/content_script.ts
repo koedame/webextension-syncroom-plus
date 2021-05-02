@@ -27,6 +27,18 @@ Vue.use(require('vue-moment'));
 
 import { i18n } from '../lib/i18n';
 
+/* eslint-disable no-new */
+new Vue({
+  el: '#wrapper',
+  store,
+  i18n,
+  render: (h) => h(App),
+});
+
+// ファビコン追加
+const faviconTag: string = '<link rel="shortcut icon" href="https://syncroomplus.koeda.me/favicon.ico">';
+document.head.insertAdjacentHTML('beforeend', faviconTag);
+
 // stateを復元
 store.dispatch('favoriteMembers/restoreFromLocalStorage');
 store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
@@ -41,14 +53,3 @@ setInterval((): void => {
   store.dispatch('config/restoreFromLocalStorage');
 }, 1000);
 
-// ファビコン追加
-const faviconTag: string = '<link rel="shortcut icon" href="https://syncroomplus.koeda.me/favicon.ico">';
-document.head.insertAdjacentHTML('beforeend', faviconTag);
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#wrapper',
-  store,
-  i18n,
-  render: (h) => h(App),
-});
