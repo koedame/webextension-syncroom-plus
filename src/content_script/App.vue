@@ -122,8 +122,6 @@ export default {
   data() {
     return {
       rooms: [],
-      public_locked_rooms: [],
-      public_opend_rooms: [],
       testRoom: null,
       roomFilter: 'all',
       keyword: '',
