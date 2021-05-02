@@ -208,7 +208,7 @@ export default defineComponent({
           if (
             !optimizeSearchKeyword(
               `${displayRoom.name}|${displayRoom.members
-                .map((m) => {
+                .map((m: any) => {
                   return m.name;
                 })
                 .join('|')}|${displayRoom.tags.join('|')}|${displayRoom.description}`
