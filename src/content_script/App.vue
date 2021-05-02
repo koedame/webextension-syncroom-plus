@@ -54,7 +54,7 @@
           | {{ tag.name }} ({{ tag.count }})
 
     .SYNCROOM_PLUS-main__rooms(name="room-list", v-if="isSkeleton")
-      .skeleten_room_card.room-list-item.has-background-light(v-for="n in 8")
+      .skeleten_room_card.room-list-item.has-background-light(v-for="n in 8", :key="`skeleton-${n}`")
 
     .SYNCROOM_PLUS-main__rooms(name="room-list", :is="roomComponent")
       RoomCard.room-list-item(
@@ -71,7 +71,7 @@
       )
 
     .SYNCROOM_PLUS-main__rooms(name="room-list")
-      template(v-if="isEmptyFilteredRooms")
+      template(v-if="isEmptyFilteredRooms && !isSkeleton")
         template(v-if="keyword.length === 0")
           b-message(type="is-warning")
             | {{translate("no_room")}} 😔
@@ -79,9 +79,7 @@
           b-message(type="is-warning")
             | {{translate("room_not_found")}} 😔
 
-    hr
-
-    h2#testroom.SYNCROOM_PLUS-main__subtitle
+    h2#testroom.SYNCROOM_PLUS-main__subtitle.mt-6
       | {{translate("test_room")}}
 
     .SYNCROOM_PLUS-main__rooms
@@ -95,6 +93,8 @@
         :roomTags="testRoom.tags",
         :remainingTime="testRoom.remaining_time"
       )
+
+      .skeleten_room_card.room-list-item.has-background-light(v-if="isSkeleton")
 
   b-button#form-button(type="is-warning", icon-left="exclamation-triangle", @click="openContactFrom")
     strong
