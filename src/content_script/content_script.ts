@@ -23,12 +23,7 @@ Vue.use(Buefy, {
   defaultIconPack: 'fas',
 });
 
-const moment = require('moment');
-require('moment/min/locales.min');
-
-Vue.use(require('vue-moment'), {
-  moment,
-});
+Vue.use(require('vue-moment'));
 
 import { i18n } from '../lib/i18n';
 
