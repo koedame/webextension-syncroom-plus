@@ -232,7 +232,7 @@ export default defineComponent({
       return !filteredRooms.value.some((room) => room.show);
     });
 
-    const onChangeRoomFilter = (e) => {
+    const onChangeRoomFilter = () => {
       // タグが選択しっぱなしで解除できなくなるのでリセットしておく
       selectedTag.value = '';
       // フォーカスされるとされると矢印キーで操作できてしまいUXが低下するのでフォーカスをはずす
