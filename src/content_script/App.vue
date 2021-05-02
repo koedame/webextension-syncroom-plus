@@ -237,7 +237,9 @@ export default defineComponent({
       selectedTag.value = '';
       // フォーカスされるとされると矢印キーで操作できてしまいUXが低下するのでフォーカスをはずす
       setTimeout(() => {
-        document.activeElement.blur();
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
       }, 250);
     };
 
