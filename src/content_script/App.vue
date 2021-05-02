@@ -197,7 +197,7 @@ export default defineComponent({
 
         // タグ選択
         if (selectedTag.value.length !== 0) {
-          if (!displayRoom.tags.some((tag) => tag === selectedTag.value)) {
+          if (!displayRoom.tags.some((tag: any) => tag === selectedTag.value)) {
             displayRoom.show = false;
           }
         }
