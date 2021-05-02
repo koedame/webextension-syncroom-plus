@@ -79,9 +79,7 @@
           b-message(type="is-warning")
             | {{translate("room_not_found")}} 😔
 
-    hr
-
-    h2#testroom.SYNCROOM_PLUS-main__subtitle
+    h2#testroom.SYNCROOM_PLUS-main__subtitle.mt-6
       | {{translate("test_room")}}
 
     .SYNCROOM_PLUS-main__rooms
