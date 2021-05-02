@@ -6,7 +6,6 @@ scriptTags.forEach((value: Node, key: number, parent: NodeList): void => {
 });
 
 import Vue from 'vue';
-// @ts-ignore
 import App from './App';
 import store from '../store';
 
