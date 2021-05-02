@@ -104,10 +104,10 @@ export default defineComponent({
         const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
 
         if (pwPrompt) {
-          location.href = makeJoinUri(props.roomName, pwPrompt, 4, 2);
+          location.href = makeJoinUri(props.roomName, pwPrompt, false);
         }
       } else {
-        location.href = makeJoinUri(props.roomName, '', 4, 2);
+        location.href = makeJoinUri(props.roomName, '', false);
       }
     };
 
@@ -116,10 +116,10 @@ export default defineComponent({
         const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
 
         if (pwPrompt) {
-          location.href = makeJoinUri(props.roomName, pwPrompt, 4, 3);
+          location.href = makeJoinUri(props.roomName, pwPrompt, true);
         }
       } else {
-        location.href = makeJoinUri(props.roomName, '', 4, 3);
+        location.href = makeJoinUri(props.roomName, '', true);
       }
     };
 
