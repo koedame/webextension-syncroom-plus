@@ -152,7 +152,7 @@ export default defineComponent({
         testRoom.value = res.data.test_room;
 
         // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
-        if (selectedTag.value.length !== 0 && !res.data.aggregated_tags.some((tag) => tag.name === selectedTag.value)) {
+        if (selectedTag.value.length !== 0 && !res.data.aggregated_tags.some((tag: any) => tag.name === selectedTag.value)) {
           selectedTag.value = '';
         }
 
