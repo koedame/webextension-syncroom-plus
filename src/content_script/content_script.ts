@@ -52,4 +52,3 @@ setInterval((): void => {
   store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');
   store.dispatch('config/restoreFromLocalStorage');
 }, 1000);
-
