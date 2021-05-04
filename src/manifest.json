@@ -12,14 +12,29 @@
     "default_title": "syncroom-plus"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "content_scripts": [
     {
-      "matches": ["https://syncroom.yamaha.com/play/", "https://syncroom.yamaha.com/play/*=*"],
-      "js": ["content_script/content_script.js"]
+      "matches": [
+        "https://syncroom.yamaha.com/play/",
+        "https://syncroom.yamaha.com/play/*=*"
+      ],
+      "js": [
+        "content_script/content_script.js"
+      ]
     }
   ],
-  "permissions": ["https://*.yamaha.com/*", "storage", "tabs", "notifications"],
-  "web_accessible_resources": ["images/*"]
+  "permissions": [
+    "https://*.yamaha.com/*",
+    "https://*.koeda.me/*",
+    "storage",
+    "tabs",
+    "notifications"
+  ],
+  "web_accessible_resources": [
+    "images/*"
+  ]
 }
