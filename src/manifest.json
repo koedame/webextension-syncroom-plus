@@ -28,8 +28,7 @@
     }
   ],
   "permissions": [
-    "https://*.yamaha.com/*",
-    "https://*.koeda.me/*",
+    "https://*/*",
     "storage",
     "tabs",
     "notifications"
