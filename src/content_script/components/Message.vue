@@ -23,7 +23,7 @@ export default defineComponent({
     const timer = ref(null);
     const fetch = () => {
       axios
-        .get('http://localhost:8080/api/v1/notifications/latest')
+        .get('https://syncroomplus.koeda.me/api/v1/notifications/latest')
         .then((res) => {
           isExists.value = true;
           title.value = res.data.data.notification.title;
