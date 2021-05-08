@@ -3,6 +3,8 @@
   Navbar
 
   #SYNCROOM_PLUS-main
+    Message
+
     .filter-form
       .filter-form__field.mr-5(v-if="!$store.getters['config/autoReload']")
         b-button.SYNCROOM_PLUS-main__subtitle__button(type="is-success is-light", @click="fetchRooms")
@@ -108,6 +110,7 @@ import axios from 'axios';
 import { defineComponent, computed, onBeforeUnmount, ref } from '@vue/composition-api';
 import store from '../store';
 import RoomCard from './components/RoomCard';
+import Message from './components/Message';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ContactForm from './components/ContactForm';
@@ -120,6 +123,7 @@ export default defineComponent({
     RoomCard,
     Navbar,
     Footer,
+    Message,
   },
 
   setup() {
