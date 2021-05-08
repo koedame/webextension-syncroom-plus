@@ -5,21 +5,35 @@
   "version": null,
   "manifest_version": 2,
   "icons": {
-    "48": "icons/icon_48.png",
-    "128": "icons/icon_128.png"
+    "48": "images/icon_48.png",
+    "128": "images/icon_128.png"
   },
   "browser_action": {
     "default_title": "syncroom-plus"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "content_scripts": [
     {
-      "matches": ["https://syncroom.yamaha.com/play/", "https://syncroom.yamaha.com/play/*=*"],
-      "js": ["content_script/content_script.js"]
+      "matches": [
+        "https://syncroom.yamaha.com/play/",
+        "https://syncroom.yamaha.com/play/*=*"
+      ],
+      "js": [
+        "content_script/content_script.js"
+      ]
     }
   ],
-  "permissions": ["https://*.yamaha.com/*", "storage", "tabs", "notifications"],
-  "web_accessible_resources": ["icons/*.png", "icons/*.ico", "images/*"]
+  "permissions": [
+    "https://*/*",
+    "storage",
+    "tabs",
+    "notifications"
+  ],
+  "web_accessible_resources": [
+    "images/*"
+  ]
 }

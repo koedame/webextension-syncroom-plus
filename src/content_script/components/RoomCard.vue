@@ -2,7 +2,7 @@
 .card(:class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }")
   .card__header
     .card__header__item
-      RemainingTime(:create-time="createTime")
+      | {{remainingTime}}
   .card__body
     h3.room_name {{ roomName }}
 
@@ -13,7 +13,7 @@
 
     p.room_desc(v-html="linkedRoomDesc")
 
-    Members(:num-members="numMembers", :members="members", :iconlist="iconlist", :room-create-time="createTime")
+    Members(:members="members", :room-create-time="createTime")
 
     div(v-if="isNoVacancy")
       template(v-if="isNotificationVacancyRoom")
@@ -38,7 +38,6 @@
 
 <script lang="ts">
 import { defineComponent, computed } from '@vue/composition-api';
-import RemainingTime from './RemainingTime';
 import Members from './Members';
 import store from '../../store';
 
@@ -46,28 +45,19 @@ import makeJoinUri from '../../lib/make_join_uri';
 import { translate } from '../../lib/i18n';
 
 type Props = {
-  iconlist: any;
   createTime: string;
-  numMembers: number;
   roomDesc: string;
   roomName: string;
   members: any;
   needPasswd: boolean;
   roomTags: string[];
+  remainingTime: string;
 };
 
 export default defineComponent({
   props: {
-    iconlist: {
-      type: Array,
-      required: true,
-    },
     createTime: {
       type: String,
-      required: true,
-    },
-    numMembers: {
-      type: Number,
       required: true,
     },
     roomDesc: {
@@ -90,10 +80,13 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    remainingTime: {
+      type: String,
+      required: true,
+    },
   },
 
   components: {
-    RemainingTime,
     Members,
   },
 
@@ -111,10 +104,10 @@ export default defineComponent({
         const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
 
         if (pwPrompt) {
-          location.href = makeJoinUri(props.roomName, pwPrompt, 4, 2);
+          location.href = makeJoinUri(props.roomName, pwPrompt, false);
         }
       } else {
-        location.href = makeJoinUri(props.roomName, '', 4, 2);
+        location.href = makeJoinUri(props.roomName, '', false);
       }
     };
 
@@ -123,10 +116,10 @@ export default defineComponent({
         const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
 
         if (pwPrompt) {
-          location.href = makeJoinUri(props.roomName, pwPrompt, 4, 3);
+          location.href = makeJoinUri(props.roomName, pwPrompt, true);
         }
       } else {
-        location.href = makeJoinUri(props.roomName, '', 4, 3);
+        location.href = makeJoinUri(props.roomName, '', true);
       }
     };
 
@@ -148,7 +141,7 @@ export default defineComponent({
     });
 
     const isNoVacancy = computed(() => {
-      return props.numMembers === 5;
+      return props.members.length === 5;
     });
 
     const isNotificationVacancyRoom = computed(() => {

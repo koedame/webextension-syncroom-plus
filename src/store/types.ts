@@ -2,22 +2,13 @@ export interface RootState {
   version: string;
 }
 
-export interface ClockState {
-  // momentのオブジェクトが入る
-  currentTime: any;
-}
-
-export interface FavoriteMembersState {
-  members: FavoriteMember[];
-}
-
 export interface FavoriteMember {
   memberName: string;
   createdAt: string;
 }
 
-export interface NotificationOnlineMembersState {
-  members: NotificationOnlineMember[];
+export interface FavoriteMembersState {
+  members: FavoriteMember[];
 }
 
 export interface NotificationOnlineMember {
@@ -26,13 +17,17 @@ export interface NotificationOnlineMember {
   lastNotificationRoomCreatedTime: string;
 }
 
-export interface NotificationVacancyRoomsState {
-  rooms: NotificationVacancyRoom[];
+export interface NotificationOnlineMembersState {
+  members: NotificationOnlineMember[];
 }
 
 export interface NotificationVacancyRoom {
   uid: string;
   createdAt: string;
+}
+
+export interface NotificationVacancyRoomsState {
+  rooms: NotificationVacancyRoom[];
 }
 
 export interface ConfigState {

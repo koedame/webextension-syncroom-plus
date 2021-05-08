@@ -1,5 +1,30 @@
 # CHANGELOGS
 
+## v1.9.0
+
+### 変更
+
+- パフォーマンス改善
+- 部屋情報取得のAPIを独自APIへ変更
+- 独自API使用のためにパーミッションを変更
+- 一部リソースの置き場所を外部サーバーへ変更
+- 一部コードをTypeScript化
+- 安全のためURL生成処理を関数を使ったものに変更
+- 軽微なUI変更
+- 通知アイコンの変更
+- 通知をクリックしたときの挙動を変更
+
+### 依存パッケージ
+
+- moment 削除
+- moment-timezone 削除
+- @babel/preset-env from 7.13.15 to 7.14.1 
+- @types/node from 15.0.1 to 15.0.2 
+- core-js from 3.11.1 to 3.12.0 
+- mini-css-extract-plugin from 1.5.1 to 1.6.0 
+- sass from 1.32.11 to 1.32.12 
+- webpack-cli from 4.6.0 to 4.7.0 
+
 ## v1.8.1
 
 ### 変更
