@@ -88,9 +88,10 @@ setInterval(() => {
             message: translate('online_user', { username: notificationOnlineMember.memberName }),
           };
 
-          if (currentBrowser === 'GoogleChrome') {
-            // このオプションはGoogleChromeしか対応していないので判定して追加する
-            // 参考: https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/API/notifications/NotificationOptions
+          if (currentBrowser === 'GoogleChrome' || currentBrowser === 'Edge') {
+            // ユーザーがクリックするか閉じるまで通知を閉じない設定
+            // このオプションはGoogleChromeとEdgeしか対応していないので判定して追加する
+            // 参考: https://developer.mozilla.org/ja/docs/Web/API/Notification/requireInteraction
             options.requireInteraction = true;
           }
           browser.notifications.create(`online_member::${notificationOnlineMember.memberName}`, options);
@@ -141,9 +142,10 @@ setInterval(() => {
           title: `${translate('room_name')}：${room.name}`,
           message: translate('you_can_now_join'),
         };
-        if (currentBrowser === 'GoogleChrome') {
-          // このオプションはGoogleChromeしか対応していないので判定して追加する
-          // 参考: https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/API/notifications/NotificationOptions
+        if (currentBrowser === 'GoogleChrome' || currentBrowser === 'Edge') {
+          // ユーザーがクリックするか閉じるまで通知を閉じない設定
+          // このオプションはGoogleChromeとEdgeしか対応していないので判定して追加する
+          // 参考: https://developer.mozilla.org/ja/docs/Web/API/Notification/requireInteraction
           options.requireInteraction = true;
         }
         browser.notifications.create(`vacancy::${uid}`, options);
