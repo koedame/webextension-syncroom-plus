@@ -69,6 +69,7 @@
         :roomDesc="room.description",
         :roomName="room.name",
         :roomTags="room.tags",
+        :nationalFlagUrl="room.national_flag_url",
         :remainingTime="room.remaining_time"
       )
 

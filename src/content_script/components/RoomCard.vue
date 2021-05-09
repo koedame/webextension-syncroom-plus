@@ -2,9 +2,14 @@
 .card(:class="{ 'card--no_vacancy': isNoVacancy, 'card--need_passwd': needPasswd }")
   .card__header
     .card__header__item
-      | {{remainingTime}}
+      img.card__header__item__flag(v-if="nationalFlagUrl" :src="nationalFlagUrl")
+    .card__header__item
+      span.card__header__item__remaining_time
+        | {{remainingTime}}
+    .card__header__item
   .card__body
-    h3.room_name {{ roomName }}
+    h3.room_name
+      | {{ roomName }}
 
     p.room_tags
       b-taglist
@@ -52,6 +57,7 @@ type Props = {
   needPasswd: boolean;
   roomTags: string[];
   remainingTime: string;
+  nationalFlagUrl: string | null;
 };
 
 export default defineComponent({
@@ -83,6 +89,10 @@ export default defineComponent({
     remainingTime: {
       type: String,
       required: true,
+    },
+    nationalFlagUrl: {
+      type: String,
+      required: false,
     },
   },
 
@@ -178,6 +188,20 @@ export default defineComponent({
     font-size: 15px
     line-height: 30px
     text-align: center
+
+    display: flex
+    justify-content: space-between
+
+    &__item
+      display: inline-block
+      min-width: 37px
+      &__flag
+        vertical-align: top
+        width: auto
+        height: 14px
+        margin: 8px
+        border-radius: 2px
+      &__remaining_time
 
   &__body
     padding: 10px
