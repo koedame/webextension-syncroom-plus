@@ -85,8 +85,15 @@ setInterval(() => {
             type: 'basic',
             iconUrl: 'images/band.png',
             title: `${translate('room_name')}：${room.name}`,
-            message: translate('online_user', { username: notificationOnlineMember.memberName }),
           };
+
+          if (member.is_owner) {
+            // オーナーの場合はルームを作成のメッセージ
+            options.message = translate('user_room_created', { username: notificationOnlineMember.memberName });
+          } else {
+            // オーナーでない場合はルームに参加のメッセージ
+            options.message = translate('user_onlined', { username: notificationOnlineMember.memberName });
+          }
 
           if (currentBrowser === 'GoogleChrome' || currentBrowser === 'Edge') {
             // ユーザーがクリックするか閉じるまで通知を閉じない設定
