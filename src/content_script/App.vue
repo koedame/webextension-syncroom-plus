@@ -189,13 +189,9 @@ export default defineComponent({
         if (roomFilter.value === 'only_unlocked') {
           if (displayRoom.is_password_required) {
             displayRoom.show = false;
-          } else {
-            displayRoom.show = true;
           }
         } else if (roomFilter.value === 'only_locked') {
-          if (displayRoom.is_password_required) {
-            displayRoom.show = true;
-          } else {
+          if (!displayRoom.is_password_required) {
             displayRoom.show = false;
           }
         }
