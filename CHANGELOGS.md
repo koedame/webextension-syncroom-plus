@@ -1,5 +1,22 @@
 # CHANGELOGS
 
+## v1.10.0
+
+### 変更
+
+- 国旗を追加 
+- お知らせ機能追加 
+- Edge対応の通知オプションを追加 
+- 不要なファイルを削除 
+
+### 依存パッケージ
+
+- core-js from 3.12.0 to 3.12.1
+- eslint from 7.25.0 to 7.26.0
+- prettier from 2.2.1 to 2.3.0
+- sass-loader from 11.0.1 to 11.1.0
+- webpack from 5.36.2 to 5.37.0
+
 ## v1.9.0
 
 ### 変更
