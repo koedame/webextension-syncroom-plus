@@ -5,10 +5,10 @@
       img.members__item__left__icon(:src="member.icon_url")
     .members__item__right
       .members__item__right__name(:class="{'members__item__right__name--favorite': $store.getters['favoriteMembers/members'].some(m => m.memberName === member.name)}")
-        template(v-if="member.name === '[ 仮入室 ]'")
+        template(v-if="member.entry_type === 'tempolary'")
           | [ {{translate("temporary_entry")}} ]
 
-        template(v-else-if="member.name === '[ 非公開入室 ]'")
+        template(v-else-if="member.entry_type === 'hidden'")
           | [ {{translate("hidden_entry")}} ]
 
         template(v-else)
