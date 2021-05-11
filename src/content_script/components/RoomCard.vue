@@ -201,7 +201,7 @@ export default defineComponent({
         height: 14px
         margin: 8px
         border-radius: 2px
-      &__remaining_time
+      // &__remaining_time
 
   &__body
     padding: 10px
