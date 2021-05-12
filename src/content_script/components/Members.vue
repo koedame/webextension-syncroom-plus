@@ -30,7 +30,7 @@
                 b-icon(icon='star')
 
       .members__item__right__volumes
-        VolumeMeter
+        VolumeMeter(:volume-mater-url="member.volume_mater_url")
 
   .members__item(v-for="i in (emptyNum)", :key="`empty-${i}`")
 </template>
