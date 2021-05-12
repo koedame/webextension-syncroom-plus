@@ -107,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
+import axiosClient from '../lib/axios';
 import { defineComponent, computed, onBeforeUnmount, ref } from '@vue/composition-api';
 import store from '../store';
 import RoomCard from './components/RoomCard';
@@ -146,7 +146,7 @@ export default defineComponent({
 
     const fetchRooms = () => {
       isLoading.value = true;
-      axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res) => {
+      axiosClient.get('/api/v1/rooms/all').then((res) => {
         rooms.value = res.data.rooms;
         tags.value = res.data.aggregated_tags;
         lockedRoomTags.value = res.data.locked_aggregated_tags;
