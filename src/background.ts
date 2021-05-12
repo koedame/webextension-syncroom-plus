@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosClient from './lib/axios';
 import { browser } from 'webextension-polyfill-ts';
 import { i18n, translate } from './lib/i18n';
 
@@ -53,7 +53,7 @@ setInterval(() => {
     }
   });
 
-  axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res) => {
+  axiosClient.get('/api/v1/rooms/all').then((res) => {
     // ユーザーオンライン通知
     browser.storage.local.get('notificationOnlineMembers').then(({ notificationOnlineMembers }) => {
       // データがなければ何もしない
