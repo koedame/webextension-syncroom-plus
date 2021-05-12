@@ -11,8 +11,8 @@ export default defineComponent({
     volumeMaterUrl: {
       type: String,
       required: true,
-    }
-  }
+    },
+  },
 });
 </script>
 
