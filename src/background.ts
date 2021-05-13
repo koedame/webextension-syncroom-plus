@@ -44,7 +44,9 @@ browser.notifications.onClosed.addListener((notificationId: string): void => {
   browser.notifications.clear(notificationId);
 });
 
-setInterval(() => {
+let lastUpdatedAt = '';
+
+setInterval(async () => {
   browser.storage.local.get('configLanguage').then(({ configLanguage }) => {
     if (typeof configLanguage === 'undefined') {
       i18n.locale = 'ja';
@@ -52,6 +54,14 @@ setInterval(() => {
       i18n.locale = configLanguage;
     }
   });
+
+  const updatedAt = await (await axiosClient.get('/api/v1/rooms/last_updated_at')).data.updated_at;
+  if (lastUpdatedAt === updatedAt) {
+    // 最終更新日に変更がなければ何もしない
+    return false;
+  } else {
+    lastUpdatedAt = updatedAt;
+  }
 
   axiosClient.get('/api/v1/rooms/all').then((res) => {
     // ユーザーオンライン通知
