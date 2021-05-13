@@ -22,16 +22,16 @@ const makeDestZipDirIfNotExists = () => {
   }
 };
 
-const buildZip = (src, dist, zipFilename) => {
+const buildZip = (src: any, dist: any, zipFilename: any) => {
   console.info(`Building ${zipFilename}...`);
 
   const archive = archiver('zip', { zlib: { level: 9 } });
   const stream = fs.createWriteStream(path.join(dist, zipFilename));
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve: any, reject) => {
     archive
       .directory(src, false)
-      .on('error', (err) => reject(err))
+      .on('error', (err: any) => reject(err))
       .pipe(stream);
 
     stream.on('close', () => resolve());
@@ -47,22 +47,22 @@ const main = () => {
   // Google Chrome
   buildZip(DEST_DIR, DEST_ZIP_DIR, `GoogleChrome-${name}-v${version}.zip`)
     .then(() => console.info('OK'))
-    .catch(console.err);
+    .catch(console.log);
 
   // Mozilla Firefox
   buildZip(DEST_DIR, DEST_ZIP_DIR, `MozillaFirefox-${name}-v${version}.xpi`)
     .then(() => console.info('OK'))
-    .catch(console.err);
+    .catch(console.log);
 
   // Opera
   buildZip(DEST_DIR, DEST_ZIP_DIR, `Opera-${name}-v${version}.crx`)
     .then(() => console.info('OK'))
-    .catch(console.err);
+    .catch(console.log);
 
   // Microsoft Edge
   buildZip(DEST_DIR, DEST_ZIP_DIR, `MicrosoftEdge-${name}-v${version}.zip`)
     .then(() => console.info('OK'))
-    .catch(console.err);
+    .catch(console.log);
 };
 
 main();

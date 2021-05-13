@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onBeforeUnmount } from '@vue/composition-api';
-import axios from 'axios';
+import axiosClient from '../../lib/axios';
 
 export default defineComponent({
   setup() {
@@ -22,8 +22,8 @@ export default defineComponent({
     const hasIcon = ref(false);
     const timer = ref(null);
     const fetch = () => {
-      axios
-        .get('https://syncroomplus.koeda.me/api/v1/notifications/latest')
+      axiosClient
+        .get('/api/v1/notifications/latest')
         .then((res) => {
           isExists.value = true;
           title.value = res.data.data.notification.title;

@@ -1,17 +1,17 @@
 <template lang="pug">
 .volume_meter
-  img.volume_meter__image(:src="volumeMeterImageLink")
+  img.volume_meter__image(:src="volumeMaterUrl")
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { browser } from 'webextension-polyfill-ts';
 
 export default defineComponent({
-  setup() {
-    return {
-      volumeMeterImageLink: browser.extension.getURL(`/images/volume-meter-${Math.floor(Math.random() * Math.floor(20))}.gif`),
-    };
+  props: {
+    volumeMaterUrl: {
+      type: String,
+      required: true,
+    },
   },
 });
 </script>

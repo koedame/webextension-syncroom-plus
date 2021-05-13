@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosClient from './lib/axios';
 import { browser } from 'webextension-polyfill-ts';
 import { i18n, translate } from './lib/i18n';
 
@@ -44,7 +44,9 @@ browser.notifications.onClosed.addListener((notificationId: string): void => {
   browser.notifications.clear(notificationId);
 });
 
-setInterval(() => {
+let lastUpdatedAt = '';
+
+setInterval(async () => {
   browser.storage.local.get('configLanguage').then(({ configLanguage }) => {
     if (typeof configLanguage === 'undefined') {
       i18n.locale = 'ja';
@@ -53,7 +55,15 @@ setInterval(() => {
     }
   });
 
-  axios.get('https://syncroomplus.koeda.me/api/v1/rooms/all').then((res) => {
+  const updatedAt = await (await axiosClient.get('/api/v1/rooms/last_updated_at')).data.updated_at;
+  if (lastUpdatedAt === updatedAt) {
+    // 最終更新日に変更がなければ何もしない
+    return false;
+  } else {
+    lastUpdatedAt = updatedAt;
+  }
+
+  axiosClient.get('/api/v1/rooms/all').then((res) => {
     // ユーザーオンライン通知
     browser.storage.local.get('notificationOnlineMembers').then(({ notificationOnlineMembers }) => {
       // データがなければ何もしない
@@ -85,8 +95,15 @@ setInterval(() => {
             type: 'basic',
             iconUrl: 'images/band.png',
             title: `${translate('room_name')}：${room.name}`,
-            message: translate('online_user', { username: notificationOnlineMember.memberName }),
           };
+
+          if (member.is_owner) {
+            // オーナーの場合はルームを作成のメッセージ
+            options.message = translate('user_room_created', { username: notificationOnlineMember.memberName });
+          } else {
+            // オーナーでない場合はルームに参加のメッセージ
+            options.message = translate('user_onlined', { username: notificationOnlineMember.memberName });
+          }
 
           if (currentBrowser === 'GoogleChrome' || currentBrowser === 'Edge') {
             // ユーザーがクリックするか閉じるまで通知を閉じない設定
@@ -173,4 +190,4 @@ setInterval(() => {
       }
     });
   });
-}, 3000);
+}, 5000);
