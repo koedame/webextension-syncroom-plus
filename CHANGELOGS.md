@@ -1,13 +1,34 @@
 # CHANGELOGS
 
+## v1.11.0
+
+### 変更
+
+- API負荷対策
+- ts移行
+- axios設定漏れ修正
+- ボリュームメーターGIFをサーバーへ移行
+- APIリクエストヘッダーにバージョン情報を追加
+- 通知のメッセージパターンを追加
+- 入室種別の判定方法を変更
+- 不要な処理を削除
+
+### 依存パッケージ
+
+- @babel/core from 7.14.0 to 7.14.2
+- @babel/preset-env from 7.14.1 to 7.14.2
+- @types/node from 15.0.2 to 15.0.3
+- sass from 1.32.12 to 1.32.13
+- vue-loader from 15.9.6 to 15.9.7
+
 ## v1.10.0
 
 ### 変更
 
-- 国旗を追加 
-- お知らせ機能追加 
-- Edge対応の通知オプションを追加 
-- 不要なファイルを削除 
+- 国旗を追加
+- お知らせ機能追加
+- Edge対応の通知オプションを追加
+- 不要なファイルを削除
 
 ### 依存パッケージ
 
@@ -35,12 +56,12 @@
 
 - moment 削除
 - moment-timezone 削除
-- @babel/preset-env from 7.13.15 to 7.14.1 
-- @types/node from 15.0.1 to 15.0.2 
-- core-js from 3.11.1 to 3.12.0 
-- mini-css-extract-plugin from 1.5.1 to 1.6.0 
-- sass from 1.32.11 to 1.32.12 
-- webpack-cli from 4.6.0 to 4.7.0 
+- @babel/preset-env from 7.13.15 to 7.14.1
+- @types/node from 15.0.1 to 15.0.2
+- core-js from 3.11.1 to 3.12.0
+- mini-css-extract-plugin from 1.5.1 to 1.6.0
+- sass from 1.32.11 to 1.32.12
+- webpack-cli from 4.6.0 to 4.7.0
 
 ## v1.8.1
 
@@ -146,7 +167,7 @@
 ### 依存パッケージ
 
 - @types/node
-- Node sass => Dart Sass 
+- Node sass => Dart Sass
 - @babel/core from 7.12.9 to 7.12.10
 - @babel/plugin-proposal-optional-chaining from 7.12.7 to 7.12.16
 - @babel/preset-env from 7.12.7 to 7.12.16
