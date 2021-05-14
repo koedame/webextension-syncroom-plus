@@ -3,6 +3,7 @@
   .members__item(v-for="(member, i) in members", :key="`${member.name}-${i}`")
     .members__item__left
       img.members__item__left__icon(:src="member.icon_url")
+      img.members__item__left__crown(v-if="member.is_owner", src="https://syncroomplus.koeda.me/images/crown.png")
     .members__item__right
       .members__item__right__name(:class="{'members__item__right__name--favorite': $store.getters['favoriteMembers/members'].some(m => m.memberName === member.name)}")
         template(v-if="member.entry_type === 'tempolary'")
@@ -110,10 +111,19 @@ export default defineComponent({
 
     &__left
       width: 35px
+      position: relative
+
       &__icon
         width: 35px
         height: 35px
         border-radius: 4px
+
+      &__crown
+        position: absolute
+        top: 0
+        left: 0
+        width: 12px
+        border-radius: 3px 0px 3px 0px
 
     &__right
       width: 230px
