@@ -1,5 +1,21 @@
 # CHANGELOGS
 
+## v1.11.2
+
+### 変更
+
+エラーハンドリングを追加
+
+### 依存パッケージ
+
+- sass from 1.32.13 to 1.33.0
+- css-loader from 5.2.4 to 5.2.5
+- @types/node from 15.0.3 to 15.3.1
+- webpack from 5.37.0 to 5.37.1
+- @vue/composition-api from 1.0.0-rc.8 to 1.0.0-rc.9
+- @babel/core from 7.14.2 to 7.14.3
+- eslint-plugin-import from 2.22.1 to 2.23.2
+
 ## v1.11.1
 
 ### 変更
