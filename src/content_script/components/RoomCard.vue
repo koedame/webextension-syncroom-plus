@@ -8,15 +8,14 @@
         | {{remainingTime}}
     .card__header__item
   .card__body
-    h3.room_name
-      | {{ roomName }}
+    h3.room_name(v-html="roomNameHTML")
 
     p.room_tags
       b-taglist
         b-tag(v-for="tag in roomTags", :key="tag")
-          | {{tag}}
+          span(v-html="twemoji.parse(tag)")
 
-    p.room_desc(v-html="linkedRoomDesc")
+    p.room_desc(v-html="roomDescHTML")
 
     Members(:members="members", :room-create-time="createTime")
 
@@ -43,6 +42,9 @@
 
 <script lang="ts">
 import { defineComponent, computed } from '@vue/composition-api';
+
+import twemoji from 'twemoji';
+
 import Members from './Members';
 import store from '../../store';
 
@@ -133,8 +135,8 @@ export default defineComponent({
       }
     };
 
-    const linkedRoomDesc = computed(() => {
-      return props.roomDesc
+    const roomDescHTML = computed(() => {
+      const linkedHTML = props.roomDesc
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
@@ -148,6 +150,8 @@ export default defineComponent({
           const noAtTwitterID = twitterID.replace(/@|＠/g, '');
           return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
         });
+      const result = twemoji.parse(linkedHTML);
+      return result;
     });
 
     const isNoVacancy = computed(() => {
@@ -158,15 +162,21 @@ export default defineComponent({
       return store.getters['notificationVacancyRooms/rooms'].find((r: any) => r.uid === `${props.createTime}||${props.roomName}`);
     });
 
+    const roomNameHTML = computed(() => {
+      return twemoji.parse(props.roomName);
+    });
+
     return {
       translate,
       onSetNotificationVacancyRoom,
       onRemoveNotificationVacancyRoom,
       onOpenSyncroom,
       onOpenTentativeSyncroom,
-      linkedRoomDesc,
+      roomDescHTML,
       isNoVacancy,
       isNotificationVacancyRoom,
+      roomNameHTML,
+      twemoji,
     };
   },
 });
