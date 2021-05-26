@@ -42,7 +42,7 @@
     "core-js": "^3.12.1",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.5",
-    "eslint": "^7.26.0",
+    "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.1",
     "eslint-friendly-formatter": "^4.0.1",
