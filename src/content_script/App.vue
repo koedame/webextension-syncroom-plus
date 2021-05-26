@@ -41,19 +41,25 @@
 
       template(v-for="tag in tags", v-if="roomFilter === 'all'")
         b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
-          | {{ tag.name }} ({{ tag.count }})
+          span(v-html="twemoji.parse(tag.name)")
+          | ({{ tag.count }})
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
-          | {{ tag.name }} ({{ tag.count }})
+          span(v-html="twemoji.parse(tag.name)")
+          | ({{ tag.count }})
       template(v-for="tag in lockedRoomTags", v-if="roomFilter === 'only_locked'")
         b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
-          | {{ tag.name }} ({{ tag.count }})
+          span(v-html="twemoji.parse(tag.name)")
+          | ({{ tag.count }})
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
-          | {{ tag.name }} ({{ tag.count }})
+          span(v-html="twemoji.parse(tag.name)")
+          | ({{ tag.count }})
       template(v-for="tag in unlockedRoomTags", v-if="roomFilter === 'only_unlocked'")
         b-button(v-if="tag.name === selectedTag", :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = ''", type="is-dark", icon-left="times")
-          | {{ tag.name }} ({{ tag.count }})
+          span(v-html="twemoji.parse(tag.name)")
+          | ({{ tag.count }})
         b-button(v-else, :key="`tag-${tag.name}`", size="is-small", @click="selectedTag = tag.name", type="is-light")
-          | {{ tag.name }} ({{ tag.count }})
+          span(v-html="twemoji.parse(tag.name)")
+          | ({{ tag.count }})
 
     .SYNCROOM_PLUS-main__rooms(name="room-list", v-if="isSkeleton")
       .skeleten_room_card.room-list-item.has-background-light(v-for="n in 8", :key="`skeleton-${n}`")
@@ -107,6 +113,8 @@
 </template>
 
 <script lang="ts">
+// @ts-ignore
+import twemoji from 'twemoji';
 import axiosClient from '../lib/axios';
 import { defineComponent, computed, onBeforeUnmount, ref } from '@vue/composition-api';
 import store from '../store';
@@ -286,6 +294,7 @@ export default defineComponent({
       isEmptyFilteredRooms,
       openContactFrom,
       onChangeRoomFilter,
+      twemoji,
     };
   },
 });
@@ -371,4 +380,9 @@ html,body
 
 .skeleton_tag
   width: 100px
+
+.emoji
+  height: 1em
+  vertical-align: middle
+  margin: 0 1px 2px 1px
 </style>

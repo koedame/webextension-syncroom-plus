@@ -13,7 +13,7 @@
 
         template(v-else)
           span.members__item__right__name__text
-            span(v-html="twitterIdToLink(member.name)")
+            span(v-html="memberHTML(member.name)")
 
           b-tooltip(:label='translate("receive_notification_when_online_this_user")', position="is-top", type="is-light")
             a.members__item__right__name__add-notification(@click="$store.dispatch('notificationOnlineMembers/toggle', {memberName: member.name, roomCreateTime})")
@@ -39,6 +39,8 @@
 import VolumeMeter from './VolumeMeter';
 import { translate } from '../../lib/i18n';
 import { defineComponent, computed } from '@vue/composition-api';
+// @ts-ignore
+import twemoji from 'twemoji';
 
 type Props = {
   members: any;
@@ -66,8 +68,8 @@ export default defineComponent({
       return 5 - props.members.length;
     });
 
-    const twitterIdToLink = (text: string) => {
-      return text
+    const memberHTML = (text: string) => {
+      const linkedText = text
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
@@ -77,12 +79,14 @@ export default defineComponent({
           const noAtTwitterID = twitterID.replace(/@|＠/g, '');
           return `<a href='https://twitter.com/${noAtTwitterID}' target='_blank' rel='noopener noreferrer'>${twitterID}</a>`;
         });
+      const result = twemoji.parse(linkedText);
+      return result;
     };
 
     return {
       translate,
       emptyNum,
-      twitterIdToLink,
+      memberHTML,
     };
   },
 });
