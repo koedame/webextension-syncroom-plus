@@ -113,6 +113,7 @@
 </template>
 
 <script lang="ts">
+// @ts-ignore
 import twemoji from 'twemoji';
 import axiosClient from '../lib/axios';
 import { defineComponent, computed, onBeforeUnmount, ref } from '@vue/composition-api';

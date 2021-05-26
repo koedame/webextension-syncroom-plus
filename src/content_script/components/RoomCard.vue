@@ -43,6 +43,7 @@
 <script lang="ts">
 import { defineComponent, computed } from '@vue/composition-api';
 
+// @ts-ignore
 import twemoji from 'twemoji';
 
 import Members from './Members';

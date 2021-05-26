@@ -39,6 +39,7 @@
 import VolumeMeter from './VolumeMeter';
 import { translate } from '../../lib/i18n';
 import { defineComponent, computed } from '@vue/composition-api';
+// @ts-ignore
 import twemoji from 'twemoji';
 
 type Props = {
