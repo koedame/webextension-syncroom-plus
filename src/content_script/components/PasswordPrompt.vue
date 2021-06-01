@@ -30,6 +30,7 @@
 import { defineComponent, ref, onMounted, SetupContext, computed } from '@vue/composition-api';
 import { translate } from '../../lib/i18n';
 import makeJoinUri from '../../lib/make_join_uri';
+import store from '../../store';
 
 import { browser } from 'webextension-polyfill-ts';
 
@@ -57,24 +58,28 @@ export default defineComponent({
     });
 
     const password = ref('');
-    browser.storage.local.get('roomPasswords').then(({ roomPasswords }) => {
-      if (typeof roomPasswords !== 'undefined' && roomPasswords[props.roomName]) {
-        password.value = roomPasswords[props.roomName];
-      }
-    });
+    if (store.getters['config/rememberPassword']) {
+      browser.storage.local.get('roomPasswords').then(({ roomPasswords }) => {
+        if (typeof roomPasswords !== 'undefined' && roomPasswords[props.roomName]) {
+          password.value = roomPasswords[props.roomName];
+        }
+      });
+    }
 
     const savePassword = () => {
-      browser.storage.local.get('roomPasswords').then(({ roomPasswords }) => {
-        if (typeof roomPasswords === 'undefined') {
-          roomPasswords = {};
-        }
+      if (store.getters['config/rememberPassword']) {
+        browser.storage.local.get('roomPasswords').then(({ roomPasswords }) => {
+          if (typeof roomPasswords === 'undefined') {
+            roomPasswords = {};
+          }
 
-        roomPasswords[props.roomName] = password.value;
+          roomPasswords[props.roomName] = password.value;
 
-        browser.storage.local.set({
-          roomPasswords: roomPasswords,
+          browser.storage.local.set({
+            roomPasswords: roomPasswords,
+          });
         });
-      });
+      }
     };
 
     const onJoin = () => {

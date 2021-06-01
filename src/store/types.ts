@@ -33,5 +33,6 @@ export interface NotificationVacancyRoomsState {
 export interface ConfigState {
   autoReload: boolean;
   animation: boolean;
+  rememberPassword: boolean;
   language: string;
 }
