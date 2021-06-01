@@ -87,6 +87,12 @@ const mutations: MutationTree<ConfigState> = {
       });
   },
   setRememberPassword: (state, value: boolean) => {
+    // 無効化の際はパスワードをすべて削除
+    if (!value) {
+      browser.storage.local.set({
+        roomPasswords: {},
+      });
+    }
     browser.storage.local
       .set({
         configRememberPassword: value,
