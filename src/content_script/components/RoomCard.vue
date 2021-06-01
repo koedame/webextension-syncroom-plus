@@ -31,7 +31,7 @@
       .level
         .level-left
           b-button(type="is-light" @click="onOpenTentativeSyncroom")
-            | {{translate("take_a_peek")}}
+            | {{translate("temporary_entry")}}
 
         .level-right
           b-button.card__body__buttons__entry-button(v-if="needPasswd", type="is-dark" @click="onOpenSyncroom", icon-left="lock")
@@ -47,10 +47,12 @@ import { defineComponent, computed } from '@vue/composition-api';
 import twemoji from 'twemoji';
 
 import Members from './Members';
+import PasswordPrompt from './PasswordPrompt';
 import store from '../../store';
 
 import makeJoinUri from '../../lib/make_join_uri';
 import { translate } from '../../lib/i18n';
+import { ModalProgrammatic as Modal } from 'buefy';
 
 type Props = {
   createTime: string;
@@ -114,11 +116,14 @@ export default defineComponent({
 
     const onOpenSyncroom = () => {
       if (props.needPasswd) {
-        const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
-
-        if (pwPrompt) {
-          location.href = makeJoinUri(props.roomName, pwPrompt, false);
-        }
+        Modal.open({
+          component: PasswordPrompt,
+          props: {
+            roomName: props.roomName,
+            temporaly: false,
+          },
+          hasModalCard: true,
+        });
       } else {
         location.href = makeJoinUri(props.roomName, '', false);
       }
@@ -126,11 +131,14 @@ export default defineComponent({
 
     const onOpenTentativeSyncroom = () => {
       if (props.needPasswd) {
-        const pwPrompt = window.prompt(translate('please_enter_room_password'), '');
-
-        if (pwPrompt) {
-          location.href = makeJoinUri(props.roomName, pwPrompt, true);
-        }
+        Modal.open({
+          component: PasswordPrompt,
+          props: {
+            roomName: props.roomName,
+            temporaly: true,
+          },
+          hasModalCard: true,
+        });
       } else {
         location.href = makeJoinUri(props.roomName, '', true);
       }
