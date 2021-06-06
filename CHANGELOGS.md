@@ -1,5 +1,26 @@
 # CHANGELOGS
 
+## v1.13.0
+
+### 変更
+
+- パスワード保存機能追加
+
+### 依存パッケージ
+
+- @babel/preset-env from 7.14.2 to 7.14.4
+- @types/node from 15.6.1 to 15.12.0
+- @vue/composition-api from 1.0.0-rc.9 to 1.0.0-rc.10
+- core-js from 3.12.1 to 3.13.1
+- eslint-plugin-import from 2.23.3 to 2.23.4
+- eslint-plugin-vue from 7.9.0 to 7.10.0
+- sass from 1.34.0 to 1.34.1
+- sass-loader from 11.1.1 to 12.0.0
+- twemoji from 13.0.2 to 13.1.0
+- typescript from 4.2.4 to 4.3.2
+- vue and vue-template-compiler
+- webpack from 5.37.1 to 5.38.1
+
 ## v1.12.0
 
 ### 変更
