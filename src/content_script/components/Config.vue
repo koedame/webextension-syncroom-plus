@@ -68,14 +68,13 @@
             | {{ translate("remove") }}
 
       hr
-
       .subtitle
         b-icon(icon="info-circle")
         |
-        | その他
+        | {{ translate("other") }}
 
       b-button(type="is-danger", icon-left="trash", @click="onResetPasswords")
-        | 保存したパスワードを削除
+        | {{ translate("remove_remember_passwords") }}
 
   .modal-card-foot
     b-button(@click="$emit('close')", icon-left="times") {{ translate("close") }}
@@ -149,8 +148,8 @@ export default defineComponent({
 
     const onResetPasswords = () => {
       Dialog.confirm({
-        title: 'パスワード削除しますか？',
-        message: '保存したパスワードを削除します。この操作は取り消せません',
+        title: translate('do_you_want_to_remove_the_passwords'),
+        message: translate('remove_the_saved_password_this_operation_cannot_be_undone'),
         confirmText: translate('remove'),
         cancelText: translate('close'),
         type: 'is-danger',
@@ -158,7 +157,7 @@ export default defineComponent({
         onConfirm: async () => {
           store.dispatch('config/resetRememberPasswords').then((res) => {
             Toast.open({
-              message: 'パスワードを削除しました',
+              message: translate('password_has_been_deleted'),
               type: 'is-success',
             });
           });
