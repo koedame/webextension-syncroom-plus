@@ -66,6 +66,16 @@
         b-table-column(:label="translate('action')", v-slot="props")
           b-button(type="is-danger", size="is-small", icon-left="trash", @click="confirmRemoveNotification(props.row.memberName)")
             | {{ translate("remove") }}
+
+      hr
+      .subtitle
+        b-icon(icon="info-circle")
+        |
+        | {{ translate("other") }}
+
+      b-button(type="is-danger", icon-left="trash", @click="onResetPasswords")
+        | {{ translate("remove_remember_passwords") }}
+
   .modal-card-foot
     b-button(@click="$emit('close')", icon-left="times") {{ translate("close") }}
 </template>
@@ -136,6 +146,25 @@ export default defineComponent({
       return store.getters['notificationOnlineMembers/members'];
     });
 
+    const onResetPasswords = () => {
+      Dialog.confirm({
+        title: translate('do_you_want_to_remove_the_passwords'),
+        message: translate('remove_the_saved_password_this_operation_cannot_be_undone'),
+        confirmText: translate('remove'),
+        cancelText: translate('close'),
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: async () => {
+          store.dispatch('config/resetRememberPasswords').then((res) => {
+            Toast.open({
+              message: translate('password_has_been_deleted'),
+              type: 'is-success',
+            });
+          });
+        },
+      });
+    };
+
     return {
       configAutoReload: store.getters['config/autoReload'],
       configAnimation: store.getters['config/animation'],
@@ -148,6 +177,7 @@ export default defineComponent({
       favoriteMembers,
       notificationOnlineMembers,
       translate,
+      onResetPasswords,
     };
   },
 });
