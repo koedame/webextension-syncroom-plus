@@ -87,12 +87,6 @@ const mutations: MutationTree<ConfigState> = {
       });
   },
   setRememberPassword: (state, value: boolean) => {
-    // 無効化の際はパスワードをすべて削除
-    if (!value) {
-      browser.storage.local.set({
-        roomPasswords: {},
-      });
-    }
     browser.storage.local
       .set({
         configRememberPassword: value,
@@ -100,6 +94,11 @@ const mutations: MutationTree<ConfigState> = {
       .then(() => {
         state.rememberPassword = value;
       });
+  },
+  resetRememberPasswords: (state) => {
+    browser.storage.local.set({
+      roomPasswords: {},
+    });
   },
 };
 
@@ -113,8 +112,11 @@ const actions: ActionTree<ConfigState, RootState> = {
   setLanguage({ commit }, value: string) {
     commit('setLanguage', value);
   },
-  setRememberPassword({ commit }, value: string) {
+  setRememberPassword({ commit }, value: boolean) {
     commit('setRememberPassword', value);
+  },
+  resetRememberPasswords({ commit }) {
+    commit('resetRememberPasswords');
   },
   restoreFromLocalStorage({ commit }) {
     commit('restoreFromLocalStorage');

@@ -66,6 +66,17 @@
         b-table-column(:label="translate('action')", v-slot="props")
           b-button(type="is-danger", size="is-small", icon-left="trash", @click="confirmRemoveNotification(props.row.memberName)")
             | {{ translate("remove") }}
+
+      hr
+
+      .subtitle
+        b-icon(icon="info-circle")
+        |
+        | その他
+
+      b-button(type="is-danger", icon-left="trash", @click="onResetPasswords")
+        | 保存したパスワードを削除
+
   .modal-card-foot
     b-button(@click="$emit('close')", icon-left="times") {{ translate("close") }}
 </template>
@@ -136,6 +147,25 @@ export default defineComponent({
       return store.getters['notificationOnlineMembers/members'];
     });
 
+    const onResetPasswords = () => {
+      Dialog.confirm({
+        title: 'パスワード削除しますか？',
+        message: '保存したパスワードを削除します。この操作は取り消せません',
+        confirmText: translate('remove'),
+        cancelText: translate('close'),
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: async () => {
+          store.dispatch('config/resetRememberPasswords').then((res) => {
+            Toast.open({
+              message: 'パスワードを削除しました',
+              type: 'is-success',
+            });
+          });
+        },
+      });
+    };
+
     return {
       configAutoReload: store.getters['config/autoReload'],
       configAnimation: store.getters['config/animation'],
@@ -148,6 +178,7 @@ export default defineComponent({
       favoriteMembers,
       notificationOnlineMembers,
       translate,
+      onResetPasswords,
     };
   },
 });
