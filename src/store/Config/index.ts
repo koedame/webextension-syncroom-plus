@@ -7,6 +7,7 @@ const state: ConfigState = {
   autoReload: true,
   animation: true,
   language: 'ja',
+  rememberPassword: false,
 };
 
 const getters: GetterTree<ConfigState, RootState> = {
@@ -18,6 +19,9 @@ const getters: GetterTree<ConfigState, RootState> = {
   },
   language: (state) => {
     return state.language;
+  },
+  rememberPassword: (state) => {
+    return state.rememberPassword;
   },
   languageDisplayName: (state) => {
     return LanguageMap[state.language].displayName;
@@ -43,6 +47,14 @@ const mutations: MutationTree<ConfigState> = {
         state.language = configLanguage;
       } else {
         state.language = 'ja';
+      }
+    });
+
+    browser.storage.local.get('configRememberPassword').then(({ configRememberPassword }) => {
+      if (typeof configRememberPassword !== 'undefined') {
+        state.rememberPassword = configRememberPassword;
+      } else {
+        state.rememberPassword = false;
       }
     });
   },
@@ -74,6 +86,20 @@ const mutations: MutationTree<ConfigState> = {
         state.language = value;
       });
   },
+  setRememberPassword: (state, value: boolean) => {
+    browser.storage.local
+      .set({
+        configRememberPassword: value,
+      })
+      .then(() => {
+        state.rememberPassword = value;
+      });
+  },
+  resetRememberPasswords: (state) => {
+    browser.storage.local.set({
+      roomPasswords: {},
+    });
+  },
 };
 
 const actions: ActionTree<ConfigState, RootState> = {
@@ -85,6 +111,12 @@ const actions: ActionTree<ConfigState, RootState> = {
   },
   setLanguage({ commit }, value: string) {
     commit('setLanguage', value);
+  },
+  setRememberPassword({ commit }, value: boolean) {
+    commit('setRememberPassword', value);
+  },
+  resetRememberPasswords({ commit }) {
+    commit('resetRememberPasswords');
   },
   restoreFromLocalStorage({ commit }) {
     commit('restoreFromLocalStorage');
