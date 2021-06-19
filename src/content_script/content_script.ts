@@ -47,6 +47,7 @@ store.dispatch('config/restoreFromLocalStorage');
 
 // background.ts側で更新されたデータは反映されないので定期的に読み込みを行う
 setInterval((): void => {
+  store.dispatch('ignoreAds/restoreFromLocalStorage');
   store.dispatch('favoriteMembers/restoreFromLocalStorage');
   store.dispatch('notificationVacancyRooms/restoreFromLocalStorage');
   store.dispatch('notificationOnlineMembers/restoreFromLocalStorage');

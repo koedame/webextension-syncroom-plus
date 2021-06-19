@@ -6,6 +6,7 @@ import { favoriteMembers } from './FavoriteMembers';
 import { notificationVacancyRooms } from './NotificationVacancyRooms';
 import { notificationOnlineMembers } from './NotificationOnlineMembers';
 import { config } from './Config';
+import { ignoreAds } from './IgnoreAds';
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ const store: StoreOptions<RootState> = {
     notificationVacancyRooms,
     notificationOnlineMembers,
     config,
+    ignoreAds,
   },
   plugins: [],
 };

@@ -30,6 +30,14 @@ export interface NotificationVacancyRoomsState {
   rooms: NotificationVacancyRoom[];
 }
 
+export interface IgnoreAd {
+  uuid: string;
+}
+
+export interface IgnoreAdsState {
+  ignoreAds: IgnoreAd[];
+}
+
 export interface ConfigState {
   autoReload: boolean;
   animation: boolean;
