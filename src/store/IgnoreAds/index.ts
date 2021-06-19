@@ -17,10 +17,10 @@ const mutations: MutationTree<IgnoreAdsState> = {
     browser.storage.local
       .get('ignoreAds')
       .then(({ ignoreAds }) => {
-        // データがないときはエラーが起こるので初期化
         if (Array.isArray(ignoreAds)) {
           state.ignoreAds = ignoreAds;
         } else {
+          // データがないときはエラーが起こるので初期化
           state.ignoreAds = [];
         }
       })
