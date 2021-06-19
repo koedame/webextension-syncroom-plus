@@ -62,10 +62,6 @@ const actions: ActionTree<IgnoreAdsState, RootState> = {
     commit('setIgnoreAd', uuid);
   },
 
-  removeIgnoreAd: ({ commit }, uuid: string) => {
-    commit('removeIgnoreAd', uuid);
-  },
-
   restoreFromLocalStorage({ commit }) {
     commit('restoreFromLocalStorage');
   },
