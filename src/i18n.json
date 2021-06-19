@@ -50,7 +50,9 @@
     "do_you_want_to_remove_the_passwords": "Do you want to remove the passwords?",
     "remove_the_saved_password_this_operation_cannot_be_undone": "Remove the saved passwords. This operation cannot be undone.",
     "password_has_been_deleted": "Passwords has been deleted.",
-    "reports": "Report requests, bugs, translation errors, etc."
+    "reports": "Report requests, bugs, translation errors, etc.",
+    "cancel": "Cancel",
+    "do_not_display": "Do not display."
   },
   "ja": {
     "settings": "設定",
@@ -103,7 +105,9 @@
     "do_you_want_to_remove_the_passwords": "パスワード削除しますか？",
     "remove_the_saved_password_this_operation_cannot_be_undone": "保存したパスワードを削除します。この操作は取り消せません。",
     "password_has_been_deleted": "パスワードを削除しました",
-    "reports": "要望・不具合報告はこちら"
+    "reports": "要望・不具合報告はこちら",
+    "cancel": "キャンセル",
+    "do_not_display": "この広告を表示しない"
   },
   "ko": {
     "settings": "설정",
@@ -156,6 +160,8 @@
     "do_you_want_to_remove_the_passwords": "비밀번호를 삭제 하시겠습니까?",
     "remove_the_saved_password_this_operation_cannot_be_undone": "저장된 암호를 제거하십시오. 이 작업은 취소 할 수 없습니다.",
     "password_has_been_deleted": "암호가 삭제되었습니다.",
-    "reports": "요청, 버그, 번역 오류보고 등"
+    "reports": "요청, 버그, 번역 오류보고 등",
+    "cancel": "취소",
+    "do_not_display": "표시하지 마십시오"
   }
 }
