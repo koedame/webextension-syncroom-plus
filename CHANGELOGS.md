@@ -1,5 +1,30 @@
 # CHANGELOGS
 
+## v1.14.0
+
+### 変更
+
+- 広告枠追加
+
+### 依存パッケージ
+
+- @babel/core from 7.14.3 to 7.14.6
+- @babel/preset-env from 7.14.4 to 7.14.5
+- @babel/runtime-corejs3 from 7.14.0 to 7.14.6
+- @types/node from 15.12.0 to 15.12.3
+- @vue/composition-api from 1.0.0-rc.10 to 1.0.0-rc.12
+- core-js from 3.13.1 to 3.14.0
+- eslint from 7.27.0 to 7.28.0
+- eslint-plugin-vue from 7.10.0 to 7.11.1
+- prettier from 2.3.0 to 2.3.1
+- pretty-quick from 3.1.0 to 3.1.1
+- sass from 1.34.1 to 1.35.1
+- sass-loader from 12.0.0 to 12.1.0
+- typescript from 4.3.2 to 4.3.4
+- vue and vue-template-compiler
+- webpack from 5.38.1 to 5.39.1
+- webpack-cli from 4.7.0 to 4.7.2
+
 ## v1.13.0
 
 ### 変更
