@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from '@vue/composition-api';
+import { defineComponent, ref, computed, onBeforeUnmount } from '@vue/composition-api';
 
 import store from '../../store';
 
@@ -56,7 +56,8 @@ export default defineComponent({
 
     fetch();
 
-    setInterval(fetch, 60 * 1000);
+    const timer = ref(null);
+    timer.value = setInterval(fetch, 60 * 1000);
 
     const onIgnoreAd = () => {
       store.dispatch('ignoreAds/setIgnoreAd', aData.value.uuid);
@@ -91,6 +92,12 @@ export default defineComponent({
       }
 
       return true;
+    });
+
+    onBeforeUnmount(() => {
+      if (timer.value) {
+        clearInterval(timer.value);
+      }
     });
 
     return {

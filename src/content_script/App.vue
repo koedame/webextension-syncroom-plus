@@ -65,7 +65,8 @@
       .skeleten_room_card.room-list-item.has-background-light(v-for="n in 8", :key="`skeleton-${n}`")
 
     .SYNCROOM_PLUS-main__rooms(name="room-list", :is="roomComponent")
-      AdCard.room-list-item(key="room-ad", v-show="!isEmptyFilteredRooms")
+      .room-list-item(key="room-ad", v-show="!isEmptyFilteredRooms")
+        AdCard
       RoomCard.room-list-item(
         v-for="room in filteredRooms",
         v-show="room.show",
