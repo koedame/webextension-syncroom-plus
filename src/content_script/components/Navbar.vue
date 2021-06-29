@@ -4,6 +4,9 @@ b-navbar#navbar--custom(fixed-top)
     b-navbar-item(tag="div")
       img(:src='logoUrl', alt='SYNCROOM')
   template(slot='start')
+    b-navbar-item(tag="div")
+        b-button(icon-left="mobile-alt", type="is-warning is-light", outlined,@click="openShare")
+          | {{ translate("share_room") }}
 
   template(slot='end')
     b-navbar-item(tag="div")
@@ -26,6 +29,7 @@ import { i18n, translate } from '../../lib/i18n';
 import store from '../../store';
 import { ModalProgrammatic as Modal } from 'buefy';
 import Config from './Config.vue';
+import Share from './Share.vue';
 import { browser } from 'webextension-polyfill-ts';
 
 export default defineComponent({
@@ -33,6 +37,13 @@ export default defineComponent({
     const changeLanguage = (lang: string) => {
       store.dispatch('config/setLanguage', lang);
       i18n.locale = lang;
+    };
+
+    const openShare = () => {
+      Modal.open({
+        component: Share,
+        hasModalCard: true,
+      });
     };
 
     const openConfig = () => {
@@ -45,6 +56,7 @@ export default defineComponent({
     return {
       logoUrl: browser.extension.getURL(`/images/logo_plus_black.png`),
       changeLanguage,
+      openShare,
       openConfig,
       translate,
     };
