@@ -1,5 +1,26 @@
 # CHANGELOGS
 
+## v1.15.0
+
+### 変更
+
+-  ルーム共有機能追加 
+
+### 依存パッケージ
+
+- @babel/preset-env from 7.14.5 to 7.14.7
+- @babel/runtime-corejs3 from 7.14.6 to 7.14.7
+- @types/node from 15.12.3 to 15.12.5
+- buefy from 0.9.7 to 0.9.8
+- copy-webpack-plugin from 9.0.0 to 9.0.1
+- core-js from 3.14.0 to 3.15.2
+- eslint from 7.28.0 to 7.29.0
+- eslint-plugin-vue from 7.11.1 to 7.12.1
+- mini-css-extract-plugin from 1.6.0 to 1.6.2
+- prettier from 2.3.1 to 2.3.2
+- vue-i18n from 8.24.4 to 8.24.5
+- webpack from 5.39.1 to 5.41.0
+
 ## v1.14.1
 
 ### 変更
