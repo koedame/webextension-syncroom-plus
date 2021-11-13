@@ -62,7 +62,7 @@
     "pretty-quick": "^3.1.1",
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
-    "sass": "^1.35.1",
+    "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "ts-loader": "^8.1.0",
     "ts-node": "^10.4.0",
