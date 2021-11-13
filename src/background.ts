@@ -66,6 +66,10 @@ setInterval(async () => {
   axiosClient
     .get('/api/v1/rooms/all')
     .then((res) => {
+      browser.storage.local.set({
+        roomData: res.data,
+      });
+
       // ユーザーオンライン通知
       browser.storage.local.get('notificationOnlineMembers').then(({ notificationOnlineMembers }) => {
         // データがなければ何もしない

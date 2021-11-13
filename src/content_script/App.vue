@@ -116,6 +116,7 @@
 
 <script lang="ts">
 // @ts-ignore
+import { browser } from 'webextension-polyfill-ts';
 import twemoji from 'twemoji';
 import axiosClient from '../lib/axios';
 import { defineComponent, computed, onBeforeUnmount, ref } from '@vue/composition-api';
@@ -158,36 +159,28 @@ export default defineComponent({
 
     const fetchRooms = () => {
       isLoading.value = true;
-      axiosClient
-        .get('/api/v1/rooms/all')
-        .then((res) => {
-          rooms.value = res.data.rooms;
-          tags.value = res.data.aggregated_tags;
-          lockedRoomTags.value = res.data.locked_aggregated_tags;
-          unlockedRoomTags.value = res.data.opend_aggregated_tags;
-          publicRoomCount.value = res.data.public_room_count;
-          lockedRoomCount.value = res.data.public_locked_rooms_count;
-          unlockedRoomCount.value = res.data.public_opend_rooms_count;
-          testRoom.value = res.data.test_room;
+      browser.storage.local.get('roomData').then(({ roomData }) => {
+        rooms.value = roomData.rooms;
+        tags.value = roomData.aggregated_tags;
+        lockedRoomTags.value = roomData.locked_aggregated_tags;
+        unlockedRoomTags.value = roomData.opend_aggregated_tags;
+        publicRoomCount.value = roomData.public_room_count;
+        lockedRoomCount.value = roomData.public_locked_rooms_count;
+        unlockedRoomCount.value = roomData.public_opend_rooms_count;
+        testRoom.value = roomData.test_room;
 
-          // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
-          if (selectedTag.value.length !== 0 && !res.data.aggregated_tags.some((tag: any) => tag.name === selectedTag.value)) {
-            selectedTag.value = '';
-          }
+        // 選択しているタグが存在しない場合表示の辻褄が合わなくなるのでリセットしておく
+        if (selectedTag.value.length !== 0 && !roomData.aggregated_tags.some((tag: any) => tag.name === selectedTag.value)) {
+          selectedTag.value = '';
+        }
 
-          isSkeleton.value = false;
-          isAnimationable.value = true;
+        isSkeleton.value = false;
+        isAnimationable.value = true;
 
-          setTimeout(() => {
-            isLoading.value = false;
-          }, 1000);
-        })
-        .catch((e) => {
-          // サーバーエラー時に処理がブロッキングされないようにキャッチしておく
-          setTimeout(() => {
-            isLoading.value = false;
-          }, 1000);
-        });
+        setTimeout(() => {
+          isLoading.value = false;
+        }, 2500);
+      })
     };
 
     fetchRooms();
@@ -268,7 +261,7 @@ export default defineComponent({
       if (store.getters['config/autoReload']) {
         fetchRooms();
       }
-    }, 5000);
+    }, 1000);
 
     onBeforeUnmount(() => {
       if (timer.value) {
