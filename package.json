@@ -58,7 +58,7 @@
     "fibers": "^5.0.0",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.4.4",
-    "prettier": "^2.3.2",
+    "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
