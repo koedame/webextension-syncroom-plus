@@ -116,8 +116,8 @@
 
 <script lang="ts">
 // @ts-ignore
-import { browser } from 'webextension-polyfill-ts';
 import twemoji from 'twemoji';
+import { browser } from 'webextension-polyfill-ts';
 import { defineComponent, computed, onBeforeUnmount, ref } from '@vue/composition-api';
 import store from '../store';
 import AdCard from './components/AdCard';
