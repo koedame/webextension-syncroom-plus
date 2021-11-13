@@ -41,7 +41,7 @@
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^9.1.0",
-    "core-js": "^3.15.2",
+    "core-js": "^3.19.1",
     "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "eslint": "^7.32.0",
