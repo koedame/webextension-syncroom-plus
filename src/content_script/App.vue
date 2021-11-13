@@ -118,7 +118,6 @@
 // @ts-ignore
 import { browser } from 'webextension-polyfill-ts';
 import twemoji from 'twemoji';
-import axiosClient from '../lib/axios';
 import { defineComponent, computed, onBeforeUnmount, ref } from '@vue/composition-api';
 import store from '../store';
 import AdCard from './components/AdCard';
@@ -180,7 +179,7 @@ export default defineComponent({
         setTimeout(() => {
           isLoading.value = false;
         }, 2500);
-      })
+      });
     };
 
     fetchRooms();
