@@ -1,9 +1,9 @@
 <template lang="pug">
 #SYNCROOM_PLUS-wrapper
-  Navbar
+  SRPNavbar
 
   #SYNCROOM_PLUS-main
-    Message
+    SRPMessage
 
     .filter-form
       .filter-form__field.mr-5(v-if="!$store.getters['config/autoReload']")
@@ -111,7 +111,7 @@
     strong
       | {{translate("reports")}}
 
-  Footer
+  SRPFooter
 </template>
 
 <script lang="ts">
@@ -122,9 +122,9 @@ import { defineComponent, computed, onBeforeUnmount, ref } from '@vue/compositio
 import store from '../store';
 import AdCard from './components/AdCard';
 import RoomCard from './components/RoomCard';
-import Message from './components/Message';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import SRPMessage from './components/SRPMessage';
+import SRPNavbar from './components/SRPNavbar';
+import SRPFooter from './components/SRPFooter';
 import ContactForm from './components/ContactForm';
 import optimizeSearchKeyword from '../lib/optimize_search_keyword';
 import { translate } from '../lib/i18n';
@@ -134,9 +134,9 @@ export default defineComponent({
   components: {
     AdCard,
     RoomCard,
-    Navbar,
-    Footer,
-    Message,
+    SRPNavbar,
+    SRPFooter,
+    SRPMessage,
   },
 
   setup() {
