@@ -17,7 +17,7 @@
 
     p.room_desc(v-html="roomDescHTML")
 
-    Members(:members="members", :room-create-time="createTime")
+    SRPMembers(:members="members", :room-create-time="createTime")
 
     div(v-if="isNoVacancy")
       template(v-if="isNotificationVacancyRoom")
@@ -46,7 +46,7 @@ import { defineComponent, computed } from '@vue/composition-api';
 // @ts-ignore
 import twemoji from 'twemoji';
 
-import Members from './Members';
+import SRPMembers from './SRPMembers';
 import PasswordPrompt from './PasswordPrompt';
 import store from '../../store';
 
@@ -102,7 +102,7 @@ export default defineComponent({
   },
 
   components: {
-    Members,
+    SRPMembers,
   },
 
   setup(props: Props) {

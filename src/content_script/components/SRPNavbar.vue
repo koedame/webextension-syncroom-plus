@@ -28,8 +28,8 @@ import { defineComponent } from '@vue/composition-api';
 import { i18n, translate } from '../../lib/i18n';
 import store from '../../store';
 import { ModalProgrammatic as Modal } from 'buefy';
-import Config from './Config.vue';
-import Share from './Share.vue';
+import SRPConfig from './SRPConfig.vue';
+import SRPRoomShare from './SRPRoomShare.vue';
 import { browser } from 'webextension-polyfill-ts';
 
 export default defineComponent({
@@ -41,14 +41,14 @@ export default defineComponent({
 
     const openShare = () => {
       Modal.open({
-        component: Share,
+        component: SRPRoomShare,
         hasModalCard: true,
       });
     };
 
     const openConfig = () => {
       Modal.open({
-        component: Config,
+        component: SRPConfig,
         hasModalCard: true,
       });
     };
