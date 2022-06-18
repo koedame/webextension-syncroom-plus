@@ -25,23 +25,14 @@ const swcConfig = {
 };
 
 module.exports = {
-  "roots": [
-    "<rootDir>/src"
-  ],
-  "moduleFileExtensions": [
-    "ts",
-    "js",
-    "tsx"
-  ],
-  "testMatch": [
-    "**/__tests__/**/*.+(ts|tsx|js)",
-    "**/?(*.)+(spec|test).+(ts|tsx|js)"
-  ],
+  roots: ['<rootDir>/src'],
+  moduleFileExtensions: ['ts', 'js', 'tsx'],
+  testMatch: ['**/__tests__/**/*.+(ts|tsx|js)', '**/?(*.)+(spec|test).+(ts|tsx|js)'],
   transform: {
     // '^.+\\.(jsx|tsx|ts|js)?$': 'ts-jest',
     '^.+\\.(t|j)sx?$': ['@swc/jest', swcConfig],
   },
-  "collectCoverage": true,
-  "collectCoverageFrom": ['<rootDir>/src/{lib,hooks}/**/*.{js,jsx,ts,tsx}'],
-  "setupFilesAfterEnv": ['./jest.setup.ts'],
-}
+  collectCoverage: true,
+  collectCoverageFrom: ['<rootDir>/src/{lib}/**/*.{js,jsx,ts,tsx}'],
+  setupFilesAfterEnv: ['./jest.setup.ts'],
+};
