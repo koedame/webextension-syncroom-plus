@@ -6,7 +6,6 @@ const optimizeSearchKeyword = (keyword: string): string => {
   let result: string = keyword;
 
   // 記号を削除
-  /* eslint-disable no-useless-escape */
   result = result.replace(/[\~\!\@\#\$\%\^\&\*\(\)\_\+\`\-\=\[\]\\\{\}\|\;\'\:\"\,\.\/\<\>\?\']/g, '');
 
   // 英数字をすべて半角に統一
