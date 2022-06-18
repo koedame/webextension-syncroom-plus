@@ -41,7 +41,7 @@
     "@swc/jest": "^0.2.21",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.2",
-    "@tailwindcss/line-clamp": "^0.3.0",
+    "@tailwindcss/line-clamp": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/chrome": "^0.0.190",
