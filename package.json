@@ -77,7 +77,7 @@
     "jest-environment-jsdom": "^28.1.1",
     "mockzilla": "^0.13.0",
     "mockzilla-webextension": "^0.14.0",
-    "node-sass": "^7.0.0",
+    "node-sass": "^7.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "^7.0.0",
     "prettier": "^2.7.1",
