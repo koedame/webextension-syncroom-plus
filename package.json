@@ -37,7 +37,7 @@
     "@babel/preset-react": "^7.14.5",
     "@jest/expect-utils": "^28.1.1",
     "@jest/globals": "^28.1.1",
-    "@swc/core": "^1.2.197",
+    "@swc/core": "^1.2.204",
     "@swc/jest": "^0.2.21",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.4.0",
