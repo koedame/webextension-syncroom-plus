@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-node@v3
         id: setup_node_id
         with:
-          node-version: 16
+          node-version: 18
           cache: yarn
 
       - uses: actions/cache@v3
