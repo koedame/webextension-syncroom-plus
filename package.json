@@ -10,7 +10,8 @@
     "start": "NODE_ENV=development node utils/webserver.js",
     "prettier": "NODE_ENV=development prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "test": "NODE_ENV=test jest --collect-coverage",
-    "test-watch": "NODE_ENV=test jest --collect-coverage --watch-all"
+    "test-watch": "NODE_ENV=test jest --collect-coverage --watch-all",
+    "test:coverage": "NODE_ENV=test jest --collect-coverage --silent --testLocationInResults --ci --json --outputFile=\"report.json\""
   },
   "dependencies": {
     "@emotion/css": "^11.5.0",
