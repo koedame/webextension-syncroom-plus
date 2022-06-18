@@ -1,0 +1,32 @@
+name: ビルド検証
+on:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        id: setup_node_id
+        with:
+          node-version: 16
+          cache: yarn
+
+      - uses: actions/cache@v3
+        id: node_modules_cache_id
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+
+      - run: echo '${{ toJSON(steps.setup_node_id.outputs) }}'
+
+      - if: ${{ steps.setup_node_id.outputs.cache-hit != 'true' }}
+        run: yarn install --frozen-lockfile
+
+      - run: yarn build
+
+      - run: yarn build-zip

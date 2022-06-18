@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  overscroll-behavior: none;
+  /* font-family: system-ui, sans-serif; */
+  /* font-size: 15px; */
+}
