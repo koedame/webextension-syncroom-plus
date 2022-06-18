@@ -2,12 +2,10 @@
 
 set -e
 
-npm set progress false
-npm install --no-optional
-npm prune
+yarn install --frozen-lockfile
 
 rm -rf ./dist
 rm -rf ./dist-zip
 
-npm run build
-npm run build-zip
+yarn build
+yarn build-zip

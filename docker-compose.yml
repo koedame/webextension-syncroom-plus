@@ -1,15 +1,16 @@
-version: "3.3"
+version: '3.3'
 
 volumes:
   node_modules:
 
 services:
   app:
+    container_name: development-syncroomplus-app
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 9090:9090
+      - 8080:8080
     volumes:
       - ./:/app:cached
 
@@ -19,11 +20,19 @@ services:
     stdin_open: true
     environment:
       HOST: 0.0.0.0
+      PORT: 8080
       npm_config_loglevel: info
       npm_config_unsafe_perm: info
+      NODE_ENV: development
     entrypoint: ./scripts/entrypoint.sh
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+        max-file: '1'
 
   builder:
+    container_name: development-syncroomplus-builder
     build:
       context: .
       dockerfile: Dockerfile
@@ -37,3 +46,9 @@ services:
     environment:
       npm_config_loglevel: info
       npm_config_unsafe_perm: info
+      NODE_ENV: development
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+        max-file: '1'

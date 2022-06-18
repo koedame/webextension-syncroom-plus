@@ -1,39 +1,30 @@
 {
+  "manifest_version": 3,
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "ja",
-  "version": null,
-  "manifest_version": 2,
+  "background": {
+    "service_worker": "background.bundle.js"
+  },
   "icons": {
     "48": "images/icon_48.png",
     "128": "images/icon_128.png"
   },
-  "browser_action": {
-    "default_title": "syncroom-plus"
-  },
-  "background": {
-    "scripts": [
-      "background.js"
-    ]
+  "action": {
+    "default_title": "SYNCROOM Plus"
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://syncroom.yamaha.com/play/",
-        "https://syncroom.yamaha.com/play/*=*"
-      ],
-      "js": [
-        "content_script/content_script.js"
-      ]
+      "matches": ["https://syncroom.yamaha.com/play/", "https://syncroom.yamaha.com/play/*=*"],
+      "js": ["contentScript.bundle.js"]
     }
   ],
-  "permissions": [
-    "https://*/*",
-    "storage",
-    "tabs",
-    "notifications"
-  ],
   "web_accessible_resources": [
-    "images/*"
-  ]
+    {
+      "resources": ["images/icon_128.png", "images/icon_34.png"],
+      "matches": []
+    }
+  ],
+  "permissions": ["storage", "tabs", "notifications", "alarms"],
+  "host_permissions": ["https://*/*"]
 }
