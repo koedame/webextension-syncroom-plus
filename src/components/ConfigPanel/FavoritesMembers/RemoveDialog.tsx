@@ -3,13 +3,12 @@ import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationIcon } from '@heroicons/react/outline';
 
 import { useTranslation } from '../../../lib/i18n';
-import type { MemberName } from '../../../hooks/useLocalFavoriteMembers';
 
 interface Props {
   isOpen: boolean;
   onClose: Function;
   onOk: Function;
-  memberName: MemberName;
+  memberName: string;
   isRemoveProcessing: boolean;
 }
 
