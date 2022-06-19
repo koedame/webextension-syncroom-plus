@@ -1,5 +1,6 @@
 {
   "en": {
+    "return_to_top": "Return to top of page",
     "old_user": "This user is using an older version of SYNCROOM.",
     "in_the_room": "In the room",
     "recent_activities": "Recent Activities",
@@ -79,6 +80,7 @@
     "logout": "Logout"
   },
   "ja": {
+    "return_to_top": "ページ上部へ戻る",
     "old_user": "このユーザーは古いバージョンのSYNCROOMを使用しています",
     "in_the_room": "ルーム入室中",
     "recent_activities": "最近の活動",
@@ -158,6 +160,7 @@
     "logout": "ログアウト"
   },
   "ko": {
+    "return_to_top": "페이지 맨 위로 돌아가기",
     "old_user": "이 사용자는 이전 버전의 SYNCROOM을 사용하고 있습니다.",
     "in_the_room": "방에서",
     "recent_activities": "최근 활동",
