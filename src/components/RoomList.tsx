@@ -250,7 +250,7 @@ const Component: React.FC<Props> = ({}: Props) => {
         <button
           onClick={() => {
             // 細かい計算をしてもあまりかわらないので一番下までスクロールする
-            window.scrollTo(0, document.documentElement.clientHeight);
+            window.scrollTo({ top: document.body.clientHeight, left: 0, behavior: 'smooth' });
           }}
           className="py-2 text-base px-4 bg-indigo-600 border border-indigo-600 hover:bg-indigo-800 text-white inline-flex items-center shadow-sm rounded"
         >
