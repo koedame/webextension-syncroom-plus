@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 
 import browser from 'webextension-polyfill';
@@ -13,6 +13,7 @@ import { useSession } from '../hooks/useSession';
 import Report from './Report';
 import Messages from './Messages';
 import { LoginRequiredDialog } from '../components/LoginRequired/Dialog';
+import ReturnToTopButton from './ReturnToTopButton';
 
 interface Props {}
 
@@ -55,6 +56,7 @@ const App: React.FC<Props> = ({}: Props) => {
         <Footer version={version} />
         <Report />
         <LoginRequiredDialog />
+        <ReturnToTopButton />
       </React.Suspense>
     </RecoilRoot>
   );
