@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 import ky from 'ky';
 import type { SYNCROOM } from '../types/syncroom';
 import { SessionRepository } from '../repositories/sessionRepository';
