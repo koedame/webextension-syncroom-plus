@@ -11,11 +11,20 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const [isShow, setIsShow] = useState<boolean>(false);
 
+  let scrollTimer: any = null;
   const showControll = () => {
-    if (window.pageYOffset > 200) {
-      setIsShow(true);
+    if (scrollTimer) {
+      return false;
     } else {
-      setIsShow(false);
+      scrollTimer = setTimeout(() => {
+        scrollTimer = null;
+        console.log('hoge');
+        if (window.pageYOffset > 200) {
+          setIsShow(true);
+        } else {
+          setIsShow(false);
+        }
+      }, 500);
     }
   };
 
@@ -23,6 +32,7 @@ const Component: React.FC<Props> = ({}: Props) => {
     const watchScroll = () => {
       window.addEventListener('scroll', showControll);
     };
+
     watchScroll();
 
     return () => {
