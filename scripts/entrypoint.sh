@@ -2,7 +2,8 @@
 
 set -e
 
-npm set progress false
-npm install --no-optional
-npm prune
-npm run watch:dev
+yarn install --frozen-lockfile
+
+rm -rf ./dist/*
+
+yarn start

@@ -1,27 +1,45 @@
-import { browser } from 'webextension-polyfill-ts';
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-Vue.use(VueI18n);
+import i18n from 'i18next';
+import { initReactI18next, useTranslation } from 'react-i18next';
+import i18nJson from './i18n.json';
+import browser from 'webextension-polyfill';
 
-const i18n = new VueI18n({
-  locale: 'ja',
-  messages: require('../i18n.json'),
+type lang = 'en' | 'ja' | 'ko';
+
+i18n.use(initReactI18next).init({
+  resources: {
+    en: {
+      translation: i18nJson.en,
+    },
+    ja: {
+      translation: i18nJson.ja,
+    },
+    ko: {
+      translation: i18nJson.ko,
+    },
+  },
+  lng: 'ja',
+  fallbackLng: 'ja',
+  interpolation: { escapeValue: false },
 });
 
-// restoreFromLocalStorage でうまく設定反映されないので個別の処理で対応
-browser.storage.local.get('configLanguage').then(({ configLanguage }) => {
-  if (typeof configLanguage === 'undefined') {
-    i18n.locale = 'ja';
+browser.storage.local.get('v2ConfigLanguage').then(({ v2ConfigLanguage }) => {
+  if (typeof v2ConfigLanguage === 'undefined') {
+    i18n.changeLanguage('ja');
   } else {
-    i18n.locale = configLanguage;
+    i18n.changeLanguage(v2ConfigLanguage);
   }
 });
 
-const translate = (key: string, option?: any) => {
-  if (!key) {
-    return '';
-  }
-  return String(i18n.t(key, option));
+const changeLanguage = (lang: string) => {
+  i18n.changeLanguage(lang);
+  browser.storage.local.set({ v2ConfigLanguage: lang });
 };
 
-export { i18n, translate };
+const langMap = (lang: string) => {
+  if (lang === 'en') return 'English';
+  if (lang === 'ja') return '日本語';
+  if (lang === 'ko') return '한국어';
+  else return '日本語';
+};
+
+export { i18n, useTranslation, langMap, changeLanguage };
