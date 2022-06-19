@@ -4,9 +4,9 @@ import browser from 'webextension-polyfill';
 const savedConfigAutoReloadSelector = selector<boolean>({
   key: 'savedConfigAutoReload',
   get: async ({ get }) => {
-    const res = await browser.storage.local.get('configAutoReload').then(({ configAutoReload }) => {
-      if (typeof configAutoReload !== 'undefined') {
-        return configAutoReload;
+    const res = await browser.storage.local.get('v2ConfigAutoReload').then(({ v2ConfigAutoReload }) => {
+      if (typeof v2ConfigAutoReload !== 'undefined') {
+        return v2ConfigAutoReload;
       } else {
         return true;
       }
@@ -24,7 +24,7 @@ export const configAutoReloadSelector = selector<boolean>({
   key: 'configAutoReloadSelector',
   get: ({ get }) => get(configAutoReloadState),
   set: ({ set }, newValue) => {
-    browser.storage.local.set({ configAutoReload: newValue });
+    browser.storage.local.set({ v2ConfigAutoReload: newValue });
     set(configAutoReloadState, newValue);
   },
 });

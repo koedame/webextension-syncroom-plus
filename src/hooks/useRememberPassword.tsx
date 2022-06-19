@@ -8,11 +8,11 @@ type roomPasswords = {
 const savedRoomPasswordsSelector = selector<roomPasswords>({
   key: 'savedRoomPasswords',
   get: async ({ get }) => {
-    const res = await browser.storage.local.get('roomPasswords').then(({ roomPasswords }) => {
-      if (typeof roomPasswords === 'undefined') {
+    const res = await browser.storage.local.get('v2RoomPasswords').then(({ v2RoomPasswords }) => {
+      if (typeof v2RoomPasswords === 'undefined') {
         return {};
       } else {
-        return roomPasswords;
+        return v2RoomPasswords;
       }
     });
     return res;
@@ -28,7 +28,7 @@ export const rememberPasswordsSelector = selector<roomPasswords>({
   key: 'rememberPasswordsSelector',
   get: ({ get }) => get(rememberPasswordsState),
   set: ({ set }, newValue) => {
-    browser.storage.local.set({ roomPasswords: newValue });
+    browser.storage.local.set({ v2RoomPasswords: newValue });
     set(rememberPasswordsState, newValue);
   },
 });

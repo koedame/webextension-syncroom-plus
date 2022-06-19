@@ -50,11 +50,11 @@ browser.alarms.create({ periodInMinutes: (1 / 60) * 5 });
 browser.alarms.onAlarm.addListener(async () => {
   try {
     // TODO: 型を設定
-    browser.storage.local.get('configLanguage').then(({ configLanguage }) => {
-      if (typeof configLanguage === 'undefined') {
+    browser.storage.local.get('v2ConfigLanguage').then(({ v2ConfigLanguage }) => {
+      if (typeof v2ConfigLanguage === 'undefined') {
         i18n.changeLanguage('ja');
       } else {
-        i18n.changeLanguage(configLanguage);
+        i18n.changeLanguage(v2ConfigLanguage);
       }
     });
 
@@ -62,12 +62,12 @@ browser.alarms.onAlarm.addListener(async () => {
 
     // ユーザーオンライン通知
     // TODO: 型を設定
-    browser.storage.local.get('notificationOnlineMemberIds').then(({ notificationOnlineMemberIds }) => {
+    browser.storage.local.get('v2NotificationOnlineMemberIds').then(({ v2NotificationOnlineMemberIds }) => {
       // データがなければ何もしない
-      if (!Array.isArray(notificationOnlineMemberIds)) {
+      if (!Array.isArray(v2NotificationOnlineMemberIds)) {
         return false;
       }
-      if (notificationOnlineMemberIds.length === 0) {
+      if (v2NotificationOnlineMemberIds.length === 0) {
         return false;
       }
 
@@ -76,7 +76,7 @@ browser.alarms.onAlarm.addListener(async () => {
         for (const member of room.members) {
           onlineMembers.push(member);
 
-          const notificationOnlineMember = notificationOnlineMemberIds.find((m) => m.userId === member.userId);
+          const notificationOnlineMember = v2NotificationOnlineMemberIds.find((m) => m.userId === member.userId);
 
           // 登録されているメンバーでないときは何もしない
           if (typeof notificationOnlineMember === 'undefined') {
@@ -107,13 +107,13 @@ browser.alarms.onAlarm.addListener(async () => {
           // 最終通知を更新
           notificationOnlineMember.lastNotificationRoomCreatedTime = room.createTime;
           browser.storage.local.set({
-            notificationOnlineMemberIds: JSON.parse(JSON.stringify(notificationOnlineMemberIds)),
+            v2NotificationOnlineMemberIds: JSON.parse(JSON.stringify(v2NotificationOnlineMemberIds)),
           });
         }
       }
 
       // 通知の取り消し
-      for (const notificationOnlineMemberId of notificationOnlineMemberIds) {
+      for (const notificationOnlineMemberId of v2NotificationOnlineMemberIds) {
         // ユーザーがオンラインでなくなったら通知を取り消し
         if (!onlineMembers.some((m) => m.userId === notificationOnlineMemberId.userId)) {
           browser.notifications.clear(`online_member::${notificationOnlineMemberId.userId}`);
@@ -123,12 +123,12 @@ browser.alarms.onAlarm.addListener(async () => {
 
     // 空き部屋通知周り
     // TODO: 型を設定
-    browser.storage.local.get('notificationVacancyRooms').then(({ notificationVacancyRooms }) => {
+    browser.storage.local.get('v2NotificationVacancyRooms').then(({ v2NotificationVacancyRooms }) => {
       // データがなければ何もしない
-      if (!Array.isArray(notificationVacancyRooms)) {
+      if (!Array.isArray(v2NotificationVacancyRooms)) {
         return false;
       }
-      if (notificationVacancyRooms.length === 0) {
+      if (v2NotificationVacancyRooms.length === 0) {
         return false;
       }
 
@@ -141,7 +141,7 @@ browser.alarms.onAlarm.addListener(async () => {
 
         const uid: string = `${room.createTime}||${room.roomName}`;
         // 通知登録に存在しなければスキップ
-        if (!notificationVacancyRooms.some((r: any) => r.uid === uid)) {
+        if (!v2NotificationVacancyRooms.some((r) => r.uid === uid)) {
           continue;
         }
 
@@ -160,23 +160,23 @@ browser.alarms.onAlarm.addListener(async () => {
         browser.notifications.create(`vacancy::${uid}`, options);
 
         // 通知したらキューを削除しておく
-        const newNotificationVacancyRooms = notificationVacancyRooms.filter((r) => r.uid !== uid);
+        const newNotificationVacancyRooms = v2NotificationVacancyRooms.filter((r) => r.uid !== uid);
         browser.storage.local.set({
-          notificationVacancyRooms: JSON.parse(JSON.stringify(newNotificationVacancyRooms)),
+          v2NotificationVacancyRooms: JSON.parse(JSON.stringify(newNotificationVacancyRooms)),
         });
       }
 
       // キューの掃除
       // 出っぱなしの通知を消すにはキューを残す設計に変えないといけない
-      for (const notificationVacancyRoom of notificationVacancyRooms) {
+      for (const notificationVacancyRoom of v2NotificationVacancyRooms) {
         const tmp: string[] = notificationVacancyRoom.uid.split('||');
         const roomName = tmp[1];
 
-        if (!roomlist.rooms.some((r: any) => r.name === roomName)) {
+        if (!roomlist.rooms.some((r) => r.roomName === roomName)) {
           // 部屋が存在しないキューが残っていたら削除
-          const newNotificationVacancyRooms = notificationVacancyRooms.filter((r) => r.uid !== notificationVacancyRoom.uid);
+          const newNotificationVacancyRooms = v2NotificationVacancyRooms.filter((r) => r.uid !== notificationVacancyRoom.uid);
           browser.storage.local.set({
-            notificationVacancyRooms: JSON.parse(JSON.stringify(newNotificationVacancyRooms)),
+            v2NotificationVacancyRooms: JSON.parse(JSON.stringify(newNotificationVacancyRooms)),
           });
         }
       }
