@@ -18,7 +18,6 @@ const Component: React.FC<Props> = ({}: Props) => {
     } else {
       scrollTimer = setTimeout(() => {
         scrollTimer = null;
-        console.log('hoge');
         if (window.pageYOffset > 200) {
           setIsShow(true);
         } else {
