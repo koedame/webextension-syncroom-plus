@@ -3,9 +3,9 @@ import { getPasswordByRoomName } from '../../../lib/passwordManager';
 
 describe('一度もパスワードが保存されていないとき', () => {
   it('空文字が返ること', () => {
-    mockBrowser.storage.local.get.expect('roomPasswords').andResolve(
+    mockBrowser.storage.local.get.expect('v2RoomPasswords').andResolve(
       new Promise((resolve) => {
-        resolve({ roomPasswords: undefined });
+        resolve({ v2RoomPasswords: undefined });
       })
     );
 
@@ -17,9 +17,9 @@ describe('一度もパスワードが保存されていないとき', () => {
 
 describe('指定した部屋のパスワードが保存されていないとき', () => {
   it('空文字が返ること', () => {
-    mockBrowser.storage.local.get.expect('roomPasswords').andResolve(
+    mockBrowser.storage.local.get.expect('v2RoomPasswords').andResolve(
       new Promise((resolve) => {
-        resolve({ roomPasswords: { 部屋2: 'パスワード2' } });
+        resolve({ v2RoomPasswords: { 部屋2: 'パスワード2' } });
       })
     );
 
@@ -31,9 +31,9 @@ describe('指定した部屋のパスワードが保存されていないとき'
 
 describe('指定した部屋のパスワードが保存されているとき', () => {
   it('パスワードが返ること', () => {
-    mockBrowser.storage.local.get.expect('roomPasswords').andResolve(
+    mockBrowser.storage.local.get.expect('v2RoomPasswords').andResolve(
       new Promise((resolve) => {
-        resolve({ roomPasswords: { 部屋1: 'パスワード1', 部屋2: 'パスワード2' } });
+        resolve({ v2RoomPasswords: { 部屋1: 'パスワード1', 部屋2: 'パスワード2' } });
       })
     );
 

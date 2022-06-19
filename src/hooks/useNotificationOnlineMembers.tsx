@@ -11,9 +11,9 @@ export type NotificationOnlineMemberType = {
 const savedNotificationOnlineMemberIdsSelector = selector<NotificationOnlineMemberType[]>({
   key: 'savedNotificationOnlineMemberIds',
   get: async ({ get }) => {
-    const res = await browser.storage.local.get('notificationOnlineMemberIds').then(({ notificationOnlineMemberIds }) => {
-      if (typeof notificationOnlineMemberIds !== 'undefined') {
-        return notificationOnlineMemberIds;
+    const res = await browser.storage.local.get('v2NotificationOnlineMemberIds').then(({ v2NotificationOnlineMemberIds }) => {
+      if (typeof v2NotificationOnlineMemberIds !== 'undefined') {
+        return v2NotificationOnlineMemberIds;
       } else {
         return [] as NotificationOnlineMemberType[];
       }
@@ -31,7 +31,7 @@ export const notificationOnlineMemberIdsSelector = selector<NotificationOnlineMe
   key: 'notificationOnlineMemberIdsSelector',
   get: ({ get }) => get(notificationOnlineMemberIdsState),
   set: ({ set }, newValue) => {
-    browser.storage.local.set({ notificationOnlineMemberIds: newValue });
+    browser.storage.local.set({ v2NotificationOnlineMemberIds: newValue });
     set(notificationOnlineMemberIdsState, newValue);
   },
 });

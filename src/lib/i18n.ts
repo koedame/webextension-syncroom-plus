@@ -22,17 +22,17 @@ i18n.use(initReactI18next).init({
   interpolation: { escapeValue: false },
 });
 
-browser.storage.local.get('configLanguage').then(({ configLanguage }) => {
-  if (typeof configLanguage === 'undefined') {
+browser.storage.local.get('v2ConfigLanguage').then(({ v2ConfigLanguage }) => {
+  if (typeof v2ConfigLanguage === 'undefined') {
     i18n.changeLanguage('ja');
   } else {
-    i18n.changeLanguage(configLanguage);
+    i18n.changeLanguage(v2ConfigLanguage);
   }
 });
 
 const changeLanguage = (lang: string) => {
   i18n.changeLanguage(lang);
-  browser.storage.local.set({ configLanguage: lang });
+  browser.storage.local.set({ v2ConfigLanguage: lang });
 };
 
 const langMap = (lang: string) => {

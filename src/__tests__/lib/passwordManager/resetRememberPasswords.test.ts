@@ -5,7 +5,7 @@ describe('実行したとき', () => {
   it('空のデータが保存されること', () => {
     mockBrowser.storage.local.set
       .expect({
-        roomPasswords: {},
+        v2RoomPasswords: {},
       })
       .andResolve();
 
