@@ -68,6 +68,7 @@ const Component: React.FC<Props> = ({}: Props) => {
         onOk={() => {
           if (removeUser) {
             removeNotificationOnlineMemberFromUserId(removeUser.userId).then((res) => {
+              setRemoveUser(undefined);
               reloadNotificationOnlineMemberIds();
               setRemoveDialogOpenState(false);
               setRemovedToastOpenState(true);
@@ -75,7 +76,6 @@ const Component: React.FC<Props> = ({}: Props) => {
 
             setTimeout(() => {
               setRemovedToastOpenState(false);
-              setRemoveUser(undefined);
             }, 5000);
           }
         }}

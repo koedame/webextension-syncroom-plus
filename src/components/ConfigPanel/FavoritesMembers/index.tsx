@@ -74,6 +74,7 @@ const Component: React.FC<Props> = ({}: Props) => {
             setIsRemoveProcessing(true);
             FavoriteRepository.remove(removeUser.userId).then((res) => {
               reloadMyProfile().then((res) => {
+                setRemoveUser(undefined);
                 setRemoveDialogOpenState(false);
                 setRemovedToastOpenState(true);
                 setIsRemoveProcessing(false);
@@ -82,7 +83,6 @@ const Component: React.FC<Props> = ({}: Props) => {
 
             setTimeout(() => {
               setRemovedToastOpenState(false);
-              setRemoveUser(undefined);
             }, 5000);
           }
         }}
