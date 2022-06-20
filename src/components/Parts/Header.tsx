@@ -49,7 +49,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                     onClick={() => {
                       setShareRoomOpenState(true);
                     }}
-                    className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                   >
                     <QrcodeIcon className="block h-5 w-5 mr-2" />
                     {t('share_room')}
