@@ -39,7 +39,6 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
             <span className="relative inline-block mr-1">
               {user?.currentState.type === 'none' && (
                 <span className="flex h-3 w-3">
-                  {/* <span className="animate-ping absolute h-full w-full rounded-full bg-green-200 opacity-75"></span> */}
                   <span className="relative rounded-full h-3 w-3 bg-gray-400"></span>
                 </span>
               )}
