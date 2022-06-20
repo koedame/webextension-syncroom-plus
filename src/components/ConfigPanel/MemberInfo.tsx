@@ -2,8 +2,6 @@ import React, { memo, useEffect, useState } from 'react';
 import { useTranslation } from '../../lib/i18n';
 import { DateTime } from 'luxon';
 
-import { useSession } from '../../hooks/useSession';
-
 import { SYNCROOM } from '../../types/syncroom';
 import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { UserRepository } from '../../repositories/userRepository';
@@ -16,13 +14,12 @@ interface Props extends SYNCROOM.UserBasicInfoType {
 
 const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemove }: Props) => {
   const { t } = useTranslation();
-  const { myProfile } = useSession();
 
   const [user, setUser] = useState<SYNCROOM.UserType>();
 
   useEffect(() => {
     UserRepository.show(userId).then((res) => setUser(res));
-  }, [myProfile]);
+  }, []);
 
   return (
     <tr className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
