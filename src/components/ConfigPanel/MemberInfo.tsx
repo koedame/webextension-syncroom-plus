@@ -17,7 +17,7 @@ interface Props extends SYNCROOM.UserBasicInfoType {
 
 const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemove }: Props) => {
   const { t } = useTranslation();
-  const { reloadMyProfile, myProfile } = useSession();
+  const { myProfile } = useSession();
 
   const [user, setUser] = useState<SYNCROOM.UserType>();
 
@@ -74,11 +74,9 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
                 </>
               )}
               {user?.currentState.type === 'createRoom' && !user?.currentState.needPasswd && (
-                <>
-                  <span>
-                    {t('in_the_room')}: {user?.currentState.roomName}
-                  </span>
-                </>
+                <span>
+                  {t('in_the_room')}: {user?.currentState.roomName}
+                </span>
               )}
               {user?.currentState.type === 'enterRoom' && t('in_the_room')}
             </span>
