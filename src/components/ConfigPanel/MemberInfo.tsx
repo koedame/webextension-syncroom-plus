@@ -7,7 +7,6 @@ import { useSession } from '../../hooks/useSession';
 import { SYNCROOM } from '../../types/syncroom';
 import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { UserRepository } from '../../repositories/userRepository';
-import { FavoriteRepository } from '../../repositories/favoriteRepository';
 import { LockClosedIcon } from '@heroicons/react/solid';
 
 interface Props extends SYNCROOM.UserBasicInfoType {
