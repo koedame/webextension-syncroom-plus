@@ -28,7 +28,8 @@
 	"oderwat.indent-rainbow",
 	"lucamendes.react-redux-recoil-styledcomponents-snippets",
 	"wmaurer.change-case",
-	"esbenp.prettier-vscode"
+	"esbenp.prettier-vscode",
+	"netcorext.uuid-generator"
 ]
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
