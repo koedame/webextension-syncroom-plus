@@ -2,12 +2,9 @@ import React, { memo, useEffect, useState } from 'react';
 import { useTranslation } from '../../lib/i18n';
 import { DateTime } from 'luxon';
 
-import { useSession } from '../../hooks/useSession';
-
 import { SYNCROOM } from '../../types/syncroom';
 import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { UserRepository } from '../../repositories/userRepository';
-import { FavoriteRepository } from '../../repositories/favoriteRepository';
 import { LockClosedIcon } from '@heroicons/react/solid';
 
 interface Props extends SYNCROOM.UserBasicInfoType {
@@ -17,13 +14,12 @@ interface Props extends SYNCROOM.UserBasicInfoType {
 
 const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemove }: Props) => {
   const { t } = useTranslation();
-  const { reloadMyProfile, myProfile } = useSession();
 
   const [user, setUser] = useState<SYNCROOM.UserType>();
 
   useEffect(() => {
     UserRepository.show(userId).then((res) => setUser(res));
-  }, [myProfile]);
+  }, []);
 
   return (
     <tr className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
@@ -39,7 +35,6 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
             <span className="relative inline-block mr-1">
               {user?.currentState.type === 'none' && (
                 <span className="flex h-3 w-3">
-                  {/* <span className="animate-ping absolute h-full w-full rounded-full bg-green-200 opacity-75"></span> */}
                   <span className="relative rounded-full h-3 w-3 bg-gray-400"></span>
                 </span>
               )}
@@ -74,11 +69,9 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
                 </>
               )}
               {user?.currentState.type === 'createRoom' && !user?.currentState.needPasswd && (
-                <>
-                  <span>
-                    {t('in_the_room')}: {user?.currentState.roomName}
-                  </span>
-                </>
+                <span>
+                  {t('in_the_room')}: {user?.currentState.roomName}
+                </span>
               )}
               {user?.currentState.type === 'enterRoom' && t('in_the_room')}
             </span>

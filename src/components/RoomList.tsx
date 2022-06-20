@@ -381,9 +381,6 @@ const Component: React.FC<Props> = ({}: Props) => {
         onClose={() => {
           closeRoomPasswordPrompt();
         }}
-        onOk={() => {
-          closeRoomPasswordPrompt();
-        }}
       />
     </div>
   );
