@@ -42,8 +42,8 @@ const Component: React.FC<Props> = ({}: Props) => {
           </div>
         ) : (
           <div className="border border-gray-200 rounded">
-            <table className="min-w-full divide-y divide-gray-200 ">
-              <tbody>
+            <table className="min-w-full">
+              <tbody className="divide-y divide-gray-200">
                 {formatUserBasicInfo(users).map((user, index) => {
                   return (
                     <MemberInfo
