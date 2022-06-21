@@ -50,7 +50,7 @@
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/recoil": "^0.0.9",
-    "@types/twemoji": "^12.1.2",
+    "@types/twemoji": "^13.1.2",
     "@types/webextension-polyfill": "^0.9.0",
     "@types/webpack-env": "^1.16.3",
     "archiver": "^5.3.1",
