@@ -6,19 +6,133 @@ import { SYNCROOM } from '../../types/syncroom';
 import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { UserRepository } from '../../repositories/userRepository';
 import { LockClosedIcon } from '@heroicons/react/solid';
+import findRoomByUserId from '../../lib/findRoomByUserId';
+import { useRooms } from '../../hooks/useRooms';
 
 interface Props extends SYNCROOM.UserBasicInfoType {
   index: number;
   onRemove: Function;
 }
 
+interface ActivityComponentPropType {
+  currentState: SYNCROOM.CurrentStateType;
+  publishState: SYNCROOM.PublishStatusType;
+  entryRoom: SYNCROOM.RoomType | undefined;
+}
+const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, publishState, entryRoom }: ActivityComponentPropType) => {
+  const { t } = useTranslation();
+
+  if (currentState.type === 'none') {
+    if (entryRoom) {
+      return <span>{`${t('in_the_room')}: ${entryRoom.roomName}`}</span>;
+    } else {
+      if (publishState === 'hidden') {
+        return <span>{`${t('profile_is_private')}`}</span>;
+      } else {
+        if (currentState.time === 0) {
+          return <span> t('no_activity_history')</span>;
+        } else {
+          return (
+            <span>
+              {t('recent_activities')}: {DateTime.fromMillis(currentState.time * 1000).toLocaleString(DateTime.DATETIME_MED)}
+            </span>
+          );
+        }
+      }
+    }
+  } else if (currentState.type === 'createRoom') {
+    if (entryRoom) {
+      return <span>{`${t('in_the_room')}: ${entryRoom.roomName}`}</span>;
+    } else {
+      return <span>{`${t('in_the_room')}`}</span>;
+    }
+  } else if (currentState.type === 'enterRoom') {
+    if (entryRoom) {
+      return <span>{`${t('in_the_room')}: ${entryRoom.roomName}`}</span>;
+    } else {
+      return <span>{`${t('in_the_room')}`}</span>;
+    }
+  }
+  return null;
+};
+
+const StatusIconComponent: React.FC<ActivityComponentPropType> = ({ currentState, publishState, entryRoom }: ActivityComponentPropType) => {
+  const { t } = useTranslation();
+
+  if (currentState.type === 'none') {
+    if (entryRoom) {
+      return (
+        <span className="flex h-3 w-3">
+          <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
+          <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
+        </span>
+      );
+    } else {
+      if (publishState === 'hidden') {
+        return (
+          <span className="flex h-3 w-3">
+            <span className="animate-ping absolute h-full w-full rounded-full bg-gray-200"></span>
+            <span className="relative rounded-full h-3 w-3 bg-gray-400"></span>
+          </span>
+        );
+      } else {
+        if (currentState.time === 0) {
+          return (
+            <span className="flex h-3 w-3">
+              <span className="animate-ping absolute h-full w-full rounded-full bg-gray-200"></span>
+              <span className="relative rounded-full h-3 w-3 bg-gray-400"></span>
+            </span>
+          );
+        } else {
+          return (
+            <span className="flex h-3 w-3">
+              <span className="animate-ping absolute h-full w-full rounded-full bg-gray-200"></span>
+              <span className="relative rounded-full h-3 w-3 bg-gray-400"></span>
+            </span>
+          );
+        }
+      }
+    }
+  } else if (currentState.type === 'createRoom') {
+    if (entryRoom) {
+      <span className="flex h-3 w-3">
+        <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
+        <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
+      </span>;
+    } else {
+      <span className="flex h-3 w-3">
+        <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
+        <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
+      </span>;
+    }
+  } else if (currentState.type === 'enterRoom') {
+    if (entryRoom) {
+      <span className="flex h-3 w-3">
+        <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
+        <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
+      </span>;
+    } else {
+      <span className="flex h-3 w-3">
+        <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
+        <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
+      </span>;
+    }
+  }
+  return null;
+};
+
 const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemove }: Props) => {
   const { t } = useTranslation();
 
   const [user, setUser] = useState<SYNCROOM.UserType>();
+  const [entryRoom, setEntryRoom] = useState<SYNCROOM.RoomType>();
+  const { rooms } = useRooms();
 
   useEffect(() => {
-    UserRepository.show(userId).then((res) => setUser(res));
+    UserRepository.show(userId).then((res) => {
+      setUser(res);
+      setEntryRoom(findRoomByUserId(rooms, res.userId));
+    });
   }, []);
 
   return (
@@ -33,47 +147,10 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
           </a>
           <p className="text-gray-400 inline-flex items-center">
             <span className="relative inline-block mr-1">
-              {user?.currentState.type === 'none' && (
-                <span className="flex h-3 w-3">
-                  <span className="relative rounded-full h-3 w-3 bg-gray-400"></span>
-                </span>
-              )}
-
-              {user?.currentState.type === 'createRoom' && (
-                <span className="flex h-3 w-3">
-                  <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
-                  <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
-                </span>
-              )}
-
-              {user?.currentState.type === 'enterRoom' && (
-                <span className="flex h-3 w-3">
-                  <span className="animate-ping absolute h-full w-full rounded-full bg-yellow-200"></span>
-                  <span className="relative rounded-full h-3 w-3 bg-yellow-400"></span>
-                </span>
-              )}
+              {user && <StatusIconComponent currentState={user.currentState} publishState={user.publishStatus} entryRoom={entryRoom} />}
             </span>
             <span className="inline-block inline-flex items-center">
-              {user?.currentState.type === 'none' &&
-                (user?.publishStatus === 'hidden'
-                  ? t('profile_is_private')
-                  : user?.currentState.time === 0
-                  ? t('no_activity_history')
-                  : `${t('recent_activities')}: ${DateTime.fromMillis(user?.currentState.time * 1000).toLocaleString(DateTime.DATETIME_MED)}`)}
-              {user?.currentState.type === 'createRoom' && user?.currentState.needPasswd && (
-                <>
-                  <LockClosedIcon className="inline-block w-4 h-4" />
-                  <span>
-                    {t('in_the_room')}: {user?.currentState.roomName}
-                  </span>
-                </>
-              )}
-              {user?.currentState.type === 'createRoom' && !user?.currentState.needPasswd && (
-                <span>
-                  {t('in_the_room')}: {user?.currentState.roomName}
-                </span>
-              )}
-              {user?.currentState.type === 'enterRoom' && t('in_the_room')}
+              {user && <ActivityComponent currentState={user.currentState} publishState={user.publishStatus} entryRoom={entryRoom} />}
             </span>
           </p>
         </div>
