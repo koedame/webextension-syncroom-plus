@@ -1,3 +1,9 @@
+# DependabotがPRを作ったときに権限がなくてカバレッジレポートが投稿されないので設定
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
+
 name: テスト実行
 on:
   push:
