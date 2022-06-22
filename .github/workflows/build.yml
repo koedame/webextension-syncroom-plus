@@ -14,18 +14,22 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - uses: actions/cache@v3
-        id: node_modules_cache_id
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+      # FIXME: キャッシュ周りが機能しなくなったので一旦無効化
+      # - uses: actions/cache@v3
+      #   id: node_modules_cache_id
+      #   env:
+      #     cache-name: cache-node-modules
+      #   with:
+      #     path: '**/node_modules'
+      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}-v4
 
-      - run: echo '${{ toJSON(steps.setup_node_id.outputs) }}'
+      # - run: echo '${{ toJSON(steps.setup_node_id.outputs) }}'
+      # - run: echo '${{ steps.setup_node_id.outputs.cache-hit != 'true' }}'
 
-      - if: ${{ steps.setup_node_id.outputs.cache-hit != 'true' }}
-        run: yarn install --frozen-lockfile
+      # - if: ${{ steps.setup_node_id.outputs.cache-hit != 'true' }}
+      #   run: yarn install --frozen-lockfile
+
+      - run: yarn install --frozen-lockfile
 
       - run: yarn build
 
