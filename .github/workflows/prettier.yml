@@ -7,24 +7,25 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        id: setup_node_id
-        with:
-          node-version: 18
-          cache: yarn
+      # - uses: actions/setup-node@v3
+      #   id: setup_node_id
+      #   with:
+      #     node-version: 18
+      #     cache: yarn
 
-      - uses: actions/cache@v3
-        id: node_modules_cache_id
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+      # - uses: actions/cache@v3
+      #   id: node_modules_cache_id
+      #   env:
+      #     cache-name: cache-node-modules
+      #   with:
+      #     path: '**/node_modules'
+      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}-v3
 
-      - run: echo '${{ toJSON(steps.setup_node_id.outputs) }}'
+      # - run: echo '${{ toJSON(steps.setup_node_id.outputs) }}'
+      # - run: echo '${{ steps.setup_node_id.outputs.cache-hit != 'true' }}'
 
-      - if: ${{ steps.setup_node_id.outputs.cache-hit != 'true' }}
-        run: yarn install --frozen-lockfile
+      # - if: ${{ steps.setup_node_id.outputs.cache-hit != 'true' }}
+      #   run: yarn install --frozen-lockfile
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.2

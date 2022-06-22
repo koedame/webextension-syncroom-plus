@@ -25,6 +25,6 @@
       "matches": []
     }
   ],
-  "permissions": ["storage", "tabs", "notifications", "alarms"],
+  "permissions": ["storage", "notifications", "alarms"],
   "host_permissions": ["https://*/*"]
 }
