@@ -30,8 +30,9 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
-      - uses: ArtiomTr/jest-coverage-report-action@v2.0-rc.6
+      - run: yarn run test:coverage
+
+      - uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          package-manager: 'yarn'
-          test-script: yarn run test:coverage
+          coverage-file: ./report.json
