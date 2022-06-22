@@ -11,10 +11,9 @@ import { openInSyncroomApp } from '../../lib/openInSyncroomApp';
 interface Props {
   isOpen: boolean;
   onClose: Function;
-  onOk: Function;
 }
 
-const Component: React.FC<Props> = ({ isOpen, onClose, onOk }: Props) => {
+const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
   const { t } = useTranslation();
 
   const { currentRoomName } = useRoomPasswordPrompt();

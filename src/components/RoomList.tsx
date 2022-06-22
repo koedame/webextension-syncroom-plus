@@ -13,10 +13,10 @@ import RoomPasswordDialog from './RoomCard/RoomPasswordDialog';
 
 import { useRoomPasswordPrompt } from '../hooks/useRoomPasswordPrompt';
 import { useConfigAutoReload } from '../hooks/useConfigAutoReload';
-import { useSession } from '../hooks/useSession';
 import { RoomRepository } from '../repositories/roomRepository';
 import decryptionTags from '../lib/decriptionTags';
 import sumallizeRoomData from '../lib/sumallizeRoomData';
+import { useRooms } from '../hooks/useRooms';
 
 // focus:shadow-none が効かないのでこのやり方をとる
 const SearchInputStyle = css`
@@ -32,8 +32,6 @@ interface Props {}
 
 const Component: React.FC<Props> = ({}: Props) => {
   const { t } = useTranslation();
-
-  const [srRooms, setSrRooms] = useState<SYNCROOM.RoomType[]>([]);
 
   const [keywordState, setKeywordState] = useState<string>('');
   const [selectRoomTypeState, setSelectRoomTypeState] = useState<'all' | 'unlocked' | 'locked'>('all');
@@ -58,13 +56,15 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const { configAutoReload } = useConfigAutoReload();
 
+  const { rooms, setRooms } = useRooms();
+
   const fetchRooms = async () => {
     setLoadingAnnimationState(true);
 
     try {
       await RoomRepository.unauthedList()
         .then((res) => {
-          setSrRooms(res.rooms);
+          setRooms(res.rooms);
         })
         .catch((e) => {
           console.error('ルーム情報取得失敗', e);
@@ -105,7 +105,7 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   // 絞り込みの反映
   const roomFiltering = () => {
-    const filteredRooms = srRooms.filter((room) => {
+    const filteredRooms = rooms.filter((room) => {
       if (room.roomName === '接続テストルーム') {
         return false;
       }
@@ -149,8 +149,7 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   // 部屋を読み込んだら更新する
   useEffect(() => {
-    const { AggregatedTags, LockedAggregatedTags, UnlockedAggregatedTags, PublicRoomsCount, PublicLockedRoomsCount, PublicUnlockedRoomsCount, TestRoom } =
-      sumallizeRoomData(srRooms);
+    const { AggregatedTags, LockedAggregatedTags, UnlockedAggregatedTags, PublicRoomsCount, PublicLockedRoomsCount, PublicUnlockedRoomsCount, TestRoom } = sumallizeRoomData(rooms);
 
     setAggregatedTagsState(AggregatedTags);
     setLockedAggregatedTagsState(LockedAggregatedTags);
@@ -161,12 +160,12 @@ const Component: React.FC<Props> = ({}: Props) => {
     setPublicUnlockedRoomsCount(PublicUnlockedRoomsCount);
 
     setTestRoomState(TestRoom);
-  }, [srRooms]);
+  }, [rooms]);
 
   // 絞り込みの反映
   useEffect(() => {
     roomFiltering();
-  }, [srRooms, keywordState, selectRoomTypeState, selectTagState]);
+  }, [rooms, keywordState, selectRoomTypeState, selectTagState]);
 
   return (
     <div>
@@ -379,9 +378,6 @@ const Component: React.FC<Props> = ({}: Props) => {
       <RoomPasswordDialog
         isOpen={roomPasswordPromptOpen}
         onClose={() => {
-          closeRoomPasswordPrompt();
-        }}
-        onOk={() => {
           closeRoomPasswordPrompt();
         }}
       />

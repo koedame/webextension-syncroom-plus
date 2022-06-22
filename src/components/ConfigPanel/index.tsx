@@ -55,7 +55,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                 <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
                   <div className="px-4 py-6 sm:px-6 bg-gray-100">
                     <div className="flex items-start justify-between">
-                      <Dialog.Title className="text-lg font-medium text-gray-900">{t('settings')}</Dialog.Title>
+                      <Dialog.Title className="text-lg font-medium text-gray-900">{t('menu')}</Dialog.Title>
                       <div className="ml-3 h-7 flex items-center">
                         <button
                           type="button"
