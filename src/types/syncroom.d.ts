@@ -157,6 +157,34 @@ export namespace SYNCROOM {
     [key: UserIdType]: UserBasicInfoType;
   }[];
 
+  export type UserSearchRequestType = {
+    keywords: string,
+    publishStatus: 'open' | 'hidden',
+    pageSize: number,
+    page: number
+  };
+
+  export type UserSearchType = {
+    userId: UserIdType,
+    nickname: string,
+    profileText: string,
+    publishStatus: PublishStatusType,
+    iconInfo: IconInfoType,
+    socialLinks: SocialLinksType,
+    favoriteProducts: string[],
+    favoriteGenres: string[],
+  };
+
+  export type UserSearchResponseType = {
+    users: UserSearchType,
+    meta: {
+      pageSize: number,
+      page: number,
+      totalUsers: number,
+      totalPages: number
+    },
+  }[];
+
   // 未使用
   // export type ErrorRessponseType = {
   //   status: "error",
