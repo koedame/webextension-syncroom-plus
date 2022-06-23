@@ -4,3 +4,4 @@
 /dist-zip
 /coverage
 report.json
+.devcontainer
