@@ -30,9 +30,11 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
-      - run: yarn run test:coverage
+      - run: yarn run test
 
-      - uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: ./report.json
+      # DependabotがつくるPRが権限の関係でコケてしまうので一旦無効化
+      # - run: yarn run test:coverage
+      # - uses: ArtiomTr/jest-coverage-report-action@v2
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     coverage-file: ./report.json
