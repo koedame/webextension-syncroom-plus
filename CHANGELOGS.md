@@ -1,5 +1,21 @@
 # CHANGELOGS
 
+## v2.0.2
+
+### 変更
+
+- パスワードつき本入室が仮入室になる不具合を修正
+- プライバシーポリシー更新（不要になった権限の項目を削除）
+
+### 依存パッケージ
+
+- @swc/core from 1.2.204 to 1.2.205
+- @types/jest from 28.1.2 to 28.1
+- ky from 0.30.0 to 0.31.0
+- recoil from 0.7.3 to 0.7.4
+- tailwindcss from 3.1.3 to 3.1.4
+- ts-loader from 9.3.0 to 9.3.1
+
 ## v2.0.1
 
 ### 変更

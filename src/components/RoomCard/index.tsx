@@ -62,7 +62,7 @@ const Component: React.FC<Props> = (props: Props) => {
 
   const { openRoomPasswordPrompt, setCurrentRoomName } = useRoomPasswordPrompt();
 
-  const onTempolaryJoin = () => {
+  const onTemporaryJoin = () => {
     if (props.needPasswd) {
       setCurrentRoomName(props.roomName);
       openRoomPasswordPrompt();
@@ -151,7 +151,7 @@ const Component: React.FC<Props> = (props: Props) => {
         ) : (
           <div className="flex justify-between px-2 py-2">
             <button
-              onClick={onTempolaryJoin}
+              onClick={onTemporaryJoin}
               className="shadow-sm bg-gray-50 hover:bg-gray-100 rounded py-2 px-4 text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
             >
               {t('temporary_entry')}
