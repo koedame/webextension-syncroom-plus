@@ -1,6 +1,9 @@
 name: テスト実行
 on:
+  pull_request:
   push:
+    branches:
+      - develop
 jobs:
   build:
     runs-on: ubuntu-latest
