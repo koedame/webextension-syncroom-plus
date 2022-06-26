@@ -1,6 +1,9 @@
 name: ビルド検証
 on:
+  pull_request:
   push:
+    branches:
+      - develop
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,22 +17,19 @@ jobs:
           node-version: 18
           cache: yarn
 
-      # FIXME: キャッシュ周りが機能しなくなったので一旦無効化
-      # - uses: actions/cache@v3
-      #   id: node_modules_cache_id
-      #   env:
-      #     cache-name: cache-node-modules
-      #   with:
-      #     path: '**/node_modules'
-      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}-v4
+      - uses: actions/cache@v3
+        id: node_modules_cache_id
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: 'node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}-v6
 
-      # - run: echo '${{ toJSON(steps.setup_node_id.outputs) }}'
-      # - run: echo '${{ steps.setup_node_id.outputs.cache-hit != 'true' }}'
+      - run: echo '${{ toJSON(steps.node_modules_cache_id.outputs) }}'
+      - run: echo '${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}'
 
-      # - if: ${{ steps.setup_node_id.outputs.cache-hit != 'true' }}
-      #   run: yarn install --frozen-lockfile
-
-      - run: yarn install --frozen-lockfile
+      - if: steps.node_modules_cache_id.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
 
       - run: yarn build
 
