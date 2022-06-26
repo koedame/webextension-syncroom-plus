@@ -157,7 +157,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                       if (configRememberPassword) {
                         saveRoomPassword(currentRoomName, roomPasswordState);
                       }
-                      openInSyncroomApp(currentRoomName, roomPasswordState, true);
+                      openInSyncroomApp(currentRoomName, roomPasswordState, false);
                       onClose();
                     } else {
                       passwordInputRef.current?.focus();
