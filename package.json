@@ -17,7 +17,7 @@
     "@emotion/css": "^11.5.0",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.5",
-    "i18next": "^21.8.10",
+    "i18next": "^21.8.11",
     "ky": "^0.31.0",
     "luxon": "^2.1.1",
     "react": "^17.0.2",
