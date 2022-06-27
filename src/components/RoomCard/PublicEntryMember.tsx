@@ -56,7 +56,7 @@ const Component: React.FC<Props> = ({ iconUrl, memberName, roomCreatedAt, userId
           />
         ) : (
           <a
-            className="truncate inline-block text-xs max-w-[170px] text-blue-600 hover:text-blue-800"
+            className="truncate inline-block text-xs max-w-[170px] text-blue-700 hover:text-blue-900"
             dangerouslySetInnerHTML={{ __html: memberNameEmojify(memberName) }}
             href={`https://syncroom.yamaha.com/mypage/user/${userId}`}
             target="_blank"
