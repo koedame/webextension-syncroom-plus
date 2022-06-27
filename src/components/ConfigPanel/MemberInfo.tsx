@@ -145,7 +145,7 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
           <a className="text-blue-600 hover:text-blue-800" href={`https://syncroom.yamaha.com/mypage/user/${userId}`} target="_blank" rel="noopener noreferrer">
             <p>{nickname}</p>
           </a>
-          <p className="text-gray-400 inline-flex items-center">
+          <p className="text-gray-700 inline-flex items-center">
             <span className="relative inline-block mr-1">
               {user && <StatusIconComponent currentState={user.currentState} publishState={user.publishStatus} entryRoom={entryRoom} />}
             </span>
