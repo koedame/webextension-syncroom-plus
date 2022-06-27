@@ -26,7 +26,7 @@ const SearchInputStyle = css`
 `;
 
 const slectedTagStyle = 'inline-block inline-flex items-center px-3 py-1 text-white bg-gray-600 shadow-sm rounded hover:bg-gray-800';
-const unslectedTagStyle = 'inline-block inline-flex items-center px-3 py-1 text-gray-600 bg-gray-100 shadow-sm rounded hover:bg-gray-200';
+const unslectedTagStyle = 'inline-block inline-flex items-center px-3 py-1 text-gray-900 bg-gray-100 shadow-sm rounded hover:bg-gray-200';
 
 interface Props {}
 
@@ -205,14 +205,14 @@ const Component: React.FC<Props> = ({}: Props) => {
             className={
               selectRoomTypeState === 'all'
                 ? 'py-2 text-base px-4 h-full bg-blue-600 text-white inline-flex items-center cursor-default'
-                : 'py-2 text-base px-4 h-full text-gray-600 hover:bg-gray-100 inline-flex items-center'
+                : 'py-2 text-base px-4 h-full text-gray-900 hover:bg-gray-100 inline-flex items-center'
             }
           >
             {/* 高さを合わせるためのダミー */}
             <span className="h-4"></span>
 
             {t('all')}
-            <span className={selectRoomTypeState === 'all' ? 'ml-1 text-sm text-blue-200' : 'ml-1 text-sm text-gray-400'}>{publicRoomsCount}</span>
+            <span className={selectRoomTypeState === 'all' ? 'ml-1 text-sm text-blue-200' : 'ml-1 text-sm text-gray-900'}>{publicRoomsCount}</span>
           </button>
           <button
             onClick={() => {
@@ -221,13 +221,13 @@ const Component: React.FC<Props> = ({}: Props) => {
             className={
               selectRoomTypeState === 'unlocked'
                 ? 'py-2 text-base px-4 h-full bg-indigo-600 text-white inline-flex items-center cursor-default'
-                : 'py-2 text-base px-4 h-full text-gray-600 hover:bg-gray-100 inline-flex items-center'
+                : 'py-2 text-base px-4 h-full text-gray-900 hover:bg-gray-100 inline-flex items-center'
             }
           >
             <LockOpenIcon className="h-4 w-4 mr-2" />
             {t('unlocked')}
 
-            <span className={selectRoomTypeState === 'unlocked' ? 'ml-1 text-sm text-indigo-200' : 'ml-1 text-sm text-gray-400'}>{publicUnlockedRoomsCount}</span>
+            <span className={selectRoomTypeState === 'unlocked' ? 'ml-1 text-sm text-indigo-200' : 'ml-1 text-sm text-gray-900'}>{publicUnlockedRoomsCount}</span>
           </button>
           <button
             onClick={() => {
@@ -236,13 +236,13 @@ const Component: React.FC<Props> = ({}: Props) => {
             className={
               selectRoomTypeState === 'locked'
                 ? 'py-2 text-base px-4 h-full bg-gray-600 text-white inline-flex items-center cursor-default'
-                : 'py-2 text-base px-4 h-full text-gray-600 hover:bg-gray-100 inline-flex items-center'
+                : 'py-2 text-base px-4 h-full text-gray-900 hover:bg-gray-100 inline-flex items-center'
             }
           >
             <LockClosedIcon className="h-4 w-4 mr-2" />
             {t('locked')}
 
-            <span className={selectRoomTypeState === 'locked' ? 'ml-1 text-sm text-gray-300' : 'ml-1 text-sm text-gray-400'}>{publicLockedRoomsCount}</span>
+            <span className={selectRoomTypeState === 'locked' ? 'ml-1 text-sm text-gray-300' : 'ml-1 text-sm text-gray-900'}>{publicLockedRoomsCount}</span>
           </button>
         </div>
 
@@ -296,7 +296,7 @@ const Component: React.FC<Props> = ({}: Props) => {
               >
                 {selectTagState === tag.name && <XIcon className="h-3 w-3 mr-1" />}
                 <span className="text-sm">{tag.name}</span>
-                <span className="text-sm text-gray-400 ml-1">{tag.count}</span>
+                <span className="text-sm text-gray-900 ml-1">{tag.count}</span>
               </button>
             );
           })}
@@ -317,7 +317,7 @@ const Component: React.FC<Props> = ({}: Props) => {
               >
                 {selectTagState === tag.name && <XIcon className="h-3 w-3 mr-1" />}
                 <span className="text-sm">{tag.name}</span>
-                <span className="text-sm text-gray-400 ml-1">{tag.count}</span>
+                <span className="text-sm text-gray-900 ml-1">{tag.count}</span>
               </button>
             );
           })}

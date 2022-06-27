@@ -50,7 +50,7 @@ const Component: React.FC<Props> = ({ iconUrl, memberName, roomCreatedAt, userId
       <div className="flex justify-between items-center w-full mr-1">
         {isNot15user ? (
           <p
-            className="truncate inline-block text-xs cursor-not-allowed max-w-[170px] text-gray-600"
+            className="truncate inline-block text-xs cursor-not-allowed max-w-[170px] text-gray-900"
             dangerouslySetInnerHTML={{ __html: memberNameEmojify(memberName) }}
             title={t('old_user')}
           />
