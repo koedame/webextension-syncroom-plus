@@ -18,9 +18,9 @@ import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { roomRemainingTimeFromCreateTime } from '../../lib/roomRemainingTimeFromCreateTime';
 import decryptionTags from '../../lib/decriptionTags';
 
-const FullMemberRoomCardStyle = 'rounded overflow-hidden shadow bg-gray-100 mx-1 mb-4 text-gray-600 w-[300px] h-[460px]';
-const UnLockedRoomCardStyle = 'rounded overflow-hidden shadow bg-indigo-100 mx-1 mb-4 text-gray-600 w-[300px] h-[460px]';
-const LockedRoomCardStyle = 'rounded overflow-hidden shadow bg-gray-200 mx-1 mb-4 text-gray-600 w-[300px] h-[460px]';
+const FullMemberRoomCardStyle = 'rounded overflow-hidden shadow bg-gray-100 mx-1 mb-4 text-gray-900 w-[300px] h-[460px]';
+const UnLockedRoomCardStyle = 'rounded overflow-hidden shadow bg-indigo-100 mx-1 mb-4 text-gray-900 w-[300px] h-[460px]';
+const LockedRoomCardStyle = 'rounded overflow-hidden shadow bg-gray-200 mx-1 mb-4 text-gray-900 w-[300px] h-[460px]';
 
 const FullMemberRoomCardHeaderStyle = 'flex justify-between items-center bg-gray-400 text-white px-2 py-1';
 const UnLockedRoomCardHeaderStyle = 'flex justify-between items-center bg-indigo-600 text-white px-2 py-1';

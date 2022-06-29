@@ -1,5 +1,24 @@
 # CHANGELOGS
 
+## v2.0.3
+
+### 変更
+
+- 環境依存をなくすために基準のフォントサイズを設定
+- テキストのコントラストを変更
+
+### 依存パッケージ
+
+- @babel/core from 7.18.5 to 7.18.6
+- @babel/plugin-proposal-class-properties from 7.17.12 to 7.18.6
+- @babel/preset-env from 7.18.2 to 7.18.6
+- @babel/preset-react from 7.17.12 to 7.18.6
+- @swc/core from 1.2.205 to 1.2.207
+- @types/chrome from 0.0.190 to 0.0.191
+- i18next from 21.8.10 to 21.8.11
+- react-i18next from 11.17.2 to 11.17.3
+- sass-loader from 13.0.0 to 13.0.2
+
 ## v2.0.2
 
 ### 変更

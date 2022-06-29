@@ -6,5 +6,5 @@ html,
 body {
   overscroll-behavior: none;
   /* font-family: system-ui, sans-serif; */
-  /* font-size: 15px; */
+  font-size: 16px;
 }

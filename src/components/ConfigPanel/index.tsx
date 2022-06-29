@@ -59,7 +59,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                       <div className="ml-3 h-7 flex items-center">
                         <button
                           type="button"
-                          className="rounded-md text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500"
+                          className="rounded-md text-gray-700 hover:text-gray-900 focus:ring-2 focus:ring-indigo-500"
                           onClick={() => {
                             onClose();
                           }}
@@ -79,7 +79,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                               setCurrentTabState('basic');
                             }}
                             className={classNames(
-                              'basic' === currentTabState ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                              'basic' === currentTabState ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-900 hover:border-gray-300',
                               'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                             )}
                           >
@@ -93,7 +93,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                               setCurrentTabState('favorite');
                             }}
                             className={classNames(
-                              'favorite' === currentTabState ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                              'favorite' === currentTabState ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-900 hover:border-gray-300',
                               'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                             )}
                           >
@@ -109,7 +109,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                             className={classNames(
                               'online_notification' === currentTabState
                                 ? 'border-indigo-500 text-indigo-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                                : 'border-transparent text-gray-700 hover:text-gray-900 hover:border-gray-300',
                               'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                             )}
                           >
@@ -123,7 +123,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                               setCurrentTabState('block');
                             }}
                             className={classNames(
-                              'block' === currentTabState ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                              'block' === currentTabState ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-700 hover:text-gray-900 hover:border-gray-300',
                               'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                             )}
                           >

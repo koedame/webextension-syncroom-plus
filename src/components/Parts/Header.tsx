@@ -44,7 +44,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                   <img className="hidden lg:block h-8 w-auto" src="https://syncroomplus.koeda.me/images/logo.png" alt="Workflow" />
                 </div>
                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
+                  {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-900" */}
                   <button
                     onClick={() => {
                       setShareRoomOpenState(true);
@@ -81,7 +81,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                           onClick={() => {
                             changeLanguage('en');
                           }}
-                          className={`w-full px-4 py-2 text-sm text-gray-700 hover:w-full hover:bg-gray-100 ${i18n.language === 'en' ? 'text-indigo-600' : ''}`}
+                          className={`w-full px-4 py-2 text-sm text-gray-900 hover:w-full hover:bg-gray-100 ${i18n.language === 'en' ? 'text-indigo-600' : ''}`}
                         >
                           {i18n.language === 'en' && <CheckIcon className="inline h-5 w-5 mr-1" />}
                           English
@@ -92,7 +92,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                           onClick={() => {
                             changeLanguage('ja');
                           }}
-                          className={`w-full px-4 py-2 text-sm text-gray-700 hover:w-full hover:bg-gray-100 ${i18n.language === 'ja' ? 'text-indigo-600' : ''}`}
+                          className={`w-full px-4 py-2 text-sm text-gray-900 hover:w-full hover:bg-gray-100 ${i18n.language === 'ja' ? 'text-indigo-600' : ''}`}
                         >
                           {i18n.language === 'ja' && <CheckIcon className="inline h-5 w-5 mr-1" />}
                           Japanese (日本語)
@@ -103,7 +103,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                           onClick={() => {
                             changeLanguage('ko');
                           }}
-                          className={`w-full px-4 py-2 text-sm text-gray-700 hover:w-full hover:bg-gray-100 ${i18n.language === 'ko' ? 'text-indigo-600' : ''}`}
+                          className={`w-full px-4 py-2 text-sm text-gray-900 hover:w-full hover:bg-gray-100 ${i18n.language === 'ko' ? 'text-indigo-600' : ''}`}
                         >
                           {i18n.language === 'ko' && <CheckIcon className="inline h-5 w-5 mr-1" />}
                           Korean (한국어)
@@ -146,7 +146,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                           <Menu.Item>
                             <a
                               href="https://syncroom.yamaha.com/mypage"
-                              className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                              className="block w-full px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 text-left"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -157,7 +157,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                           <Menu.Item>
                             <a
                               href={`https://syncroom.yamaha.com/mypage/user/${myProfile.userId}`}
-                              className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                              className="block w-full px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 text-left"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -168,7 +168,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                           <Menu.Item>
                             <a
                               href="https://syncroom.yamaha.com/mypage/search"
-                              className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                              className="block w-full px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 text-left"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -183,7 +183,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                               onClick={() => {
                                 logout();
                               }}
-                              className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                              className="block w-full px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 text-left"
                             >
                               {t('logout')}
                             </button>
@@ -212,7 +212,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                 onClick={() => {
                   setShareRoomOpenState(true);
                 }}
-                className="flex w-full border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                className="flex w-full border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
               >
                 <QrcodeIcon className="block h-5 w-5 mr-2" />
                 {t('share_room')}
