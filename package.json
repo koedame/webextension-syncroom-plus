@@ -67,7 +67,7 @@
     "html-webpack-plugin": "^5.5.0",
     "jest": "^28.1.2",
     "jest-diff": "^28.1.1",
-    "jest-environment-jsdom": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.2",
     "mockzilla": "^0.13.0",
     "mockzilla-webextension": "^0.14.0",
     "node-sass": "^7.0.1",
