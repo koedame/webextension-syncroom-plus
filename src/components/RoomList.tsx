@@ -328,8 +328,7 @@ const Component: React.FC<Props> = ({}: Props) => {
         <div className="text-center my-32">
           <div className="flex flex-col justify-between">
             <ReactLoading className="mx-auto h-20 w-20" type="bubbles" color="rgb(79 70 229)" />
-            {/* FIXME: i18n対応 */}
-            <p>部屋情報を読み込んでいます...</p>
+            <p>{t('loading')}</p>
           </div>
         </div>
       ) : (
