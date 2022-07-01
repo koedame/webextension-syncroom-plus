@@ -6,6 +6,9 @@ on:
       - develop
 jobs:
   build:
+    timeout-minutes: 5
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

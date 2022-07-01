@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/css';
 import { Flipper } from 'react-flip-toolkit';
 import { ExclamationIcon, StatusOnlineIcon, RefreshIcon, SearchIcon, XIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/react/solid';
+import ReactLoading from 'react-loading';
 
 import type { SYNCROOMPlus } from '../types/syncroomPlus';
 import type { SYNCROOM } from '../types/syncroom';
@@ -325,9 +326,9 @@ const Component: React.FC<Props> = ({}: Props) => {
 
       {initialState ? (
         <div className="text-center my-32">
-          <div className="inline-flex items-center">
-            <RefreshIcon className="animate-reverse-spin h-4 w-4 mr-2" />
-            <p>部屋情報を読み込んでいます...</p>
+          <div className="flex flex-col justify-between">
+            <ReactLoading className="mx-auto h-20 w-20" type="bubbles" color="rgb(79 70 229)" />
+            <p>{t('loading')}</p>
           </div>
         </div>
       ) : (
