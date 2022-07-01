@@ -71,7 +71,6 @@ const StatusIconComponent: React.FC<ActivityComponentPropType> = ({ currentState
       if (publishState === 'hidden') {
         return (
           <span className="flex h-3 w-3">
-            <span className="animate-ping absolute h-full w-full rounded-full bg-gray-200"></span>
             <span className="relative rounded-full h-3 w-3 bg-gray-400"></span>
           </span>
         );
@@ -79,14 +78,12 @@ const StatusIconComponent: React.FC<ActivityComponentPropType> = ({ currentState
         if (currentState.time === 0) {
           return (
             <span className="flex h-3 w-3">
-              <span className="animate-ping absolute h-full w-full rounded-full bg-gray-200"></span>
               <span className="relative rounded-full h-3 w-3 bg-gray-400"></span>
             </span>
           );
         } else {
           return (
             <span className="flex h-3 w-3">
-              <span className="animate-ping absolute h-full w-full rounded-full bg-gray-200"></span>
               <span className="relative rounded-full h-3 w-3 bg-gray-400"></span>
             </span>
           );
@@ -94,29 +91,19 @@ const StatusIconComponent: React.FC<ActivityComponentPropType> = ({ currentState
       }
     }
   } else if (currentState.type === 'createRoom') {
-    if (entryRoom) {
+    return (
       <span className="flex h-3 w-3">
         <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
         <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
-      </span>;
-    } else {
-      <span className="flex h-3 w-3">
-        <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
-        <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
-      </span>;
-    }
+      </span>
+    );
   } else if (currentState.type === 'enterRoom') {
-    if (entryRoom) {
+    return (
       <span className="flex h-3 w-3">
         <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
         <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
-      </span>;
-    } else {
-      <span className="flex h-3 w-3">
-        <span className="animate-ping absolute h-full w-full rounded-full bg-green-200"></span>
-        <span className="relative rounded-full h-3 w-3 bg-green-400"></span>
-      </span>;
-    }
+      </span>
+    );
   }
   return null;
 };
