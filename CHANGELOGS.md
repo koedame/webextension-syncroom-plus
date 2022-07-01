@@ -1,5 +1,21 @@
 # CHANGELOGS
 
+## v2.0.4
+
+### 変更
+
+- ローディングアニメーションを変更
+- 入室状況を表すランプの不具合を修正
+
+### 依存パッケージ
+
+- @jest/globals from 28.1.1 to 28.1.2
+- jest and @types/jest
+- jest-environment-jsdom from 28.1.1 to 28.1.2
+- react-i18next from 11.17.3 to 11.17.4
+- react-loading 2.0.3
+- webpack-dev-server from 4.9.2 to 4.9.3
+
 ## v2.0.3
 
 ### 変更
