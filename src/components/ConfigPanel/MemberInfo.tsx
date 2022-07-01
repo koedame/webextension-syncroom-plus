@@ -5,7 +5,6 @@ import { DateTime } from 'luxon';
 import { SYNCROOM } from '../../types/syncroom';
 import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { UserRepository } from '../../repositories/userRepository';
-import { LockClosedIcon } from '@heroicons/react/solid';
 import findRoomByUserId from '../../lib/findRoomByUserId';
 import { useRooms } from '../../hooks/useRooms';
 
