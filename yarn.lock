@@ -1278,12 +1278,12 @@
   dependencies:
     "@jest/types" "^27.5.1"
 
-"@jest/environment@^28.1.1":
-  version "28.1.1"
-  resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-28.1.1.tgz#c4cbf85283278d768f816ebd1a258ea6f9e39d4f"
-  integrity sha512-9auVQ2GzQ7nrU+lAr8KyY838YahElTX9HVjbQPPS2XjlxQ+na18G113OoBhyBGBtD6ZnO/SrUy5WR8EzOj1/Uw==
+"@jest/environment@^28.1.1", "@jest/environment@^28.1.2":
+  version "28.1.2"
+  resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-28.1.2.tgz#94a052c0c5f9f8c8e6d13ea6da78dbc5d7d9b85b"
+  integrity sha512-I0CR1RUMmOzd0tRpz10oUfaChBWs+/Hrvn5xYhMEF/ZqrDaaeHwS8yDBqEWCrEnkH2g+WE/6g90oBv3nKpcm8Q==
   dependencies:
-    "@jest/fake-timers" "^28.1.1"
+    "@jest/fake-timers" "^28.1.2"
     "@jest/types" "^28.1.1"
     "@types/node" "*"
     jest-mock "^28.1.1"
@@ -1295,13 +1295,13 @@
   dependencies:
     jest-get-type "^28.0.2"
 
-"@jest/expect@^28.1.1":
-  version "28.1.1"
-  resolved "https://registry.yarnpkg.com/@jest/expect/-/expect-28.1.1.tgz#ea4fcc8504b45835029221c0dc357c622a761326"
-  integrity sha512-/+tQprrFoT6lfkMj4mW/mUIfAmmk/+iQPmg7mLDIFOf2lyf7EBHaS+x3RbeR0VZVMe55IvX7QRoT/2aK3AuUXg==
+"@jest/expect@^28.1.1", "@jest/expect@^28.1.2":
+  version "28.1.2"
+  resolved "https://registry.yarnpkg.com/@jest/expect/-/expect-28.1.2.tgz#0b25acedff46e1e1e5606285306c8a399c12534f"
+  integrity sha512-HBzyZBeFBiOelNbBKN0pilWbbrGvwDUwAqMC46NVJmWm8AVkuE58NbG1s7DR4cxFt4U5cVLxofAoHxgvC5MyOw==
   dependencies:
     expect "^28.1.1"
-    jest-snapshot "^28.1.1"
+    jest-snapshot "^28.1.2"
 
 "@jest/fake-timers@^28.1.1":
   version "28.1.1"
@@ -1315,13 +1315,25 @@
     jest-mock "^28.1.1"
     jest-util "^28.1.1"
 
-"@jest/globals@^28.1.1":
-  version "28.1.1"
-  resolved "https://registry.yarnpkg.com/@jest/globals/-/globals-28.1.1.tgz#c0a7977f85e26279cc090d9adcdf82b8a34c4061"
-  integrity sha512-dEgl/6v7ToB4vXItdvcltJBgny0xBE6xy6IYQrPJAJggdEinGxCDMivNv7sFzPcTITGquXD6UJwYxfJ/5ZwDSg==
+"@jest/fake-timers@^28.1.2":
+  version "28.1.2"
+  resolved "https://registry.yarnpkg.com/@jest/fake-timers/-/fake-timers-28.1.2.tgz#d49e8ee4e02ba85a6e844a52a5e7c59c23e3b76f"
+  integrity sha512-xSYEI7Y0D5FbZN2LsCUj/EKRR1zfQYmGuAUVh6xTqhx7V5JhjgMcK5Pa0iR6WIk0GXiHDe0Ke4A+yERKE9saqg==
   dependencies:
-    "@jest/environment" "^28.1.1"
-    "@jest/expect" "^28.1.1"
+    "@jest/types" "^28.1.1"
+    "@sinonjs/fake-timers" "^9.1.2"
+    "@types/node" "*"
+    jest-message-util "^28.1.1"
+    jest-mock "^28.1.1"
+    jest-util "^28.1.1"
+
+"@jest/globals@^28.1.1", "@jest/globals@^28.1.2":
+  version "28.1.2"
+  resolved "https://registry.yarnpkg.com/@jest/globals/-/globals-28.1.2.tgz#92fab296e337c7309c25e4202fb724f62249d83f"
+  integrity sha512-cz0lkJVDOtDaYhvT3Fv2U1B6FtBnV+OpEyJCzTHM1fdoTsU4QNLAt/H4RkiwEUU+dL4g/MFsoTuHeT2pvbo4Hg==
+  dependencies:
+    "@jest/environment" "^28.1.2"
+    "@jest/expect" "^28.1.2"
     "@jest/types" "^28.1.1"
 
 "@jest/reporters@^28.1.1":
@@ -1412,6 +1424,27 @@
     slash "^3.0.0"
     write-file-atomic "^4.0.1"
 
+"@jest/transform@^28.1.2":
+  version "28.1.2"
+  resolved "https://registry.yarnpkg.com/@jest/transform/-/transform-28.1.2.tgz#b367962c53fd53821269bde050ce373e111327c1"
+  integrity sha512-3o+lKF6iweLeJFHBlMJysdaPbpoMmtbHEFsjzSv37HIq/wWt5ijTeO2Yf7MO5yyczCopD507cNwNLeX8Y/CuIg==
+  dependencies:
+    "@babel/core" "^7.11.6"
+    "@jest/types" "^28.1.1"
+    "@jridgewell/trace-mapping" "^0.3.13"
+    babel-plugin-istanbul "^6.1.1"
+    chalk "^4.0.0"
+    convert-source-map "^1.4.0"
+    fast-json-stable-stringify "^2.0.0"
+    graceful-fs "^4.2.9"
+    jest-haste-map "^28.1.1"
+    jest-regex-util "^28.0.2"
+    jest-util "^28.1.1"
+    micromatch "^4.0.4"
+    pirates "^4.0.4"
+    slash "^3.0.0"
+    write-file-atomic "^4.0.1"
+
 "@jest/types@^27.5.1":
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/@jest/types/-/types-27.5.1.tgz#3c79ec4a8ba61c170bf937bcf9e98a9df175ec80"
@@ -1483,6 +1516,14 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@jridgewell/trace-mapping@^0.3.13":
+  version "0.3.14"
+  resolved "https://registry.yarnpkg.com/@jridgewell/trace-mapping/-/trace-mapping-0.3.14.tgz#b231a081d8f66796e475ad588a1ef473112701ed"
+  integrity sha512-bJWEfQ9lPTvm3SneWwRFVLzrh6nhjwqw7TUFFBEMzwvg7t7PCDenf2lDwqo4NQXzdpgBXyFgDWnQA+2vkruksQ==
+  dependencies:
+    "@jridgewell/resolve-uri" "^3.0.3"
+    "@jridgewell/sourcemap-codec" "^1.4.10"
+
 "@jridgewell/trace-mapping@^0.3.7", "@jridgewell/trace-mapping@^0.3.9":
   version "0.3.13"
   resolved "https://registry.yarnpkg.com/@jridgewell/trace-mapping/-/trace-mapping-0.3.13.tgz#dcfe3e95f224c8fe97a87a5235defec999aa92ea"
@@ -1545,7 +1586,7 @@
   dependencies:
     type-detect "4.0.8"
 
-"@sinonjs/fake-timers@^9.1.1":
+"@sinonjs/fake-timers@^9.1.1", "@sinonjs/fake-timers@^9.1.2":
   version "9.1.2"
   resolved "https://registry.yarnpkg.com/@sinonjs/fake-timers/-/fake-timers-9.1.2.tgz#4eaab737fab77332ab132d396a3c0d364bd0ea8c"
   integrity sha512-BPS4ynJW/o92PUR4wgriz2Ud5gpST5vz6GQfMixEDK0Z8ZCUv2M7SkBLykH56T++Xs+8ln9zTGbOvNGIe02/jw==
@@ -4979,6 +5020,35 @@ jest-snapshot@^28.1.1:
     "@babel/types" "^7.3.3"
     "@jest/expect-utils" "^28.1.1"
     "@jest/transform" "^28.1.1"
+    "@jest/types" "^28.1.1"
+    "@types/babel__traverse" "^7.0.6"
+    "@types/prettier" "^2.1.5"
+    babel-preset-current-node-syntax "^1.0.0"
+    chalk "^4.0.0"
+    expect "^28.1.1"
+    graceful-fs "^4.2.9"
+    jest-diff "^28.1.1"
+    jest-get-type "^28.0.2"
+    jest-haste-map "^28.1.1"
+    jest-matcher-utils "^28.1.1"
+    jest-message-util "^28.1.1"
+    jest-util "^28.1.1"
+    natural-compare "^1.4.0"
+    pretty-format "^28.1.1"
+    semver "^7.3.5"
+
+jest-snapshot@^28.1.2:
+  version "28.1.2"
+  resolved "https://registry.yarnpkg.com/jest-snapshot/-/jest-snapshot-28.1.2.tgz#93d31b87b11b384f5946fe0767541496135f8d52"
+  integrity sha512-wzrieFttZYfLvrCVRJxX+jwML2YTArOUqFpCoSVy1QUapx+LlV9uLbV/mMEhYj4t7aMeE9aSQFHSvV/oNoDAMA==
+  dependencies:
+    "@babel/core" "^7.11.6"
+    "@babel/generator" "^7.7.2"
+    "@babel/plugin-syntax-typescript" "^7.7.2"
+    "@babel/traverse" "^7.7.2"
+    "@babel/types" "^7.3.3"
+    "@jest/expect-utils" "^28.1.1"
+    "@jest/transform" "^28.1.2"
     "@jest/types" "^28.1.1"
     "@types/babel__traverse" "^7.0.6"
     "@types/prettier" "^2.1.5"
