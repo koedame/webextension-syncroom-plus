@@ -6,7 +6,7 @@ const optimizeSearchKeyword = (keyword: string): string => {
   let result: string = keyword;
 
   // 記号を削除
-  result = result.replace(/[\~\!\@\#\$\%\^\&\*\(\)\_\+\`\-\=\[\]\\\{\}\|\;\'\:\"\,\.\/\<\>\?\']/g, '');
+  result = result.replace(/[~!@#$%^&*()_+`\-=[\]\\{}|;':",./<>?']/g, '');
 
   // 英数字をすべて半角に統一
   result = result.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => {
