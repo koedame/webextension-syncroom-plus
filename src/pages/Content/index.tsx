@@ -3,15 +3,10 @@ import clearAssets from '../../lib/clearAssets';
 import addFavicon from '../../lib/addFavicon';
 import mountApp from '../../lib/mountApp';
 
-const run = async () => {
-  // 既存のassetsが邪魔になるので、必ず mountApp() より先に実行しておく
-  await clearAssets();
-
+// 既存のassetsが邪魔になるので、必ず clearAssets() を実行し終わったあとに mountApp() を実行する
+clearAssets().then((res) => {
   mountApp();
-
   addFavicon();
-};
-
-run();
+});
 
 if (module.hot) module.hot.accept();
