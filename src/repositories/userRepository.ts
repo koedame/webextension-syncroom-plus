@@ -16,4 +16,12 @@ export const UserRepository = {
     });
     return res.json();
   },
+
+  // ユーザーをキーワードで検索
+  async search(option: SYNCROOM.UserSearchRequestType): Promise<SYNCROOM.UserSearchResponseType> {
+    const res = await srClientWithToken().get('https://webapi.syncroom.appservice.yamaha.com/comm/users', {
+      searchParams: option,
+    });
+    return res.json();
+  },
 };

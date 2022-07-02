@@ -14,6 +14,7 @@ import Report from './Report';
 import Messages from './Messages';
 import { LoginRequiredDialog } from '../components/LoginRequired/Dialog';
 import ReturnToTopButton from './ReturnToTopButton';
+import SearchMember from './SearchMember';
 
 interface Props {}
 
@@ -57,6 +58,7 @@ const App: React.FC<Props> = ({}: Props) => {
         <Report />
         <LoginRequiredDialog />
         <ReturnToTopButton />
+        <SearchMember />
       </React.Suspense>
     </RecoilRoot>
   );
