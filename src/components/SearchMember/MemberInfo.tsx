@@ -3,7 +3,6 @@ import { UserRepository } from '../../repositories/userRepository';
 import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { useTranslation } from '../../lib/i18n';
 
-import { css } from '@emotion/css';
 import React, { memo, useEffect, useState } from 'react';
 import { useRooms } from '../../hooks/useRooms';
 import findRoomByUserId from '../../lib/findRoomByUserId';
