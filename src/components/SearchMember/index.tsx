@@ -94,6 +94,7 @@ const Component: React.FC<Props> = ({}: Props) => {
   const [pageState, setPageState] = useState<number>(1);
   const [searchRes, setSearchRes] = useState<SYNCROOM.UserSearchResponseType>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [publishStatusState, setPublishStatusState] = useState<SYNCROOM.PublishStatusType>('open');
 
   useEffect(() => {
     if (keywordState === '') {
@@ -102,7 +103,7 @@ const Component: React.FC<Props> = ({}: Props) => {
       setIsLoading(true);
       UserRepository.search({
         keywords: keywordState,
-        publishStatus: 'open',
+        publishStatus: publishStatusState,
         pageSize: 20,
         page: pageState,
       }).then((res) => {
@@ -110,7 +111,7 @@ const Component: React.FC<Props> = ({}: Props) => {
         if (setIsLoading) setIsLoading(false);
       });
     }
-  }, [keywordState, pageState]);
+  }, [keywordState, pageState, publishStatusState]);
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -156,8 +157,8 @@ const Component: React.FC<Props> = ({}: Props) => {
               <div className="pb-20">
                 <div className="rounded bg-white">
                   <h1 className="p-4 text-xl text-gray-900">{t('user_search')}</h1>
-                  <div className="p-4">
-                    <label className="inline-block w-48 relative rounded overflow-hidden shadow-sm z-0">
+                  <div className="p-4 flex">
+                    <label className="w-48 relative rounded overflow-hidden shadow-sm z-0">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
                         <SearchIcon className="h-4 w-4" />
                       </div>
@@ -175,6 +176,39 @@ const Component: React.FC<Props> = ({}: Props) => {
                         value={keywordState}
                       />
                     </label>
+
+                    <div className="ml-6 space-y-2 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                      <div className="flex items-center">
+                        <input
+                          id="publishStatusStateOpen"
+                          name="payment-type"
+                          type="radio"
+                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                          checked={publishStatusState === 'open'}
+                          onChange={() => {
+                            setPublishStatusState('open');
+                          }}
+                        />
+                        <label htmlFor="publishStatusStateOpen" className="ml-3 block text-sm font-medium text-gray-700">
+                          {t('profile_is_public')}
+                        </label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          id="publishStatusStateHidden"
+                          name="payment-type"
+                          type="radio"
+                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                          checked={publishStatusState === 'hidden'}
+                          onChange={() => {
+                            setPublishStatusState('hidden');
+                          }}
+                        />
+                        <label htmlFor="publishStatusStateHidden" className="ml-3 block text-sm font-medium text-gray-700">
+                          {t('profile_is_private')}
+                        </label>
+                      </div>
+                    </div>
                   </div>
                   <div className="">
                     {isLoading ? (
