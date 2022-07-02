@@ -73,6 +73,10 @@ browser.alarms.onAlarm.addListener(async () => {
 
       const onlineMembers = [];
       for (const room of roomlist.rooms) {
+        // テストルームの通知は意味がないので無視
+        if (room.roomName === '接続テストルーム') {
+          continue;
+        }
         for (const member of room.members) {
           onlineMembers.push(member);
 
