@@ -37,15 +37,15 @@ const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, 
     }
   } else if (currentState.type === 'createRoom') {
     if (entryRoom) {
-      return <span>{`${t('in_the_room')}: ${entryRoom.roomName}`}</span>;
+      return <span>{`${t('creating_the_room')}: ${entryRoom.roomName}`}</span>;
     } else {
-      return <span>{`${t('in_the_room')}`}</span>;
+      return <span>${t('creating_the_private_room')}</span>;
     }
   } else if (currentState.type === 'enterRoom') {
     if (entryRoom) {
       return <span>{`${t('in_the_room')}: ${entryRoom.roomName}`}</span>;
     } else {
-      return <span>{`${t('in_the_room')}`}</span>;
+      return <span>{t('in_the_private_room')}</span>;
     }
   }
   return null;

@@ -20,7 +20,6 @@ export namespace SYNCROOM {
     linkImage?: string;
   };
 
-  // TODO: 非公開ルームに入室しているときの状態を確認
   export type CurrentStateType =
     | {
         type: 'none';
@@ -29,18 +28,28 @@ export namespace SYNCROOM {
         // 活動履歴がないと 0 になる
         time: number;
         roomName: '';
+        needPasswd?: boolean;
       }
     | {
+        // 公開部屋を作っている時
         type: 'createRoom';
         time: number;
         roomName: string;
-        needPasswd: boolean;
+        needPasswd?: boolean;
       }
     | {
-        // 入室中は部屋名も鍵部屋かどうかもわからない
+        // 非公開部屋を作っている時
+        type: 'createRoom';
+        time: number;
+        roomName: '';
+        needPasswd?: boolean;
+      }
+    | {
+        // 入室中は部屋名も鍵部屋かどうかもわからないので非公開入室も同じになる
         type: 'enterRoom';
         time: number;
         roomName: '';
+        needPasswd?: boolean;
       };
 
   export type MyProfileType = {
