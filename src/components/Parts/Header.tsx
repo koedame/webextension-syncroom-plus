@@ -9,6 +9,7 @@ import ConfigPanel from '../ConfigPanel/index';
 import { useSession } from '../../hooks/useSession';
 import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { useUserSearch } from '../SearchMember';
+import { useLoginRequired } from '../LoginRequired/Dialog';
 
 interface Props {}
 
@@ -22,7 +23,9 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const [displayLangState, setDisplayLangState] = useState<string>(langMap(i18n.language));
 
-  const { openUserSearchForm } = useUserSearch();
+  const { openUserSearchForm, isLoggedIn } = useUserSearch();
+
+  const { openLoginRequiredDialog } = useLoginRequired();
 
   useEffect(() => {
     setDisplayLangState(langMap(i18n.language));
@@ -59,7 +62,12 @@ const Component: React.FC<Props> = ({}: Props) => {
                   </button>
 
                   <button
-                    onClick={() => {
+                    onClick={(event) => {
+                      // ログイン必須
+                      if (!isLoggedIn) {
+                        event.preventDefault();
+                        return openLoginRequiredDialog();
+                      }
                       openUserSearchForm();
                     }}
                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

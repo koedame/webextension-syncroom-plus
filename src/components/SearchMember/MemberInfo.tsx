@@ -38,7 +38,7 @@ const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, 
     if (entryRoom) {
       return <span>{`${t('creating_the_room')}: ${entryRoom.roomName}`}</span>;
     } else {
-      return <span>${t('creating_the_private_room')}</span>;
+      return <span>{t('creating_the_private_room')}</span>;
     }
   } else if (currentState.type === 'enterRoom') {
     if (entryRoom) {
