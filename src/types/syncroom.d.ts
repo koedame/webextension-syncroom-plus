@@ -23,25 +23,25 @@ export namespace SYNCROOM {
   // TODO: 非公開ルームに入室しているときの状態を確認
   export type CurrentStateType =
     | {
-        type: 'none';
-        // 最終活動日時
-        // プロフィール非公開ユーザーは 0 になる
-        // 活動履歴がないと 0 になる
-        time: number;
-        roomName: '';
-      }
+      type: 'none';
+      // 最終活動日時
+      // プロフィール非公開ユーザーは 0 になる
+      // 活動履歴がないと 0 になる
+      time: number;
+      roomName: '';
+    }
     | {
-        type: 'createRoom';
-        time: number;
-        roomName: string;
-        needPasswd: boolean;
-      }
+      type: 'createRoom';
+      time: number;
+      roomName: string;
+      needPasswd: boolean;
+    }
     | {
-        // 入室中は部屋名も鍵部屋かどうかもわからない
-        type: 'enterRoom';
-        time: number;
-        roomName: '';
-      };
+      // 入室中は部屋名も鍵部屋かどうかもわからない
+      type: 'enterRoom';
+      time: number;
+      roomName: '';
+    };
 
   export type MyProfileType = {
     userId: string;
@@ -158,32 +158,34 @@ export namespace SYNCROOM {
   }[];
 
   export type UserSearchRequestType = {
-    keywords: string,
-    publishStatus: 'open' | 'hidden',
-    pageSize: number,
-    page: number
+    keywords: string;
+    publishStatus: 'open' | 'hidden';
+    pageSize: number;
+    page: number;
   };
 
   export type UserSearchType = {
-    userId: UserIdType,
-    nickname: string,
-    profileText: string,
-    publishStatus: PublishStatusType,
-    iconInfo: IconInfoType,
-    socialLinks: SocialLinksType,
-    favoriteProducts: string[],
-    favoriteGenres: string[],
+    userId: UserIdType;
+    nickname: string;
+    profileText: string;
+    publishStatus: PublishStatusType;
+    iconInfo: IconInfoType;
+    socialLinks: SocialLinksType;
+    favoriteProducts: string[];
+    favoriteGenres: string[];
+  };
+
+  export type UserSearchMetaType = {
+    pageSize: number;
+    page: number;
+    totalUsers: number;
+    totalPages: number;
   };
 
   export type UserSearchResponseType = {
-    users: UserSearchType,
-    meta: {
-      pageSize: number,
-      page: number,
-      totalUsers: number,
-      totalPages: number
-    },
-  }[];
+    users: UserSearchType[];
+    meta: UserSearchMetaType;
+  };
 
   // 未使用
   // export type ErrorRessponseType = {

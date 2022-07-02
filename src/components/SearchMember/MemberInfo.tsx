@@ -1,17 +1,13 @@
-import React, { memo, useEffect, useState } from 'react';
-import { useTranslation } from '../../lib/i18n';
-import { DateTime } from 'luxon';
-
 import { SYNCROOM } from '../../types/syncroom';
-import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { UserRepository } from '../../repositories/userRepository';
-import findRoomByUserId from '../../lib/findRoomByUserId';
-import { useRooms } from '../../hooks/useRooms';
+import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
+import { useTranslation } from '../../lib/i18n';
 
-interface Props extends SYNCROOM.UserBasicInfoType {
-  index: number;
-  onRemove: Function;
-}
+import { css } from '@emotion/css';
+import React, { memo, useEffect, useState } from 'react';
+import { useRooms } from '../../hooks/useRooms';
+import findRoomByUserId from '../../lib/findRoomByUserId';
+import { DateTime } from 'luxon';
 
 interface ActivityComponentPropType {
   currentState: SYNCROOM.CurrentStateType;
@@ -56,8 +52,6 @@ const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, 
 };
 
 const StatusIconComponent: React.FC<ActivityComponentPropType> = ({ currentState, publishState, entryRoom }: ActivityComponentPropType) => {
-  const { t } = useTranslation();
-
   if (currentState.type === 'none') {
     if (entryRoom) {
       return (
@@ -107,9 +101,15 @@ const StatusIconComponent: React.FC<ActivityComponentPropType> = ({ currentState
   return null;
 };
 
-const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemove }: Props) => {
-  const { t } = useTranslation();
+interface Props {
+  nickname: string;
+  iconInfo: SYNCROOM.IconInfoType;
+  profileText: string;
+  userId: string;
+}
 
+const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId }: Props) => {
+  const { t } = useTranslation();
   const [user, setUser] = useState<SYNCROOM.UserType>();
   const [entryRoom, setEntryRoom] = useState<SYNCROOM.RoomType>();
   const { rooms } = useRooms();
@@ -122,8 +122,8 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
   }, []);
 
   return (
-    <tr className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-      <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900 truncate">
+    <div className="bg-white py-4">
+      <div className="px-4 whitespace-nowrap text-sm font-medium text-gray-900">
         <div className="inline-block mr-2">
           <img className="h-10 w-10 rounded-md" src={iconInfoToUrl(iconInfo)} alt="" />
         </div>
@@ -140,19 +140,11 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
             </span>
           </p>
         </div>
-      </td>
-      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-        <button
-          onClick={() => {
-            onRemove(user);
-          }}
-          className="text-red-600 hover:text-red-900 border-b border-dashed border-red-600 hover:border-red-900"
-        >
-          {t('remove')}
-        </button>
-      </td>
-    </tr>
+      </div>
+      <div className="px-4 align-top">
+        <p className="text-gray-700 truncate">{profileText}</p>
+      </div>
+    </div>
   );
 };
-
 export default memo(Component);
