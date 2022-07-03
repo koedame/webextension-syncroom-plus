@@ -7,6 +7,7 @@ import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { UserRepository } from '../../repositories/userRepository';
 import findRoomByUserId from '../../lib/findRoomByUserId';
 import { useRooms } from '../../hooks/useRooms';
+import { dateTimeFromNow } from '../../lib/dateTimeFromNow';
 
 interface Props extends SYNCROOM.UserBasicInfoType {
   index: number;
@@ -21,6 +22,8 @@ interface ActivityComponentPropType {
 const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, publishState, entryRoom }: ActivityComponentPropType) => {
   const { t } = useTranslation();
 
+  const fromNow = dateTimeFromNow(currentState.time * 1000);
+
   if (currentState.type === 'none') {
     if (entryRoom) {
       return <span>{`${t('in_the_room')}: ${entryRoom.roomName}`}</span>;
@@ -32,8 +35,14 @@ const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, 
           return <span>{t('no_activity_history')}</span>;
         } else {
           return (
-            <span>
-              {t('recent_activities')}: {DateTime.fromMillis(currentState.time * 1000).toLocaleString(DateTime.DATETIME_MED)}
+            <span title={DateTime.fromMillis(currentState.time * 1000).toLocaleString(DateTime.DATETIME_MED)}>
+              {fromNow.type === 'seconds' && `${t('recent_activities')}: ${fromNow.duration} ${t('seconds_ago')}`}
+              {fromNow.type === 'minutes' && `${t('recent_activities')}: ${fromNow.duration} ${t('minutes_ago')}`}
+              {fromNow.type === 'hours' && `${t('recent_activities')}: ${fromNow.duration} ${t('hours_ago')}`}
+              {fromNow.type === 'days' && `${t('recent_activities')}: ${fromNow.duration} ${t('days_ago')}`}
+              {fromNow.type === 'weeks' && `${t('recent_activities')}: ${fromNow.duration} ${t('weeks_ago')}`}
+              {fromNow.type === 'months' && `${t('recent_activities')}: ${fromNow.duration} ${t('months_ago')}`}
+              {fromNow.type === 'years' && `${t('recent_activities')}: ${fromNow.duration} ${t('years_ago')}`}
             </span>
           );
         }
@@ -43,7 +52,7 @@ const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, 
     if (entryRoom) {
       return <span>{`${t('creating_the_room')}: ${entryRoom.roomName}`}</span>;
     } else {
-      return <span>${t('creating_the_private_room')}</span>;
+      return <span>{t('creating_the_private_room')}</span>;
     }
   } else if (currentState.type === 'enterRoom') {
     if (entryRoom) {
