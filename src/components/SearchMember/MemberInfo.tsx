@@ -7,6 +7,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { useRooms } from '../../hooks/useRooms';
 import findRoomByUserId from '../../lib/findRoomByUserId';
 import { DateTime } from 'luxon';
+import { dateTimeFromNow } from '../../lib/dateTimeFromNow';
 
 interface ActivityComponentPropType {
   currentState: SYNCROOM.CurrentStateType;
@@ -15,6 +16,8 @@ interface ActivityComponentPropType {
 }
 const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, publishState, entryRoom }: ActivityComponentPropType) => {
   const { t } = useTranslation();
+
+  const fromNow = dateTimeFromNow(currentState.time * 1000);
 
   if (currentState.type === 'none') {
     if (entryRoom) {
@@ -27,8 +30,14 @@ const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, 
           return <span>{t('no_activity_history')}</span>;
         } else {
           return (
-            <span>
-              {t('recent_activities')}: {DateTime.fromMillis(currentState.time * 1000).toLocaleString(DateTime.DATETIME_MED)}
+            <span title={DateTime.fromMillis(currentState.time * 1000).toLocaleString(DateTime.DATETIME_MED)}>
+              {fromNow.type === 'seconds' && `${t('recent_activities')}: ${fromNow.duration} ${t('seconds_ago')}`}
+              {fromNow.type === 'minutes' && `${t('recent_activities')}: ${fromNow.duration} ${t('minutes_ago')}`}
+              {fromNow.type === 'hours' && `${t('recent_activities')}: ${fromNow.duration} ${t('hours_ago')}`}
+              {fromNow.type === 'days' && `${t('recent_activities')}: ${fromNow.duration} ${t('days_ago')}`}
+              {fromNow.type === 'weeks' && `${t('recent_activities')}: ${fromNow.duration} ${t('weeks_ago')}`}
+              {fromNow.type === 'months' && `${t('recent_activities')}: ${fromNow.duration} ${t('months_ago')}`}
+              {fromNow.type === 'years' && `${t('recent_activities')}: ${fromNow.duration} ${t('years_ago')}`}
             </span>
           );
         }
