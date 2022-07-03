@@ -1,4 +1,4 @@
-import { srClient, srClientWithToken } from './clients';
+import { srClient } from './clients';
 import { SYNCROOM } from '../types/syncroom';
 
 // 公式APIからの部屋情報取得

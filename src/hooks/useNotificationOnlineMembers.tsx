@@ -10,7 +10,7 @@ export type NotificationOnlineMemberType = {
 
 const savedNotificationOnlineMemberIdsSelector = selector<NotificationOnlineMemberType[]>({
   key: 'savedNotificationOnlineMemberIds',
-  get: async ({ get }) => {
+  get: async ({}) => {
     const res = await browser.storage.local.get('v2NotificationOnlineMemberIds').then(({ v2NotificationOnlineMemberIds }) => {
       if (typeof v2NotificationOnlineMemberIds !== 'undefined') {
         return v2NotificationOnlineMemberIds;

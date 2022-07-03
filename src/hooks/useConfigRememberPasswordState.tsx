@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill';
 
 const savedConfigRememberPasswordSelector = selector<boolean>({
   key: 'savedConfigRememberPassword',
-  get: async ({ get }) => {
+  get: async ({}) => {
     const res = await browser.storage.local.get('v2ConfigRememberPassword').then(({ v2ConfigRememberPassword }) => {
       if (typeof v2ConfigRememberPassword !== 'undefined') {
         return v2ConfigRememberPassword;

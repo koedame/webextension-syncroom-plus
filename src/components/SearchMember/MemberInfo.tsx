@@ -108,7 +108,6 @@ interface Props {
 }
 
 const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId }: Props) => {
-  const { t } = useTranslation();
   const [user, setUser] = useState<SYNCROOM.UserType>();
   const [entryRoom, setEntryRoom] = useState<SYNCROOM.RoomType>();
   const { rooms } = useRooms();

@@ -8,7 +8,7 @@ export type NotificationVacancyRoom = {
 
 const savedFavoriteMembersSelector = selector<NotificationVacancyRoom[]>({
   key: 'savedNotificationVacancyRooms',
-  get: async ({ get }) => {
+  get: async ({}) => {
     const res = await browser.storage.local.get('v2NotificationVacancyRooms').then(({ v2NotificationVacancyRooms }) => {
       if (typeof v2NotificationVacancyRooms !== 'undefined') {
         return v2NotificationVacancyRooms;

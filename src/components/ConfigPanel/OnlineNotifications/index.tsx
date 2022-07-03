@@ -67,7 +67,7 @@ const Component: React.FC<Props> = ({}: Props) => {
         }}
         onOk={() => {
           if (removeUser) {
-            removeNotificationOnlineMemberFromUserId(removeUser.userId).then((res) => {
+            removeNotificationOnlineMemberFromUserId(removeUser.userId).then((_res) => {
               setRemoveUser(undefined);
               reloadNotificationOnlineMemberIds();
               setRemoveDialogOpenState(false);

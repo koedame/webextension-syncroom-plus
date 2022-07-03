@@ -7,7 +7,7 @@ export type MyProfile = SYNCROOM.MyProfileType | null;
 
 const savedMyProfileSelector = selector<MyProfile>({
   key: 'savedMyProfile',
-  get: async ({ get }) => {
+  get: async ({}) => {
     if (localStorage.getItem('token')) {
       const res = SessionRepository.myProfile()
         .then((res) => res)
@@ -50,7 +50,7 @@ export const useSession = () => {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
 
   const reloadMyProfile = async (): Promise<boolean> => {
-    return new Promise<boolean>(async (resolve, reject) => {
+    return new Promise<boolean>(async (resolve, _reject) => {
       if (localStorage.getItem('token')) {
         SessionRepository.myProfile()
           .then((res) => {
@@ -74,7 +74,7 @@ export const useSession = () => {
   const logout = () => {
     if (localStorage.getItem('token')) {
       SessionRepository.logout()
-        .then((res) => {
+        .then((_res) => {
           // ログアウト成功
         })
         .catch((e: any) => {

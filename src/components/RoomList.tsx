@@ -80,7 +80,7 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const changeSelectRoomType = (roomType: 'all' | 'unlocked' | 'locked') => {
     // すでに選択されていたら何もしない
-    if (selectRoomTypeState === roomType) return false;
+    if (selectRoomTypeState === roomType) return;
 
     // 選択中のタグが指定のRoomTypeに無い可能性があるのでタグ選択を外しておく
     setSelectTagState('');
@@ -89,7 +89,7 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   // 部屋情報の定期読み込み
   useEffect(() => {
-    fetchRooms().then((res) => {
+    fetchRooms().then((_res) => {
       setInitialState(false);
     });
 

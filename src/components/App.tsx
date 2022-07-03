@@ -26,7 +26,7 @@ const InitialFC: React.FC<Props> = ({}: Props) => {
   const reloadSession = () => {
     // トークンの期限が発行から24時間に設定されているので読み込みの度にトークンを更新しておく
     refreshToken()
-      .then((res) => {
+      .then((_res) => {
         // トークン更新前にユーザー情報を取得していた場合は整合性が取れないので再取得しておく
         reloadMyProfile();
       })

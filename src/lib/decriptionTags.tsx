@@ -1,7 +1,7 @@
-const decryptionTags = (tagMask: string, tagOrig: string): Array<string> => {
+const decryptionTags = (tagMask: string, tagOrig: string): string[] => {
   let m;
   let i;
-  let result = [];
+  let result: string[] = [];
 
   const tags = [
     '練習中',
@@ -35,7 +35,10 @@ const decryptionTags = (tagMask: string, tagOrig: string): Array<string> => {
     for (i = 0; i < tags.length; i++) {
       let tm = Math.pow(2, i);
       if (((m ^ 0xffffffff) & tm) === tm) {
-        result.push(tags[i]);
+        const tag = tags[i];
+        if (tag) {
+          result.push(tag);
+        }
       }
     }
   }
