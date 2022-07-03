@@ -8,6 +8,11 @@ import { useRooms } from '../../hooks/useRooms';
 import findRoomByUserId from '../../lib/findRoomByUserId';
 import { DateTime } from 'luxon';
 import { dateTimeFromNow } from '../../lib/dateTimeFromNow';
+import { BanIcon, BellIcon, StarIcon } from '@heroicons/react/solid';
+import { useNotificationOnlineMemberIds } from '../../hooks/useNotificationOnlineMembers';
+import { useSession } from '../../hooks/useSession';
+import { FavoriteRepository } from '../../repositories/favoriteRepository';
+import { BlockRepository } from '../../repositories/blockRepository';
 
 interface ActivityComponentPropType {
   currentState: SYNCROOM.CurrentStateType;
@@ -118,9 +123,18 @@ interface Props {
 }
 
 const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId, index }: Props) => {
+  const { t } = useTranslation();
   const [user, setUser] = useState<SYNCROOM.UserType>();
   const [entryRoom, setEntryRoom] = useState<SYNCROOM.RoomType>();
   const { rooms } = useRooms();
+
+  const { isNotificationOnlineMember, addNotificationOnlineMemberFromName, removeNotificationOnlineMemberFromUserId } = useNotificationOnlineMemberIds();
+  const [isFavoriteProcessing, setIsFavoriteProcessing] = useState<boolean>(false);
+  const [isFavoriteMember, setIsFavoriteMember] = useState<boolean>(false);
+  const [isBlockMember, setIsBlockMember] = useState<boolean>(false);
+  const [isBlockProcessing, setIsBlockProcessing] = useState<boolean>(false);
+
+  const { myProfile, reloadMyProfile } = useSession();
 
   useEffect(() => {
     UserRepository.show(userId).then((res) => {
@@ -128,6 +142,11 @@ const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId, i
       setEntryRoom(findRoomByUserId(rooms, res.userId));
     });
   }, []);
+
+  useEffect(() => {
+    setIsFavoriteMember(!!myProfile?.favoriteUsers.includes(userId));
+    setIsBlockMember(!!myProfile?.blockedUsers.includes(userId));
+  }, [userId, myProfile]);
 
   return (
     <div className={index % 2 === 0 ? 'bg-white py-4' : 'bg-gray-50 py-4'}>
@@ -139,14 +158,81 @@ const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId, i
           <a className="text-blue-600 hover:text-blue-800" href={`https://syncroom.yamaha.com/mypage/user/${userId}`} target="_blank" rel="noopener noreferrer">
             <p>{nickname}</p>
           </a>
-          <p className="text-gray-700 inline-flex items-center">
+          <div className="text-gray-700 inline-flex items-center">
             <span className="relative inline-block mr-1">
               {user && <StatusIconComponent currentState={user.currentState} publishState={user.publishStatus} entryRoom={entryRoom} />}
             </span>
             <span className="inline-block inline-flex items-center">
               {user && <ActivityComponent currentState={user.currentState} publishState={user.publishStatus} entryRoom={entryRoom} />}
             </span>
-          </p>
+          </div>
+        </div>
+        <div className=" float-right flex space-x-1">
+          <button
+            title={t('receive_notification_when_online_this_user')}
+            onClick={() => {
+              if (isNotificationOnlineMember(userId)) removeNotificationOnlineMemberFromUserId(userId);
+              else addNotificationOnlineMemberFromName(userId, 'roomCreatedAt');
+            }}
+          >
+            <BellIcon className={isNotificationOnlineMember(userId) ? 'h-4 w-4 text-yellow-500 hover:text-yellow-700' : 'h-4 w-4 text-gray-400 hover:text-gray-600'} />
+          </button>
+          <button
+            title={t('color_it_to_make_it_easier_to_find')}
+            onClick={() => {
+              setIsFavoriteProcessing(true);
+
+              if (isFavoriteMember) {
+                FavoriteRepository.remove(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
+                    setIsFavoriteProcessing(false);
+                  });
+                });
+              } else {
+                FavoriteRepository.add(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
+                    setIsFavoriteProcessing(false);
+                  });
+                });
+              }
+            }}
+          >
+            {isFavoriteProcessing ? (
+              <div className="flex justify-center">
+                <div className="animate-spin h-4 w-4 border-2 border-indigo-500 rounded-full border-t-transparent"></div>
+              </div>
+            ) : (
+              <StarIcon className={isFavoriteMember ? 'h-4 w-4 text-yellow-500 hover:text-yellow-700' : 'h-4 w-4 text-gray-400 hover:text-gray-600'} />
+            )}
+          </button>
+          <button
+            title={t('block_user')}
+            onClick={() => {
+              setIsBlockProcessing(true);
+
+              if (isBlockMember) {
+                BlockRepository.remove(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
+                    setIsBlockProcessing(false);
+                  });
+                });
+              } else {
+                BlockRepository.add(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
+                    setIsBlockProcessing(false);
+                  });
+                });
+              }
+            }}
+          >
+            {isBlockProcessing ? (
+              <div className="flex justify-center">
+                <div className="animate-spin h-4 w-4 border-2 border-indigo-500 rounded-full border-t-transparent"></div>
+              </div>
+            ) : (
+              <BanIcon className={isBlockMember ? 'h-4 w-4 text-red-500 hover:text-red-700' : 'h-4 w-4 text-gray-400 hover:text-gray-600'} />
+            )}
+          </button>
         </div>
       </div>
       <div className="px-4 align-top">
