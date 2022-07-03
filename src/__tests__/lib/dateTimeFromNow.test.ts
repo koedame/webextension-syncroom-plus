@@ -3,8 +3,8 @@ import { dateTimeFromNow } from '../../lib/dateTimeFromNow';
 
 describe('現在時刻と同じ時', () => {
   it('0秒前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-01T00:00:00+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-01T00:00:00+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -21,8 +21,8 @@ describe('現在時刻と同じ時', () => {
 
 describe('01秒前のとき', () => {
   it('01秒前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-01T00:00:01+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-01T00:00:01+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -39,8 +39,8 @@ describe('01秒前のとき', () => {
 
 describe('59秒前のとき', () => {
   it('59秒前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-01T00:00:59+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-01T00:00:59+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -57,8 +57,8 @@ describe('59秒前のとき', () => {
 
 describe('1分前のとき', () => {
   it('1分前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-01T00:01:00+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-01T00:01:00+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -75,8 +75,8 @@ describe('1分前のとき', () => {
 
 describe('1分前から2分の間のとき', () => {
   it('1分前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-01T00:01:12+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-01T00:01:12+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -93,8 +93,8 @@ describe('1分前から2分の間のとき', () => {
 
 describe('59分前のとき', () => {
   it('59分前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-01T00:59:12+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-01T00:59:12+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -111,8 +111,8 @@ describe('59分前のとき', () => {
 
 describe('1時間前のとき', () => {
   it('1時間前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-01T01:00:00+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-01T01:00:00+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -129,8 +129,8 @@ describe('1時間前のとき', () => {
 
 describe('1時間と2時間の間のとき', () => {
   it('1時間前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-01T01:12:12+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-01T01:12:12+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -147,8 +147,8 @@ describe('1時間と2時間の間のとき', () => {
 
 describe('23時間59分59秒前のとき', () => {
   it('23時間前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-01T23:59:59+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-01T23:59:59+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -165,8 +165,8 @@ describe('23時間59分59秒前のとき', () => {
 
 describe('1日前のとき', () => {
   it('1日前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-02T00:00:00+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-02T00:00:00+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -183,8 +183,8 @@ describe('1日前のとき', () => {
 
 describe('1日と2日の間のとき', () => {
   it('1日前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-02T12:12:12+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-02T12:12:12+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -201,8 +201,8 @@ describe('1日と2日の間のとき', () => {
 
 describe('6日23時間59分59秒前のとき', () => {
   it('6日前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-07T23:59:59+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-07T23:59:59+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -219,8 +219,8 @@ describe('6日23時間59分59秒前のとき', () => {
 
 describe('7日前のとき', () => {
   it('1週間前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-08T00:00:00+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-08T00:00:00+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -237,8 +237,8 @@ describe('7日前のとき', () => {
 
 describe('4週間前のとき', () => {
   it('4週間前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-12-29T23:59:59+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-12-29T23:59:59+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -255,8 +255,8 @@ describe('4週間前のとき', () => {
 
 describe('1ヶ月前のとき', () => {
   it('1ヶ月前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2023-01-01T00:00:00+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2023-01-01T00:00:00+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -273,8 +273,8 @@ describe('1ヶ月前のとき', () => {
 
 describe('1年前のとき', () => {
   it('1年前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2023-12-01T00:00:00+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2023-12-01T00:00:00+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
@@ -291,8 +291,8 @@ describe('1年前のとき', () => {
 
 describe('未来の日付のとき', () => {
   it('0秒前が返ること', () => {
-    const from = '2022-12-01T00:00:00+00:00'
-    const now = '2022-11-30T00:00:00+00:00'
+    const from = '2022-12-01T00:00:00+00:00';
+    const now = '2022-11-30T00:00:00+00:00';
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
