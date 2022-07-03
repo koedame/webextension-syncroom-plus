@@ -9,6 +9,7 @@
     "build-zip": "NODE_ENV=production node scripts/build-zip.js",
     "start": "NODE_ENV=development node utils/webserver.js",
     "prettier": "NODE_ENV=development prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "tsccheck": "NODE_ENV=development tsc --noEmit",
     "test": "NODE_ENV=test jest --collect-coverage",
     "test-watch": "NODE_ENV=test jest --collect-coverage --watch-all",
     "test:coverage": "NODE_ENV=test jest --collect-coverage --silent --testLocationInResults --ci --json --outputFile=\"report.json\""

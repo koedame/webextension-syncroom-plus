@@ -4,7 +4,10 @@ import { SYNCROOM } from '../types/syncroom';
 const formatUserBasicInfo = (users: SYNCROOM.UserBasicInfoResponseType): SYNCROOM.UserBasicInfoType[] => {
   const res: SYNCROOM.UserBasicInfoType[] = [];
   for (const user of users) {
-    res.push(Object.values(user)[0]);
+    const data = Object.values(user)[0];
+    if (data) {
+      res.push(data);
+    }
   }
   return res.sort((a, b) => {
     if (a.nickname < b.nickname) {

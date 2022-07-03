@@ -56,8 +56,6 @@ const ActivityComponent: React.FC<ActivityComponentPropType> = ({ currentState, 
 };
 
 const StatusIconComponent: React.FC<ActivityComponentPropType> = ({ currentState, publishState, entryRoom }: ActivityComponentPropType) => {
-  const { t } = useTranslation();
-
   if (currentState.type === 'none') {
     if (entryRoom) {
       return (

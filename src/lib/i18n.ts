@@ -3,7 +3,7 @@ import { initReactI18next, useTranslation } from 'react-i18next';
 import i18nJson from './i18n.json';
 import browser from 'webextension-polyfill';
 
-type lang = 'en' | 'ja' | 'ko';
+// type lang = 'en' | 'ja' | 'ko';
 
 i18n.use(initReactI18next).init({
   resources: {

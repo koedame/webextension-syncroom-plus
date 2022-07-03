@@ -17,13 +17,13 @@ const Component: React.FC<Props> = ({}: Props) => {
   const [shareRoomOpenState, setShareRoomOpenState] = useState<boolean>(false);
   const [configPanelOpenState, setConfigPanelOpenState] = useState<boolean>(false);
 
-  const { myProfile, logout } = useSession();
+  const { myProfile, logout, isLoggedIn } = useSession();
 
   const { t, i18n } = useTranslation();
 
   const [displayLangState, setDisplayLangState] = useState<string>(langMap(i18n.language));
 
-  const { openUserSearchForm, isLoggedIn } = useUserSearch();
+  const { openUserSearchForm } = useUserSearch();
 
   const { openLoginRequiredDialog } = useLoginRequired();
 

@@ -7,7 +7,7 @@ type roomPasswords = {
 
 const savedRoomPasswordsSelector = selector<roomPasswords>({
   key: 'savedRoomPasswords',
-  get: async ({ get }) => {
+  get: async ({}) => {
     const res = await browser.storage.local.get('v2RoomPasswords').then(({ v2RoomPasswords }) => {
       if (typeof v2RoomPasswords === 'undefined') {
         return {};
@@ -37,8 +37,9 @@ export const useRememberPassword = () => {
   const [rememberPasswords, setRememberPasswords] = useRecoilState(rememberPasswordsSelector);
 
   const getRememberPasswordsByRoomName = (roomName: string): string => {
-    if (typeof rememberPasswords[roomName] === 'string') {
-      return rememberPasswords[roomName];
+    const data = rememberPasswords[roomName];
+    if (typeof data === 'string') {
+      return data;
     } else {
       return '';
     }

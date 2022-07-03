@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ExclamationIcon } from '@heroicons/react/solid';
 
 import { useTranslation } from '../../lib/i18n';

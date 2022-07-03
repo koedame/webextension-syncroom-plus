@@ -112,14 +112,14 @@ const Component: React.FC<Props> = ({ iconUrl, memberName, roomCreatedAt, userId
               setIsFavoriteProcessing(true);
 
               if (isFavoriteMember) {
-                FavoriteRepository.remove(userId).then((res) => {
-                  reloadMyProfile().then((r) => {
+                FavoriteRepository.remove(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
                     setIsFavoriteProcessing(false);
                   });
                 });
               } else {
-                FavoriteRepository.add(userId).then((res) => {
-                  reloadMyProfile().then((r) => {
+                FavoriteRepository.add(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
                     setIsFavoriteProcessing(false);
                   });
                 });
@@ -157,14 +157,14 @@ const Component: React.FC<Props> = ({ iconUrl, memberName, roomCreatedAt, userId
               setIsBlockProcessing(true);
 
               if (isBlockMember) {
-                BlockRepository.remove(userId).then((res) => {
-                  reloadMyProfile().then((r) => {
+                BlockRepository.remove(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
                     setIsBlockProcessing(false);
                   });
                 });
               } else {
-                BlockRepository.add(userId).then((res) => {
-                  reloadMyProfile().then((r) => {
+                BlockRepository.add(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
                     setIsBlockProcessing(false);
                   });
                 });

@@ -4,7 +4,7 @@ import addFavicon from '../../lib/addFavicon';
 import mountApp from '../../lib/mountApp';
 
 // 既存のassetsが邪魔になるので、必ず clearAssets() を実行し終わったあとに mountApp() を実行する
-clearAssets().then((res) => {
+clearAssets().then((_res) => {
   mountApp();
   addFavicon();
 });

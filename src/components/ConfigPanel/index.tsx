@@ -24,7 +24,7 @@ interface Props {
 const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
   const { t } = useTranslation();
 
-  const { myProfile, reloadMyProfile, isLoggedIn } = useSession();
+  const { myProfile, isLoggedIn } = useSession();
   const { notificationOnlineMemberIds } = useNotificationOnlineMemberIds();
   const LoginRequired = useLoginRequired();
   const [currentTabState, setCurrentTabState] = useState<'basic' | 'favorite' | 'block' | 'online_notification'>('basic');

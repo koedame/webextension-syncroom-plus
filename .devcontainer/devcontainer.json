@@ -22,7 +22,8 @@
 		"vscode": {
 			"extensions": [
 				"esbenp.prettier-vscode",
-				"remimarsal.prettier-now"
+				"remimarsal.prettier-now",
+				"mrmlnc.vscode-duplicate"
 			]
 		}
 	}
