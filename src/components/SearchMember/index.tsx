@@ -254,8 +254,8 @@ const Component: React.FC<Props> = ({}: Props) => {
                           />
                           <div className="border border-gray-200 rounded-md">
                             <div className="divide-y divide-gray-200">
-                              {searchRes.users.map((user) => (
-                                <MemberInfo key={user.userId} {...user} />
+                              {searchRes.users.map((user, index) => (
+                                <MemberInfo key={user.userId} {...user} index={index} />
                               ))}
                             </div>
                           </div>

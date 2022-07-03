@@ -114,9 +114,10 @@ interface Props {
   iconInfo: SYNCROOM.IconInfoType;
   profileText: string;
   userId: string;
+  index: number;
 }
 
-const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId }: Props) => {
+const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId, index }: Props) => {
   const [user, setUser] = useState<SYNCROOM.UserType>();
   const [entryRoom, setEntryRoom] = useState<SYNCROOM.RoomType>();
   const { rooms } = useRooms();
@@ -129,7 +130,7 @@ const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId }:
   }, []);
 
   return (
-    <div className="bg-white py-4">
+    <div className={index % 2 === 0 ? 'bg-white py-4' : 'bg-gray-50 py-4'}>
       <div className="px-4 whitespace-nowrap text-sm font-medium text-gray-900">
         <div className="inline-block mr-2">
           <img className="h-10 w-10 rounded-md" src={iconInfoToUrl(iconInfo)} alt="" />
