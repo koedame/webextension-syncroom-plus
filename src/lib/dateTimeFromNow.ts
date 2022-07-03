@@ -1,6 +1,11 @@
 import { DateTime } from 'luxon';
 
-export const dateTimeFromNow = (millis: number) => {
+interface ResponseType {
+  type: 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' | 'years';
+  duration: number;
+}
+
+export const dateTimeFromNow = (millis: number): ResponseType => {
   const from = DateTime.fromMillis(millis)
 
   if (from.diffNow('seconds').seconds > 0) {
