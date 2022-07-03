@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,13 +14,13 @@
     "resolveJsonModule": true,
     "noEmit": false,
     "jsx": "react",
+    "removeComments": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "build",
-    "node_modules",
-    "**/*.test.ts"
-  ]
+  "include": ["src"],
+  "exclude": ["build", "node_modules", "**/*.test.ts"]
 }
