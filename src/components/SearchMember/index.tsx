@@ -96,20 +96,27 @@ const Component: React.FC<Props> = ({}: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [publishStatusState, setPublishStatusState] = useState<SYNCROOM.PublishStatusType>('open');
 
+  let timer: any = null;
   useEffect(() => {
-    if (keywordState === '') {
-      setSearchRes(undefined);
+    if (timer) {
+      return;
     } else {
-      setIsLoading(true);
-      UserRepository.search({
-        keywords: keywordState,
-        publishStatus: publishStatusState,
-        pageSize: 20,
-        page: pageState,
-      }).then((res) => {
-        if (setSearchRes) setSearchRes(res);
-        if (setIsLoading) setIsLoading(false);
-      });
+      timer = setTimeout(() => {
+        if (keywordState === '') {
+          setSearchRes(undefined);
+        } else {
+          setIsLoading(true);
+          UserRepository.search({
+            keywords: keywordState,
+            publishStatus: publishStatusState,
+            pageSize: 20,
+            page: pageState,
+          }).then((res) => {
+            if (setSearchRes) setSearchRes(res);
+            if (setIsLoading) setIsLoading(false);
+          });
+        }
+      }, 500);
     }
   }, [keywordState, pageState, publishStatusState]);
 
@@ -254,8 +261,8 @@ const Component: React.FC<Props> = ({}: Props) => {
                           />
                           <div className="border border-gray-200 rounded-md">
                             <div className="divide-y divide-gray-200">
-                              {searchRes.users.map((user) => (
-                                <MemberInfo key={user.userId} {...user} />
+                              {searchRes.users.map((user, index) => (
+                                <MemberInfo key={user.userId} {...user} index={index} />
                               ))}
                             </div>
                           </div>
