@@ -276,7 +276,7 @@ const Component: React.FC<Props> = ({}: Props) => {
               >
                 {selectTagState === tag.name && <XIcon className="h-3 w-3 mr-1" />}
                 <span className="text-sm">{tag.name}</span>
-                <span className="text-sm text-gray-400 ml-1">{tag.count}</span>
+                <span className="text-sm text-gray-900 ml-1">{tag.count}</span>
               </button>
             );
           })}
