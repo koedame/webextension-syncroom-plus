@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill';
 
 const savedConfigAutoReloadSelector = selector<boolean>({
   key: 'savedConfigAutoReload',
-  get: async ({ get }) => {
+  get: async ({}) => {
     const res = await browser.storage.local.get('v2ConfigAutoReload').then(({ v2ConfigAutoReload }) => {
       if (typeof v2ConfigAutoReload !== 'undefined') {
         return v2ConfigAutoReload;

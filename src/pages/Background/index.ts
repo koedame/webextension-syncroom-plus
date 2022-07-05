@@ -65,14 +65,18 @@ browser.alarms.onAlarm.addListener(async () => {
     browser.storage.local.get('v2NotificationOnlineMemberIds').then(({ v2NotificationOnlineMemberIds }) => {
       // データがなければ何もしない
       if (!Array.isArray(v2NotificationOnlineMemberIds)) {
-        return false;
+        return;
       }
       if (v2NotificationOnlineMemberIds.length === 0) {
-        return false;
+        return;
       }
 
       const onlineMembers = [];
       for (const room of roomlist.rooms) {
+        // テストルームの通知は意味がないので無視
+        if (room.roomName === '接続テストルーム') {
+          continue;
+        }
         for (const member of room.members) {
           onlineMembers.push(member);
 
@@ -126,10 +130,10 @@ browser.alarms.onAlarm.addListener(async () => {
     browser.storage.local.get('v2NotificationVacancyRooms').then(({ v2NotificationVacancyRooms }) => {
       // データがなければ何もしない
       if (!Array.isArray(v2NotificationVacancyRooms)) {
-        return false;
+        return;
       }
       if (v2NotificationVacancyRooms.length === 0) {
-        return false;
+        return;
       }
 
       // 空き部屋通知

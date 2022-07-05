@@ -14,6 +14,7 @@ import Report from './Report';
 import Messages from './Messages';
 import { LoginRequiredDialog } from '../components/LoginRequired/Dialog';
 import ReturnToTopButton from './ReturnToTopButton';
+import SearchMember from './SearchMember';
 
 interface Props {}
 
@@ -25,7 +26,7 @@ const InitialFC: React.FC<Props> = ({}: Props) => {
   const reloadSession = () => {
     // トークンの期限が発行から24時間に設定されているので読み込みの度にトークンを更新しておく
     refreshToken()
-      .then((res) => {
+      .then((_res) => {
         // トークン更新前にユーザー情報を取得していた場合は整合性が取れないので再取得しておく
         reloadMyProfile();
       })
@@ -57,6 +58,7 @@ const App: React.FC<Props> = ({}: Props) => {
         <Report />
         <LoginRequiredDialog />
         <ReturnToTopButton />
+        <SearchMember />
       </React.Suspense>
     </RecoilRoot>
   );

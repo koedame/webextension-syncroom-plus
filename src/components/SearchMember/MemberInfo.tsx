@@ -1,18 +1,18 @@
-import React, { memo, useEffect, useState } from 'react';
-import { useTranslation } from '../../lib/i18n';
-import { DateTime } from 'luxon';
-
 import { SYNCROOM } from '../../types/syncroom';
-import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { UserRepository } from '../../repositories/userRepository';
-import findRoomByUserId from '../../lib/findRoomByUserId';
-import { useRooms } from '../../hooks/useRooms';
-import { dateTimeFromNow } from '../../lib/dateTimeFromNow';
+import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
+import { useTranslation } from '../../lib/i18n';
 
-interface Props extends SYNCROOM.UserBasicInfoType {
-  index: number;
-  onRemove: Function;
-}
+import React, { memo, useEffect, useState } from 'react';
+import { useRooms } from '../../hooks/useRooms';
+import findRoomByUserId from '../../lib/findRoomByUserId';
+import { DateTime } from 'luxon';
+import { dateTimeFromNow } from '../../lib/dateTimeFromNow';
+import { BanIcon, BellIcon, StarIcon } from '@heroicons/react/solid';
+import { useNotificationOnlineMemberIds } from '../../hooks/useNotificationOnlineMembers';
+import { useSession } from '../../hooks/useSession';
+import { FavoriteRepository } from '../../repositories/favoriteRepository';
+import { BlockRepository } from '../../repositories/blockRepository';
 
 interface ActivityComponentPropType {
   currentState: SYNCROOM.CurrentStateType;
@@ -114,12 +114,27 @@ const StatusIconComponent: React.FC<ActivityComponentPropType> = ({ currentState
   return null;
 };
 
-const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemove }: Props) => {
-  const { t } = useTranslation();
+interface Props {
+  nickname: string;
+  iconInfo: SYNCROOM.IconInfoType;
+  profileText: string;
+  userId: string;
+  index: number;
+}
 
+const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId, index }: Props) => {
+  const { t } = useTranslation();
   const [user, setUser] = useState<SYNCROOM.UserType>();
   const [entryRoom, setEntryRoom] = useState<SYNCROOM.RoomType>();
   const { rooms } = useRooms();
+
+  const { isNotificationOnlineMember, addNotificationOnlineMemberFromName, removeNotificationOnlineMemberFromUserId } = useNotificationOnlineMemberIds();
+  const [isFavoriteProcessing, setIsFavoriteProcessing] = useState<boolean>(false);
+  const [isFavoriteMember, setIsFavoriteMember] = useState<boolean>(false);
+  const [isBlockMember, setIsBlockMember] = useState<boolean>(false);
+  const [isBlockProcessing, setIsBlockProcessing] = useState<boolean>(false);
+
+  const { myProfile, reloadMyProfile } = useSession();
 
   useEffect(() => {
     UserRepository.show(userId).then((res) => {
@@ -128,9 +143,14 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
     });
   }, []);
 
+  useEffect(() => {
+    setIsFavoriteMember(!!myProfile?.favoriteUsers.includes(userId));
+    setIsBlockMember(!!myProfile?.blockedUsers.includes(userId));
+  }, [userId, myProfile]);
+
   return (
-    <tr className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-      <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900 truncate">
+    <div className={index % 2 === 0 ? 'bg-white py-4' : 'bg-gray-50 py-4'}>
+      <div className="px-4 whitespace-nowrap text-sm font-medium text-gray-900">
         <div className="inline-block mr-2">
           <img className="h-10 w-10 rounded-md" src={iconInfoToUrl(iconInfo)} alt="" />
         </div>
@@ -138,28 +158,87 @@ const Component: React.FC<Props> = ({ userId, nickname, iconInfo, index, onRemov
           <a className="text-blue-600 hover:text-blue-800" href={`https://syncroom.yamaha.com/mypage/user/${userId}`} target="_blank" rel="noopener noreferrer">
             <p>{nickname}</p>
           </a>
-          <p className="text-gray-700 inline-flex items-center">
+          <div className="text-gray-700 inline-flex items-center">
             <span className="relative inline-block mr-1">
               {user && <StatusIconComponent currentState={user.currentState} publishState={user.publishStatus} entryRoom={entryRoom} />}
             </span>
             <span className="inline-block inline-flex items-center">
               {user && <ActivityComponent currentState={user.currentState} publishState={user.publishStatus} entryRoom={entryRoom} />}
             </span>
-          </p>
+          </div>
         </div>
-      </td>
-      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-        <button
-          onClick={() => {
-            onRemove(user);
-          }}
-          className="text-red-600 hover:text-red-900 border-b border-dashed border-red-600 hover:border-red-900"
-        >
-          {t('remove')}
-        </button>
-      </td>
-    </tr>
+        <div className=" float-right flex space-x-1">
+          <button
+            title={t('receive_notification_when_online_this_user')}
+            onClick={() => {
+              if (isNotificationOnlineMember(userId)) removeNotificationOnlineMemberFromUserId(userId);
+              else addNotificationOnlineMemberFromName(userId, 'roomCreatedAt');
+            }}
+          >
+            <BellIcon className={isNotificationOnlineMember(userId) ? 'h-4 w-4 text-yellow-500 hover:text-yellow-700' : 'h-4 w-4 text-gray-400 hover:text-gray-600'} />
+          </button>
+          <button
+            title={t('color_it_to_make_it_easier_to_find')}
+            onClick={() => {
+              setIsFavoriteProcessing(true);
+
+              if (isFavoriteMember) {
+                FavoriteRepository.remove(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
+                    setIsFavoriteProcessing(false);
+                  });
+                });
+              } else {
+                FavoriteRepository.add(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
+                    setIsFavoriteProcessing(false);
+                  });
+                });
+              }
+            }}
+          >
+            {isFavoriteProcessing ? (
+              <div className="flex justify-center">
+                <div className="animate-spin h-4 w-4 border-2 border-indigo-500 rounded-full border-t-transparent"></div>
+              </div>
+            ) : (
+              <StarIcon className={isFavoriteMember ? 'h-4 w-4 text-yellow-500 hover:text-yellow-700' : 'h-4 w-4 text-gray-400 hover:text-gray-600'} />
+            )}
+          </button>
+          <button
+            title={t('block_user')}
+            onClick={() => {
+              setIsBlockProcessing(true);
+
+              if (isBlockMember) {
+                BlockRepository.remove(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
+                    setIsBlockProcessing(false);
+                  });
+                });
+              } else {
+                BlockRepository.add(userId).then((_res) => {
+                  reloadMyProfile().then((_res2) => {
+                    setIsBlockProcessing(false);
+                  });
+                });
+              }
+            }}
+          >
+            {isBlockProcessing ? (
+              <div className="flex justify-center">
+                <div className="animate-spin h-4 w-4 border-2 border-indigo-500 rounded-full border-t-transparent"></div>
+              </div>
+            ) : (
+              <BanIcon className={isBlockMember ? 'h-4 w-4 text-red-500 hover:text-red-700' : 'h-4 w-4 text-gray-400 hover:text-gray-600'} />
+            )}
+          </button>
+        </div>
+      </div>
+      <div className="px-4 align-top">
+        <p className="text-gray-700 truncate">{profileText}</p>
+      </div>
+    </div>
   );
 };
-
 export default memo(Component);

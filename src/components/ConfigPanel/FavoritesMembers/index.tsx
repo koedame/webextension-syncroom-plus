@@ -72,8 +72,8 @@ const Component: React.FC<Props> = ({}: Props) => {
         onOk={() => {
           if (removeUser) {
             setIsRemoveProcessing(true);
-            FavoriteRepository.remove(removeUser.userId).then((res) => {
-              reloadMyProfile().then((res) => {
+            FavoriteRepository.remove(removeUser.userId).then((_res) => {
+              reloadMyProfile().then((_res2) => {
                 setRemoveUser(undefined);
                 setRemoveDialogOpenState(false);
                 setRemovedToastOpenState(true);

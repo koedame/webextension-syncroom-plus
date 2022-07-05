@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { CheckIcon, MenuIcon, ChevronDownIcon, TranslateIcon, QrcodeIcon, XIcon, LoginIcon, LogoutIcon } from '@heroicons/react/outline';
+import { CheckIcon, MenuIcon, ChevronDownIcon, TranslateIcon, QrcodeIcon, XIcon, LoginIcon, UserIcon } from '@heroicons/react/outline';
 
 import { useTranslation, langMap, changeLanguage } from '../../lib/i18n';
 
@@ -8,6 +8,8 @@ import ShareRoom from '../ShareRoom';
 import ConfigPanel from '../ConfigPanel/index';
 import { useSession } from '../../hooks/useSession';
 import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
+import { useUserSearch } from '../SearchMember';
+import { useLoginRequired } from '../LoginRequired/Dialog';
 
 interface Props {}
 
@@ -15,11 +17,15 @@ const Component: React.FC<Props> = ({}: Props) => {
   const [shareRoomOpenState, setShareRoomOpenState] = useState<boolean>(false);
   const [configPanelOpenState, setConfigPanelOpenState] = useState<boolean>(false);
 
-  const { myProfile, logout } = useSession();
+  const { myProfile, logout, isLoggedIn } = useSession();
 
   const { t, i18n } = useTranslation();
 
   const [displayLangState, setDisplayLangState] = useState<string>(langMap(i18n.language));
+
+  const { openUserSearchForm } = useUserSearch();
+
+  const { openLoginRequiredDialog } = useLoginRequired();
 
   useEffect(() => {
     setDisplayLangState(langMap(i18n.language));
@@ -53,6 +59,21 @@ const Component: React.FC<Props> = ({}: Props) => {
                   >
                     <QrcodeIcon className="block h-5 w-5 mr-2" />
                     {t('share_room')}
+                  </button>
+
+                  <button
+                    onClick={(event) => {
+                      // ログイン必須
+                      if (!isLoggedIn) {
+                        event.preventDefault();
+                        return openLoginRequiredDialog();
+                      }
+                      openUserSearchForm();
+                    }}
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    <UserIcon className="block h-5 w-5 mr-2" />
+                    {t('user_search')}
                   </button>
                 </div>
               </div>
@@ -162,17 +183,6 @@ const Component: React.FC<Props> = ({}: Props) => {
                               rel="noopener noreferrer"
                             >
                               {t('my_profile')}
-                            </a>
-                          </Menu.Item>
-
-                          <Menu.Item>
-                            <a
-                              href="https://syncroom.yamaha.com/mypage/search"
-                              className="block w-full px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 text-left"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {t('user_search')}
                             </a>
                           </Menu.Item>
                         </div>

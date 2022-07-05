@@ -14,7 +14,7 @@ const Component: React.FC<Props> = ({}: Props) => {
   let scrollTimer: any = null;
   const showControll = () => {
     if (scrollTimer) {
-      return false;
+      return;
     } else {
       scrollTimer = setTimeout(() => {
         scrollTimer = null;

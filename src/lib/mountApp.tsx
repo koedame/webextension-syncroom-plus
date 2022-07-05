@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import App from '../components/App';
 
-const mountApp = async () => {
+const mountApp = () => {
   const AppContainer = document.createElement('div');
   AppContainer.id = 'app-container';
   document.body.appendChild(AppContainer);
