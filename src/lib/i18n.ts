@@ -7,11 +7,11 @@ import browser from 'webextension-polyfill';
 
 i18n.use(initReactI18next).init({
   resources: {
-    en: {
-      translation: i18nJson.en,
-    },
     ja: {
       translation: i18nJson.ja,
+    },
+    en: {
+      translation: i18nJson.en,
     },
     ko: {
       translation: i18nJson.ko,
