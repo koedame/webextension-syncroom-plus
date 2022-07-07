@@ -15,7 +15,6 @@
     "test:coverage": "NODE_ENV=test jest --collect-coverage --silent --testLocationInResults --ci --json --outputFile=\"report.json\""
   },
   "dependencies": {
-    "@emotion/css": "^11.5.0",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.5",
     "i18next": "^21.8.13",
