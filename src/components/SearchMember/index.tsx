@@ -4,18 +4,10 @@ import { SYNCROOM } from '../../types/syncroom';
 import { UserRepository } from '../../repositories/userRepository';
 import { useTranslation } from '../../lib/i18n';
 
-import { css } from '@emotion/css';
 import React, { Fragment, memo, useEffect, useState } from 'react';
 import MemberInfo from './MemberInfo';
 import { InformationCircleIcon } from '@heroicons/react/solid';
 import ReactLoading from 'react-loading';
-
-// focus:shadow-none が効かないのでこのやり方をとる
-const SearchInputStyle = css`
-  &:focus {
-    box-shadow: none !important;
-  }
-`;
 
 interface PaginationProps extends SYNCROOM.UserSearchMetaType {
   onPrev: Function;
@@ -174,7 +166,8 @@ const Component: React.FC<Props> = ({}: Props) => {
                         type="text"
                         name="searchKeyword"
                         id="searchKeyword"
-                        className={`block w-full pl-8 border border-gray-300 focus:border-blue-500 text-base rounded-md ${SearchInputStyle}`}
+                        className="block w-full pl-8 border border-gray-300 focus:border-blue-500 text-base rounded-md"
+                        style={{ boxShadow: 'none' }}
                         placeholder={t('type_keywords')}
                         onChange={(e) => {
                           setKeywords(e.target.value);
