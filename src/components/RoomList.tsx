@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { css } from '@emotion/css';
 import { Flipper } from 'react-flip-toolkit';
 import { ExclamationIcon, StatusOnlineIcon, RefreshIcon, SearchIcon, XIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/react/solid';
 import ReactLoading from 'react-loading';
@@ -18,13 +17,6 @@ import { RoomRepository } from '../repositories/roomRepository';
 import decryptionTags from '../lib/decriptionTags';
 import sumallizeRoomData from '../lib/sumallizeRoomData';
 import { useRooms } from '../hooks/useRooms';
-
-// focus:shadow-none が効かないのでこのやり方をとる
-const SearchInputStyle = css`
-  &:focus {
-    box-shadow: none !important;
-  }
-`;
 
 const slectedTagStyle = 'inline-block inline-flex items-center px-3 py-1 text-white bg-gray-600 shadow-sm rounded hover:bg-gray-800';
 const unslectedTagStyle = 'inline-block inline-flex items-center px-3 py-1 text-gray-900 bg-gray-100 shadow-sm rounded hover:bg-gray-200';
@@ -191,7 +183,8 @@ const Component: React.FC<Props> = ({}: Props) => {
             type="text"
             name="searchKeyword"
             id="searchKeyword"
-            className={`block w-full pl-8 border border-gray-300 focus:border-blue-500 text-base rounded-md ${SearchInputStyle}`}
+            className="block w-full pl-8 border border-gray-300 focus:border-blue-500 text-base rounded-md"
+            style={{ boxShadow: 'none' }}
             placeholder={t('type_keywords')}
             onChange={(e) => setKeywordState(e.target.value)}
             value={keywordState}
