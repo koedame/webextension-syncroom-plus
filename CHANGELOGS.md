@@ -1,5 +1,19 @@
 # CHANGELOGS
 
+## v2.0.6
+
+### 変更
+
+- 韓国語の翻訳を更新 (Thanks to 한동권 Han Dong-gwon)
+
+### 依存パッケージ
+
+- @swc/core from 1.2.208 to 1.2.210
+- @types/chrome from 0.0.191 to 0.0.193
+- @types/node from 18.0.1 to 18.0.3
+- i18next from 21.8.11 to 21.8.13
+- react-i18next from 11.17.4 to 11.18.0
+
 ## v2.0.5
 
 ### 変更
