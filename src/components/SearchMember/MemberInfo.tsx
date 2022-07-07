@@ -152,7 +152,11 @@ const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId, i
     <div className={index % 2 === 0 ? 'bg-white py-4' : 'bg-gray-50 py-4'}>
       <div className="px-4 whitespace-nowrap text-sm font-medium text-gray-900">
         <div className="inline-block mr-2">
-          <img className="h-10 w-10 rounded-md" src={iconInfoToUrl(iconInfo)} alt="" />
+          {user ? (
+            <img className="h-10 w-10 rounded-md" src={iconInfoToUrl(user.iconInfo)} alt="" />
+          ) : (
+            <img className="h-10 w-10 rounded-md" src={iconInfoToUrl(iconInfo)} alt="" />
+          )}
         </div>
         <div className="inline-block align-top">
           <a className="text-blue-600 hover:text-blue-800" href={`https://syncroom.yamaha.com/mypage/user/${userId}`} target="_blank" rel="noopener noreferrer">
