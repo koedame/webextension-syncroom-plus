@@ -57,8 +57,8 @@ var options = {
   module: {
     rules: [
       {
-        // look for .css or .scss files
-        test: /\.(css|scss)$/,
+        // look for .css or files
+        test: /\.(css)$/,
         // in the `src` directory
         use: [
           {
@@ -69,12 +69,6 @@ var options = {
           },
           {
             loader: 'postcss-loader',
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-            },
           },
         ],
       },
