@@ -89,28 +89,37 @@ const Component: React.FC<Props> = ({}: Props) => {
   const [publishStatusState, setPublishStatusState] = useState<SYNCROOM.PublishStatusType>('open');
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
     const controller = new AbortController();
 
     if (keywordState === '') {
       setSearchRes(undefined);
     } else {
-      setIsLoading(true);
+      timer = setTimeout(() => {
+        setIsLoading(true);
 
-      UserRepository.searchWithSignal(
-        {
-          keywords: keywordState,
-          publishStatus: publishStatusState,
-          pageSize: 20,
-          page: pageState,
-        },
-        controller.signal
-      ).then((res) => {
-        if (setSearchRes) setSearchRes(res);
-        if (setIsLoading) setIsLoading(false);
-      });
+        UserRepository.searchWithSignal(
+          {
+            keywords: keywordState,
+            publishStatus: publishStatusState,
+            pageSize: 20,
+            page: pageState,
+          },
+          controller.signal
+        )
+          .then((res) => {
+            if (setSearchRes) setSearchRes(res);
+            if (setIsLoading) setIsLoading(false);
+          })
+          .catch((e) => {
+            console.error('ユーザー検索エラー', e);
+            if (setIsLoading) setIsLoading(false);
+          });
+      }, 1000);
     }
 
     return () => {
+      clearInterval(timer);
       controller.abort();
     };
   }, [keywordState, pageState, publishStatusState]);
