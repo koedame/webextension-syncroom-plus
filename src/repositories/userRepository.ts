@@ -28,7 +28,7 @@ export const UserRepository = {
       headers,
       searchParams: option,
       signal: signal,
-    })
+    });
 
     return res.json();
   },
