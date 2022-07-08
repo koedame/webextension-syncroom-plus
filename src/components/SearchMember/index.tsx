@@ -88,28 +88,31 @@ const Component: React.FC<Props> = ({}: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [publishStatusState, setPublishStatusState] = useState<SYNCROOM.PublishStatusType>('open');
 
-  let timer: any = null;
   useEffect(() => {
-    if (timer) {
-      return;
+    const controller = new AbortController();
+
+    if (keywordState === '') {
+      setSearchRes(undefined);
     } else {
-      timer = setTimeout(() => {
-        if (keywordState === '') {
-          setSearchRes(undefined);
-        } else {
-          setIsLoading(true);
-          UserRepository.search({
-            keywords: keywordState,
-            publishStatus: publishStatusState,
-            pageSize: 20,
-            page: pageState,
-          }).then((res) => {
-            if (setSearchRes) setSearchRes(res);
-            if (setIsLoading) setIsLoading(false);
-          });
-        }
-      }, 500);
+      setIsLoading(true);
+
+      UserRepository.searchWithSignal(
+        {
+          keywords: keywordState,
+          publishStatus: publishStatusState,
+          pageSize: 20,
+          page: pageState,
+        },
+        controller.signal
+      ).then((res) => {
+        if (setSearchRes) setSearchRes(res);
+        if (setIsLoading) setIsLoading(false);
+      });
     }
+
+    return () => {
+      controller.abort();
+    };
   }, [keywordState, pageState, publishStatusState]);
 
   return (
@@ -176,7 +179,6 @@ const Component: React.FC<Props> = ({}: Props) => {
                         value={keywordState}
                       />
                     </label>
-
                     <div className="ml-6 space-y-2 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                       <div className="flex items-center">
                         <input
