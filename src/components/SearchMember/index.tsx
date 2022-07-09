@@ -119,7 +119,7 @@ const Component: React.FC<Props> = ({}: Props) => {
     }
 
     return () => {
-      clearInterval(timer);
+      clearTimeout(timer);
       controller.abort();
     };
   }, [keywordState, pageState, publishStatusState]);
