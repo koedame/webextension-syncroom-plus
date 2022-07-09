@@ -37,19 +37,19 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
     setIsValidRoomNameState(roomNameState.length !== 0);
   }, [roomNameState]);
 
-  let copyTimer: any = null;
+  let copyTimer: ReturnType<typeof setTimeout>;
 
   const onCopyUrl = () => {
     navigator.clipboard.writeText(urlState);
 
     setIsCopiedState(true);
 
-    if (urlState) {
-      clearTimeout(copyTimer);
-    }
+    clearTimeout(copyTimer);
 
     copyTimer = setTimeout(() => {
-      setIsCopiedState(false);
+      if (setIsCopiedState) {
+        setIsCopiedState(false);
+      }
     }, 3000);
   };
 

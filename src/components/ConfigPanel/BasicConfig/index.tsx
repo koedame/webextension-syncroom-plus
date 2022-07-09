@@ -86,7 +86,9 @@ const Component: React.FC<Props> = ({}: Props) => {
             setResetRememberPasswordDialogOpenState(false);
             setResetRememberPasswordDialogSuccseedToastOpenState(true);
             setTimeout(() => {
-              setResetRememberPasswordDialogSuccseedToastOpenState(false);
+              if (setResetRememberPasswordDialogSuccseedToastOpenState) {
+                setResetRememberPasswordDialogSuccseedToastOpenState(false);
+              }
             }, 5000);
           }}
         />

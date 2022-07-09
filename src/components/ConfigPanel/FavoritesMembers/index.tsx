@@ -82,7 +82,9 @@ const Component: React.FC<Props> = ({}: Props) => {
             });
 
             setTimeout(() => {
-              setRemovedToastOpenState(false);
+              if (setRemovedToastOpenState) {
+                setRemovedToastOpenState(false);
+              }
             }, 5000);
           }
         }}

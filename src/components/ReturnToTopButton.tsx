@@ -11,20 +11,21 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const [isShow, setIsShow] = useState<boolean>(false);
 
-  let scrollTimer: any = null;
+  let scrollTimer: ReturnType<typeof setTimeout>;
   const showControll = () => {
-    if (scrollTimer) {
-      return;
-    } else {
-      scrollTimer = setTimeout(() => {
-        scrollTimer = null;
-        if (window.pageYOffset > 200) {
+    clearTimeout(scrollTimer);
+
+    scrollTimer = setTimeout(() => {
+      if (window.pageYOffset > 200) {
+        if (setIsShow) {
           setIsShow(true);
-        } else {
+        }
+      } else {
+        if (setIsShow) {
           setIsShow(false);
         }
-      }, 500);
-    }
+      }
+    }, 100);
   };
 
   useEffect(() => {
