@@ -33,6 +33,6 @@ module.exports = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', swcConfig],
   },
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/lib/**/*.{js,jsx,ts,tsx}'],
+  collectCoverageFrom: ['<rootDir>/src/{lib,hooks}/**/*.{js,jsx,ts,tsx}'],
   setupFilesAfterEnv: ['./jest.setup.ts'],
 };
