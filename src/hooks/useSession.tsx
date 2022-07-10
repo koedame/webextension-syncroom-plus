@@ -1,5 +1,4 @@
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-import ky from 'ky';
 import type { SYNCROOM } from '../types/syncroom';
 import { SessionRepository } from '../repositories/sessionRepository';
 
@@ -91,21 +90,20 @@ export const useSession = () => {
   const refreshToken = async (): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
       if (localStorage.getItem('token') && localStorage.getItem('refreshToken')) {
-        const client = ky.create({
-          headers: {
-            'x-api-key': 'O98sxYkdgh9ZtVmv5mT5S2zbuipzhSa81MKExbCN',
-          },
-        });
+        const headers = new Headers();
+        headers.set('x-api-key', 'O98sxYkdgh9ZtVmv5mT5S2zbuipzhSa81MKExbCN');
 
         try {
-          const json: { token: string; refreshToken: string } = await client
-            .post('https://webapi.syncroom.appservice.yamaha.com/comm/token/refresh', {
-              json: {
+          const json: { token: string; refreshToken: string } = await (
+            await fetch('https://webapi.syncroom.appservice.yamaha.com/comm/token/refresh', {
+              method: 'post',
+              headers,
+              body: JSON.stringify({
                 token: localStorage.getItem('token'),
                 refreshToken: localStorage.getItem('refreshToken'),
-              },
+              }),
             })
-            .json();
+          ).json();
 
           // 文字列の "undefined" が返って来たことがあるので、念の為チェックをしておく。
           if (json.token && json.token !== 'undefined') {
