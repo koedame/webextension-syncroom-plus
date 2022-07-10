@@ -1,6 +1,7 @@
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 import type { SYNCROOM } from '../types/syncroom';
 import { SessionRepository } from '../repositories/sessionRepository';
+import { srClient } from '../repositories/clients';
 
 export type MyProfile = SYNCROOM.MyProfileType | null;
 
@@ -95,7 +96,7 @@ export const useSession = () => {
 
         try {
           const json: { token: string; refreshToken: string } = await (
-            await fetch('https://webapi.syncroom.appservice.yamaha.com/comm/token/refresh', {
+            await srClient('https://webapi.syncroom.appservice.yamaha.com/comm/token/refresh', {
               method: 'post',
               headers,
               body: JSON.stringify({
