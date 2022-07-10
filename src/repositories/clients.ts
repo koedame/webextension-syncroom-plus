@@ -1,4 +1,3 @@
-import ky from 'ky';
 import browser from 'webextension-polyfill';
 
 export const srpClient = (path: string, options?: RequestInit) => {
@@ -18,15 +17,11 @@ export const srClient = (url: string, options?: RequestInit) => {
   });
 }
 
-export const srClientWithToken = () => {
-  const srClient = ky.create({});
-  return srClient.extend({
-    hooks: {
-      beforeRequest: [
-        (request) => {
-          request.headers.set('authorization', localStorage.getItem('token') || '');
-        },
-      ],
-    },
-  });
+export const srClientWithToken = (url: string, options?: RequestInit) => {
+  const headers = new Headers();
+  headers.set('authorization', localStorage.getItem('token') || '');
+  return srClient(url, {
+    ...options,
+    headers
+  })
 };

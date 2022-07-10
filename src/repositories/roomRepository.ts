@@ -12,7 +12,7 @@ export const RoomRepository = {
   // 価値ある情報は含まれていないので未使用
   // 部屋一覧情報取得（ログイン時用）
   // async authedList(): Promise<SYNCROOM.RoomsResponseType> {
-  //   const res = await srClientWithToken().get('https://webapi.syncroom.appservice.yamaha.com/comm/room_list?pagesize=500&realm=4')
+  //   const res = await srClientWithToken('https://webapi.syncroom.appservice.yamaha.com/comm/room_list?pagesize=500&realm=4')
   //   return res.json()
   // },
 };
