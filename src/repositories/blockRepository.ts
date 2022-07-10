@@ -8,14 +8,14 @@ export const BlockRepository = {
       method: 'post',
       body: JSON.stringify({
         userId,
-      })
+      }),
     });
     return res.json();
   },
   // ブロックから削除
   async remove(userId: string): Promise<{ status: 'ok' }> {
     const res = await srClientWithToken(`https://webapi.syncroom.appservice.yamaha.com/comm/users/me/profile/blockedusers/${userId}/remove`, {
-      method: 'post'
+      method: 'post',
     });
     return res.json();
   },

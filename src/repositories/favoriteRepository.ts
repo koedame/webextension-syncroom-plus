@@ -16,7 +16,7 @@ export const FavoriteRepository = {
   // お気に入りから削除
   async remove(userId: string): Promise<{ status: 'ok' }> {
     const res = await srClientWithToken(`https://webapi.syncroom.appservice.yamaha.com/comm/users/me/profile/favoriteusers/${userId}/remove`, {
-      method: 'post'
+      method: 'post',
     });
     return res.json();
   },

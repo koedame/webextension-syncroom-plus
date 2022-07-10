@@ -12,7 +12,7 @@ export const SessionRepository = {
   // ログアウト処理
   async logout(): Promise<{ status: 'ok' }> {
     const res = await srClientWithToken('https://webapi.syncroom.appservice.yamaha.com/comm/logout', {
-      method: 'post'
+      method: 'post',
     });
     return res.json();
   },

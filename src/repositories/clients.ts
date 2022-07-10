@@ -7,21 +7,21 @@ export const srpClient = (path: string, options?: RequestInit) => {
 
   return fetch(url, {
     ...options,
-    headers
+    headers,
   });
-}
+};
 
 export const srClient = (url: string, options?: RequestInit) => {
   return fetch(url, {
-    ...options
+    ...options,
   });
-}
+};
 
 export const srClientWithToken = (url: string, options?: RequestInit) => {
   const headers = new Headers();
   headers.set('authorization', localStorage.getItem('token') || '');
   return srClient(url, {
     ...options,
-    headers
-  })
+    headers,
+  });
 };

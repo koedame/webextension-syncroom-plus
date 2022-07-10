@@ -23,9 +23,11 @@ export const UserRepository = {
   async searchWithSignal(params: SYNCROOM.UserSearchRequestType, signal: AbortSignal): Promise<SYNCROOM.UserSearchResponseType> {
     const res = await srClientWithToken(
       // not assignable になるため any に変換している。問題は起こらないはず。
-      'https://webapi.syncroom.appservice.yamaha.com/comm/users?' + new URLSearchParams(params as any), {
-      signal: signal,
-    });
+      'https://webapi.syncroom.appservice.yamaha.com/comm/users?' + new URLSearchParams(params as any),
+      {
+        signal: signal,
+      }
+    );
 
     return res.json();
   },
