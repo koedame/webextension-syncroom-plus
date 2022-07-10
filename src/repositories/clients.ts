@@ -12,9 +12,14 @@ export const srpClient = (path: string, options?: RequestInit) => {
   });
 }
 
-export const srClient = ky.create({});
+export const srClient = (url: string, options?: RequestInit) => {
+  return fetch(url, {
+    ...options
+  });
+}
 
 export const srClientWithToken = () => {
+  const srClient = ky.create({});
   return srClient.extend({
     hooks: {
       beforeRequest: [
