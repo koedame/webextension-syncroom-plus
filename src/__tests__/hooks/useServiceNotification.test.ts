@@ -13,7 +13,7 @@ describe('初期状態', () => {
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
 
-    const { result } = renderHook(() => useServiceNotification())
+    const { result } = renderHook(() => useServiceNotification());
     expect(spy).toHaveBeenCalledTimes(0);
 
     expect(result.current.color).toStrictEqual('yellow');
@@ -31,21 +31,23 @@ describe('期間内のお知らせがあった場合', () => {
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
-    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() => Promise.resolve({
-      title: 'タイトル',
-      description: '詳細',
-      start_at: '2022-01-01T00:00:00+09:00',
-      end_at: '2022-01-03T00:00:00+09:00',
-      notification_type: "info",
-      closable: false,
-      has_icon: false,
-    }));
+    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() =>
+      Promise.resolve({
+        title: 'タイトル',
+        description: '詳細',
+        start_at: '2022-01-01T00:00:00+09:00',
+        end_at: '2022-01-03T00:00:00+09:00',
+        notification_type: 'info',
+        closable: false,
+        has_icon: false,
+      })
+    );
 
-    const { result } = renderHook(() => useServiceNotification())
+    const { result } = renderHook(() => useServiceNotification());
 
     await act(async () => {
-      await result.current.fetchServiceNotification()
-    })
+      await result.current.fetchServiceNotification();
+    });
 
     expect(spy).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -57,7 +59,7 @@ describe('期間内のお知らせがあった場合', () => {
       description: '詳細',
       start_at: '2022-01-01T00:00:00+09:00',
       end_at: '2022-01-03T00:00:00+09:00',
-      notification_type: "info",
+      notification_type: 'info',
       closable: false,
       has_icon: false,
     });
@@ -75,21 +77,23 @@ describe('期間前のお知らせがあった場合', () => {
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
-    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() => Promise.resolve({
-      title: 'タイトル',
-      description: '詳細',
-      start_at: '2022-01-03T00:00:00+09:00',
-      end_at: '2022-01-04T00:00:00+09:00',
-      notification_type: "info",
-      closable: false,
-      has_icon: false,
-    }));
+    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() =>
+      Promise.resolve({
+        title: 'タイトル',
+        description: '詳細',
+        start_at: '2022-01-03T00:00:00+09:00',
+        end_at: '2022-01-04T00:00:00+09:00',
+        notification_type: 'info',
+        closable: false,
+        has_icon: false,
+      })
+    );
 
-    const { result } = renderHook(() => useServiceNotification())
+    const { result } = renderHook(() => useServiceNotification());
 
     await act(async () => {
-      await result.current.fetchServiceNotification()
-    })
+      await result.current.fetchServiceNotification();
+    });
 
     expect(spy).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -101,7 +105,7 @@ describe('期間前のお知らせがあった場合', () => {
       description: '詳細',
       start_at: '2022-01-03T00:00:00+09:00',
       end_at: '2022-01-04T00:00:00+09:00',
-      notification_type: "info",
+      notification_type: 'info',
       closable: false,
       has_icon: false,
     });
@@ -119,21 +123,23 @@ describe('期間後のお知らせがあった場合', () => {
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
-    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() => Promise.resolve({
-      title: 'タイトル',
-      description: '詳細',
-      start_at: '2022-01-01T00:00:00+09:00',
-      end_at: '2022-01-01T00:00:00+09:00',
-      notification_type: "info",
-      closable: false,
-      has_icon: false,
-    }));
+    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() =>
+      Promise.resolve({
+        title: 'タイトル',
+        description: '詳細',
+        start_at: '2022-01-01T00:00:00+09:00',
+        end_at: '2022-01-01T00:00:00+09:00',
+        notification_type: 'info',
+        closable: false,
+        has_icon: false,
+      })
+    );
 
-    const { result } = renderHook(() => useServiceNotification())
+    const { result } = renderHook(() => useServiceNotification());
 
     await act(async () => {
-      await result.current.fetchServiceNotification()
-    })
+      await result.current.fetchServiceNotification();
+    });
 
     expect(spy).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -145,7 +151,7 @@ describe('期間後のお知らせがあった場合', () => {
       description: '詳細',
       start_at: '2022-01-01T00:00:00+09:00',
       end_at: '2022-01-01T00:00:00+09:00',
-      notification_type: "info",
+      notification_type: 'info',
       closable: false,
       has_icon: false,
     });
@@ -163,21 +169,23 @@ describe('タイムゾーンが指定されていないお知らせがあった�
 
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
-    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() => Promise.resolve({
-      title: 'タイトル',
-      description: '詳細',
-      start_at: '2022-01-01T00:00:00+09:00',
-      end_at: '2022-01-03T00:00:00+09:00',
-      notification_type: "info",
-      closable: false,
-      has_icon: false,
-    }));
+    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() =>
+      Promise.resolve({
+        title: 'タイトル',
+        description: '詳細',
+        start_at: '2022-01-01T00:00:00+09:00',
+        end_at: '2022-01-03T00:00:00+09:00',
+        notification_type: 'info',
+        closable: false,
+        has_icon: false,
+      })
+    );
 
-    const { result } = renderHook(() => useServiceNotification())
+    const { result } = renderHook(() => useServiceNotification());
 
     await act(async () => {
-      await result.current.fetchServiceNotification()
-    })
+      await result.current.fetchServiceNotification();
+    });
 
     expect(spy).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -189,7 +197,7 @@ describe('タイムゾーンが指定されていないお知らせがあった�
       description: '詳細',
       start_at: '2022-01-01T00:00:00+09:00',
       end_at: '2022-01-03T00:00:00+09:00',
-      notification_type: "info",
+      notification_type: 'info',
       closable: false,
       has_icon: false,
     });
@@ -201,7 +209,6 @@ describe('タイムゾーンが指定されていないお知らせがあった�
   });
 });
 
-
 describe('お知らせ情報の取得に失敗した場合', () => {
   it('初期状態のままでいること', async () => {
     const now = '2022-01-02T00:00:00+09:00';
@@ -209,13 +216,13 @@ describe('お知らせ情報の取得に失敗した場合', () => {
     const mockDate = new Date(now).getTime();
     const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
     const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() => Promise.reject('エラーです'));
-    const spy3 = jest.spyOn(console, "error").mockImplementation(() => { });
+    const spy3 = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    const { result } = renderHook(() => useServiceNotification())
+    const { result } = renderHook(() => useServiceNotification());
 
     await act(async () => {
-      await result.current.fetchServiceNotification()
-    })
+      await result.current.fetchServiceNotification();
+    });
 
     expect(spy).toHaveBeenCalledTimes(0);
     expect(spy2).toHaveBeenCalled();

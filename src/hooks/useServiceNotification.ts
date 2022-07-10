@@ -1,7 +1,7 @@
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
-import { ServiceNotificationRepository } from "../repositories/serviceNotificationRepository";
-import { SYNCROOMPlus } from "../types/syncroomPlus";
+import { DateTime } from 'luxon';
+import { useEffect, useState } from 'react';
+import { ServiceNotificationRepository } from '../repositories/serviceNotificationRepository';
+import { SYNCROOMPlus } from '../types/syncroomPlus';
 
 export const useServiceNotification = () => {
   const [color, setColor] = useState<'blue' | 'green' | 'yellow' | 'red'>('yellow');
@@ -9,13 +9,14 @@ export const useServiceNotification = () => {
   const [serviceNotification, setServiceNotification] = useState<SYNCROOMPlus.ServiceNotificationType | null>(null);
 
   const fetchServiceNotification = () => {
-    ServiceNotificationRepository.latest().then((res) => {
-      setServiceNotification(res);
-    }).catch((error) => {
-
-      // エラーで停止しないようにキャッチして握りつぶしておく
-      console.error('お知らせ取得失敗', error);
-    })
+    ServiceNotificationRepository.latest()
+      .then((res) => {
+        setServiceNotification(res);
+      })
+      .catch((error) => {
+        // エラーで停止しないようにキャッチして握りつぶしておく
+        console.error('お知らせ取得失敗', error);
+      });
   };
 
   useEffect(() => {
@@ -37,6 +38,6 @@ export const useServiceNotification = () => {
     color,
     isShow,
     serviceNotification,
-    fetchServiceNotification
+    fetchServiceNotification,
   };
 };
