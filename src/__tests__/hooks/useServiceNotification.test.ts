@@ -173,8 +173,8 @@ describe('タイムゾーンが指定されていないお知らせがあった�
       Promise.resolve({
         title: 'タイトル',
         description: '詳細',
-        start_at: '2022-01-01T00:00:00+09:00',
-        end_at: '2022-01-03T00:00:00+09:00',
+        start_at: '2022-01-01T00:00:00Z',
+        end_at: '2022-01-03T00:00:00Z',
         notification_type: 'info',
         closable: false,
         has_icon: false,
@@ -195,8 +195,8 @@ describe('タイムゾーンが指定されていないお知らせがあった�
     expect(result.current.serviceNotification).toStrictEqual({
       title: 'タイトル',
       description: '詳細',
-      start_at: '2022-01-01T00:00:00+09:00',
-      end_at: '2022-01-03T00:00:00+09:00',
+      start_at: '2022-01-01T00:00:00Z',
+      end_at: '2022-01-03T00:00:00Z',
       notification_type: 'info',
       closable: false,
       has_icon: false,
@@ -240,5 +240,236 @@ describe('お知らせ情報の取得に失敗した場合', () => {
     spy2.mockRestore();
     spy3.mockReset();
     spy3.mockRestore();
+  });
+});
+
+describe('infoが設定されている時', () => {
+  it('colorにblueが設定されること', async () => {
+    const now = '2022-01-02T00:00:00+09:00';
+
+    const mockDate = new Date(now).getTime();
+    const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
+    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() =>
+      Promise.resolve({
+        title: 'タイトル',
+        description: '詳細',
+        start_at: '2022-01-01T00:00:00+09:00',
+        end_at: '2022-01-03T00:00:00+09:00',
+        notification_type: 'info',
+        closable: false,
+        has_icon: false,
+      })
+    );
+
+    const { result } = renderHook(() => useServiceNotification());
+
+    await act(async () => {
+      await result.current.fetchServiceNotification();
+    });
+
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+
+    expect(result.current.color).toStrictEqual('blue');
+    expect(result.current.isShow).toStrictEqual(true);
+    expect(result.current.serviceNotification).toStrictEqual({
+      title: 'タイトル',
+      description: '詳細',
+      start_at: '2022-01-01T00:00:00+09:00',
+      end_at: '2022-01-03T00:00:00+09:00',
+      notification_type: 'info',
+      closable: false,
+      has_icon: false,
+    });
+
+    spy.mockReset();
+    spy.mockRestore();
+    spy2.mockReset();
+    spy2.mockRestore();
+  });
+});
+
+describe('successが設定されている時', () => {
+  it('colorにgreenが設定されること', async () => {
+    const now = '2022-01-02T00:00:00+09:00';
+
+    const mockDate = new Date(now).getTime();
+    const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
+    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() =>
+      Promise.resolve({
+        title: 'タイトル',
+        description: '詳細',
+        start_at: '2022-01-01T00:00:00+09:00',
+        end_at: '2022-01-03T00:00:00+09:00',
+        notification_type: 'success',
+        closable: false,
+        has_icon: false,
+      })
+    );
+
+    const { result } = renderHook(() => useServiceNotification());
+
+    await act(async () => {
+      await result.current.fetchServiceNotification();
+    });
+
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+
+    expect(result.current.color).toStrictEqual('green');
+    expect(result.current.isShow).toStrictEqual(true);
+    expect(result.current.serviceNotification).toStrictEqual({
+      title: 'タイトル',
+      description: '詳細',
+      start_at: '2022-01-01T00:00:00+09:00',
+      end_at: '2022-01-03T00:00:00+09:00',
+      notification_type: 'success',
+      closable: false,
+      has_icon: false,
+    });
+
+    spy.mockReset();
+    spy.mockRestore();
+    spy2.mockReset();
+    spy2.mockRestore();
+  });
+});
+
+describe('warningが設定されている時', () => {
+  it('colorにyellowが設定されること', async () => {
+    const now = '2022-01-02T00:00:00+09:00';
+
+    const mockDate = new Date(now).getTime();
+    const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
+    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() =>
+      Promise.resolve({
+        title: 'タイトル',
+        description: '詳細',
+        start_at: '2022-01-01T00:00:00+09:00',
+        end_at: '2022-01-03T00:00:00+09:00',
+        notification_type: 'warning',
+        closable: false,
+        has_icon: false,
+      })
+    );
+
+    const { result } = renderHook(() => useServiceNotification());
+
+    await act(async () => {
+      await result.current.fetchServiceNotification();
+    });
+
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+
+    expect(result.current.color).toStrictEqual('yellow');
+    expect(result.current.isShow).toStrictEqual(true);
+    expect(result.current.serviceNotification).toStrictEqual({
+      title: 'タイトル',
+      description: '詳細',
+      start_at: '2022-01-01T00:00:00+09:00',
+      end_at: '2022-01-03T00:00:00+09:00',
+      notification_type: 'warning',
+      closable: false,
+      has_icon: false,
+    });
+
+    spy.mockReset();
+    spy.mockRestore();
+    spy2.mockReset();
+    spy2.mockRestore();
+  });
+});
+
+describe('dangerが設定されている時', () => {
+  it('colorにredが設定されること', async () => {
+    const now = '2022-01-02T00:00:00+09:00';
+
+    const mockDate = new Date(now).getTime();
+    const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
+    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() =>
+      Promise.resolve({
+        title: 'タイトル',
+        description: '詳細',
+        start_at: '2022-01-01T00:00:00+09:00',
+        end_at: '2022-01-03T00:00:00+09:00',
+        notification_type: 'danger',
+        closable: false,
+        has_icon: false,
+      })
+    );
+
+    const { result } = renderHook(() => useServiceNotification());
+
+    await act(async () => {
+      await result.current.fetchServiceNotification();
+    });
+
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+
+    expect(result.current.color).toStrictEqual('red');
+    expect(result.current.isShow).toStrictEqual(true);
+    expect(result.current.serviceNotification).toStrictEqual({
+      title: 'タイトル',
+      description: '詳細',
+      start_at: '2022-01-01T00:00:00+09:00',
+      end_at: '2022-01-03T00:00:00+09:00',
+      notification_type: 'danger',
+      closable: false,
+      has_icon: false,
+    });
+
+    spy.mockReset();
+    spy.mockRestore();
+    spy2.mockReset();
+    spy2.mockRestore();
+  });
+});
+
+describe('typeに不明な値が設定されている時', () => {
+  it('colorにblueが設定されること', async () => {
+    const now = '2022-01-02T00:00:00+09:00';
+
+    const mockDate = new Date(now).getTime();
+    const spy = jest.spyOn(Date, 'now').mockImplementation(() => mockDate);
+    const spy2 = jest.spyOn(ServiceNotificationRepository, 'latest').mockImplementation(() =>
+      // @ts-ignore
+      Promise.resolve({
+        title: 'タイトル',
+        description: '詳細',
+        start_at: '2022-01-01T00:00:00+09:00',
+        end_at: '2022-01-03T00:00:00+09:00',
+        notification_type: 'unknown',
+        closable: false,
+        has_icon: false,
+      })
+    );
+
+    const { result } = renderHook(() => useServiceNotification());
+
+    await act(async () => {
+      await result.current.fetchServiceNotification();
+    });
+
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+
+    expect(result.current.color).toStrictEqual('blue');
+    expect(result.current.isShow).toStrictEqual(true);
+    expect(result.current.serviceNotification).toStrictEqual({
+      title: 'タイトル',
+      description: '詳細',
+      start_at: '2022-01-01T00:00:00+09:00',
+      end_at: '2022-01-03T00:00:00+09:00',
+      notification_type: 'unknown',
+      closable: false,
+      has_icon: false,
+    });
+
+    spy.mockReset();
+    spy.mockRestore();
+    spy2.mockReset();
+    spy2.mockRestore();
   });
 });
