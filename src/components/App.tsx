@@ -15,13 +15,14 @@ import Messages from './Messages';
 import { LoginRequiredDialog } from '../components/LoginRequired/Dialog';
 import ReturnToTopButton from './ReturnToTopButton';
 import SearchMember from './SearchMember';
+import MyProfile from './MyProfile';
 
 interface Props {}
 
 // 初回実行アクションはココにまとめる
 // root componentにRecoilの処理を入れることができないのでこのやり方をとっている
 const InitialFC: React.FC<Props> = ({}: Props) => {
-  const { refreshToken, reloadMyProfile } = useSession();
+  const { myProfile, refreshToken, reloadMyProfile } = useSession();
 
   const reloadSession = () => {
     // トークンの期限が発行から24時間に設定されているので読み込みの度にトークンを更新しておく
@@ -43,7 +44,16 @@ const InitialFC: React.FC<Props> = ({}: Props) => {
     return () => clearInterval(timer);
   }, []);
 
-  return <div></div>;
+  return (
+    <div>
+      {myProfile && (
+        <>
+          <MyProfile />
+          <SearchMember />
+        </>
+      )}
+    </div>
+  );
 };
 
 const App: React.FC<Props> = ({}: Props) => {
@@ -58,7 +68,6 @@ const App: React.FC<Props> = ({}: Props) => {
         <Report />
         <LoginRequiredDialog />
         <ReturnToTopButton />
-        <SearchMember />
       </React.Suspense>
     </RecoilRoot>
   );

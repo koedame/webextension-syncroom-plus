@@ -1,12 +1,19 @@
 export namespace SYNCROOM {
-  export type IconInfoType = {
-    type: 'url' | 'preset';
-    preset: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '13';
-    url: string;
-  };
+  export type IconInfoType =
+    | {
+        type: 'url';
+        preset: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '13';
+        url: string;
+      }
+    | {
+        type: 'preset';
+        preset: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '13';
+        url: '';
+      };
 
   export type PublishStatusType = 'open' | 'hidden';
 
+  // その他のキーも適当にでっち上げて入れることも可能
   export type SocialLinksType = {
     twitter?: string;
     instagram?: string;
@@ -14,10 +21,10 @@ export namespace SYNCROOM {
   };
 
   export type ProfileLinkedType = {
-    type: 'twitter';
+    type: 'twitter' | 'none';
     accountName: string;
-    linkNickname?: string;
-    linkImage?: string;
+    linkNickname?: boolean;
+    linkImage?: boolean;
   };
 
   export type CurrentStateType =
@@ -60,8 +67,8 @@ export namespace SYNCROOM {
     socialLinks: SocialLinksType;
     favoriteUsers: string[];
     blockedUsers: string[];
-    favoriteProducts: string[];
-    favoriteGenres: string[];
+    favoriteProducts: FavoriteProductType[];
+    favoriteGenres: FavoriteGenreType[];
     publishStatus: PublishStatusType;
     profileLinked: ProfileLinkedType;
     autoTweet: {
@@ -81,8 +88,8 @@ export namespace SYNCROOM {
     profileText: string;
     iconInfo: IconInfoType;
     socialLinks: SocialLinksType;
-    favoriteProducts: string[];
-    favoriteGenres: string[];
+    favoriteProducts: FavoriteProductType[];
+    favoriteGenres: FavoriteGenreType[];
     profileLinked: ProfileLinkedType;
     isBlockedByMe: boolean;
     isFavoredByMe: boolean;
@@ -180,8 +187,8 @@ export namespace SYNCROOM {
     publishStatus: PublishStatusType;
     iconInfo: IconInfoType;
     socialLinks: SocialLinksType;
-    favoriteProducts: string[];
-    favoriteGenres: string[];
+    favoriteProducts: FavoriteProductType[];
+    favoriteGenres: FavoriteGenreType[];
   };
 
   export type UserSearchMetaType = {
@@ -194,6 +201,57 @@ export namespace SYNCROOM {
   export type UserSearchResponseType = {
     users: UserSearchType[];
     meta: UserSearchMetaType;
+  };
+
+  export type FavoriteProductType =
+    | 'SYNCROOM Plus'
+    | 'ピアノ・電子ピアノ'
+    | 'エレクトーン・キーボード'
+    | 'シンセサイザー'
+    | '音楽制作'
+    | 'DJ'
+    | '管楽器'
+    | '弦楽器'
+    | 'ギター'
+    | 'ベース'
+    | 'ドラム'
+    | 'パーカッション'
+    | 'PA機器'
+    | 'ホームシアター・オーディオ'
+    | 'その他';
+
+  export type FavoriteGenreType =
+    | 'Classic'
+    | 'Country / Folk'
+    | 'Club Music / EDM'
+    | 'Hip Hop / Rap'
+    | 'R&B / Soul'
+    | 'Jazz'
+    | 'Fusion'
+    | 'Rock'
+    | 'HR / HM'
+    | '洋楽'
+    | 'J-Pop'
+    | 'アイドル'
+    | 'アニメ・ゲーム・ボカロ'
+    | 'World';
+
+  export type MyProfileEditRequestType = {
+    profileLinked: {
+      type: 'twitter' | 'none';
+      linkNickname: boolean;
+      linkImage: boolean;
+    };
+    autoTweet: {
+      roomCreated: boolean;
+    };
+    socialLinks: SocialLinksType;
+    publishStatus: PublishStatusType;
+    nickname: string;
+    profileText: string;
+    favoriteProducts: FavoriteProductType[];
+    favoriteGenres: FavoriteGenreType[];
+    iconInfo: IconInfoType;
   };
 
   // 未使用

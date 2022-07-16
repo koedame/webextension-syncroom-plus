@@ -9,6 +9,15 @@ export const SessionRepository = {
     return res.json();
   },
 
+  // 自分の情報更新
+  async updateMyProfile(params: SYNCROOM.MyProfileEditRequestType): Promise<SYNCROOM.MyProfileType> {
+    const res = await srClientWithToken('https://webapi.syncroom.appservice.yamaha.com/comm/users/me/profile', {
+      method: 'post',
+      body: JSON.stringify(params),
+    });
+    return res.json();
+  },
+
   // ログアウト処理
   async logout(): Promise<{ status: 'ok' }> {
     const res = await srClientWithToken('https://webapi.syncroom.appservice.yamaha.com/comm/logout', {
