@@ -12,6 +12,8 @@ const listFiles = (targetDirectoryPath) => {
 describe('言語設定情報を読み込んだ時', () => {
   it('使用されていないi18nがないこと', async () => {
     let unusedList = Object.keys(i18nJson.en);
+    // 動的な呼び出しにしていて検出が難しいので検査対象から除外
+    unusedList = unusedList.filter((k) => k !== 'products' && k !== 'genres');
 
     listFiles('./src')
       .filter((filePath) => filePath.endsWith('.tsx') || filePath.endsWith('.ts'))

@@ -9,6 +9,7 @@ import ConfigPanel from '../ConfigPanel/index';
 import { useSession } from '../../hooks/useSession';
 import { iconInfoToUrl } from '../../lib/iconInfoToUrl';
 import { useUserSearch } from '../SearchMember';
+import { useMyProfile } from '../MyProfile';
 import { useLoginRequired } from '../LoginRequired/Dialog';
 
 interface Props {}
@@ -23,6 +24,7 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const [displayLangState, setDisplayLangState] = useState<string>(langMap(i18n.language));
 
+  const { openMyProfileForm } = useMyProfile();
   const { openUserSearchForm } = useUserSearch();
 
   const { openLoginRequiredDialog } = useLoginRequired();
@@ -184,6 +186,22 @@ const Component: React.FC<Props> = ({}: Props) => {
                             >
                               {t('my_profile')}
                             </a>
+                          </Menu.Item>
+
+                          <Menu.Item>
+                            <button
+                              className="block w-full px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 text-left"
+                              onClick={(event) => {
+                                // ログイン必須
+                                if (!isLoggedIn) {
+                                  event.preventDefault();
+                                  return openLoginRequiredDialog();
+                                }
+                                openMyProfileForm();
+                              }}
+                            >
+                              {t('edit_my_profile')}
+                            </button>
                           </Menu.Item>
                         </div>
 

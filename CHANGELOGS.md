@@ -1,5 +1,34 @@
 # CHANGELOGS
 
+## v2.1.0
+
+### 変更
+
+- 不要なパッケージを削除
+- プロフィール編集機能追加
+- プロフィール非公開のユーザー検索結果にプロフィール画像を表示
+- ユーザー検索結果が正しく表示されるように修正
+- 画面がクラッシュする不具合を修正
+
+### 依存パッケージ
+
+- @headlessui/react from 1.6.5 to 1.6.6
+- @jest/expect-utils from 28.1.1 to 28.1.3
+- @jest/globals from 28.1.2 to 28.1.3
+- @swc/core from 1.2.210 to 1.2.215
+- @tailwindcss/typography from 0.5.2 to 0.5.4
+- @types/node from 18.0.3 to 18.0.5
+- html-loader from 3.1.2 to 4.1.0
+- i18next from 21.8.13 to 21.8.14
+- jest-diff from 28.1.1 to 28.1.3
+- jest-environment-jsdom from 28.1.2 to 28.1.3
+- luxon from 2.4.0 to 3.0.1
+- node from 18.4.0-alpine to 18.6.0-alpine
+- postcss-loader from 7.0.0 to 7.0.1
+- react-i18next from 11.18.0 to 11.18.1
+- tailwindcss from 3.1.4 to 3.1.6
+- ts-node from 10.8.2 to 10.9.1
+
 ## v2.0.6
 
 ### 変更

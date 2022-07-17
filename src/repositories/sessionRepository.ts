@@ -5,13 +5,24 @@ import { SYNCROOM } from '../types/syncroom';
 export const SessionRepository = {
   // 自分の情報取得
   async myProfile(): Promise<SYNCROOM.MyProfileType> {
-    const res = await srClientWithToken().get('https://webapi.syncroom.appservice.yamaha.com/comm/users/me/profile');
+    const res = await srClientWithToken('https://webapi.syncroom.appservice.yamaha.com/comm/users/me/profile');
+    return res.json();
+  },
+
+  // 自分の情報更新
+  async updateMyProfile(params: SYNCROOM.MyProfileEditRequestType): Promise<SYNCROOM.MyProfileType> {
+    const res = await srClientWithToken('https://webapi.syncroom.appservice.yamaha.com/comm/users/me/profile', {
+      method: 'post',
+      body: JSON.stringify(params),
+    });
     return res.json();
   },
 
   // ログアウト処理
   async logout(): Promise<{ status: 'ok' }> {
-    const res = await srClientWithToken().post('https://webapi.syncroom.appservice.yamaha.com/comm/logout');
+    const res = await srClientWithToken('https://webapi.syncroom.appservice.yamaha.com/comm/logout', {
+      method: 'post',
+    });
     return res.json();
   },
 };

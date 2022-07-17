@@ -1,26 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { DateTime } from 'luxon';
 import { ExclamationIcon, XCircleIcon, CheckCircleIcon, InformationCircleIcon } from '@heroicons/react/solid';
-
-import type { SYNCROOMPlus } from '../../types/syncroomPlus';
-import { ServiceNotificationRepository } from '../../repositories/serviceNotificationRepository';
+import { useServiceNotification } from '../../hooks/useServiceNotification';
 
 interface Props {}
 
 const Component: React.VFC<Props> = ({}: Props) => {
-  const [color, setColor] = useState<'blue' | 'green' | 'yellow' | 'red'>('yellow');
-  const [show, setShow] = useState<boolean>(false);
-  const [serviceNotification, setServiceNotification] = useState<SYNCROOMPlus.ServiceNotificationType | null>(null);
-
-  const fetchServiceNotification = async () => {
-    try {
-      const serviceNotificationData = await ServiceNotificationRepository.latest();
-      setServiceNotification(serviceNotificationData);
-    } catch (error) {
-      // エラーで停止しないようにキャッチして握りつぶしておく
-      console.error('お知らせ取得失敗', error);
-    }
-  };
+  const { color, isShow, serviceNotification, fetchServiceNotification } = useServiceNotification();
 
   // お知らせ情報の定期読み込み
   useEffect(() => {
@@ -35,22 +21,7 @@ const Component: React.VFC<Props> = ({}: Props) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (serviceNotification) {
-      // 通知期間の判定
-      const now = DateTime.now();
-      setShow(DateTime.fromISO(serviceNotification.start_at) < now && DateTime.fromISO(serviceNotification.end_at) > now);
-
-      // メインカラーを設定
-      if (serviceNotification.notification_type === 'info') setColor('blue');
-      else if (serviceNotification.notification_type === 'success') setColor('green');
-      else if (serviceNotification.notification_type === 'warning') setColor('yellow');
-      else if (serviceNotification.notification_type === 'danger') setColor('red');
-      else setColor('blue');
-    }
-  }, [serviceNotification]);
-
-  if (show) {
+  if (isShow) {
     return (
       serviceNotification && (
         <div className={`rounded-md bg-${color}-50 p-4 m-4`}>

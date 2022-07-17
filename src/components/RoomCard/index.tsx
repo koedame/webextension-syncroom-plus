@@ -81,7 +81,7 @@ const Component: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <Flipped flipId={props.roomName.replace(/"|'/g, '')}>
+    <Flipped flipId={props.roomName.replace(/"|'|\n|\s/g, '')}>
       <div className={props.members.length === 5 ? FullMemberRoomCardStyle : props.needPasswd ? LockedRoomCardStyle : UnLockedRoomCardStyle}>
         <div className={props.members.length === 5 ? FullMemberRoomCardHeaderStyle : props.needPasswd ? LockedRoomCardHeaderStyle : UnLockedRoomCardHeaderStyle}>
           <RoomCardHeader remaining_time={roomRemainingTimeFromCreateTime(props.createTime)} />
