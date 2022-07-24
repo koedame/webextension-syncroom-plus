@@ -204,7 +204,6 @@ export namespace SYNCROOM {
   };
 
   export type FavoriteProductType =
-    | 'SYNCROOM Plus'
     | 'ピアノ・電子ピアノ'
     | 'エレクトーン・キーボード'
     | 'シンセサイザー'

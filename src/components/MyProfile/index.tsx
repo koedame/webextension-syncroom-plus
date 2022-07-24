@@ -11,6 +11,7 @@ import { FavoriteGenreRepository } from '../../repositories/favoriteGenreReposit
 import { FavoriteProductRepository } from '../../repositories/favoriteProductRepository';
 import { SessionRepository } from '../../repositories/sessionRepository';
 import type { SYNCROOM } from '../../types/syncroom';
+import { PresetIconRepository } from '../../repositories/presetIconRepository';
 
 const myProfileModalState = atom<boolean>({
   key: 'MyProfileModalState',
@@ -44,6 +45,7 @@ const Component: React.FC<Props> = ({}: Props) => {
   const { isOpen, closeMyProfileForm } = useMyProfile();
 
   const [formState, setFormState] = useState<SYNCROOM.MyProfileEditRequestType>();
+  const [isTwitterConnect, setIsTwitterConnect] = useState<boolean>(false);
 
   const buildFormStateFromMyProfile = (myProfile: SYNCROOM.MyProfileType): SYNCROOM.MyProfileEditRequestType => {
     return {
@@ -65,14 +67,18 @@ const Component: React.FC<Props> = ({}: Props) => {
     };
   };
 
-  useEffect(() => {
+  const resetFrom = () => {
     if (myProfile) {
       const newState = buildFormStateFromMyProfile(myProfile);
       if (JSON.stringify(formState) !== JSON.stringify(newState)) {
         setFormState(newState);
       }
     }
+  };
 
+  useEffect(() => {
+    resetFrom();
+    setIsTwitterConnect(myProfile ? myProfile.profileLinked.type === 'twitter' : false);
     return () => {};
   }, [myProfile]);
 
@@ -160,18 +166,65 @@ const Component: React.FC<Props> = ({}: Props) => {
                               </label>
                               <div className="mt-1 sm:mt-0 sm:col-span-2">
                                 <div className="flex items-center">
-                                  <img className="h-12 w-12 border border-gray-200 rounded-md overflow-hidden bg-gray-100" src={iconInfoToUrl(formState.iconInfo)} />
-                                  <a
-                                    href="https://syncroom.yamaha.com/mypage/edit"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                  >
-                                    {/* FIXME: プリセット設定 */}
-                                    {/* FIXME: ツイッター連携設定 */}
-                                    {t('change')}
-                                  </a>
+                                  {myProfile?.profileLinked.linkImage ? (
+                                    <img className="h-12 w-12 border border-gray-200 rounded-md overflow-hidden bg-gray-100" src={iconInfoToUrl(formState.iconInfo)} />
+                                  ) : (
+                                    <div>
+                                      {PresetIconRepository.index().map((presetIcon) => (
+                                        <img
+                                          key={`icon-preset-${presetIcon.preset}`}
+                                          className={`cursor-pointer m-2 h-12 w-12 border border-gray-200 rounded-md overflow-hidden bg-gray-100 inline-block ${
+                                            formState.iconInfo.preset === presetIcon.preset ? 'ring-2 ring-offset-2 ring-indigo-500' : ''
+                                          }`}
+                                          src={iconInfoToUrl(presetIcon)}
+                                          onClick={() => {
+                                            let tempIconInfo = { ...formState.iconInfo };
+
+                                            tempIconInfo.preset = presetIcon.preset;
+
+                                            setFormState({
+                                              ...formState,
+                                              iconInfo: tempIconInfo,
+                                            });
+                                          }}
+                                        />
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
+
+                                {isTwitterConnect && (
+                                  <div className="relative flex items-start mt-5">
+                                    <div className="flex items-center h-5">
+                                      <input
+                                        id="useTwitterIcon"
+                                        name="useTwitterIcon"
+                                        type="checkbox"
+                                        className="cursor-pointer focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                        checked={formState.profileLinked.linkImage}
+                                        onChange={(e) => {
+                                          SessionRepository.updateTwitterConfig({
+                                            profileLinked: {
+                                              type: 'twitter',
+                                              linkNickname: myProfile ? myProfile.profileLinked.linkNickname || false : false,
+                                              linkImage: e.target.checked,
+                                            },
+                                            autoTweet: {
+                                              roomCreated: myProfile ? myProfile.autoTweet.roomCreated || false : false,
+                                            },
+                                          }).then(() => {
+                                            reloadMyProfile();
+                                          });
+                                        }}
+                                      />
+                                    </div>
+                                    <div className="ml-3 text-sm">
+                                      <label htmlFor="useTwitterIcon" className="cursor-pointer font-medium text-gray-700">
+                                        {t('use_twitter_icon')}
+                                      </label>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
 
@@ -185,8 +238,11 @@ const Component: React.FC<Props> = ({}: Props) => {
                                   name="nickname"
                                   id="nickname"
                                   autoComplete="nickname"
-                                  className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                                  defaultValue={formState.nickname}
+                                  className={`max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md ${
+                                    formState.profileLinked.linkNickname ? 'bg-gray-100' : ''
+                                  }`}
+                                  value={formState.nickname}
+                                  disabled={formState.profileLinked.linkNickname}
                                   onChange={(e) => {
                                     if (formState.nickname !== e.target.value) {
                                       setFormState({
@@ -196,6 +252,40 @@ const Component: React.FC<Props> = ({}: Props) => {
                                     }
                                   }}
                                 />
+
+                                {isTwitterConnect && (
+                                  <div className="relative flex items-start mt-5">
+                                    <div className="flex items-center h-5">
+                                      <input
+                                        id="useTwitterName"
+                                        value="useTwitterName"
+                                        name="useTwitterName"
+                                        type="checkbox"
+                                        className="cursor-pointer focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                        checked={formState.profileLinked.linkNickname}
+                                        onChange={(e) => {
+                                          SessionRepository.updateTwitterConfig({
+                                            profileLinked: {
+                                              type: 'twitter',
+                                              linkNickname: e.target.checked,
+                                              linkImage: myProfile ? myProfile.profileLinked.linkImage || false : false,
+                                            },
+                                            autoTweet: {
+                                              roomCreated: myProfile ? myProfile.autoTweet.roomCreated || false : false,
+                                            },
+                                          }).then(() => {
+                                            reloadMyProfile();
+                                          });
+                                        }}
+                                      />
+                                    </div>
+                                    <div className="ml-3 text-sm">
+                                      <label htmlFor="useTwitterName" className="cursor-pointer font-medium text-gray-700">
+                                        {t('use_twitter_name')}
+                                      </label>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
 
@@ -209,7 +299,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                                   name="about"
                                   rows={3}
                                   className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                                  defaultValue={formState.profileText}
+                                  value={formState.profileText}
                                   onChange={(e) => {
                                     if (formState.profileText !== e.target.value) {
                                       setFormState({
@@ -245,10 +335,10 @@ const Component: React.FC<Props> = ({}: Props) => {
                                                 defaultValue={genre}
                                                 name="favoriteGenres"
                                                 type="checkbox"
-                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                                className="cursor-pointer focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                                                 checked={formState.favoriteGenres.includes(genre)}
                                                 onChange={(e) => {
-                                                  let tempFavoriteGenres = formState.favoriteGenres;
+                                                  let tempFavoriteGenres = [...formState.favoriteGenres];
 
                                                   if (e.target.checked) {
                                                     tempFavoriteGenres = [...tempFavoriteGenres, e.target.value] as SYNCROOM.FavoriteGenreType[];
@@ -264,7 +354,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                                               />
                                             </div>
                                             <div className="ml-3 text-sm">
-                                              <label htmlFor={genre} className="font-medium text-gray-700">
+                                              <label htmlFor={genre} className="cursor-pointer font-medium text-gray-700">
                                                 {t(`genres.${genre}`)}
                                               </label>
                                             </div>
@@ -295,10 +385,10 @@ const Component: React.FC<Props> = ({}: Props) => {
                                                 defaultValue={product}
                                                 name="favoriteProducts"
                                                 type="checkbox"
-                                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                                className="cursor-pointer focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                                                 checked={formState.favoriteProducts.includes(product)}
                                                 onChange={(e) => {
-                                                  let tempFavoriteProducts = formState.favoriteProducts;
+                                                  let tempFavoriteProducts = [...formState.favoriteProducts];
 
                                                   if (e.target.checked) {
                                                     tempFavoriteProducts = [...tempFavoriteProducts, e.target.value] as SYNCROOM.FavoriteProductType[];
@@ -314,7 +404,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                                               />
                                             </div>
                                             <div className="ml-3 text-sm">
-                                              <label htmlFor={product} className="font-medium text-gray-700">
+                                              <label htmlFor={product} className="cursor-pointer font-medium text-gray-700">
                                                 {t(`products.${product}`)}
                                               </label>
                                             </div>
@@ -326,7 +416,8 @@ const Component: React.FC<Props> = ({}: Props) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="pt-6 sm:pt-5">
+
+                            <div>
                               <div role="group" aria-labelledby="label-notifications">
                                 <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
                                   <div>
@@ -342,7 +433,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                                             id="push-everything"
                                             name="push-notifications"
                                             type="radio"
-                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                            className="cursor-pointer focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                             checked={formState.publishStatus === 'open'}
                                             onChange={(_e) => {
                                               setFormState({
@@ -351,7 +442,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                                               });
                                             }}
                                           />
-                                          <label htmlFor="push-everything" className="ml-3 block text-sm font-medium text-gray-700">
+                                          <label htmlFor="push-everything" className="cursor-pointer ml-3 block text-sm font-medium text-gray-700">
                                             {t('public')}
                                           </label>
                                         </div>
@@ -360,7 +451,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                                             id="push-email"
                                             name="push-notifications"
                                             type="radio"
-                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                            className="cursor-pointer focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                             checked={formState.publishStatus === 'hidden'}
                                             onChange={(_e) => {
                                               setFormState({
@@ -369,7 +460,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                                               });
                                             }}
                                           />
-                                          <label htmlFor="push-email" className="ml-3 block text-sm font-medium text-gray-700">
+                                          <label htmlFor="push-email" className="cursor-pointer ml-3 block text-sm font-medium text-gray-700">
                                             {t('private')}
                                           </label>
                                         </div>
@@ -380,6 +471,53 @@ const Component: React.FC<Props> = ({}: Props) => {
                                 </div>
                               </div>
                             </div>
+
+                            {isTwitterConnect && (
+                              <div>
+                                <div role="group" aria-labelledby="label-notifications">
+                                  <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
+                                    <div>
+                                      <div className="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700" id="label-notifications">
+                                        {t('tweet_settings')}
+                                      </div>
+                                    </div>
+                                    <div className="sm:col-span-2">
+                                      <div className="max-w-lg">
+                                        <div className="mt-4 space-y-4">
+                                          <div className="flex items-center">
+                                            <input
+                                              id="autoTweet"
+                                              value="hoge"
+                                              name="favoriteProducts"
+                                              type="checkbox"
+                                              className="cursor-pointer focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                              checked={formState.autoTweet.roomCreated}
+                                              onChange={(e) => {
+                                                SessionRepository.updateTwitterConfig({
+                                                  profileLinked: {
+                                                    type: 'twitter',
+                                                    linkNickname: myProfile ? myProfile.profileLinked.linkNickname || false : false,
+                                                    linkImage: myProfile ? myProfile.profileLinked.linkImage || false : false,
+                                                  },
+                                                  autoTweet: {
+                                                    roomCreated: e.target.checked,
+                                                  },
+                                                }).then(() => {
+                                                  reloadMyProfile();
+                                                });
+                                              }}
+                                            />
+                                            <label htmlFor="autoTweet" className="cursor-pointer ml-3 block text-sm font-medium text-gray-700">
+                                              {t('tweet_room_create')}
+                                            </label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </div>
 
@@ -401,11 +539,11 @@ const Component: React.FC<Props> = ({}: Props) => {
                                     autoComplete="username"
                                     placeholder={t('twitter_placeholder')}
                                     className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
-                                    defaultValue={formState.socialLinks.twitter}
+                                    value={formState.socialLinks.twitter}
                                     onChange={(e) => {
                                       let newValue = e.target.value;
 
-                                      let tempSocialLinks = formState.socialLinks;
+                                      let tempSocialLinks = { ...formState.socialLinks };
                                       if (newValue.length > 0) {
                                         // 0文字以上の場合は上書きする
                                         tempSocialLinks = { ...formState.socialLinks, twitter: newValue };
@@ -437,11 +575,11 @@ const Component: React.FC<Props> = ({}: Props) => {
                                     autoComplete="username"
                                     placeholder={t('instagram_placeholder')}
                                     className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
-                                    defaultValue={formState.socialLinks.instagram}
+                                    value={formState.socialLinks.instagram}
                                     onChange={(e) => {
                                       let newValue = e.target.value;
 
-                                      let tempSocialLinks = formState.socialLinks;
+                                      let tempSocialLinks = { ...formState.socialLinks };
                                       if (newValue.length > 0) {
                                         // 0文字以上の場合は上書きする
                                         tempSocialLinks = { ...formState.socialLinks, instagram: newValue };
@@ -472,7 +610,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                                     id="facebook"
                                     placeholder={t('facebook_placeholder')}
                                     className="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-md sm:text-sm border-gray-300"
-                                    defaultValue={formState.socialLinks.facebook}
+                                    value={formState.socialLinks.facebook}
                                     onChange={(e) => {
                                       let newValue = e.target.value;
 
@@ -494,6 +632,34 @@ const Component: React.FC<Props> = ({}: Props) => {
                                 </div>
                               </div>
                             </div>
+
+                            <hr />
+
+                            {isTwitterConnect ? (
+                              <button
+                                type="button"
+                                className="flex shadow-sm items-center bg-rose-600 hover:bg-rose-700 text-white rounded py-2 px-4 text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
+                                onClick={() => {
+                                  SessionRepository.unlinkTwitter().then(() => {
+                                    reloadMyProfile();
+                                  });
+                                }}
+                              >
+                                {t('unlink_to_twitter')}
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                className="flex shadow-sm items-center bg-sky-600 hover:bg-sky-700 text-white rounded py-2 px-4 text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+                                onClick={() => {
+                                  SessionRepository.getConnectTwitterLink().then((res) => {
+                                    location.href = res.url;
+                                  });
+                                }}
+                              >
+                                {t('link_to_twitter')}
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>
