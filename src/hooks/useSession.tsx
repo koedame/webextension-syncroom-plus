@@ -95,7 +95,7 @@ export const useSession = () => {
         headers.set('x-api-key', 'O98sxYkdgh9ZtVmv5mT5S2zbuipzhSa81MKExbCN');
 
         try {
-          const json: { token: string; refreshToken: string } = await (
+          await (
             await srClient('https://webapi.syncroom.appservice.yamaha.com/comm/token/refresh', {
               method: 'post',
               headers,
@@ -104,15 +104,20 @@ export const useSession = () => {
                 refreshToken: localStorage.getItem('refreshToken'),
               }),
             })
-          ).json();
-
-          // 文字列の "undefined" が返って来たことがあるので、念の為チェックをしておく。
-          if (json.token && json.token !== 'undefined') {
-            localStorage.setItem('token', json.token);
-          }
-          if (json.refreshToken && json.refreshToken !== 'undefined') {
-            localStorage.setItem('refreshToken', json.refreshToken);
-          }
+          )
+            .json()
+            .then((json: { token: string; refreshToken: string }) => {
+              // 文字列の "undefined" が返って来たことがあるので、念の為チェックをしておく。
+              if (json.token && json.token !== 'undefined') {
+                localStorage.setItem('token', json.token);
+              }
+              if (json.refreshToken && json.refreshToken !== 'undefined') {
+                localStorage.setItem('refreshToken', json.refreshToken);
+              }
+            })
+            .catch((error) => {
+              return reject(error);
+            });
 
           return resolve(true);
         } catch (error) {
