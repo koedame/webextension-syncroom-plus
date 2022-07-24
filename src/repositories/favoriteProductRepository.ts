@@ -5,7 +5,6 @@ export const FavoriteProductRepository = {
   // 興味のある製品一覧
   index: (): SYNCROOM.FavoriteProductType[] => {
     return [
-      'SYNCROOM Plus',
       'ピアノ・電子ピアノ',
       'エレクトーン・キーボード',
       'シンセサイザー',

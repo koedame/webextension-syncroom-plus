@@ -1,5 +1,24 @@
 # CHANGELOGS
 
+## v2.1.1
+
+### 変更
+
+- プロフィール画像設定機能追加
+- ツイッター連携設定機能
+
+### 依存パッケージ
+
+- @babel/core from 7.18.6 to 7.18.9
+- @babel/preset-env from 7.18.6 to 7.18.9
+- @swc/core from 1.2.215 to 1.2.218
+- @swc/jest from 0.2.21 to 0.2.22
+- @types/luxon from 2.3.2 to 3.0.0
+- @types/node from 18.0.5 to 18.0.6
+- jest and @types/jest
+- terser from 5.14.0 to 5.14.2
+- ts-jest from 28.0.5 to 28.0.7
+
 ## v2.1.0
 
 ### 変更
