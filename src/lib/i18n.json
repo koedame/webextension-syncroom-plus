@@ -113,6 +113,7 @@
     "login_title": "ログインしてより便利にしましょう",
     "login_message_body": "ログインすることですべての機能が利用可能になります。ログインしていない状態では一部の機能がご利用いただけません。",
     "logout": "ログアウト",
+    "upload": "アップロード",
     "genres": {
       "Classic": "Classic",
       "Country / Folk": "Country / Folk",
@@ -260,6 +261,7 @@
     "login_title": "Log in to make it more useful!",
     "login_message_body": "All functions are available by logging in. Some functions are not available when you are not logged in.",
     "logout": "Logout",
+    "upload": "Upload",
     "genres": {
       "Classic": "Classic",
       "Country / Folk": "Country / Folk",
@@ -407,6 +409,7 @@
     "login_title": "로그인하시면 더욱 유용합니다!",
     "login_message_body": "로그인하면 모든 기능을 사용할 수 있습니다. 로그인하지 않은 상태에서는 일부 기능을 사용할 수 없습니다.",
     "logout": "로그아웃",
+    "upload": "업로드",
     "genres": {
       "Classic": "Classic",
       "Country / Folk": "Country / Folk",

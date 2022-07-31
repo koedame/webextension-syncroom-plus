@@ -12,6 +12,8 @@ import { FavoriteProductRepository } from '../../repositories/favoriteProductRep
 import { SessionRepository } from '../../repositories/sessionRepository';
 import type { SYNCROOM } from '../../types/syncroom';
 import { PresetIconRepository } from '../../repositories/presetIconRepository';
+import { customImageRepository } from '../../repositories/customImageRepository';
+import ReactLoading from 'react-loading';
 
 const myProfileModalState = atom<boolean>({
   key: 'MyProfileModalState',
@@ -46,6 +48,9 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const [formState, setFormState] = useState<SYNCROOM.MyProfileEditRequestType>();
   const [isTwitterConnect, setIsTwitterConnect] = useState<boolean>(false);
+  const [iconTypeState, setIconTypeState] = useState<'twitter' | 'preset' | 'koedame'>('preset');
+  const [uploadImageState, setUploadImageState] = useState<File | null>(null);
+  const [isImageUploading, setIsImageUploading] = useState<boolean>(false);
 
   const buildFormStateFromMyProfile = (myProfile: SYNCROOM.MyProfileType): SYNCROOM.MyProfileEditRequestType => {
     return {
@@ -72,6 +77,23 @@ const Component: React.FC<Props> = ({}: Props) => {
       const newState = buildFormStateFromMyProfile(myProfile);
       if (JSON.stringify(formState) !== JSON.stringify(newState)) {
         setFormState(newState);
+      }
+
+      if (myProfile.profileLinked.type === 'twitter' && myProfile.profileLinked.linkImage) {
+        setIconTypeState('twitter');
+      } else if (
+        ((myProfile.profileLinked.type === 'twitter' && !myProfile.profileLinked.linkImage) || myProfile.profileLinked.type === 'none') &&
+        myProfile.iconInfo.type === 'preset'
+      ) {
+        setIconTypeState('preset');
+      } else if (
+        ((myProfile.profileLinked.type === 'twitter' && !myProfile.profileLinked.linkImage) || myProfile.profileLinked.type === 'none') &&
+        myProfile.iconInfo.type === 'url'
+      ) {
+        setIconTypeState('koedame');
+      } else {
+        // 拾えなかった例外はすべてpresetにしておく
+        setIconTypeState('preset');
       }
     }
   };
@@ -153,33 +175,33 @@ const Component: React.FC<Props> = ({}: Props) => {
                 <div className="rounded bg-white">
                   {formState && (
                     <form className="p-6 space-y-8 divide-y divide-gray-200">
-                      <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+                      <div className="space-y-8 divide-y divide-gray-200">
                         <div>
                           <div>
                             <h3 className="text-lg leading-6 font-medium text-gray-900">{t('edit_my_profile')}</h3>
                           </div>
 
-                          <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
+                          <div className="mt-6 sm:mt-5 space-y-6">
                             <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
-                              <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
-                                {t('icon')}
-                              </label>
+                              <label className="block text-sm font-medium text-gray-700">{t('icon')}</label>
                               <div className="mt-1 sm:mt-0 sm:col-span-2">
                                 <div className="flex items-center">
-                                  {myProfile?.profileLinked.linkImage ? (
+                                  {iconTypeState === 'twitter' && (
                                     <img className="h-12 w-12 border border-gray-200 rounded-md overflow-hidden bg-gray-100" src={iconInfoToUrl(formState.iconInfo)} />
-                                  ) : (
+                                  )}
+                                  {iconTypeState !== 'twitter' && (
                                     <div>
                                       {PresetIconRepository.index().map((presetIcon) => (
                                         <img
                                           key={`icon-preset-${presetIcon.preset}`}
                                           className={`cursor-pointer m-2 h-12 w-12 border border-gray-200 rounded-md overflow-hidden bg-gray-100 inline-block ${
-                                            formState.iconInfo.preset === presetIcon.preset ? 'ring-2 ring-offset-2 ring-indigo-500' : ''
+                                            iconTypeState === 'preset' && formState.iconInfo.preset === presetIcon.preset ? 'ring-2 ring-offset-2 ring-indigo-500' : ''
                                           }`}
                                           src={iconInfoToUrl(presetIcon)}
                                           onClick={() => {
                                             let tempIconInfo = { ...formState.iconInfo };
 
+                                            tempIconInfo.type = 'preset';
                                             tempIconInfo.preset = presetIcon.preset;
 
                                             setFormState({
@@ -189,6 +211,65 @@ const Component: React.FC<Props> = ({}: Props) => {
                                           }}
                                         />
                                       ))}
+                                    </div>
+                                  )}
+                                </div>
+                                <hr />
+                                <div>
+                                  <div>
+                                    {iconTypeState === 'koedame' && (
+                                      <img className="m-2 h-12 w-12 border border-gray-200 rounded-md overflow-hidden bg-gray-100" src={iconInfoToUrl(formState.iconInfo)} />
+                                    )}
+                                  </div>
+                                  {iconTypeState !== 'twitter' && (
+                                    <div>
+                                      {isImageUploading ? (
+                                        <ReactLoading className="h-20 w-20" type="spin" color="rgb(79 70 229)" />
+                                      ) : (
+                                        <>
+                                          <input
+                                            type="file"
+                                            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                            accept=".png,.jpeg,.jpg,.gif"
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                              if (e.target.files && e.target.files[0]) {
+                                                setUploadImageState(e.target.files[0]);
+                                              } else {
+                                                setUploadImageState(null);
+                                              }
+                                            }}
+                                          />
+                                          <button
+                                            type="button"
+                                            className="flex shadow-sm items-center bg-indigo-600 hover:bg-indigo-700 text-white rounded py-2 px-4 text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                            onClick={() => {
+                                              setIsImageUploading(true);
+                                              if (myProfile && uploadImageState) {
+                                                var data = new FormData();
+                                                data.append('file', uploadImageState);
+                                                customImageRepository.upload(myProfile?.userId, data).then((res) => {
+                                                  setIsImageUploading(false);
+
+                                                  setFormState({
+                                                    ...formState,
+                                                    profileLinked: {
+                                                      ...formState.profileLinked,
+                                                      linkImage: false,
+                                                    },
+                                                    iconInfo: {
+                                                      ...formState.iconInfo,
+                                                      type: 'url',
+                                                      url: res.url,
+                                                    },
+                                                  });
+                                                });
+                                              }
+                                            }}
+                                          >
+                                            {t('upload')}
+                                          </button>
+                                        </>
+                                      )}
                                     </div>
                                   )}
                                 </div>
