@@ -23,7 +23,8 @@
 			"extensions": [
 				"esbenp.prettier-vscode",
 				"remimarsal.prettier-now",
-				"mrmlnc.vscode-duplicate"
+				"mrmlnc.vscode-duplicate",
+				"GitHub.copilot"
 			]
 		}
 	}
