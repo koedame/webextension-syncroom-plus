@@ -1,5 +1,20 @@
 # CHANGELOGS
 
+## v2.2.0
+
+### 変更
+
+- オリジナル画像をプロフィール画像に設定する機能を追加
+
+### 依存パッケージ
+
+- @swc/core from 1.2.218 to 1.2.220
+- @types/node from 18.0.6 to 18.6.2
+- autoprefixer from 10.4.7 to 10.4.8
+- node from 18.6.0-alpine to 18.7.0-alpine
+- react-i18next from 11.18.1 to 11.18.3
+- webpack from 5.73.0 to 5.74.0
+
 ## v2.1.1
 
 ### 変更
