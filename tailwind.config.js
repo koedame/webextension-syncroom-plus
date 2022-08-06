@@ -1,8 +1,8 @@
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   mode: 'jit',
-  content: ["./src/**/*.{html,js,jsx,tsx}"],
+  content: ['./src/**/*.{html,js,jsx,tsx}'],
 
   theme: {
     extend: {
@@ -12,21 +12,19 @@ module.exports = {
         purple: colors.violet,
       },
       animation: {
-        'reverse-spin': 'reverse-spin 1s linear infinite'
+        'reverse-spin': 'reverse-spin 1s linear infinite',
       },
       keyframes: {
         'reverse-spin': {
           from: {
-            transform: 'rotate(360deg)'
+            transform: 'rotate(360deg)',
           },
-        }
-      }
+        },
+      },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-  ]
-}
+  plugins: [require('@tailwindcss/forms')],
+};
