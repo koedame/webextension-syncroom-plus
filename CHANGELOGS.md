@@ -1,5 +1,35 @@
 # CHANGELOGS
 
+## v2.2.1
+
+### 変更
+
+- ファイル保存時にPrettierを実行するように設定
+- 不要なuseEffectを削除
+
+### 依存パッケージ
+
+- @babel/core from 7.18.9 to 7.18.13
+- @babel/preset-env from 7.18.9 to 7.18.10
+- @heroicons/react from 1.0.6 to 2.0.8
+- @jest/globals from 28.1.3 to 29.0.1
+- @swc/core from 1.2.220 to 1.2.244
+- @types/chrome from 0.0.193 to 0.0.195
+- @types/jest from 28.1.6 to 28.1.8
+- @types/node from 18.6.2 to 18.7.13
+- @types/webpack-env from 1.17.0 to 1.18.0
+- i18next from 21.8.14 to 21.9.1
+- jest-environment-jsdom from 28.1.3 to 29.0.0
+- node from 18.7.0-alpine to 18.8.0-alpine
+- postcss from 8.4.14 to 8.4.16
+- react-i18next from 11.18.3 to 11.18.5
+- recoil from 0.7.4 to 0.7.5
+- tailwindcss from 3.1.6 to 3.1.8
+- terser-webpack-plugin from 5.3.3 to 5.3.5
+- ts-jest from 28.0.7 to 28.0.8
+- typescript from 4.7.4 to 4.8.2
+- webpack-dev-server from 4.9.3 to 4.10.0
+
 ## v2.2.0
 
 ### 変更

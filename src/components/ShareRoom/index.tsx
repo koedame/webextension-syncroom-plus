@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon, ClipboardIcon, CheckIcon, QrcodeIcon } from '@heroicons/react/outline';
-import { LockClosedIcon, LockOpenIcon, ExclamationCircleIcon } from '@heroicons/react/solid';
+import { XMarkIcon, ClipboardIcon, CheckIcon, QrCodeIcon } from '@heroicons/react/24/outline';
+import { LockClosedIcon, LockOpenIcon, ExclamationCircleIcon } from '@heroicons/react/20/solid';
 
 import QRCode from 'react-qr-code';
 
@@ -24,23 +24,17 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
   const [roomNameState, setRoomNameState] = useState<string>('');
   const [isCopiedState, setIsCopiedState] = useState<boolean>(false);
   const [passwordRequiredState, setPasswordRequiredState] = useState<boolean>(false);
-  const [isValidRoomNameState, setIsValidRoomNameState] = useState<boolean>(false);
-  const [urlState, setUrlState] = useState<string>('');
 
-  useEffect(() => {
-    setUrlState(
-      `https://webapi.syncroom.appservice.yamaha.com/ndroom/launch_app?roomName=${encodeURIComponent(roomNameState)}&requirePassword=${passwordRequiredState ? '1' : '0'}`
-    );
-  }, [roomNameState, passwordRequiredState]);
+  const launchUrl = `https://webapi.syncroom.appservice.yamaha.com/ndroom/launch_app?roomName=${encodeURIComponent(roomNameState)}&requirePassword=${
+    passwordRequiredState ? '1' : '0'
+  }`;
 
-  useEffect(() => {
-    setIsValidRoomNameState(roomNameState.length !== 0);
-  }, [roomNameState]);
+  const isValidRoomNameState = roomNameState.length !== 0;
 
   let copyTimer: ReturnType<typeof setTimeout>;
 
   const onCopyUrl = () => {
-    navigator.clipboard.writeText(urlState);
+    navigator.clipboard.writeText(launchUrl);
 
     setIsCopiedState(true);
 
@@ -90,7 +84,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full sm:p-6">
               <div className="bg-white border-b border-gray-200 pb-2">
                 <p className="text-lg leading-6 font-medium text-gray-900 inline-flex">
-                  <QrcodeIcon className="block h-5 w-5 mr-2" />
+                  <QrCodeIcon className="block h-5 w-5 mr-2" />
                   {t('share_room')}
                 </p>
               </div>
@@ -156,7 +150,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex justify-center bg-gray-400 p-6 rounded">
                   <div className="rounded bg-white p-6">
-                    <QRCode value={urlState} level="L" size={150} />
+                    <QRCode value={launchUrl} level="L" size={150} />
                   </div>
                 </div>
 
@@ -166,7 +160,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                       type="url"
                       name="url"
                       className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
-                      value={urlState}
+                      value={launchUrl}
                       disabled
                     />
                   </div>
@@ -198,7 +192,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                     onClose();
                   }}
                 >
-                  <XIcon className="h-5 w-5 mr-2" />
+                  <XMarkIcon className="h-5 w-5 mr-2" />
                   {t('close')}
                 </button>
               </div>

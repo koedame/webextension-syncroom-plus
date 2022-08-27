@@ -1,6 +1,6 @@
 import React, { Fragment, memo, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 import Basic from './BasicConfig';
 import Favorites from './FavoritesMembers';
@@ -64,7 +64,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                             onClose();
                           }}
                         >
-                          <XIcon className="h-6 w-6" />
+                          <XMarkIcon className="h-6 w-6" />
                         </button>
                       </div>
                     </div>
@@ -151,7 +151,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                         onClose();
                       }}
                     >
-                      <XIcon className="h-5 w-5 mr-2" />
+                      <XMarkIcon className="h-5 w-5 mr-2" />
                       {t('close')}
                     </button>
                   </div>

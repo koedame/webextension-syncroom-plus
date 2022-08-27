@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Flipper } from 'react-flip-toolkit';
-import { ExclamationIcon, StatusOnlineIcon, RefreshIcon, SearchIcon, XIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/react/solid';
+import { ExclamationCircleIcon, SignalIcon, ArrowPathIcon, MagnifyingGlassIcon, XMarkIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/react/20/solid';
 import ReactLoading from 'react-loading';
 
-import type { SYNCROOMPlus } from '../types/syncroomPlus';
 import type { SYNCROOM } from '../types/syncroom';
 
 import { useTranslation } from '../lib/i18n';
@@ -28,27 +27,13 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const [keywordState, setKeywordState] = useState<string>('');
   const [selectRoomTypeState, setSelectRoomTypeState] = useState<'all' | 'unlocked' | 'locked'>('all');
-
-  const [aggregatedTagsState, setAggregatedTagsState] = useState<SYNCROOMPlus.AggregatedTagType[]>([]);
-  const [lockedAggregatedTagsState, setLockedAggregatedTagsState] = useState<SYNCROOMPlus.AggregatedTagType[]>([]);
-  const [unlockedAggregatedTagsState, setUnlockedAggregatedTagsState] = useState<SYNCROOMPlus.AggregatedTagType[]>([]);
   const [selectTagState, setSelectTagState] = useState<string>('');
-
   const [filteredRoomsState, setFilteredRoomsState] = useState<SYNCROOM.RoomType[]>([]);
-
-  const [publicRoomsCount, setPublicRoomsCount] = useState<number>(0);
-  const [publicLockedRoomsCount, setPublicLockedRoomsCount] = useState<number>(0);
-  const [publicUnlockedRoomsCount, setPublicUnlockedRoomsCount] = useState<number>(0);
-
-  const [testRoomState, setTestRoomState] = useState<SYNCROOM.TestRoomType | null>(null);
   const [loadingAnnimationState, setLoadingAnnimationState] = useState<boolean>(false);
-
   const [initialState, setInitialState] = useState<boolean>(true);
 
   const { roomPasswordPromptOpen, closeRoomPasswordPrompt } = useRoomPasswordPrompt();
-
   const { configAutoReload } = useConfigAutoReload();
-
   const { rooms, setRooms } = useRooms();
 
   const fetchRooms = async () => {
@@ -140,20 +125,17 @@ const Component: React.FC<Props> = ({}: Props) => {
     setFilteredRoomsState(filteredRooms);
   };
 
-  // 部屋を読み込んだら更新する
-  useEffect(() => {
-    const { AggregatedTags, LockedAggregatedTags, UnlockedAggregatedTags, PublicRoomsCount, PublicLockedRoomsCount, PublicUnlockedRoomsCount, TestRoom } = sumallizeRoomData(rooms);
+  const { AggregatedTags, LockedAggregatedTags, UnlockedAggregatedTags, PublicRoomsCount, PublicLockedRoomsCount, PublicUnlockedRoomsCount, TestRoom } = sumallizeRoomData(rooms);
 
-    setAggregatedTagsState(AggregatedTags);
-    setLockedAggregatedTagsState(LockedAggregatedTags);
-    setUnlockedAggregatedTagsState(UnlockedAggregatedTags);
+  const aggregatedTagsState = AggregatedTags;
+  const lockedAggregatedTagsState = LockedAggregatedTags;
+  const unlockedAggregatedTagsState = UnlockedAggregatedTags;
 
-    setPublicRoomsCount(PublicRoomsCount);
-    setPublicLockedRoomsCount(PublicLockedRoomsCount);
-    setPublicUnlockedRoomsCount(PublicUnlockedRoomsCount);
+  const publicRoomsCount = PublicRoomsCount;
+  const publicLockedRoomsCount = PublicLockedRoomsCount;
+  const publicUnlockedRoomsCount = PublicUnlockedRoomsCount;
 
-    setTestRoomState(TestRoom);
-  }, [rooms]);
+  const testRoomState = TestRoom;
 
   // 絞り込みの反映
   useEffect(() => {
@@ -169,14 +151,14 @@ const Component: React.FC<Props> = ({}: Props) => {
             onClick={fetchRooms}
             className="flex items-center bg-indigo-600 border border-indigo-600 hover:bg-indigo-800 text-white rounded px-4 py-2 text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <RefreshIcon className={loadingAnnimationState ? 'animate-reverse-spin h-4 w-4 mr-2' : 'h-4 w-4 mr-2'} />
+            <ArrowPathIcon className={loadingAnnimationState ? 'animate-reverse-spin h-4 w-4 mr-2' : 'h-4 w-4 mr-2'} />
             {t('reload')}
           </button>
         )}
 
         <label className="w-48 relative rounded overflow-hidden shadow-sm z-0">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-            <SearchIcon className="h-4 w-4" />
+            <MagnifyingGlassIcon className="h-4 w-4" />
           </div>
 
           <input
@@ -247,7 +229,7 @@ const Component: React.FC<Props> = ({}: Props) => {
           }}
           className="py-2 text-base px-4 bg-indigo-600 border border-indigo-600 hover:bg-indigo-800 text-white inline-flex items-center shadow-sm rounded"
         >
-          <StatusOnlineIcon className="h-4 w-4 mr-2" />
+          <SignalIcon className="h-4 w-4 mr-2" />
           {t('test_room')}
         </button>
       </div>
@@ -267,7 +249,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                   }
                 }}
               >
-                {selectTagState === tag.name && <XIcon className="h-3 w-3 mr-1" />}
+                {selectTagState === tag.name && <XMarkIcon className="h-3 w-3 mr-1" />}
                 <span className="text-sm">{tag.name}</span>
                 <span className="text-sm text-gray-900 ml-1">{tag.count}</span>
               </button>
@@ -288,7 +270,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                   }
                 }}
               >
-                {selectTagState === tag.name && <XIcon className="h-3 w-3 mr-1" />}
+                {selectTagState === tag.name && <XMarkIcon className="h-3 w-3 mr-1" />}
                 <span className="text-sm">{tag.name}</span>
                 <span className="text-sm text-gray-900 ml-1">{tag.count}</span>
               </button>
@@ -309,7 +291,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                   }
                 }}
               >
-                {selectTagState === tag.name && <XIcon className="h-3 w-3 mr-1" />}
+                {selectTagState === tag.name && <XMarkIcon className="h-3 w-3 mr-1" />}
                 <span className="text-sm">{tag.name}</span>
                 <span className="text-sm text-gray-900 ml-1">{tag.count}</span>
               </button>
@@ -356,7 +338,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
                   <div className="flex">
                     <div className="flex-shrink-0">
-                      <ExclamationIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                      <ExclamationCircleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
                     </div>
                     <div className="ml-3">
                       <p className="text-sm text-yellow-700">{t('test_room_not_found')}</p>

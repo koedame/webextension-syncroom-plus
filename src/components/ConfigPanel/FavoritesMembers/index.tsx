@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from 'react';
-import { StarIcon } from '@heroicons/react/solid';
+import { StarIcon } from '@heroicons/react/20/solid';
 import { useTranslation } from '../../../lib/i18n';
 
 import { useSession } from '../../../hooks/useSession';

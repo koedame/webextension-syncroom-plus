@@ -1,6 +1,6 @@
 import React, { Fragment, useRef, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { CheckIcon, ExclamationCircleIcon } from '@heroicons/react/outline';
+import { CheckIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 import { useTranslation } from '../../lib/i18n';
 import { useConfigRememberPassword } from '../../hooks/useConfigRememberPasswordState';
@@ -22,13 +22,10 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
   const [roomPasswordState, setRoomPasswordState] = useState<string>('');
-  const [isValidRoomPasswordState, setIsValidRoomPasswordState] = useState<boolean>(false);
 
   const { configRememberPassword } = useConfigRememberPassword();
 
-  useEffect(() => {
-    setIsValidRoomPasswordState(roomPasswordState.length !== 0);
-  }, [roomPasswordState]);
+  const isValidRoomPasswordState = roomPasswordState.length !== 0;
 
   useEffect(() => {
     if (configRememberPassword) {

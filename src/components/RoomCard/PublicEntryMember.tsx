@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StarIcon, BellIcon, BanIcon } from '@heroicons/react/solid';
+import { StarIcon, BellIcon, NoSymbolIcon } from '@heroicons/react/20/solid';
 
 import twemoji from 'twemoji';
 
@@ -176,7 +176,7 @@ const Component: React.FC<Props> = ({ iconUrl, memberName, roomCreatedAt, userId
                 <div className="animate-spin h-4 w-4 border-2 border-indigo-500 rounded-full border-t-transparent"></div>
               </div>
             ) : (
-              <BanIcon
+              <NoSymbolIcon
                 className={
                   isNot15user ? 'h-4 w-4 text-gray-100 cursor-not-allowed' : isBlockMember ? 'h-4 w-4 text-red-500 hover:text-red-700' : 'h-4 w-4 text-gray-400 hover:text-gray-600'
                 }
