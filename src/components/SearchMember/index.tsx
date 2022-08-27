@@ -1,12 +1,12 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { ExclamationIcon, SearchIcon, XIcon } from '@heroicons/react/outline';
+import { ExclamationCircleIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { SYNCROOM } from '../../types/syncroom';
 import { UserRepository } from '../../repositories/userRepository';
 import { useTranslation } from '../../lib/i18n';
 
 import React, { Fragment, memo, useEffect, useState } from 'react';
 import MemberInfo from './MemberInfo';
-import { InformationCircleIcon } from '@heroicons/react/solid';
+import { InformationCircleIcon } from '@heroicons/react/20/solid';
 import ReactLoading from 'react-loading';
 
 interface PaginationProps extends SYNCROOM.UserSearchMetaType {
@@ -162,7 +162,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                   className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={() => closeUserSearchForm()}
                 >
-                  <XIcon className="h-6 w-6" />
+                  <XMarkIcon className="h-6 w-6" />
                 </button>
               </div>
               <div className="pb-20">
@@ -171,7 +171,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                   <div className="p-4 flex">
                     <label className="w-48 relative rounded overflow-hidden shadow-sm z-0">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                        <SearchIcon className="h-4 w-4" />
+                        <MagnifyingGlassIcon className="h-4 w-4" />
                       </div>
 
                       <input
@@ -242,7 +242,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                       <div className="rounded-md bg-yellow-50 p-4">
                         <div className="flex">
                           <div className="flex-shrink-0">
-                            <ExclamationIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                            <ExclamationCircleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
                           </div>
                           <div className="ml-3">
                             <div className="text-sm text-yellow-700">

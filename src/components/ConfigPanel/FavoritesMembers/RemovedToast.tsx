@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Transition } from '@headlessui/react';
-import { CheckCircleIcon } from '@heroicons/react/outline';
-import { XIcon } from '@heroicons/react/solid';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/20/solid';
 
 import { useTranslation } from '../../../lib/i18n';
 
@@ -42,7 +42,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                       onClose();
                     }}
                   >
-                    <XIcon className="h-5 w-5" />
+                    <XMarkIcon className="h-5 w-5" />
                   </button>
                 </div>
               </div>

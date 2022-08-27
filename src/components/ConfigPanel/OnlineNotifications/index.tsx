@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from 'react';
-import { BellIcon } from '@heroicons/react/solid';
+import { BellIcon } from '@heroicons/react/20/solid';
 
 import { useTranslation } from '../../../lib/i18n';
 import { useNotificationOnlineMemberIds } from '../../../hooks/useNotificationOnlineMembers';

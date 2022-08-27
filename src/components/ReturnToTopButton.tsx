@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useTranslation } from '../lib/i18n';
-import { ArrowUpIcon } from '@heroicons/react/outline';
+import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import { Transition } from '@headlessui/react';
 
 interface Props {}

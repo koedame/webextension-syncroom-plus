@@ -1,6 +1,6 @@
 import React, { Fragment, useRef, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { CheckIcon, ExclamationCircleIcon } from '@heroicons/react/outline';
+import { CheckIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 import { useTranslation } from '../../lib/i18n';
 import { useConfigRememberPassword } from '../../hooks/useConfigRememberPasswordState';
