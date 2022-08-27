@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { CheckIcon, MenuIcon, ChevronDownIcon, TranslateIcon, QrcodeIcon, XIcon, LoginIcon, UserIcon } from '@heroicons/react/outline';
 
@@ -22,16 +22,12 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const { t, i18n } = useTranslation();
 
-  const [displayLangState, setDisplayLangState] = useState<string>(langMap(i18n.language));
-
   const { openMyProfileForm } = useMyProfile();
   const { openUserSearchForm } = useUserSearch();
 
   const { openLoginRequiredDialog } = useLoginRequired();
 
-  useEffect(() => {
-    setDisplayLangState(langMap(i18n.language));
-  }, [i18n.language]);
+  const displayLangState = langMap(i18n.language);
 
   return (
     <Disclosure as="nav" className="bg-white sticky top-0 z-10">
