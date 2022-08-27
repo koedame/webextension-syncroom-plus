@@ -22,13 +22,10 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
   const [roomPasswordState, setRoomPasswordState] = useState<string>('');
-  const [isValidRoomPasswordState, setIsValidRoomPasswordState] = useState<boolean>(false);
 
   const { configRememberPassword } = useConfigRememberPassword();
 
-  useEffect(() => {
-    setIsValidRoomPasswordState(roomPasswordState.length !== 0);
-  }, [roomPasswordState]);
+  const isValidRoomPasswordState = roomPasswordState.length !== 0;
 
   useEffect(() => {
     if (configRememberPassword) {

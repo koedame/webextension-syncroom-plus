@@ -3,7 +3,6 @@ import { Flipper } from 'react-flip-toolkit';
 import { ExclamationIcon, StatusOnlineIcon, RefreshIcon, SearchIcon, XIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/react/solid';
 import ReactLoading from 'react-loading';
 
-import type { SYNCROOMPlus } from '../types/syncroomPlus';
 import type { SYNCROOM } from '../types/syncroom';
 
 import { useTranslation } from '../lib/i18n';
@@ -28,27 +27,13 @@ const Component: React.FC<Props> = ({}: Props) => {
 
   const [keywordState, setKeywordState] = useState<string>('');
   const [selectRoomTypeState, setSelectRoomTypeState] = useState<'all' | 'unlocked' | 'locked'>('all');
-
-  const [aggregatedTagsState, setAggregatedTagsState] = useState<SYNCROOMPlus.AggregatedTagType[]>([]);
-  const [lockedAggregatedTagsState, setLockedAggregatedTagsState] = useState<SYNCROOMPlus.AggregatedTagType[]>([]);
-  const [unlockedAggregatedTagsState, setUnlockedAggregatedTagsState] = useState<SYNCROOMPlus.AggregatedTagType[]>([]);
   const [selectTagState, setSelectTagState] = useState<string>('');
-
   const [filteredRoomsState, setFilteredRoomsState] = useState<SYNCROOM.RoomType[]>([]);
-
-  const [publicRoomsCount, setPublicRoomsCount] = useState<number>(0);
-  const [publicLockedRoomsCount, setPublicLockedRoomsCount] = useState<number>(0);
-  const [publicUnlockedRoomsCount, setPublicUnlockedRoomsCount] = useState<number>(0);
-
-  const [testRoomState, setTestRoomState] = useState<SYNCROOM.TestRoomType | null>(null);
   const [loadingAnnimationState, setLoadingAnnimationState] = useState<boolean>(false);
-
   const [initialState, setInitialState] = useState<boolean>(true);
 
   const { roomPasswordPromptOpen, closeRoomPasswordPrompt } = useRoomPasswordPrompt();
-
   const { configAutoReload } = useConfigAutoReload();
-
   const { rooms, setRooms } = useRooms();
 
   const fetchRooms = async () => {
@@ -140,20 +125,17 @@ const Component: React.FC<Props> = ({}: Props) => {
     setFilteredRoomsState(filteredRooms);
   };
 
-  // 部屋を読み込んだら更新する
-  useEffect(() => {
-    const { AggregatedTags, LockedAggregatedTags, UnlockedAggregatedTags, PublicRoomsCount, PublicLockedRoomsCount, PublicUnlockedRoomsCount, TestRoom } = sumallizeRoomData(rooms);
+  const { AggregatedTags, LockedAggregatedTags, UnlockedAggregatedTags, PublicRoomsCount, PublicLockedRoomsCount, PublicUnlockedRoomsCount, TestRoom } = sumallizeRoomData(rooms);
 
-    setAggregatedTagsState(AggregatedTags);
-    setLockedAggregatedTagsState(LockedAggregatedTags);
-    setUnlockedAggregatedTagsState(UnlockedAggregatedTags);
+  const aggregatedTagsState = AggregatedTags;
+  const lockedAggregatedTagsState = LockedAggregatedTags;
+  const unlockedAggregatedTagsState = UnlockedAggregatedTags;
 
-    setPublicRoomsCount(PublicRoomsCount);
-    setPublicLockedRoomsCount(PublicLockedRoomsCount);
-    setPublicUnlockedRoomsCount(PublicUnlockedRoomsCount);
+  const publicRoomsCount = PublicRoomsCount;
+  const publicLockedRoomsCount = PublicLockedRoomsCount;
+  const publicUnlockedRoomsCount = PublicUnlockedRoomsCount;
 
-    setTestRoomState(TestRoom);
-  }, [rooms]);
+  const testRoomState = TestRoom;
 
   // 絞り込みの反映
   useEffect(() => {
