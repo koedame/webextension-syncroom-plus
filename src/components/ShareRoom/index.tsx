@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon, ClipboardIcon, CheckIcon, QrcodeIcon } from '@heroicons/react/outline';
-import { LockClosedIcon, LockOpenIcon, ExclamationCircleIcon } from '@heroicons/react/solid';
+import { XMarkIcon, ClipboardIcon, CheckIcon, QrCodeIcon } from '@heroicons/react/24/outline';
+import { LockClosedIcon, LockOpenIcon, ExclamationCircleIcon } from '@heroicons/react/20/solid';
 
 import QRCode from 'react-qr-code';
 
@@ -84,7 +84,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full sm:p-6">
               <div className="bg-white border-b border-gray-200 pb-2">
                 <p className="text-lg leading-6 font-medium text-gray-900 inline-flex">
-                  <QrcodeIcon className="block h-5 w-5 mr-2" />
+                  <QrCodeIcon className="block h-5 w-5 mr-2" />
                   {t('share_room')}
                 </p>
               </div>
@@ -192,7 +192,7 @@ const Component: React.FC<Props> = ({ isOpen, onClose }: Props) => {
                     onClose();
                   }}
                 >
-                  <XIcon className="h-5 w-5 mr-2" />
+                  <XMarkIcon className="h-5 w-5 mr-2" />
                   {t('close')}
                 </button>
               </div>

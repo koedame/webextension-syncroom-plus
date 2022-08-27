@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { CheckIcon, MenuIcon, ChevronDownIcon, TranslateIcon, QrcodeIcon, XIcon, LoginIcon, UserIcon } from '@heroicons/react/outline';
+import { CheckIcon, Bars3Icon, ChevronDownIcon, LanguageIcon, QrCodeIcon, XMarkIcon, ArrowLeftOnRectangleIcon, UserIcon } from '@heroicons/react/24/outline';
 
 import { useTranslation, langMap, changeLanguage } from '../../lib/i18n';
 
@@ -38,7 +38,7 @@ const Component: React.FC<Props> = ({}: Props) => {
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                  {open ? <XIcon className="block h-6 w-6" /> : <MenuIcon className="block h-6 w-6" />}
+                  {open ? <XMarkIcon className="block h-6 w-6" /> : <Bars3Icon className="block h-6 w-6" />}
                 </Disclosure.Button>
                 <img className="block h-8 w-auto" src="https://syncroomplus.koeda.me/images/logo.png" alt="Workflow" />
               </div>
@@ -55,7 +55,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                     }}
                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                   >
-                    <QrcodeIcon className="block h-5 w-5 mr-2" />
+                    <QrCodeIcon className="block h-5 w-5 mr-2" />
                     {t('share_room')}
                   </button>
 
@@ -80,7 +80,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                 <Menu as="div" className="ml-3 relative">
                   <div>
                     <Menu.Button className=" inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                      <TranslateIcon className="block h-5 w-5 mr-2" />
+                      <LanguageIcon className="block h-5 w-5 mr-2" />
                       Language: {displayLangState}
                       <ChevronDownIcon className="block h-5 w-5 ml-2" />
                     </Menu.Button>
@@ -138,7 +138,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                   }}
                   className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  <MenuIcon className="block h-5 w-5 mr-2" />
+                  <Bars3Icon className="block h-5 w-5 mr-2" />
                   {t('menu')}
                 </button>
 
@@ -221,7 +221,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                     href="https://webapi.syncroom.appservice.yamaha.com/comm/static/login.html"
                     className="ml-6 inline-flex items-center px-4 py-2 border border-indigo-600 text-sm font-medium rounded-md shadow-sm text-indigo-600 hover:text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    <LoginIcon className="block h-5 w-5 mr-2" />
+                    <ArrowLeftOnRectangleIcon className="block h-5 w-5 mr-2" />
                     {t('login')}
                   </a>
                 )}
@@ -238,7 +238,7 @@ const Component: React.FC<Props> = ({}: Props) => {
                 }}
                 className="flex w-full border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
               >
-                <QrcodeIcon className="block h-5 w-5 mr-2" />
+                <QrCodeIcon className="block h-5 w-5 mr-2" />
                 {t('share_room')}
               </button>
             </div>

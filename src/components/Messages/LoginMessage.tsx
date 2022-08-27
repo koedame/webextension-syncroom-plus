@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
-import { InformationCircleIcon } from '@heroicons/react/solid';
-import { ChevronRightIcon } from '@heroicons/react/outline';
+import { InformationCircleIcon } from '@heroicons/react/20/solid';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useSession } from '../../hooks/useSession';
 import { useTranslation } from 'react-i18next';
 

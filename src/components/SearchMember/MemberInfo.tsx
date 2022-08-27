@@ -8,7 +8,7 @@ import { useRooms } from '../../hooks/useRooms';
 import findRoomByUserId from '../../lib/findRoomByUserId';
 import { DateTime } from 'luxon';
 import { dateTimeFromNow } from '../../lib/dateTimeFromNow';
-import { BanIcon, BellIcon, StarIcon } from '@heroicons/react/solid';
+import { NoSymbolIcon, BellIcon, StarIcon } from '@heroicons/react/20/solid';
 import { useNotificationOnlineMemberIds } from '../../hooks/useNotificationOnlineMembers';
 import { useSession } from '../../hooks/useSession';
 import { FavoriteRepository } from '../../repositories/favoriteRepository';
@@ -234,7 +234,7 @@ const Component: React.FC<Props> = ({ nickname, iconInfo, profileText, userId, i
                 <div className="animate-spin h-4 w-4 border-2 border-indigo-500 rounded-full border-t-transparent"></div>
               </div>
             ) : (
-              <BanIcon className={isBlockMember ? 'h-4 w-4 text-red-500 hover:text-red-700' : 'h-4 w-4 text-gray-400 hover:text-gray-600'} />
+              <NoSymbolIcon className={isBlockMember ? 'h-4 w-4 text-red-500 hover:text-red-700' : 'h-4 w-4 text-gray-400 hover:text-gray-600'} />
             )}
           </button>
         </div>

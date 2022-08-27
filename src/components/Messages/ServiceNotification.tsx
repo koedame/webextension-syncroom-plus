@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { DateTime } from 'luxon';
-import { ExclamationIcon, XCircleIcon, CheckCircleIcon, InformationCircleIcon } from '@heroicons/react/solid';
+import { ExclamationCircleIcon, XCircleIcon, CheckCircleIcon, InformationCircleIcon } from '@heroicons/react/20/solid';
 import { useServiceNotification } from '../../hooks/useServiceNotification';
 
 interface Props {}
@@ -39,7 +39,7 @@ const Component: React.VFC<Props> = ({}: Props) => {
             <div className="flex-shrink-0">
               {serviceNotification.notification_type === 'info' && <InformationCircleIcon className={`h-5 w-5 text-${color}-400`} />}
               {serviceNotification.notification_type === 'success' && <CheckCircleIcon className={`h-5 w-5 text-${color}-400`} />}
-              {serviceNotification.notification_type === 'warning' && <ExclamationIcon className={`h-5 w-5 text-${color}-400`} />}
+              {serviceNotification.notification_type === 'warning' && <ExclamationCircleIcon className={`h-5 w-5 text-${color}-400`} />}
               {serviceNotification.notification_type === 'danger' && <XCircleIcon className={`h-5 w-5 text-${color}-400`} />}
             </div>
             <div className="ml-3 w-full">

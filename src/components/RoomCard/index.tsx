@@ -1,5 +1,5 @@
 import React from 'react';
-import { BellIcon, LockClosedIcon } from '@heroicons/react/solid';
+import { BellIcon, LockClosedIcon } from '@heroicons/react/20/solid';
 
 import twemoji from 'twemoji';
 

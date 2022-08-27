@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExclamationIcon } from '@heroicons/react/solid';
+import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 
 import { useTranslation } from '../../lib/i18n';
 
@@ -18,7 +18,7 @@ const Component: React.FC<Props> = ({ setIsOpen }: Props) => {
         }}
         className="inline-flex items-center py-2 px-4 font-medium rounded-md bg-yellow-600 hover:bg-yellow-700 text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 text-base"
       >
-        <ExclamationIcon className="block h-5 w-5 mr-2" />
+        <ExclamationCircleIcon className="block h-5 w-5 mr-2" />
         {t('reports')}
       </button>
     </div>

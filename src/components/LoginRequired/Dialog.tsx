@@ -1,7 +1,7 @@
 import React from 'react';
 import { Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { ShieldCheckIcon } from '@heroicons/react/solid';
+import { ShieldCheckIcon } from '@heroicons/react/20/solid';
 import { useTranslation } from 'react-i18next';
 
 import { atom, useRecoilState } from 'recoil';

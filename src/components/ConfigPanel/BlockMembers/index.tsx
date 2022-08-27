@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from 'react';
-import { BanIcon } from '@heroicons/react/solid';
+import { NoSymbolIcon } from '@heroicons/react/20/solid';
 import { useTranslation } from '../../../lib/i18n';
 
 import { useSession } from '../../../hooks/useSession';
@@ -37,7 +37,7 @@ const Component: React.FC<Props> = ({}: Props) => {
         {myProfile?.blockedUsers.length === 0 ? (
           <div className="bg-yellow-50 text-sm text-yellow-700 rounded p-4">
             {t('missing_blocks1')}
-            <BanIcon className="h-4 w-4 text-yellow-600 inline-block" />
+            <NoSymbolIcon className="h-4 w-4 text-yellow-600 inline-block" />
             {t('missing_blocks2')}
           </div>
         ) : (
