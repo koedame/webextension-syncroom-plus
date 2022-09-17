@@ -38,7 +38,7 @@
     "@jest/globals": "^29.0.1",
     "@swc/core": "^1.2.244",
     "@swc/jest": "^0.2.22",
-    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/line-clamp": "^0.4.0",
     "@tailwindcss/typography": "^0.5.4",
