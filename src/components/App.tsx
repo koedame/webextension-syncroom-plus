@@ -16,6 +16,7 @@ import { LoginRequiredDialog } from '../components/LoginRequired/Dialog';
 import ReturnToTopButton from './ReturnToTopButton';
 import SearchMember from './SearchMember';
 import MyProfile from './MyProfile';
+import decodeJWTPayLoad from '../lib/decodeJWTPayLoad';
 
 interface Props {}
 
@@ -25,21 +26,31 @@ const InitialFC: React.FC<Props> = ({}: Props) => {
   const { myProfile, refreshToken, reloadMyProfile } = useSession();
 
   const reloadSession = () => {
-    // トークンの期限が発行から24時間に設定されているので読み込みの度にトークンを更新しておく
-    refreshToken()
-      .then((_res) => {
-        // トークン更新前にユーザー情報を取得していた場合は整合性が取れないので再取得しておく
-        reloadMyProfile();
-      })
-      .catch((e) => {
-        console.error('トークン更新エラー', e);
-      });
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = decodeJWTPayLoad(token);
+      // 期限が10分を切ってたら更新
+      if (payload.exp < Math.floor(Date.now() / 1000 + 60 * 10)) {
+        // トークンの期限が発行から30分に設定されているので読み込みの度にトークンを更新しておく
+        refreshToken()
+          .then(() => {})
+          .catch((e) => {
+            console.error('トークン更新エラー', e);
+          });
+      }
+    }
   };
 
   useEffect(() => {
+    // 初回読み込み時
     reloadSession();
+    reloadMyProfile();
 
-    const timer = setInterval(reloadSession, 1000 * 60);
+    // 1分おき
+    const timer = setInterval(() => {
+      reloadSession();
+      reloadMyProfile();
+    }, 1000 * 60);
 
     return () => clearInterval(timer);
   }, []);
