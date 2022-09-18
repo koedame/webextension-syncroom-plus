@@ -25,33 +25,32 @@ interface Props {}
 const InitialFC: React.FC<Props> = ({}: Props) => {
   const { myProfile, refreshToken, reloadMyProfile } = useSession();
 
-  const reloadSession = async () => {
+  const reloadSession = () => {
     const token = localStorage.getItem('token');
     if (token) {
       const payload = decodeJWTPayLoad(token);
-      // 期限が10分を切ってたら更新
+      // トークンの期限が10分を切ってたらトークンの更新をかける（トークンの期限が発行から30分に設定されているので少し余裕をもたせている）
       if (payload.exp < Math.floor(Date.now() / 1000 + 60 * 10)) {
-        // トークンの期限が発行から30分に設定されているので読み込みの度にトークンを更新しておく
         refreshToken()
-          .then(() => {})
+          .then(() => {
+            reloadMyProfile();
+          })
           .catch((e) => {
             console.error('トークン更新エラー', e);
           });
+      } else {
+        reloadMyProfile();
       }
     }
   };
 
   useEffect(() => {
     // 初回読み込み時
-    reloadSession().then(() => {
-      reloadMyProfile();
-    });
+    reloadSession();
 
     // 1分おき
     const timer = setInterval(() => {
-      reloadSession().then(() => {
-        reloadMyProfile();
-      });
+      reloadSession();
     }, 1000 * 60);
 
     return () => clearInterval(timer);
