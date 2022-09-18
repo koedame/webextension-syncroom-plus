@@ -25,7 +25,7 @@ interface Props {}
 const InitialFC: React.FC<Props> = ({}: Props) => {
   const { myProfile, refreshToken, reloadMyProfile } = useSession();
 
-  const reloadSession = () => {
+  const reloadSession = async () => {
     const token = localStorage.getItem('token');
     if (token) {
       const payload = decodeJWTPayLoad(token);
@@ -43,13 +43,15 @@ const InitialFC: React.FC<Props> = ({}: Props) => {
 
   useEffect(() => {
     // 初回読み込み時
-    reloadSession();
-    reloadMyProfile();
+    reloadSession().then(() => {
+      reloadMyProfile();
+    });
 
     // 1分おき
     const timer = setInterval(() => {
-      reloadSession();
-      reloadMyProfile();
+      reloadSession().then(() => {
+        reloadMyProfile();
+      });
     }, 1000 * 60);
 
     return () => clearInterval(timer);
