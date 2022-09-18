@@ -1,5 +1,36 @@
 # CHANGELOGS
 
+## v2.2.2
+
+### 変更
+
+- プロフィール情報取得タイミングを変更
+- トークン更新時に期限の判定を追加
+
+### 依存パッケージ
+
+- @babel/core from 7.18.13 to 7.19.1
+- @babel/preset-env from 7.18.10 to 7.19.1
+- @headlessui/react from 1.6.6 to 1.7.2
+- @heroicons/react from 2.0.8 to 2.0.11
+- @jest/globals from 29.0.1 to 29.0.3
+- @swc/core from 1.2.244 to 1.3.1
+- @tailwindcss/aspect-ratio from 0.4.0 to 0.4.2
+- @tailwindcss/forms from 0.5.2 to 0.5.3
+- @tailwindcss/line-clamp from 0.4.0 to 0.4.2
+- @tailwindcss/typography from 0.5.4 to 0.5.7
+- @types/chrome from 0.0.195 to 0.0.197
+- @types/node from 18.7.13 to 18.7.18
+- autoprefixer from 10.4.8 to 10.4.11
+- jest-environment-jsdom from 29.0.0 to 29.0.3
+- node from 18.8.0-alpine to 18.9.0-alpine
+- react-flip-toolkit from 7.0.14 to 7.0.16
+- react-i18next from 11.18.5 to 11.18.6
+- react-qr-code from 2.0.7 to 2.0.8
+- terser-webpack-plugin from 5.3.5 to 5.3.6
+- typescript from 4.8.2 to 4.8.3
+- webpack-dev-server from 4.10.0 to 4.11.0
+
 ## v2.2.1
 
 ### 変更
