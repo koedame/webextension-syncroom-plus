@@ -1,5 +1,19 @@
 # CHANGELOGS
 
+## v2.3.0
+
+### 変更
+
+- カスタムアイコン機能を削除
+
+### 依存パッケージ
+
+- @swc/core from 1.3.1 to 1.3.2
+- autoprefixer from 10.4.11 to 10.4.12
+- i18next from 21.9.1 to 21.9.2
+- ts-loader from 9.3.1 to 9.4.1
+- webpack-dev-server from 4.11.0 to 4.11.1
+
 ## v2.2.2
 
 ### 変更
