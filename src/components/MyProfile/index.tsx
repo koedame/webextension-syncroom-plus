@@ -12,8 +12,6 @@ import { FavoriteProductRepository } from '../../repositories/favoriteProductRep
 import { SessionRepository } from '../../repositories/sessionRepository';
 import type { SYNCROOM } from '../../types/syncroom';
 import { PresetIconRepository } from '../../repositories/presetIconRepository';
-import { customImageRepository } from '../../repositories/customImageRepository';
-import ReactLoading from 'react-loading';
 
 const myProfileModalState = atom<boolean>({
   key: 'MyProfileModalState',
@@ -49,8 +47,6 @@ const Component: React.FC<Props> = ({}: Props) => {
   const [formState, setFormState] = useState<SYNCROOM.MyProfileEditRequestType>();
   const [isTwitterConnect, setIsTwitterConnect] = useState<boolean>(false);
   const [iconTypeState, setIconTypeState] = useState<'twitter' | 'preset' | 'koedame'>('preset');
-  const [uploadImageState, setUploadImageState] = useState<File | null>(null);
-  const [isImageUploading, setIsImageUploading] = useState<boolean>(false);
 
   const buildFormStateFromMyProfile = (myProfile: SYNCROOM.MyProfileType): SYNCROOM.MyProfileEditRequestType => {
     return {
@@ -214,64 +210,12 @@ const Component: React.FC<Props> = ({}: Props) => {
                                     </div>
                                   )}
                                 </div>
-                                <hr />
                                 <div>
                                   <div>
                                     {iconTypeState === 'koedame' && (
                                       <img className="m-2 h-12 w-12 border border-gray-200 rounded-md overflow-hidden bg-gray-100" src={iconInfoToUrl(formState.iconInfo)} />
                                     )}
                                   </div>
-                                  {iconTypeState !== 'twitter' && (
-                                    <div>
-                                      {isImageUploading ? (
-                                        <ReactLoading className="h-20 w-20" type="spin" color="rgb(79 70 229)" />
-                                      ) : (
-                                        <>
-                                          <input
-                                            type="file"
-                                            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            accept=".png,.jpeg,.jpg,.gif"
-                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                              if (e.target.files && e.target.files[0]) {
-                                                setUploadImageState(e.target.files[0]);
-                                              } else {
-                                                setUploadImageState(null);
-                                              }
-                                            }}
-                                          />
-                                          <button
-                                            type="button"
-                                            className="flex shadow-sm items-center bg-indigo-600 hover:bg-indigo-700 text-white rounded py-2 px-4 text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            onClick={() => {
-                                              setIsImageUploading(true);
-                                              if (myProfile && uploadImageState) {
-                                                var data = new FormData();
-                                                data.append('file', uploadImageState);
-                                                customImageRepository.upload(myProfile?.userId, data).then((res) => {
-                                                  setIsImageUploading(false);
-
-                                                  setFormState({
-                                                    ...formState,
-                                                    profileLinked: {
-                                                      ...formState.profileLinked,
-                                                      linkImage: false,
-                                                    },
-                                                    iconInfo: {
-                                                      ...formState.iconInfo,
-                                                      type: 'url',
-                                                      url: res.url,
-                                                    },
-                                                  });
-                                                });
-                                              }
-                                            }}
-                                          >
-                                            {t('upload')}
-                                          </button>
-                                        </>
-                                      )}
-                                    </div>
-                                  )}
                                 </div>
 
                                 {isTwitterConnect && (
