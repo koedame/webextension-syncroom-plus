@@ -25,7 +25,7 @@
     "react-i18next": "^12.0.0",
     "react-loading": "^2.0.3",
     "react-qr-code": "^2.0.8",
-    "recoil": "^0.7.5",
+    "recoil": "^0.7.6",
     "twemoji": "^14.0.2"
   },
   "devDependencies": {
