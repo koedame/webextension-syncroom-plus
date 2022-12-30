@@ -8,7 +8,7 @@
     "build": "NODE_ENV=production node utils/build.js",
     "build-zip": "NODE_ENV=production node scripts/build-zip.js",
     "start": "NODE_ENV=development node utils/webserver.js",
-    "prettier": "NODE_ENV=development prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,md}'",
+    "prettier": "NODE_ENV=development prettier --check 'src/**/*.{js,jsx,ts,tsx,json,css,md}'",
     "tsccheck": "NODE_ENV=development tsc --noEmit",
     "test": "NODE_ENV=test jest --collect-coverage",
     "test-watch": "NODE_ENV=test jest --collect-coverage --watch-all",
