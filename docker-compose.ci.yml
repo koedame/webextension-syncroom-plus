@@ -1,0 +1,18 @@
+version: '3.3'
+
+volumes:
+  node_modules:
+
+services:
+  app:
+    container_name: development-syncroomplus-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app:cached
+
+      - node_modules:/app/node_modules:cached
+    stdin_open: true
