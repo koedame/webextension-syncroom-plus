@@ -5,7 +5,7 @@ volumes:
 
 services:
   app:
-    container_name: development-syncroomplus-app
+    container_name: ci-syncroomplus-app
     build:
       context: .
       dockerfile: Dockerfile
