@@ -6,8 +6,7 @@ import { describe, it, expect } from '@jest/globals';
 import addFavicon from '../../lib/addFavicon';
 
 describe('addFavicon()を実行したとき', () => {
-  const initial = '<meta charset="utf-8">\
-  <title>プレイヤーズサイト｜SYNCROOM（シンクルーム）</title>';
+  const initial = '<meta charset="utf-8">\n<title>プレイヤーズサイト｜SYNCROOM（シンクルーム）</title>';
   document.head.innerHTML = initial;
 
   it('ヘッダーにファビコンが設置されること', () => {
