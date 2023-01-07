@@ -18,7 +18,7 @@
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
     "i18next": "^22.0.2",
-    "luxon": "^3.2.0",
+    "luxon": "^3.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-flip-toolkit": "^7.0.17",
