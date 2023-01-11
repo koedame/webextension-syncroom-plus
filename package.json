@@ -22,7 +22,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-flip-toolkit": "^7.0.17",
-    "react-i18next": "^12.1.1",
+    "react-i18next": "^12.1.4",
     "react-loading": "^2.0.3",
     "react-qr-code": "^2.0.11",
     "recoil": "^0.7.6",
