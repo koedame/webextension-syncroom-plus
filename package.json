@@ -43,7 +43,7 @@
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tailwindcss/typography": "^0.5.9",
     "@testing-library/react-hooks": "^8.0.1",
-    "@types/chrome": "^0.0.206",
+    "@types/chrome": "^0.0.208",
     "@types/jest": "^28.1.8",
     "@types/luxon": "^3.2.0",
     "@types/node": "^18.11.18",
