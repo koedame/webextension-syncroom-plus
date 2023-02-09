@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
-    "@heroicons/react": "^2.0.13",
+    "@heroicons/react": "^2.0.15",
     "i18next": "^22.0.2",
     "luxon": "^3.2.1",
     "react": "^17.0.2",
