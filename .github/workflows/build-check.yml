@@ -1,11 +1,11 @@
-name: テスト実行
+name: ビルド検証
 on:
   pull_request:
   push:
     branches:
       - develop
 jobs:
-  test:
+  build-check:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -29,5 +29,8 @@ jobs:
         if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
         run: docker compose -f docker-compose.ci.yml run --rm app yarn install --frozen-lockfile
 
-      - name: Run test
-        run: docker compose -f docker-compose.ci.yml run --rm app yarn run test
+      - name: Run build
+        run: docker compose -f docker-compose.ci.yml run --rm app yarn run build
+
+      - name: Run build-zip
+        run: docker compose -f docker-compose.ci.yml run --rm app yarn run build-zip
