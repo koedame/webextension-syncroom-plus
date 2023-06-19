@@ -1,5 +1,53 @@
 # CHANGELOGS
 
+## v2.3.1
+
+### 変更
+
+本家のbodyタグにstyleが入るようになったので対応
+CIの設定を変更
+
+### 依存パッケージ
+
+- @babel/core from 7.19.1 to 7.22.5
+- @babel/preset-env from 7.19.1 to 7.20.2
+- @headlessui/react from 1.7.2 to 1.7.15
+- @heroicons/react from 2.0.11 to 2.0.18
+- @jest/globals from 29.0.3 to 29.5.0
+- @swc/core from 1.3.2 to 1.3.65
+- @swc/jest from 0.2.22 to 0.2.26
+- @tailwindcss/typography from 0.5.7 to 0.5.9
+- @types/chrome from 0.0.197 to 0.0.237
+- @types/luxon from 3.1.0 to 3.2.0
+- @types/node from 18.7.18 to 20.3.1
+- autoprefixer from 10.4.12 to 10.4.14
+- babel-loader from 8.2.5 to 9.1.2
+- css-loader from 6.7.1 to 6.7.3
+- dns-packet from 5.3.1 to 5.4.0
+- fs-extra from 10.1.0 to 11.1.0
+- html-loader from 4.1.0 to 4.2.0
+- i18next from 21.9.2 to 23.2.0
+- jest-environment-jsdom from 29.0.3 to 29.5.0
+- json5 from 2.2.1 to 2.2.2
+- loader-utils from 2.0.2 to 2.0.4
+- luxon from 3.0.3 to 3.2.1
+- node from 18.9.0-alpine to 20.3.0-alpine
+- postcss from 8.4.20 to 8.4.21
+- postcss-loader from 7.0.1 to 7.0.2
+- prettier from 2.7.1 to 2.8.8
+- react-flip-toolkit from 7.0.16 to 7.0.17
+- react-i18next from 11.18.6 to 12.3.1
+- react-qr-code from 2.0.8 to 2.0.11
+- recoil from 0.7.5 to 0.7.7
+- source-map-loader from 4.0.0 to 4.0.1
+- style-loader from 3.3.1 to 3.3.3
+- tailwindcss from 3.1.8 to 3.3.2
+- ts-loader from 9.4.1 to 9.4.2
+- typescript from 4.8.3 to 5.1.3
+- webpack from 5.74.0 to 5.87.0
+- webpack-cli from 4.10.0 to 5.0.1
+- webpack-dev-server from 4.11.1 to 4.15.1
+
 ## v2.3.0
 
 ### 変更
