@@ -6,6 +6,7 @@ const clearAssets = async () => {
       value.parentNode.removeChild(value);
     }
   });
+  window.document.body.removeAttribute('style');
 };
 
 export default clearAssets;
