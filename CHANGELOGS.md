@@ -1,11 +1,32 @@
 # CHANGELOGS
 
+## v2.3.2
+
+- グローバルページ対応
+
+### 依存パッケージ
+
+- @babel/preset-env from 7.20.2 to 7.22.5
+- @babel/preset-react from 7.18.6 to 7.22.5
+- @swc/core from 1.3.65 to 1.3.66
+- @tailwindcss/line-clamp from 0.4.2 to 0.4.4
+- @types/webpack-env from 1.18.0 to 1.18.1
+- css-loader from 6.7.3 to 6.8.1
+- fs-extra from 11.1.0 to 11.1.1
+- html-webpack-plugin from 5.5.0 to 5.5.3
+- i18next from 23.2.0 to 23.2.1
+- postcss-loader from 7.0.2 to 7.3.3
+- react-flip-toolkit from 7.0.17 to 7.1.0
+- react-i18next from 12.3.1 to 13.0.0
+- ts-loader from 9.4.2 to 9.4.3
+- webpack-cli from 5.0.1 to 5.1.4
+
 ## v2.3.1
 
 ### 変更
 
-本家のbodyタグにstyleが入るようになったので対応
-CIの設定を変更
+- 本家のbodyタグにstyleが入るようになったので対応
+- CIの設定を変更
 
 ### 依存パッケージ
 
