@@ -1959,10 +1959,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/chrome@^0.0.237":
-  version "0.0.237"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.237.tgz#20a38e1d1134e2725fc7eb43c881e55e1b24ddd7"
-  integrity sha512-krsRmyfMlck5r+H1EapsrrucDRq6iRm0NAi5fapr93CgnpVMDdK+h2+z4x79GegdW7BNH9Vb//gkptORwwwVIQ==
+"@types/chrome@^0.0.243":
+  version "0.0.243"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.243.tgz#a6752af287195b4abe0dfb72a172fcd728617c06"
+  integrity sha512-4PHv0kxxxpZFHWPBiJJ9TWH8kbx0567j1b2djnhpJjpiSGNI7UKkz7dSEECBtQ0B3N5nQTMwSB/5IopkWGAbEA==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
