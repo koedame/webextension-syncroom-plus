@@ -71,7 +71,7 @@
     "mockzilla-webextension": "^0.14.0",
     "postcss": "^8.4.21",
     "postcss-loader": "^7.3.3",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.1",
     "prettier-webpack-plugin": "^1.2.0",
     "source-map-loader": "^4.0.1",
     "style-loader": "^3.3.3",
