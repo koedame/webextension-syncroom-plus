@@ -52,3 +52,7 @@ docker compose run --rm builder ./scripts/build.sh
 ```
 
 `dist-zip` ディレクトリに各ブラウザ用のパッケージがビルドされます。
+
+## ライセンス
+
+MIT License です。詳しくは [LICENSE](./LICENSE) を参照してください。
